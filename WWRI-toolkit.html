@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Pipeline Report — Whitewater Reinventions</title>
+<title>Executive Toolkit — Whitewater Reinventions</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;background:#F5F4F0;font-family:'Calibri','Segoe UI',system-ui,sans-serif;color:#1A1A1A}
@@ -17,6 +17,9 @@ html,body{height:100%;background:#F5F4F0;font-family:'Calibri','Segoe UI',system
 .card{background:#FFF;border:1px solid #DDDBD6;border-radius:10px}
 .tab-btn{display:flex;align-items:center;padding:0 20px;background:none;border:none;border-bottom:2px solid transparent;color:#555550;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;height:44px;transition:color .1s;white-space:nowrap}
 .tab-btn.on{color:#009898;border-bottom-color:#009898}
+.mode-btn{display:flex;align-items:center;gap:6px;padding:0 16px;height:34px;background:none;border:1px solid #DDDBD6;border-radius:6px;color:#555550;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:background .1s,color .1s,border-color .1s;white-space:nowrap}
+.mode-btn.on{background:#009898;border-color:#009898;color:#fff}
+.mode-btn:not(.on):hover{background:rgba(0,0,0,.04)}
 .tbl{width:100%;border-collapse:collapse;font-size:13px}
 .tbl th{padding:10px 14px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#888884;background:#F5F4F0;border-bottom:1px solid #DDDBD6;text-align:left;cursor:pointer;user-select:none;white-space:nowrap}
 .tbl th.on{color:#009898}
@@ -369,6 +372,8 @@ function fUSD(n,c){
   }
   return'$'+Math.round(n).toLocaleString('en-US');
 }
+function fPct(n){return(n*100).toFixed(0)+'%';}
+function fNum(n){return n.toLocaleString('en-AU',{minimumFractionDigits:0,maximumFractionDigits:0});}
 function fDate(s){
   if(!s)return'–';
   var d=new Date(s);
@@ -634,8 +639,283 @@ function renderActiveProjects(){
   return out;
 }
 
+var K_BS  ='ww_bs';    // Balance Sheet data (AU + EU)
+var K_PL  ='ww_pl';    // P&L data (AU + EU, month + YTD)
+var K_REV ='ww_rev';   // Revenue pipeline table
+var K_EXP ='ww_exp';   // Operating expense forecast
+var K_REF ='ww_ref';
+
+var SEED_PL={
+  period:'February 2026',basis:'Cash Basis',
+  au_mo:{
+    revenue:121657.95, cos:113903.36, gp:7754.59, opex:51675.02, net:-43920.43,
+    intl_sales:108936.70, reimb:12721.25,
+    ie_fees:94903.24, ref_fees:6280.64, client_exp:12719.48,
+    p1:{label:'Feb 2025',revenue:221547.63,cos:159520.66,gp:62026.97,opex:52858.06,net:9168.91},
+    p2:{label:'Feb 2024',revenue:16151.83,cos:147478.30,gp:-131326.47,opex:14680.26,net:-146006.73}
+  },
+  eu_mo:{
+    revenue:0, cos:0, gp:0, opex:167, net:-167,
+    intl_sales:0, reimb:0,
+    ie_fees:0, ref_fees:0, client_exp:0,
+    p1:{label:'Feb 2025',revenue:0,cos:0,gp:0,opex:0,net:0},
+    p2:{label:'Feb 2024',revenue:0,cos:0,gp:0,opex:0,net:0}
+  },
+  au_ytd:{
+    label:'Jul 2025 — Feb 2026',
+    revenue:1007643.49, cos:741388.05, gp:266255.44, opex:301237.74, net:-34982.30,
+    p1:{label:'Jul 2024 — Feb 2025',revenue:1171793.87,cos:857712.03,gp:314081.84,opex:344932.98,net:-30851.14},
+    p2:{label:'Jul 2023 — Feb 2024',revenue:891986.45,cos:616016.07,gp:275970.38,opex:327332.94,net:-51362.56}
+  },
+  eu_ytd:{
+    label:'Jul 2025 — Feb 2026',
+    revenue:19858.78, cos:0, gp:19858.78, opex:11831.67, net:8027.11,
+    p1:{label:'Jul 2024 — Feb 2025',revenue:0,cos:0,gp:0,opex:3686.91,net:-3686.91},
+    p2:{label:'Jul 2023 — Feb 2024',revenue:0,cos:0,gp:0,opex:0,net:0}
+  }
+};
+var SEED_BS={
+  period:'28 February 2026',
+  au:{
+    bank:53501.32, bank_detail:[
+      {name:'WhitewaterTX Pty Ltd',val:28427.60},
+      {name:'Wise AU Account',val:0},
+      {name:'Wise EU Account',val:23703.26},
+      {name:'Wise UK Account',val:298.75},
+      {name:'Wise US Account',val:1071.71}
+    ],
+    current_assets:1036.02, fixed_assets:83423.30,
+    assets:137960.64,
+    current_liabilities:42127.05, liabilities:42127.05,
+    unearned_income:36966.13,
+    net_assets:95833.59,
+    retained_earnings:129965.89, share_capital:850, current_year:-34982.30
+  },
+  eu:{
+    bank:774.51, bank_currency:'EUR',
+    bank_detail:[{name:'Wise account',val:774.51}],
+    current_assets:0, non_current_assets:-1000,
+    assets:-225.49,
+    current_liabilities:10999.75, liabilities:10999.75,
+    net_assets:-11225.24,
+    retained_earnings:-19352.35, share_capital:100, current_year:8027.11
+  },
+  us:{
+    bank:0, bank_currency:'USD',
+    bank_detail:[],
+    current_assets:0, fixed_assets:0,
+    assets:0,
+    current_liabilities:0, liabilities:0,
+    net_assets:0,
+    retained_earnings:0, share_capital:0, current_year:0
+  },
+  fx_eur:1.76, fx_usd:1.50,
+  prior_cash:96998
+};
+
+var SEED_CASH=[
+  {m:'Feb-26',forecast:53501,potential:53501},
+  {m:'Mar-26',forecast:46328,potential:46328},
+  {m:'Apr-26',forecast:32473,potential:32473},
+  {m:'May-26',forecast:52065,potential:52065},
+  {m:'Jun-26',forecast:80090,potential:103673},
+  {m:'Jul-26',forecast:83948,potential:191961},
+  {m:'Aug-26',forecast:42069,potential:179486},
+  {m:'Sep-26',forecast:-11231,potential:165390},
+  {m:'Oct-26',forecast:-62531,potential:155330},
+  {m:'Nov-26',forecast:-111331,potential:106530}
+];
+
+var FCST_MONTHS=['Feb-26','Mar-26','Apr-26','May-26','Jun-26','Jul-26','Aug-26','Sep-26','Oct-26'];
+var FCST_ACTUAL_COL=0; // index 0 is the actuals column
+
+var SEED_FCST={
+  months:FCST_MONTHS,
+  rev_au:{
+    intl_sales:[108937,281446,140598,248171,278454,202089,26404,0,0],
+    reimb:[12721,0,0,0,0,0,0,0,0],
+    domestic:[0,0,0,0,0,0,0,0,0],
+    total:[121658,281446,140598,248171,278454,202089,26404,0,0]
+  },
+  cos_au:{
+    ie_fees:[94903,189697,96628,159582,179258,128702,18483,0,0],
+    ref_fees:[6281,26164,6525,20196,22371,18229,0,0,0],
+    reimb:[12719,0,0,0,0,0,0,0,0],
+    total:[113903,215862,103153,179779,201629,146931,18483,0,0]
+  },
+  gp_au:[7755,65585,37445,68392,76825,55158,7921,0,0],
+  rev_eu:{
+    intl_sales:[0,0,0,0,0,0,0,0,0],
+    reimb:[0,0,0,0,0,0,0,0,0],
+    total:[0,0,0,0,0,0,0,0,0]
+  },
+  cos_eu:{
+    ie_fees:[0,0,0,0,0,0,0,0,0],
+    ref_fees:[0,0,0,0,0,0,0,0,0],
+    reimb:[0,0,0,0,0,0,0,0,0],
+    total:[0,0,0,0,0,0,0,0,0]
+  },
+  gp_eu:[0,0,0,0,0,0,0,0,0],
+  rev_us:{
+    intl_sales:[0,0,0,0,0,0,0,0,0],
+    reimb:[0,0,0,0,0,0,0,0,0],
+    total:[0,0,0,0,0,0,0,0,0]
+  },
+  cos_us:{
+    ie_fees:[0,0,0,0,0,0,0,0,0],
+    ref_fees:[0,0,0,0,0,0,0,0,0],
+    reimb:[0,0,0,0,0,0,0,0,0],
+    total:[0,0,0,0,0,0,0,0,0]
+  },
+  gp_us:[0,0,0,0,0,0,0,0,0],
+  gp_total:[7755,65585,37445,68392,76825,55158,7921,0,0],
+  opex:{
+    ceo:[0,23000,23000,23000,23000,23000,23000,23000,23000],
+    coo:[8000,8000,8000,8000,8000,8000,8000,8000,8000],
+    contractors:[4357,4300,4300,4300,4300,4300,4300,4300,4300],
+    wages:[7717,8000,8000,8000,8000,8000,8000,8000,8000],
+    super:[1137,1200,1200,1200,1200,1200,1200,1200,1200],
+    consulting:[14771,11458,0,0,0,0,0,0,0],
+    legal_au:[1697,10000,0,0,0,0,0,0,0],
+    legal_eu:[0,0,0,0,0,0,0,0,0],
+    accountancy:[0,2500,2500,0,0,2500,1000,0,2500],
+    bookkeeping:[719,0,0,0,0,0,0,0,0],
+    hubspot:[758,800,800,800,800,800,800,800,800],
+    software:[0,750,750,750,750,750,750,750,750],
+    subs_au:[1004,400,400,400,400,400,400,400,400],
+    subs_eu:[0,0,0,0,0,0,0,0,0],
+    phone_it:[621,500,500,500,500,500,500,500,500],
+    travel_intl:[5906,0,0,0,0,0,0,0,0],
+    travel_natl:[3170,1000,1000,1000,1000,1000,1000,1000,1000],
+    research:[309,350,350,350,350,350,350,350,350],
+    bank_reval:[1869,0,0,0,0,0,0,0,0],
+    fx_gains:[-701,0,0,0,0,0,0,0,0],
+    bank_fees:[13,0,0,0,0,0,0,0,0],
+    filing:[329,0,0,0,0,0,0,0,0],
+    total_overhead:[51675,72258,50800,48300,48300,50800,49300,48300,50800]
+  },
+  discretionary:{
+    gnowbe:[0,500,500,500,500,500,500,500,500],
+    total:[0,500,500,500,500,500,500,500,500]
+  },
+  tax:[0,0,0,0,0,0,0,4500,0],
+  opex_total:[51675,72758,51300,48800,48800,51300,49800,53300,51300],
+  net_cash:[-43920,-7173,-13855,19592,28025,3858,-41879,-53300,-51300],
+  potential:{
+    au_rev:[0,0,0,0,87345,312705,108900,145200,152744],
+    au_gp:[0,0,0,0,23583,84430,29403,39204,41241],
+    eu_rev:[0,0,0,0,0,0,0,0,0],
+    eu_gp:[0,0,0,0,0,0,0,0,0],
+    us_rev:[0,0,0,0,0,0,0,0,0],
+    us_gp:[0,0,0,0,0,0,0,0,0]
+  },
+  potential_net:[-43920,-7173,-13855,19592,51608,88288,-12476,-14096,-10059],
+  opening_forecast:[97422,53501,46328,32473,52065,80090,83948,42069,-11231],
+  closing_forecast:[53501,46328,32473,52065,80090,83948,42069,-11231,-62531],
+  opening_potential:[97422,53501,46328,32473,52065,103673,191961,179486,165390],
+  closing_potential:[53501,46328,32473,52065,103673,191961,179486,165390,155330]
+};
+
+// ── FX rates ─────────────────────────────────────────────────────────────────
+var SEED_FX={AUD:1,EUR:1.61,USD:1.5,GBP:2,SGD:1};
+
+// ── Revenue pipeline seed data ──────────────────────────────────────────────
+var SEED_REV=[
+  {entity:'AU',status:1,inv:'Tx1342',client:'Yoplait Canada',project:'YLC Podium Project',phase:'1.3 - End',invDate:'Mar-26',due:'Apr-26',cur:'EUR',rev:34500,refPct:0,iePct:0.75,avgPay:38,accrual:'Mar-26',dueMo:'Apr-26'},
+  {entity:'AU',status:1,inv:'Tx1357',client:'SODIAAL R&D',project:'End',phase:'1.3 - End',invDate:'Apr-26',due:'Jun-26',cur:'EUR',rev:34000,refPct:0,iePct:0.70,avgPay:42,accrual:'Apr-26',dueMo:'Jun-26'},
+  {entity:'AU',status:1,inv:'Tx1362',client:'Dominos Japan',project:'Phase 1',phase:'1.1 - Start',invDate:'Jan-26',due:'Mar-26',cur:'AUD',rev:78493,refPct:0.10,iePct:0.70,avgPay:14,accrual:'Jan-26',dueMo:'Mar-26'},
+  {entity:'AU',status:1,inv:'Tx1363',client:'Dominos Japan',project:'Phase 1',phase:'1.2 - Middle',invDate:'Feb-26',due:'Mar-26',cur:'AUD',rev:78493,refPct:0.10,iePct:0.70,avgPay:14,accrual:'Feb-26',dueMo:'Mar-26'},
+  {entity:'AU',status:1,inv:'Tx1364',client:'Dominos Japan',project:'Phase 1',phase:'1.3 - End',invDate:'Mar-26',due:'Mar-26',cur:'AUD',rev:104657,refPct:0.10,iePct:0.70,avgPay:14,accrual:'Mar-26',dueMo:'Mar-26'},
+  {entity:'AU',status:1,inv:'Tx1365',client:'SODIAAL R&D',project:'Maintaining Momentum',phase:'1.1 - Start',invDate:'Feb-26',due:'Mar-26',cur:'EUR',rev:12300,refPct:0,iePct:0.70,avgPay:42,accrual:'Feb-26',dueMo:'Mar-26'},
+  {entity:'AU',status:1,inv:'Tx1366',client:'SODIAAL R&D',project:'Maintaining Momentum',phase:'1.2 - Middle',invDate:'Mar-26',due:'Apr-26',cur:'EUR',rev:12300,refPct:0,iePct:0.70,avgPay:42,accrual:'Mar-26',dueMo:'Apr-26'},
+  {entity:'AU',status:1,inv:'Tx1367',client:'SODIAAL R&D',project:'Maintaining Momentum',phase:'1.3 - End | 2.1 - Start',invDate:'Apr-26',due:'May-26',cur:'EUR',rev:28700,refPct:0,iePct:0.70,avgPay:42,accrual:'Apr-26',dueMo:'May-26'},
+  {entity:'AU',status:1,inv:'Tx1368',client:'SODIAAL R&D',project:'Maintaining Momentum',phase:'2.2 - Middle',invDate:'May-26',due:'Jul-26',cur:'EUR',rev:12300,refPct:0,iePct:0.70,avgPay:42,accrual:'May-26',dueMo:'Jul-26'},
+  {entity:'AU',status:1,inv:'Tx1369',client:'SODIAAL R&D',project:'Maintaining Momentum',phase:'2.3 - End',invDate:'Jul-26',due:'Aug-26',cur:'EUR',rev:16400,refPct:0,iePct:0.70,avgPay:42,accrual:'Jul-26',dueMo:'Aug-26'},
+  {entity:'AU',status:2,inv:'',client:'Dominos Japan',project:'Phase 2',phase:'2.1 - Start',invDate:'May-26',due:'May-26',cur:'AUD',rev:136714,refPct:0.10,iePct:0.70,avgPay:14,accrual:'May-26',dueMo:'May-26'},
+  {entity:'AU',status:2,inv:'',client:'Dominos Japan',project:'Phase 2',phase:'2.2 - Middle',invDate:'Jun-26',due:'Jun-26',cur:'AUD',rev:136714,refPct:0.10,iePct:0.70,avgPay:14,accrual:'Jun-26',dueMo:'Jun-26'},
+  {entity:'AU',status:2,inv:'',client:'Dominos Japan',project:'Phase 2',phase:'2.3 - End',invDate:'Jul-26',due:'Jul-26',cur:'AUD',rev:182286,refPct:0.10,iePct:0.70,avgPay:14,accrual:'Jul-26',dueMo:'Jul-26'},
+  {entity:'AU',status:2,inv:'',client:'Renesas',project:'Phase 1',phase:'1.1 - Start',invDate:'Mar-26',due:'Apr-26',cur:'USD',rev:43500,refPct:0.10,iePct:0.70,avgPay:30,accrual:'Mar-26',dueMo:'Apr-26'},
+  {entity:'AU',status:2,inv:'',client:'Renesas',project:'Phase 1',phase:'1.2 - Middle',invDate:'Apr-26',due:'May-26',cur:'USD',rev:43500,refPct:0.10,iePct:0.70,avgPay:30,accrual:'Apr-26',dueMo:'May-26'},
+  {entity:'AU',status:2,inv:'',client:'Renesas',project:'Phase 1',phase:'1.3 - End',invDate:'May-26',due:'Jun-26',cur:'USD',rev:58000,refPct:0.10,iePct:0.70,avgPay:30,accrual:'May-26',dueMo:'Jun-26'},
+  {entity:'AU',status:3,inv:'',client:'Dominos Japan',project:'Phase 3',phase:'3.1 - Start',invDate:'Jul-26',due:'Jul-26',cur:'AUD',rev:108900,refPct:0.10,iePct:0.70,avgPay:14,accrual:'Jul-26',dueMo:'Jul-26'},
+  {entity:'AU',status:3,inv:'',client:'Dominos Japan',project:'Phase 3',phase:'3.2 - Middle',invDate:'Aug-26',due:'Aug-26',cur:'AUD',rev:108900,refPct:0.10,iePct:0.70,avgPay:14,accrual:'Aug-26',dueMo:'Aug-26'},
+  {entity:'AU',status:3,inv:'',client:'Dominos Japan',project:'Phase 3',phase:'3.3 - End',invDate:'Sep-26',due:'Sep-26',cur:'AUD',rev:145200,refPct:0.10,iePct:0.70,avgPay:14,accrual:'Sep-26',dueMo:'Sep-26'},
+  {entity:'AU',status:3,inv:'',client:'Renesas',project:'Phase 2',phase:'2.1 - Start',invDate:'May-26',due:'Jun-26',cur:'USD',rev:58230,refPct:0.10,iePct:0.70,avgPay:30,accrual:'May-26',dueMo:'Jun-26'},
+  {entity:'AU',status:3,inv:'',client:'Renesas',project:'Phase 2',phase:'2.2 - Middle',invDate:'Jun-26',due:'Jul-26',cur:'USD',rev:58230,refPct:0.10,iePct:0.70,avgPay:30,accrual:'Jun-26',dueMo:'Jul-26'},
+  {entity:'AU',status:3,inv:'',client:'Renesas',project:'Phase 2',phase:'2.3 - End',invDate:'Jun-26',due:'Jul-26',cur:'USD',rev:77640,refPct:0.10,iePct:0.70,avgPay:30,accrual:'Jun-26',dueMo:'Jul-26'},
+  {entity:'AU',status:3,inv:'',client:'Renesas',project:'Phase 3',phase:'3.1 - Start',invDate:'Sep-26',due:'Oct-26',cur:'USD',rev:101829,refPct:0.10,iePct:0.70,avgPay:30,accrual:'Sep-26',dueMo:'Oct-26'},
+  {entity:'AU',status:3,inv:'',client:'Renesas',project:'Phase 3',phase:'3.2 - Middle',invDate:'Nov-26',due:'Dec-26',cur:'USD',rev:101829,refPct:0.10,iePct:0.70,avgPay:30,accrual:'Nov-26',dueMo:'Dec-26'},
+  {entity:'AU',status:3,inv:'',client:'Renesas',project:'Phase 3',phase:'3.3 - End',invDate:'Dec-26',due:'Jan-27',cur:'USD',rev:135771,refPct:0.10,iePct:0.70,avgPay:30,accrual:'Dec-26',dueMo:'Jan-27'}
+];
+
+var STATUS_LABELS={1:'Contracted',2:'Certain',3:'Uncertain'};
+var STATUS_COLORS={1:TEL,2:GRN,3:AMB};
+
+// ── Expense lines definition ─────────────────────────────────────────────────
+var EXP_LINES=[
+  {key:'ceo',       label:'CEO',                     cat:'overhead'},
+  {key:'coo',       label:'COO (Niel)',              cat:'overhead'},
+  {key:'contractors',label:'Internal contractors',    cat:'overhead'},
+  {key:'wages',     label:'Wages and salaries',       cat:'overhead'},
+  {key:'super',     label:'Superannuation',           cat:'overhead'},
+  {key:'consulting',label:'Consulting fees',          cat:'overhead'},
+  {key:'legal_au',  label:'Legal expenses (AU)',      cat:'overhead'},
+  {key:'legal_eu',  label:'Legal expenses (EU)',      cat:'overhead'},
+  {key:'accountancy',label:'Accountancy fees',        cat:'overhead'},
+  {key:'bookkeeping',label:'Bookkeeping fees',        cat:'overhead'},
+  {key:'hubspot',   label:'HubSpot',                  cat:'overhead'},
+  {key:'software',  label:'Software expense',         cat:'overhead'},
+  {key:'subs_au',   label:'Subscriptions (AU)',       cat:'overhead'},
+  {key:'subs_eu',   label:'Subscriptions (EU)',       cat:'overhead'},
+  {key:'phone_it',  label:'Telephone and IT',         cat:'overhead'},
+  {key:'travel_intl',label:'Travel — international',  cat:'overhead'},
+  {key:'travel_natl',label:'Travel — national',       cat:'overhead'},
+  {key:'research',  label:'Research',                  cat:'overhead'},
+  {key:'bank_reval',label:'Bank revaluations',         cat:'overhead'},
+  {key:'fx_gains',  label:'FX gains/losses',           cat:'overhead'},
+  {key:'bank_fees', label:'Bank fees',                 cat:'overhead'},
+  {key:'filing',    label:'Filing fees',               cat:'overhead'},
+  {key:'gnowbe',    label:'Gnowbe/Ilonka',             cat:'discretionary'},
+  {key:'tax',       label:'Income tax expense',        cat:'tax'}
+];
+
+var EXP_DEFAULTS={
+  ceo:[0,23000,23000,23000,23000,23000,23000,23000,23000],
+  coo:[8000,8000,8000,8000,8000,8000,8000,8000,8000],
+  contractors:[4357,4300,4300,4300,4300,4300,4300,4300,4300],
+  wages:[7717,8000,8000,8000,8000,8000,8000,8000,8000],
+  super:[1137,1200,1200,1200,1200,1200,1200,1200,1200],
+  consulting:[14771,11458,0,0,0,0,0,0,0],
+  legal_au:[1697,10000,0,0,0,0,0,0,0],
+  legal_eu:[0,0,0,0,0,0,0,0,0],
+  accountancy:[0,2500,2500,0,0,2500,1000,0,2500],
+  bookkeeping:[719,0,0,0,0,0,0,0,0],
+  hubspot:[758,800,800,800,800,800,800,800,800],
+  software:[0,750,750,750,750,750,750,750,750],
+  subs_au:[1004,400,400,400,400,400,400,400,400],
+  subs_eu:[0,0,0,0,0,0,0,0,0],
+  phone_it:[621,500,500,500,500,500,500,500,500],
+  travel_intl:[5906,0,0,0,0,0,0,0,0],
+  travel_natl:[3170,1000,1000,1000,1000,1000,1000,1000,1000],
+  research:[309,350,350,350,350,350,350,350,350],
+  bank_reval:[1869,0,0,0,0,0,0,0,0],
+  fx_gains:[-701,0,0,0,0,0,0,0,0],
+  bank_fees:[13,0,0,0,0,0,0,0,0],
+  filing:[329,0,0,0,0,0,0,0,0],
+  gnowbe:[0,500,500,500,500,500,500,500,500],
+  tax:[0,0,0,0,0,0,0,4500,0]
+};
+
 // ── State ────────────────────────────────────────────────────────────────────
 var S={
+  mode:'pipeline',
+  fcstExp:{rev_au:false,cos_au:false,rev_eu:false,cos_eu:false,rev_us:false,cos_us:false,opex:false,disc:false,pot:false},
+  bs:lsGet(K_BS)||SEED_BS,
+  pl:lsGet(K_PL)||SEED_PL,
+  rev:lsGet(K_REV)||SEED_REV,
+  fx:lsGet('ww_fx')||SEED_FX,
+  exp:initExpenses(),
+  ref:lsGet(K_REF),
   db:lsGet(KB),
   log:lsGet(KL)||[],
   bl:lsGet(KBL),
@@ -667,6 +947,12 @@ function msg(txt){
   if(S._mt)clearTimeout(S._mt);
   var t=setTimeout(function(){set({msg:null,_mt:null})},5000);
   set({msg:txt,_mt:t});
+}
+function touch(){lsSet('ww_lastup',new Date().toLocaleDateString('en-AU',{day:'numeric',month:'long',year:'numeric'}));}
+function toggleFcst(key){
+  var e=Object.assign({},S.fcstExp);
+  e[key]=!e[key];
+  set({fcstExp:e});
 }
 
 // ── Parse export date from HubSpot filename ──────────────────────────────────
@@ -778,22 +1064,17 @@ function onFileRolling(el){
 
 function exportBackup(){
   var payload={
-    db:lsGet(KB),
-    log:lsGet(KL),
-    bl:lsGet(KBL),
-    snaps:lsGet(KS),
-    exported:new Date().toISOString(),
-    version:1
+    _exported:new Date().toISOString(),version:2,
+    db:lsGet(KB),log:lsGet(KL),bl:lsGet(KBL),snaps:lsGet(KS),
+    ww_bs:lsGet(K_BS),ww_pl:lsGet(K_PL),ww_rev:lsGet(K_REV),
+    ww_exp:lsGet(K_EXP),ww_ref:lsGet(K_REF),ww_fx:lsGet('ww_fx')
   };
   var json=JSON.stringify(payload,null,2);
   var blob=new Blob([json],{type:'application/json'});
   var url=URL.createObjectURL(blob);
   var a=document.createElement('a');
-  var d=new Date();
-  a.href=url;
-  a.download='ww-pipeline-backup-'+d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')+'.json';
-  a.click();
-  URL.revokeObjectURL(url);
+  a.href=url;a.download='wwri-toolkit-backup-'+new Date().toISOString().slice(0,10)+'.json';
+  a.click();URL.revokeObjectURL(url);
   msg('Backup exported');
 }
 function openRestore(){document.getElementById('fi-restore').click()}
@@ -1493,6 +1774,639 @@ function thRow(cols,rightFrom){
   return r+'</tr></thead>';
 }
 
+// ── Finance functions ─────────────────────────────────────────────────────────
+function initExpenses(){
+  var stored=lsGet(K_EXP);
+  if(stored)return stored;
+  var exp={};
+  EXP_LINES.forEach(function(l){
+    exp[l.key]=(EXP_DEFAULTS[l.key]||[0,0,0,0,0,0,0,0,0]).slice();
+  });
+  return exp;
+}
+
+function recalcFcst(){
+  var fc=SEED_FCST;
+  var exp=S.exp;
+  var nm=fc.months.length;
+
+  // Sum overhead
+  var oh=[];for(var i=0;i<nm;i++)oh.push(0);
+  EXP_LINES.forEach(function(l){
+    if(l.cat==='overhead'){
+      for(var i=0;i<nm;i++)oh[i]+=(exp[l.key]||[])[i]||0;
+    }
+  });
+  fc.opex.total_overhead=oh;
+
+  // Sum discretionary
+  var disc=[];for(var i=0;i<nm;i++)disc.push(0);
+  EXP_LINES.forEach(function(l){
+    if(l.cat==='discretionary'){
+      for(var i=0;i<nm;i++)disc[i]+=(exp[l.key]||[])[i]||0;
+    }
+  });
+  fc.discretionary.total=disc;
+
+  // Tax
+  fc.tax=exp.tax||[0,0,0,0,0,0,0,0,0];
+
+  // Total opex
+  var tot=[];for(var i=0;i<nm;i++)tot.push(oh[i]+disc[i]+(fc.tax[i]||0));
+  fc.opex_total=tot;
+
+  // Net cash = gross profit - opex
+  var net=[];for(var i=0;i<nm;i++)net.push(fc.gp_total[i]-tot[i]);
+  fc.net_cash=net;
+
+  // Potential net = net + potential GP
+  var pnet=[];for(var i=0;i<nm;i++){
+    pnet.push(net[i]+(fc.potential.au_gp[i]||0)+(fc.potential.eu_gp[i]||0)+(fc.potential.us_gp[i]||0));
+  }
+  fc.potential_net=pnet;
+
+  // Cash positions
+  var openBal=fc.opening_forecast[0]; // starting balance from actuals
+  for(var i=0;i<nm;i++){
+    fc.opening_forecast[i]=i===0?openBal:fc.closing_forecast[i-1];
+    fc.closing_forecast[i]=fc.opening_forecast[i]+net[i];
+  }
+  for(var i=0;i<nm;i++){
+    fc.opening_potential[i]=i===0?openBal:fc.closing_potential[i-1];
+    fc.closing_potential[i]=fc.opening_potential[i]+pnet[i];
+  }
+}
+
+// ── Revenue → Forecast wiring ────────────────────────────────────────────────
+function recalcRevForecast(){
+  var fc=SEED_FCST;
+  var fx=S.fx||SEED_FX;
+  var rev=S.rev||[];
+  var nm=fc.months.length;
+
+  // Zero out revenue arrays (keep index 0 = actuals untouched for non-rev rows)
+  var rAU=[],cAU=[],gAU=[];
+  var rEU=[],cEU=[],gEU=[];
+  var rUS=[],cUS=[],gUS=[];
+  var pAUr=[],pAUg=[];
+  var pEUr=[],pEUg=[];
+  var pUSr=[],pUSg=[];
+  for(var i=0;i<nm;i++){
+    rAU.push(0);cAU.push(0);gAU.push(0);
+    rEU.push(0);cEU.push(0);gEU.push(0);
+    rUS.push(0);cUS.push(0);gUS.push(0);
+    pAUr.push(0);pAUg.push(0);
+    pEUr.push(0);pEUg.push(0);
+    pUSr.push(0);pUSg.push(0);
+  }
+
+  rev.forEach(function(r){
+    var mi=fc.months.indexOf(r.dueMo);
+    if(mi===-1)return; // outside forecast window
+
+    var fxr=fx[r.cur]||1;
+    var revAud=r.rev*fxr;
+    var refFee=revAud*(r.refPct||0);
+    var projTotal=revAud-refFee;
+    var ieFees=projTotal*(r.iePct||0);
+    var gp=projTotal-ieFees;
+    var cos=refFee+ieFees;
+
+    var isForecasted=(r.status===1||r.status===2); // Contracted or Certain
+    var ent=r.entity||'AU';
+
+    if(isForecasted){
+      if(ent==='AU'){rAU[mi]+=revAud;cAU[mi]+=cos;gAU[mi]+=gp;}
+      else if(ent==='EU'){rEU[mi]+=revAud;cEU[mi]+=cos;gEU[mi]+=gp;}
+      else if(ent==='US'){rUS[mi]+=revAud;cUS[mi]+=cos;gUS[mi]+=gp;}
+    } else {
+      // Uncertain → potential
+      if(ent==='AU'){pAUr[mi]+=revAud;pAUg[mi]+=gp;}
+      else if(ent==='EU'){pEUr[mi]+=revAud;pEUg[mi]+=gp;}
+      else if(ent==='US'){pUSr[mi]+=revAud;pUSg[mi]+=gp;}
+    }
+  });
+
+  // Preserve actuals column (index 0) from original seed
+  rAU[0]=fc.rev_au.total[0];cAU[0]=fc.cos_au.total[0];gAU[0]=fc.gp_au[0];
+
+  // Update forecast arrays
+  fc.rev_au.total=rAU;fc.cos_au.total=cAU;fc.gp_au=gAU;
+  fc.rev_eu.total=rEU;fc.cos_eu.total=cEU;fc.gp_eu=gEU;
+  fc.rev_us.total=rUS;fc.cos_us.total=cUS;fc.gp_us=gUS;
+
+  // Total GP
+  var gpT=[];for(var i=0;i<nm;i++)gpT.push(gAU[i]+gEU[i]+gUS[i]);
+  fc.gp_total=gpT;
+
+  // Potential
+  fc.potential.au_rev=pAUr;fc.potential.au_gp=pAUg;
+  fc.potential.eu_rev=pEUr;fc.potential.eu_gp=pEUg;
+  fc.potential.us_rev=pUSr;fc.potential.us_gp=pUSg;
+
+  // Now recalc opex and cash
+  recalcFcst();
+}
+
+// ── FX rate fetch ────────────────────────────────────────────────────────────
+function fetchFX(){
+  msg('Fetching rates...');
+  fetch('https://api.frankfurter.app/latest?from=AUD&to=EUR,USD,GBP,SGD')
+    .then(function(res){return res.json()})
+    .then(function(data){
+      if(!data.rates)throw new Error('No rates returned');
+      // frankfurter returns how much 1 AUD buys, we need how much 1 foreign = AUD
+      var fx=Object.assign({},S.fx);
+      fx.AUD=1;
+      if(data.rates.EUR)fx.EUR=Math.round((1/data.rates.EUR)*100)/100;
+      if(data.rates.USD)fx.USD=Math.round((1/data.rates.USD)*100)/100;
+      if(data.rates.GBP)fx.GBP=Math.round((1/data.rates.GBP)*100)/100;
+      if(data.rates.SGD)fx.SGD=Math.round((1/data.rates.SGD)*100)/100;
+      lsSet('ww_fx',fx);
+      S.fx=fx;
+      recalcRevForecast();
+      touch();
+      msg('FX rates updated ('+new Date().toLocaleDateString('en-AU')+')');
+    })
+    .catch(function(err){
+      msg('FX fetch failed: '+err.message);
+    });
+}
+
+// ── Export / Clear ───────────────────────────────────────────────────────────
+function restoreBackup(){
+  var inp=document.createElement('input');inp.type='file';inp.accept='.json';
+  inp.onchange=function(){
+    var f=inp.files[0];if(!f)return;
+    var r=new FileReader();
+    r.onload=function(){
+      try{
+        var data=JSON.parse(r.result);
+        // Pipeline keys
+        if(data.db)lsSet(KB,data.db);
+        if(data.log)lsSet(KL,data.log);
+        if(data.bl)lsSet(KBL,data.bl);
+        if(data.snaps)lsSet(KS,data.snaps);
+        // Finance keys
+        if(data.ww_bs)lsSet(K_BS,data.ww_bs);
+        if(data.ww_pl)lsSet(K_PL,data.ww_pl);
+        if(data.ww_rev)lsSet(K_REV,data.ww_rev);
+        if(data.ww_exp)lsSet(K_EXP,data.ww_exp);
+        if(data.ww_ref)lsSet(K_REF,data.ww_ref);
+        if(data.ww_fx)lsSet('ww_fx',data.ww_fx);
+        location.reload();
+      }catch(e){msg('Invalid backup file');}
+    };
+    r.readAsText(f);
+  };
+  inp.click();
+}
+
+function clearAllData(){
+  if(!confirm('Remove all data from this browser? This includes pipeline and finance data. Cannot be undone.'))return;
+  [KB,KL,KBL,KS,KLD,K_BS,K_PL,K_REV,K_EXP,K_REF,'ww_fx','ww_xero2','ww_sprobs2','ww_lastup'].forEach(function(k){try{localStorage.removeItem(k)}catch(e){}});
+  location.reload();
+}
+
+// ── Inline revenue editing ───────────────────────────────────────────────────
+function editRevField(idx,field,val){
+  var rev=S.rev.slice();
+  rev[idx]=Object.assign({},rev[idx]);
+  if(field==='rev')rev[idx].rev=parseFloat(val)||0;
+  else if(field==='dueMo')rev[idx].dueMo=val.trim();
+  lsSet(K_REV,rev);
+  S.rev=rev;
+  recalcRevForecast();
+  touch();
+  render();
+}
+
+function onExpChange(key,colIdx,val){
+  var exp=Object.assign({},S.exp);
+  if(!exp[key])exp[key]=[0,0,0,0,0,0,0,0,0];
+  exp[key]=exp[key].slice();
+  exp[key][colIdx]=parseFloat(val)||0;
+  lsSet(K_EXP,exp);
+  S.exp=exp;
+  recalcFcst();
+  touch();
+  render();
+}
+
+function resetExpenses(){
+  var exp={};
+  EXP_LINES.forEach(function(l){
+    exp[l.key]=(EXP_DEFAULTS[l.key]||[0,0,0,0,0,0,0,0,0]).slice();
+  });
+  lsSet(K_EXP,exp);
+  S.exp=exp;
+  recalcFcst();
+  touch();
+  msg('Expenses reset to defaults');
+}
+
+function addExpLine(cat){
+  var name=prompt('Expense line name:');
+  if(!name||!name.trim())return;
+  var key='custom_'+name.trim().toLowerCase().replace(/[^a-z0-9]/g,'_');
+  // Check if already exists
+  var exists=EXP_LINES.some(function(l){return l.key===key});
+  if(exists){msg('Line already exists');return;}
+  EXP_LINES.push({key:key,label:name.trim(),cat:cat});
+  var exp=Object.assign({},S.exp);
+  exp[key]=[0,0,0,0,0,0,0,0,0];
+  lsSet(K_EXP,exp);
+  S.exp=exp;
+  recalcFcst();
+  msg('Added: '+name.trim());
+}
+
+function showAllExpLines(){
+  // Show all expense lines including zero lines (toggle)
+  var e=Object.assign({},S.fcstExp);
+  e.showAll=!e.showAll;
+  set({fcstExp:e});
+}
+
+function cycleRevStatus(idx){
+  var rev=S.rev.slice();
+  var cur=rev[idx].status;
+  rev[idx]=Object.assign({},rev[idx]);
+  rev[idx].status=cur>=3?1:cur+1;
+  lsSet(K_REV,rev);
+  S.rev=rev;
+  recalcRevForecast();
+  touch();
+  render();
+}
+
+function sortRevPipeline(){
+  var rev=S.rev.slice().sort(function(a,b){
+    if(a.status!==b.status)return a.status-b.status;
+    var cc=(a.client||'').localeCompare(b.client||'');
+    if(cc!==0)return cc;
+    var cp=(a.project||'').localeCompare(b.project||'');
+    if(cp!==0)return cp;
+    return(a.phase||'').localeCompare(b.phase||'');
+  });
+  lsSet(K_REV,rev);
+  msg('Pipeline sorted');
+  set({rev:rev});
+}
+
+function addRevLine(entity){
+  var client=prompt('Client name:');
+  if(!client||!client.trim())return;
+  var project=prompt('Project name (optional):','');
+  var phase=prompt('Phase (e.g. 1.1 - Start):','');
+  var dueMo=prompt('Due month (e.g. Jun-26):','');
+  var cur=prompt('Currency (AUD, EUR, USD, GBP):','AUD');
+  var rev=parseFloat(prompt('Revenue (in '+cur+'):','0'))||0;
+  var refPct=parseFloat(prompt('Referral fee % (e.g. 0.10 for 10%):','0'))||0;
+  var iePct=parseFloat(prompt('IE fee % (e.g. 0.70 for 70%):','0.70'))||0.70;
+  var avgPay=parseInt(prompt('Avg payment days:','30'))||30;
+
+  var newLine={
+    entity:entity,status:3,inv:'',
+    client:client.trim(),
+    project:(project||'').trim(),
+    phase:(phase||'').trim(),
+    invDate:dueMo,due:dueMo,
+    cur:(cur||'AUD').toUpperCase().trim(),
+    rev:rev,refPct:refPct,iePct:iePct,
+    avgPay:avgPay,
+    accrual:dueMo,dueMo:(dueMo||'').trim()
+  };
+  var updated=S.rev.slice();
+  updated.push(newLine);
+  lsSet(K_REV,updated);
+  S.rev=updated;
+  recalcRevForecast();
+  touch();
+  msg('Added: '+client.trim());
+}
+
+function removeRevLine(idx){
+  if(idx<0||idx>=S.rev.length)return;
+  var r=S.rev[idx];
+  if(!confirm('Remove '+r.client+' — '+(r.project||r.phase||r.dueMo)+'?'))return;
+  var updated=S.rev.slice();
+  updated.splice(idx,1);
+  lsSet(K_REV,updated);
+  S.rev=updated;
+  recalcRevForecast();
+  touch();
+  msg('Removed: '+r.client);
+}
+
+// ── Finance CSV import helpers ──────────────────────────────────────────────
+function parseFinCSV(text){
+  var sep=text.indexOf('\t')>-1?'\t':',';
+  return text.split('\n').map(function(line){
+    return line.split(sep).map(function(c){return c.replace(/^"|"$/g,'').trim()});
+  });
+}
+
+function findRow(rows,pattern){
+  for(var i=0;i<rows.length;i++){
+    var label=(rows[i][0]||'')+(rows[i][1]||'');
+    if(label.indexOf(pattern)>-1)return rows[i];
+  }
+  return null;
+}
+
+function pv(s){return parseFloat((s||'0').replace(/,/g,''))||0;}
+
+// ── P&L Import (month or YTD, AU or EU) ─────────────────────────────────────
+function importPL(entity,type,text){
+  var rows=parseFinCSV(text);
+  // Find header row (contains "Account")
+  var hdr=null,hdrIdx=-1;
+  for(var i=0;i<rows.length;i++){
+    if((rows[i][0]||'').indexOf('Account')>-1){hdr=rows[i];hdrIdx=i;break;}
+  }
+  if(!hdr){msg('Could not find header row');return;}
+
+  var curLabel=hdr[1]||'Current';
+  var p1Label=hdr[2]||'Prior 1';
+  var p2Label=hdr[3]||'Prior 2';
+
+  // Extract period from "For the month ended..." or header
+  var periodLine=null;
+  for(var i=0;i<Math.min(hdrIdx,6);i++){
+    var l=rows[i][0]||'';
+    if(l.indexOf('month ended')>-1||l.indexOf('period')>-1){periodLine=l;break;}
+  }
+
+  // Find key totals
+  var rev=findRow(rows,'Total Trading Income');
+  var cos=findRow(rows,'Total Cost of Sales');
+  var gp=findRow(rows,'Gross Profit');
+  var opex=findRow(rows,'Total Operating Expenses');
+  var net=findRow(rows,'Net Profit');
+
+  // Find sub-lines
+  var intl=findRow(rows,'International Sales');
+  var reimb=findRow(rows,'Reimbursement');
+  var ie=findRow(rows,'International Experts');
+  var ref_f=findRow(rows,'Referral Partner');
+  var cexp=findRow(rows,'Client-Charged');
+
+  var pl=Object.assign({},S.pl);
+  var key=entity.toLowerCase()+'_'+type; // au_mo, eu_mo, au_ytd, eu_ytd
+
+  var d={
+    revenue:pv(rev?rev[1]:0),cos:pv(cos?cos[1]:0),gp:pv(gp?gp[1]:0),
+    opex:pv(opex?opex[1]:0),net:pv(net?net[1]:0),
+    p1:{label:p1Label,revenue:pv(rev?rev[2]:0),cos:pv(cos?cos[2]:0),gp:pv(gp?gp[2]:0),opex:pv(opex?opex[2]:0),net:pv(net?net[2]:0)},
+    p2:{label:p2Label,revenue:pv(rev?rev[3]:0),cos:pv(cos?cos[3]:0),gp:pv(gp?gp[3]:0),opex:pv(opex?opex[3]:0),net:pv(net?net[3]:0)}
+  };
+
+  if(type==='mo'){
+    d.intl_sales=pv(intl?intl[1]:0);
+    d.reimb=pv(reimb?reimb[1]:0);
+    d.ie_fees=pv(ie?ie[1]:0);
+    d.ref_fees=pv(ref_f?ref_f[1]:0);
+    d.client_exp=pv(cexp?cexp[1]:0);
+  }
+  if(type==='ytd'){
+    d.label=curLabel;
+  }
+
+  pl[key]=d;
+  if(periodLine)pl.period=periodLine.replace(/For the month ended /i,'').replace(/For the period /i,'').trim();
+
+  lsSet(K_PL,pl);
+  S.pl=pl;
+  touch();
+  msg('Imported P&L '+entity+' ('+type+')');
+  render();
+}
+
+// ── Balance Sheet Import (AU or EU) ─────────────────────────────────────────
+function importBS(entity,text){
+  var rows=parseFinCSV(text);
+
+  // Find period from "As at..." line
+  var period='';
+  for(var i=0;i<6;i++){
+    var l=rows[i]?rows[i][0]||'':'';
+    if(l.indexOf('As at')>-1){period=l.replace('As at ','').trim();break;}
+  }
+
+  function findVal(pattern){
+    var r=findRow(rows,pattern);
+    if(!r)return 0;
+    // Value is in last non-empty column
+    for(var c=r.length-1;c>=0;c--){
+      if(r[c]&&r[c]!==''){var v=pv(r[c]);if(v!==0||r[c]==='0')return v;}
+    }
+    return 0;
+  }
+
+  // Bank accounts
+  var bankDetail=[];
+  var inBank=false;
+  for(var i=0;i<rows.length;i++){
+    var r=rows[i];
+    var label=(r[0]||'')+(r[1]||'');
+    if(label.indexOf('Bank')>-1&&label.indexOf('Total')===-1&&label.indexOf('Fee')===-1&&label.indexOf('Reval')===-1){
+      inBank=true;continue;
+    }
+    if(inBank){
+      if(label.indexOf('Total Bank')>-1){inBank=false;continue;}
+      var name=(r[1]||r[0]||'').trim();
+      var val=pv(r[r.length-1]);
+      if(name&&name!=='Bank')bankDetail.push({name:name,val:val});
+    }
+  }
+
+  var data={
+    bank:findVal('Total Bank'),
+    bank_detail:bankDetail,
+    current_assets:findVal('Total Current Assets'),
+    fixed_assets:findVal('Total Fixed Assets'),
+    non_current_assets:findVal('Total Non-current Assets'),
+    assets:findVal('Total Assets'),
+    current_liabilities:findVal('Total Current Liabilities'),
+    liabilities:findVal('Total Liabilities'),
+    unearned_income:findVal('Unearned Income'),
+    net_assets:findVal('Net Assets'),
+    retained_earnings:findVal('Retained Earnings'),
+    share_capital:findVal('Ordinary shares')||findVal('Share Capital'),
+    current_year:findVal('Current Year Earnings')
+  };
+
+  if(entity==='EU'){
+    data.bank_currency='EUR';
+  }
+  if(entity==='US'){
+    data.bank_currency='USD';
+  }
+
+  // Extract FX rates from AU balance sheet
+  var bs=Object.assign({},S.bs);
+  bs[entity.toLowerCase()]=data;
+  if(period)bs.period=period;
+
+  // Parse FX rates if present (AU BS has them at bottom)
+  if(entity==='AU'){
+    for(var i=0;i<rows.length;i++){
+      var l=rows[i]?rows[i][0]||'':'';
+      var m=l.match(/^([\d.]+)\s+EUR/);
+      if(m)bs.fx_eur=Math.round((1/parseFloat(m[1]))*100)/100;
+      m=l.match(/^([\d.]+)\s+USD/);
+      if(m)bs.fx_usd=Math.round((1/parseFloat(m[1]))*100)/100;
+    }
+  }
+
+  lsSet(K_BS,bs);
+  S.bs=bs;
+  touch();
+  msg('Imported Balance Sheet '+entity);
+  render();
+}
+
+// ── Finance file handlers ───────────────────────────────────────────────────
+function openFinImport(id){document.getElementById(id).click();}
+
+function onFilePLAUmo(el){
+  var f=el.files[0];el.value='';if(!f)return;
+  var r=new FileReader();r.onload=function(){importPL('AU','mo',r.result)};r.readAsText(f);
+}
+function onFilePLEUmo(el){
+  var f=el.files[0];el.value='';if(!f)return;
+  var r=new FileReader();r.onload=function(){importPL('EU','mo',r.result)};r.readAsText(f);
+}
+function onFilePLAUytd(el){
+  var f=el.files[0];el.value='';if(!f)return;
+  var r=new FileReader();r.onload=function(){importPL('AU','ytd',r.result)};r.readAsText(f);
+}
+function onFilePLEUytd(el){
+  var f=el.files[0];el.value='';if(!f)return;
+  var r=new FileReader();r.onload=function(){importPL('EU','ytd',r.result)};r.readAsText(f);
+}
+function onFileBSAU(el){
+  var f=el.files[0];el.value='';if(!f)return;
+  var r=new FileReader();r.onload=function(){importBS('AU',r.result)};r.readAsText(f);
+}
+function onFileBSEU(el){
+  var f=el.files[0];el.value='';if(!f)return;
+  var r=new FileReader();r.onload=function(){importBS('EU',r.result)};r.readAsText(f);
+}
+
+// ── SVG Cash Chart ───────────────────────────────────────────────────────────
+function svgCashChart(data){
+  var W=740,H=300,padL=72,padR=24,padT=24,padB=52;
+  var cW=W-padL-padR, cH=H-padT-padB;
+  var n=data.length;
+  if(n<2)return'';
+
+  // Find min/max across both series
+  var allVals=[];
+  data.forEach(function(d){allVals.push(d.forecast,d.potential)});
+  var rawMin=Math.min.apply(null,allVals);
+  var rawMax=Math.max.apply(null,allVals);
+  // Add 10% padding and round to nice numbers
+  var range=rawMax-rawMin||1;
+  var vMin=Math.floor((rawMin-range*0.08)/10000)*10000;
+  var vMax=Math.ceil((rawMax+range*0.08)/10000)*10000;
+  if(vMin>0)vMin=0; // Always show zero line if data is positive
+
+  function xPos(i){return padL+(cW/(n-1))*i;}
+  function yPos(v){return padT+cH-(((v-vMin)/(vMax-vMin))*cH);}
+
+  var svg='<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:'+W+'px;display:block">';
+
+  // Gridlines
+  var gridSteps=5;
+  var gridStep=(vMax-vMin)/gridSteps;
+  for(var g=0;g<=gridSteps;g++){
+    var gv=vMin+gridStep*g;
+    var gy=yPos(gv);
+    svg+='<line x1="'+padL+'" y1="'+gy+'" x2="'+(W-padR)+'" y2="'+gy+'" stroke="'+BRD+'" stroke-width="1"/>';
+    svg+='<text x="'+(padL-8)+'" y="'+(gy+4)+'" text-anchor="end" font-size="11" fill="'+MUT+'" font-family="Cascadia Code,Consolas,monospace">';
+    if(Math.abs(gv)>=1000)svg+='$'+Math.round(gv/1000)+'K';
+    else svg+='$'+Math.round(gv);
+    svg+='</text>';
+  }
+
+  // Zero line (if visible)
+  if(vMin<0&&vMax>0){
+    var zy=yPos(0);
+    svg+='<line x1="'+padL+'" y1="'+zy+'" x2="'+(W-padR)+'" y2="'+zy+'" stroke="'+MUT+'" stroke-width="1" stroke-dasharray="4,3"/>';
+  }
+
+  // Negative zone fill (below zero)
+  if(vMin<0){
+    var zy2=yPos(0);
+    var botY=yPos(vMin);
+    svg+='<rect x="'+padL+'" y="'+zy2+'" width="'+cW+'" height="'+(botY-zy2)+'" fill="'+RED+'" opacity="0.04"/>';
+  }
+
+  // Build path strings
+  var fPath='',pPath='';
+  // Also build fill path for potential area between the two lines
+  var areaPath='';
+  data.forEach(function(d,i){
+    var x=xPos(i);
+    var yf=yPos(d.forecast);
+    var yp=yPos(d.potential);
+    fPath+=(i===0?'M':'L')+x+','+yf;
+    pPath+=(i===0?'M':'L')+x+','+yp;
+  });
+
+  // Fill area between potential and forecast
+  var fillPath='';
+  for(var i=0;i<n;i++){fillPath+=(i===0?'M':'L')+xPos(i)+','+yPos(data[i].potential);}
+  for(var i=n-1;i>=0;i--){fillPath+='L'+xPos(i)+','+yPos(data[i].forecast);}
+  fillPath+='Z';
+  svg+='<path d="'+fillPath+'" fill="'+GRN+'" opacity="0.08"/>';
+
+  // Potential line (behind)
+  svg+='<path d="'+pPath+'" fill="none" stroke="'+GRN+'" stroke-width="2" stroke-dasharray="6,4"/>';
+
+  // Forecast line (front)
+  svg+='<path d="'+fPath+'" fill="none" stroke="'+TEL+'" stroke-width="2.5"/>';
+
+  // Data points and labels
+  data.forEach(function(d,i){
+    var x=xPos(i);
+    var yf=yPos(d.forecast);
+    var yp=yPos(d.potential);
+
+    // Forecast dot
+    svg+='<circle cx="'+x+'" cy="'+yf+'" r="4" fill="'+SUR+'" stroke="'+TEL+'" stroke-width="2"/>';
+    // Potential dot (only if different)
+    if(Math.abs(d.potential-d.forecast)>500){
+      svg+='<circle cx="'+x+'" cy="'+yp+'" r="3.5" fill="'+SUR+'" stroke="'+GRN+'" stroke-width="1.5"/>';
+    }
+
+    // Value label on forecast (show for first, last, min, max, and every 3rd)
+    if(i===0||i===n-1||i%3===0||d.forecast===Math.min.apply(null,data.map(function(d2){return d2.forecast}))||d.forecast===Math.max.apply(null,data.map(function(d2){return d2.forecast}))){
+      var labY=d.forecast<0?(yf+16):(yf-10);
+      svg+='<text x="'+x+'" y="'+labY+'" text-anchor="middle" font-size="10" font-weight="600" fill="'+(d.forecast<0?RED:TEL)+'" font-family="Cascadia Code,Consolas,monospace">';
+      svg+=fUSD(d.forecast,true);
+      svg+='</text>';
+    }
+
+    // Month label
+    svg+='<text x="'+x+'" y="'+(H-padB+20)+'" text-anchor="middle" font-size="11" fill="'+MUT+'">'+d.m+'</text>';
+  });
+
+  // Legend
+  svg+='<line x1="'+padL+'" y1="'+(H-8)+'" x2="'+(padL+20)+'" y2="'+(H-8)+'" stroke="'+TEL+'" stroke-width="2.5"/>';
+  svg+='<text x="'+(padL+26)+'" y="'+(H-4)+'" font-size="11" fill="'+SUB+'">Forecast cash</text>';
+  svg+='<line x1="'+(padL+140)+'" y1="'+(H-8)+'" x2="'+(padL+160)+'" y2="'+(H-8)+'" stroke="'+GRN+'" stroke-width="2" stroke-dasharray="6,4"/>';
+  svg+='<text x="'+(padL+166)+'" y="'+(H-4)+'" font-size="11" fill="'+SUB+'">Potential cash (incl. uncertain)</text>';
+
+  svg+='</svg>';
+  return svg;
+}
+
+// ── Init finance ─────────────────────────────────────────────────────────────
+recalcRevForecast();
+
 // ── Render ───────────────────────────────────────────────────────────────────
 function render(){
   var db=S.db,has=db&&Object.keys(db).length>0;
@@ -1522,8 +2436,20 @@ function render(){
   out+='<div style="background:'+SUR+';border-bottom:1px solid '+BRD+';padding:0 40px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100">';
   out+='<div style="display:flex;align-items:center;gap:14px">'+WW;
   out+='<span style="width:1px;height:22px;background:'+BRD+'"></span>';
-  out+='<span style="font-size:14px;color:'+SUB+';font-weight:600">Pipeline Report</span>';
-  if(has){
+  out+='<div style="display:flex;gap:6px">';
+  out+='<button class="mode-btn'+(S.mode==='pipeline'?' on':'')+'" onclick="set({mode:\'pipeline\',tab:\'pipeline\'})">Pipeline Report</button>';
+  out+='<button class="mode-btn'+(S.mode==='finance'?' on':'')+'" onclick="set({mode:\'finance\',tab:\'f_dash\'})">Finance Report</button>';
+  out+='<span style="width:1px;height:22px;background:'+BRD+'"></span>';
+  out+='<button class="mode-btn'+(S.tab==='controls'?' on':'')+'" onclick="set({tab:\'controls\'})">Controls</button>';
+  out+='</div>';
+  if(S.mode==='finance'){
+    var lastUp=lsGet('ww_lastup');
+    if(lastUp){
+      out+='<span style="width:1px;height:22px;background:'+BRD+'"></span>';
+      out+='<span style="font-size:12px;color:'+MUT+'">Updated: '+lastUp+'</span>';
+    }
+  }
+  if(S.mode==='pipeline'&&has){
     var reportLabel=S.log.length?(S.log[0].dataDate||new Date(S.log[0].date).toLocaleDateString('en-AU',{day:'numeric',month:'long',year:'numeric'})):'';
     out+='<span style="width:1px;height:22px;background:'+BRD+'"></span>';
     out+='<span style="font-size:13px;color:'+TEL+';font-weight:600">'+reportLabel+'</span>';
@@ -1533,14 +2459,14 @@ function render(){
   if(S.msg)out+='<span style="font-size:12px;color:'+GRN+';display:inline-flex;align-items:center;gap:5px">'+IC.check+' '+h(S.msg)+'</span>';
   out+='</div></div>';
 
-  if(!has&&S.tab!=='log'){
+  if(S.mode==='pipeline'&&!has&&S.tab!=='log'){
     out+='<div style="min-height:calc(100vh - 56px);display:flex;align-items:center;justify-content:center">';
     out+='<div style="text-align:center;max-width:400px">';
     out+='<div style="font-size:15px;font-weight:600;margin-bottom:8px">No pipeline data yet</div>';
     out+='<div style="font-size:13px;color:'+SUB+';line-height:1.6;margin-bottom:28px">Use the Controls tab to import your HubSpot pipeline CSV and Xero data.</div>';
     out+='<button class="btn-primary" onclick="set({tab:\'log\'})">→ Go to Controls</button>';
     out+='</div></div>';
-  } else if(has) {
+  } else if(S.mode==='pipeline'&&has) {
     out+='<div style="padding:28px 40px 60px;max-width:1240px;margin:0 auto">';
 
     // Stale banner
@@ -1581,7 +2507,7 @@ function render(){
     out+='</div>';
 
     // Tabs
-    var tabs=[{k:'pipeline',l:'Pipeline'},{k:'performance',l:'Performance'},{k:'forecast',l:'Forecasting'},{k:'leads',l:'Leads'},{k:'history',l:'History'},{k:'print',l:'Report'},{k:'log',l:'Controls'}];
+    var tabs=[{k:'pipeline',l:'Pipeline'},{k:'performance',l:'Performance'},{k:'forecast',l:'Forecasting'},{k:'leads',l:'Leads'},{k:'history',l:'History'},{k:'print',l:'Report'}];
     out+='<div style="display:flex;border-bottom:1px solid '+BRD+';margin-bottom:24px">';
     tabs.forEach(function(t){out+='<button class="tab-btn'+(S.tab===t.k?' on':'')+'" onclick="set({tab:\''+t.k+'\'})">'+t.l+'</button>'});
     out+='</div>';
@@ -2904,114 +3830,989 @@ function render(){
     out+='</div>'; // content wrapper
   }
 
-  // Controls renders outside has block — always available
-  if(S.tab==='log'){
+  // ── Finance Report Mode ────────────────────────────────────────────────────
+  if(S.mode==='finance'&&S.tab!=='controls'){
     out+='<div style="padding:28px 40px 60px;max-width:1240px;margin:0 auto">';
-    // ── Controls ──────────────────────────────────────────────────────────────
-    {
 
-      // Import actions
-      out+='<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-bottom:24px">';
+    var ftabs=[{k:'f_dash',l:'Dashboard'},{k:'f_forecast',l:'Cash Forecast'},{k:'f_revenue',l:'Revenue Pipeline'},{k:'f_print',l:'Report'}];
+    out+='<div style="display:flex;border-bottom:1px solid '+BRD+';margin-bottom:24px">';
+    ftabs.forEach(function(t){out+='<button class="tab-btn'+(S.tab===t.k?' on':'')+'" onclick="set({tab:\''+t.k+'\'})">'+t.l+'</button>'});
+    out+='</div>';
 
-      // Total Pipeline
-      out+='<div class="card" style="padding:24px">';
-      out+='<div style="font-size:13px;font-weight:700;margin-bottom:6px">Import Total Pipeline</div>';
-      out+='<div style="font-size:12px;color:'+MUT+';margin-bottom:16px;line-height:1.5">Full HubSpot history export. Replaces the existing deal database.</div>';
-      out+='<button class="btn-primary" onclick="openPipelineFull()">'+IC.upload+' Import total pipeline</button>';
-      out+='<input id="fi-full" type="file" accept=".csv,.tsv" style="display:none" onchange="onFileFull(this)"/>';
+    var fTab=S.tab;
+    if(fTab==='f_dash')fTab='dashboard';
+    else if(fTab==='f_forecast')fTab='forecast';
+    else if(fTab==='f_revenue')fTab='revenue';
+    else if(fTab==='f_print')fTab='print';
+
+  // ── Dashboard ──────────────────────────────────────────────────────────
+  if(fTab==='dashboard'){
+    if(!S.pl){
+      out+='<div class="card" style="padding:40px;text-align:center">';
+      out+='<div style="font-size:15px;font-weight:600;margin-bottom:8px">No financial data yet</div>';
+      out+='<div style="font-size:13px;color:'+SUB+';line-height:1.6;margin-bottom:28px">Use the Controls tab to import your Xero P&L and Balance Sheet exports.</div>';
+      out+='<button class="btn-primary" onclick="set({tab:\'controls\'})">→ Go to Controls</button>';
       out+='</div>';
+    } else {
+      var pl=S.pl, bs=S.bs;
+      var moRev=pl.au_mo.revenue+pl.eu_mo.revenue;
+      var moGP=pl.au_mo.gp+pl.eu_mo.gp;
+      var moNet=pl.au_mo.net+pl.eu_mo.net;
+      var moRevPrior=(pl.au_mo.p1?pl.au_mo.p1.revenue:0)+(pl.eu_mo.p1?pl.eu_mo.p1.revenue:0);
+      var moGPPrior=(pl.au_mo.p1?pl.au_mo.p1.gp:0)+(pl.eu_mo.p1?pl.eu_mo.p1.gp:0);
+      var moNetPrior=(pl.au_mo.p1?pl.au_mo.p1.net:0)+(pl.eu_mo.p1?pl.eu_mo.p1.net:0);
+      var cash=bs?bs.au.bank+(bs.eu.bank*(bs.fx_eur||1))+((bs.us?bs.us.bank:0)*(bs.fx_usd||1)):0;
+      var cashPrior=bs?bs.prior_cash||0:0;
+      var ytdRev=pl.au_ytd.revenue+pl.eu_ytd.revenue;
+      var ytdGP=pl.au_ytd.gp+pl.eu_ytd.gp;
+      var ytdNet=pl.au_ytd.net+pl.eu_ytd.net;
 
-      // Update Pipeline
-      out+='<div class="card" style="padding:24px">';
-      out+='<div style="font-size:13px;font-weight:700;margin-bottom:6px">Update Pipeline</div>';
-      out+='<div style="font-size:12px;color:'+MUT+';margin-bottom:16px;line-height:1.5">Active pipeline export only. Merges with existing database, flags missing deals as stale.</div>';
-      out+='<button class="btn-primary" onclick="openPipelineUpdate()">'+IC.upload+' Update pipeline</button>';
-      out+='<input id="fi-update" type="file" accept=".csv,.tsv" style="display:none" onchange="onFileUpdate(this)"/>';
-      out+='</div>';
+      function pctChg(curr,prior){if(!prior)return null;return(curr-prior)/Math.abs(prior);}
+      function chgArrow(curr,prior,invert){
+        var pct=pctChg(curr,prior);
+        if(pct===null)return'<span style="font-size:12px;color:'+MUT+'">–</span>';
+        var good=invert?(pct<=0):(pct>=0);
+        var clr=good?GRN:RED;
+        var arr=pct>=0?IC.tup:IC.tdn;
+        return'<span style="font-size:12px;color:'+clr+';display:inline-flex;align-items:center;gap:3px">'+arr+' '+(pct>=0?'+':'')+fPct(pct)+'</span>';
+      }
 
-      // Xero
-      out+='<div class="card" style="padding:24px">';
-      out+='<div style="font-size:13px;font-weight:700;margin-bottom:6px">Import Xero Data</div>';
-      out+='<div style="font-size:12px;color:'+MUT+';margin-bottom:16px;line-height:1.5">Xero invoice export. Updates the Active Projects tab with current outstanding balances.</div>';
-      out+='<button class="btn-primary" onclick="openXero()">'+IC.upload+' Import Xero data</button>';
-      out+='<input id="fi-xero" type="file" accept=".csv" style="display:none" onchange="onFileXero(this)"/>';
-      out+='</div>';
-
-      // Rolling Totals
-      out+='<div class="card" style="padding:24px">';
-      out+='<div style="font-size:13px;font-weight:700;margin-bottom:6px">Import Rolling Totals</div>';
-      out+='<div style="font-size:12px;color:'+MUT+';margin-bottom:16px;line-height:1.5">Monthly pipeline snapshot CSV. Updates the rolling revenue chart.</div>';
-      out+='<button class="btn-primary" onclick="openRolling()">'+IC.upload+' Import rolling totals</button>';
-      out+='<input id="fi-rolling" type="file" accept=".csv" style="display:none" onchange="onFileRolling(this)"/>';
-      out+='</div>';
-
-      // Leads
-      out+='<div class="card" style="padding:24px">';
-      out+='<div style="font-size:13px;font-weight:700;margin-bottom:6px">Import Leads</div>';
-      out+='<div style="font-size:12px;color:'+MUT+';margin-bottom:16px;line-height:1.5">HubSpot contacts export filtered to Lead Stage 0.1–0.3. Replaces the current leads database.</div>';
-      out+='<button class="btn-primary" onclick="openLeads()">'+IC.upload+' Import leads</button>';
-      out+='</div>';
-
-      // Export backup
-      out+='<div class="card" style="padding:24px">';
-      out+='<div style="font-size:13px;font-weight:700;margin-bottom:6px">Export backup</div>';
-      out+='<div style="font-size:12px;color:'+MUT+';margin-bottom:16px;line-height:1.5">Download a full backup of all deals, snapshots, baseline and import log as a JSON file.</div>';
-      out+='<button class="btn-ghost" onclick="exportBackup()">&#8595; Export backup</button>';
-      out+='</div>';
-
-      // Restore backup
-      out+='<div class="card" style="padding:24px">';
-      out+='<div style="font-size:13px;font-weight:700;margin-bottom:6px">Restore backup</div>';
-      out+='<div style="font-size:12px;color:'+MUT+';margin-bottom:16px;line-height:1.5">Restore a previously exported backup JSON. Replaces all current data.</div>';
-      out+='<button class="btn-primary" onclick="openRestore()">'+IC.upload+' Restore backup</button>';
-      out+='<input id="fi-restore" type="file" accept=".json" style="display:none" onchange="onFileRestore(this)"/>';
-      out+='</div>';
-
-      out+='</div>';
-
-      // Baseline + Clear actions
-      out+='<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-bottom:24px">';
-      out+='<div class="card" style="padding:20px;display:flex;align-items:center;justify-content:space-between">';
-      out+='<div><div style="font-size:13px;font-weight:700;margin-bottom:4px">Save baseline</div>';
-      out+='<div style="font-size:12px;color:'+MUT+'">Snapshot current pipeline for month-on-month comparison</div></div>';
-      out+='<button class="btn-ghost" onclick="saveBL()">'+IC.save+' Save as baseline</button>';
-      out+='</div>';
-      out+='<div class="card" style="padding:20px;display:flex;align-items:center;justify-content:space-between;border-left:3px solid '+RED+'">';
-      out+='<div><div style="font-size:13px;font-weight:700;margin-bottom:4px">Clear all data</div>';
-      out+='<div style="font-size:12px;color:'+MUT+'">Remove all deals, snapshots, baseline and log</div></div>';
-      out+='<button class="btn-primary btn-danger" onclick="clearData()">Clear data</button>';
+      // Header
+      out+='<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:20px">';
+      out+='<div>';
+      out+='<div style="font-size:18px;font-weight:700;margin-bottom:2px">Finance Report — Cash Basis</div>';
+      out+='<div style="font-size:13px;color:'+MUT+'">'+h(pl.period||'')+'</div>';
       out+='</div>';
       out+='</div>';
 
-      // Import log
-      out+='<div class="card" style="overflow:hidden">';
-      out+='<div style="padding:16px 24px;border-bottom:1px solid '+BRD+';display:flex;justify-content:space-between;align-items:center">';
-      out+='<div><div style="font-size:14px;font-weight:700">Import log</div><div style="font-size:12px;color:'+MUT+';margin-top:3px">Last 20 imports · '+(db?Object.keys(db).length:0)+' total records</div></div>';
-      out+='<div style="font-size:12px;color:'+MUT+';display:inline-flex;align-items:center;gap:5px">'+IC.info+' Total pipeline replaces · Update pipeline merges</div></div>';
-      if(!S.log.length){
-        out+='<div style="padding:40px;text-align:center;color:'+MUT+';font-size:13px">No imports yet.</div>';
-      } else {
+      // Prior period labels
+      var p1l=pl.au_mo.p1?pl.au_mo.p1.label:'Prior year 1';
+      var p2l=pl.au_mo.p2?pl.au_mo.p2.label:'Prior year 2';
+
+      // KPI Cards
+      out+='<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:28px">';
+      var kpis=[
+        {label:'Total revenue',value:moRev,prior:moRevPrior,priorLabel:p1l,ytd:ytdRev,acc:TEL},
+        {label:'Gross profit',value:moGP,prior:moGPPrior,priorLabel:p1l,ytd:ytdGP,acc:moGP>=0?GRN:RED},
+        {label:'Operating profit',value:moNet,prior:moNetPrior,priorLabel:p1l,ytd:ytdNet,acc:moNet>=0?GRN:RED,invert:false},
+        {label:'Cash position',value:cash,prior:cashPrior,priorLabel:'Prior month',ytd:null,acc:TEL}
+      ];
+      kpis.forEach(function(c){
+        out+='<div class="card" style="border-left:3px solid '+c.acc+';padding:18px 20px">';
+        out+='<div style="font-size:11px;color:'+MUT+';text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">'+c.label+'</div>';
+        out+='<div style="font-size:24px;font-weight:700;margin-bottom:6px;color:'+(c.value<0?RED:TXT)+'">'+fUSD(c.value)+'</div>';
+        out+='<div style="display:flex;justify-content:space-between;align-items:center">';
+        out+='<div style="font-size:12px;color:'+SUB+'">'+c.priorLabel+': '+fUSD(c.prior,true)+'</div>';
+        out+=chgArrow(c.value,c.prior,c.invert);
+        out+='</div>';
+        if(c.ytd!==null){
+          out+='<div style="margin-top:8px;padding-top:8px;border-top:1px solid '+BRD+';font-size:12px;color:'+SUB+'">';
+          out+='YTD: <span style="font-weight:600;color:'+(c.ytd<0?RED:TXT)+'">'+fUSD(c.ytd)+'</span>';
+          out+='</div>';
+        }
+        out+='</div>';
+      });
+      out+='</div>';
+
+      // Cash Forecast Chart
+      var cashData=[];
+      var fc=SEED_FCST;
+      if(fc){
+        fc.months.forEach(function(m,i){
+          cashData.push({m:m,forecast:fc.closing_forecast[i],potential:fc.closing_potential[i]});
+        });
+      }
+      if(cashData&&cashData.length>1){
+        out+='<div class="card" style="padding:24px;margin-bottom:24px">';
+        out+='<div style="font-size:14px;font-weight:700;margin-bottom:4px">Cash forecast</div>';
+        out+='<div style="font-size:12px;color:'+MUT+';margin-bottom:16px">9-month forward view. Forecast includes contracted and certain revenue only; potential includes uncertain pipeline.</div>';
+        out+=svgCashChart(cashData);
+        out+='</div>';
+      }
+
+      // ── P&L helper ──
+      function plRow(label,auVal,euVal,opts){
+        opts=opts||{};
+        var combined=auVal+euVal;
+        var fw=opts.bold?'font-weight:700;':'';
+        var fs=opts.sub?'font-size:12px;color:'+MUT+';':'';
+        var bt=opts.topBorder?'border-top:2px solid '+BRD+';':'';
+        var pad=opts.indent?'padding-left:'+(14+opts.indent*16)+'px;':'';
+        function vc(v){return v<0?RED:TXT;}
+        var o='<tr>';
+        o+='<td style="'+fw+fs+pad+bt+'">'+label+'</td>';
+        o+='<td class="r mono" style="'+fw+fs+bt+'color:'+vc(auVal)+'">'+fUSD(auVal)+'</td>';
+        o+='<td class="r mono" style="'+fw+fs+bt+'color:'+vc(euVal)+'">'+fUSD(euVal)+'</td>';
+        o+='<td class="r mono" style="'+fw+bt+'color:'+vc(combined)+'">'+fUSD(combined)+'</td>';
+        if(opts.p1!==undefined){
+          o+='<td class="r mono" style="font-size:12px;color:'+MUT+';'+bt+'">'+fUSD(opts.p1)+'</td>';
+        } else if(opts.showPrior){o+='<td style="'+bt+'"></td>';}
+        if(opts.p2!==undefined){
+          o+='<td class="r mono" style="font-size:12px;color:'+MUT+';'+bt+'">'+fUSD(opts.p2)+'</td>';
+        } else if(opts.showPrior){o+='<td style="'+bt+'"></td>';}
+        o+='</tr>';
+        return o;
+      }
+
+      // ── P&L — Month ──
+      out+='<div class="card" style="padding:24px;margin-bottom:24px">';
+      out+='<div style="font-size:14px;font-weight:700;margin-bottom:16px">Profit and loss — month</div>';
+      out+='<table class="tbl"><thead><tr>';
+      out+='<th></th><th class="r">AU</th><th class="r">EU</th><th class="r">Combined</th>';
+      out+='<th class="r" style="color:'+MUT+'">'+p1l+'</th>';
+      out+='<th class="r" style="color:'+MUT+'">'+p2l+'</th>';
+      out+='</tr></thead><tbody>';
+      var a=pl.au_mo,e=pl.eu_mo;
+      var ap1=a.p1||{},ap2=a.p2||{},ep1=e.p1||{},ep2=e.p2||{};
+      out+=plRow('Trading income',a.revenue,e.revenue,{bold:true,p1:(ap1.revenue||0)+(ep1.revenue||0),p2:(ap2.revenue||0)+(ep2.revenue||0)});
+      if(a.intl_sales!==undefined){
+        out+=plRow('International sales',a.intl_sales||0,e.intl_sales||0,{indent:1,sub:true,showPrior:true});
+        out+=plRow('Reimbursements',a.reimb||0,e.reimb||0,{indent:1,sub:true,showPrior:true});
+      }
+      out+=plRow('Cost of sales',a.cos,e.cos,{bold:true,p1:(ap1.cos||0)+(ep1.cos||0),p2:(ap2.cos||0)+(ep2.cos||0)});
+      if(a.ie_fees!==undefined){
+        out+=plRow('IE fees',a.ie_fees||0,e.ie_fees||0,{indent:1,sub:true,showPrior:true});
+        out+=plRow('Referral fees',a.ref_fees||0,e.ref_fees||0,{indent:1,sub:true,showPrior:true});
+        out+=plRow('Client expenses',a.client_exp||0,e.client_exp||0,{indent:1,sub:true,showPrior:true});
+      }
+      out+=plRow('Gross profit',a.gp,e.gp,{bold:true,topBorder:true,p1:(ap1.gp||0)+(ep1.gp||0),p2:(ap2.gp||0)+(ep2.gp||0)});
+      out+='<tr><td colspan="6" style="padding:4px 0"></td></tr>';
+      out+=plRow('Operating expenses',a.opex,e.opex,{bold:true,p1:(ap1.opex||0)+(ep1.opex||0),p2:(ap2.opex||0)+(ep2.opex||0)});
+      out+=plRow('Net profit',a.net,e.net,{bold:true,topBorder:true,p1:(ap1.net||0)+(ep1.net||0),p2:(ap2.net||0)+(ep2.net||0)});
+      out+='</tbody></table></div>';
+
+      // ── P&L — Year to Date ──
+      var yp1l=pl.au_ytd.p1?pl.au_ytd.p1.label:'Prior year 1';
+      var yp2l=pl.au_ytd.p2?pl.au_ytd.p2.label:'Prior year 2';
+      out+='<div class="card" style="padding:24px;margin-bottom:24px">';
+      out+='<div style="font-size:14px;font-weight:700;margin-bottom:16px">Profit and loss — year to date</div>';
+      out+='<table class="tbl"><thead><tr>';
+      out+='<th></th><th class="r">AU</th><th class="r">EU</th><th class="r">Combined</th>';
+      out+='<th class="r" style="color:'+MUT+'">'+yp1l+'</th>';
+      out+='<th class="r" style="color:'+MUT+'">'+yp2l+'</th>';
+      out+='</tr></thead><tbody>';
+      var ya=pl.au_ytd,ye=pl.eu_ytd;
+      var yap1=ya.p1||{},yap2=ya.p2||{},yep1=ye.p1||{},yep2=ye.p2||{};
+      out+=plRow('Trading income',ya.revenue,ye.revenue,{bold:true,p1:(yap1.revenue||0)+(yep1.revenue||0),p2:(yap2.revenue||0)+(yep2.revenue||0)});
+      out+=plRow('Cost of sales',ya.cos,ye.cos,{bold:true,p1:(yap1.cos||0)+(yep1.cos||0),p2:(yap2.cos||0)+(yep2.cos||0)});
+      out+=plRow('Gross profit',ya.gp,ye.gp,{bold:true,topBorder:true,p1:(yap1.gp||0)+(yep1.gp||0),p2:(yap2.gp||0)+(yep2.gp||0)});
+      out+='<tr><td colspan="6" style="padding:4px 0"></td></tr>';
+      out+=plRow('Operating expenses',ya.opex,ye.opex,{bold:true,p1:(yap1.opex||0)+(yep1.opex||0),p2:(yap2.opex||0)+(yep2.opex||0)});
+      out+=plRow('Net profit',ya.net,ye.net,{bold:true,topBorder:true,p1:(yap1.net||0)+(yep1.net||0),p2:(yap2.net||0)+(yep2.net||0)});
+      out+='</tbody></table></div>';
+
+      // ── Balance Sheet ──
+      if(bs){
+        var euAud=bs.eu.bank*(bs.fx_eur||1);
+        var usAud=(bs.us?bs.us.bank:0)*(bs.fx_usd||1);
+
+        function bsRow(label,auVal,euVal,usVal,opts){
+          opts=opts||{};
+          var fw=opts.bold?'font-weight:700;':'';
+          var fs=opts.sub?'font-size:12px;color:'+MUT+';':'';
+          var bt=opts.topBorder?'border-top:2px solid '+BRD+';':'';
+          var pad=opts.indent?'padding-left:'+(14+opts.indent*16)+'px;':'';
+          function vc(v){return v<0?RED:TXT;}
+          var o='<tr>';
+          o+='<td style="'+fw+fs+pad+bt+'">'+label+'</td>';
+          o+='<td class="r mono" style="'+fw+fs+bt+'color:'+vc(auVal)+'">'+fUSD(auVal)+'</td>';
+          o+='<td class="r mono" style="'+fw+fs+bt+'color:'+vc(euVal)+'">'+(opts.euCur?'\u20ac'+fNum(euVal):fUSD(euVal))+'</td>';
+          o+='<td class="r mono" style="'+fw+fs+bt+'color:'+vc(usVal)+'">'+(opts.usCur?'US$'+fNum(usVal):fUSD(usVal))+'</td>';
+          o+='</tr>';
+          return o;
+        }
+
+        var us=bs.us||{bank:0,current_assets:0,fixed_assets:0,assets:0,current_liabilities:0,liabilities:0,net_assets:0,retained_earnings:0,share_capital:0,current_year:0};
+
+        out+='<div class="card" style="padding:24px;margin-bottom:24px">';
+        out+='<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px">';
+        out+='<div style="font-size:14px;font-weight:700">Balance sheet</div>';
+        out+='<div style="font-size:12px;color:'+MUT+'">As at '+h(bs.period||'')+'</div>';
+        out+='</div>';
         out+='<table class="tbl"><thead><tr>';
-        [{l:'Date & time'},{l:'File'},{l:'Type'},{l:'Records',r:true},{l:'Updated',r:true},{l:'Flagged',r:true}].forEach(function(col){
-          out+='<th style="cursor:default'+(col.r?';text-align:right':'')+'">'+(col.l)+'</th>';
+        out+='<th></th><th class="r">AU (AUD)</th><th class="r">EU (EUR)</th><th class="r">US (USD)</th>';
+        out+='</tr></thead><tbody>';
+
+        // Assets
+        out+='<tr><td style="font-weight:700;padding-top:14px">Assets</td><td></td><td></td><td></td></tr>';
+        out+=bsRow('Bank',bs.au.bank,bs.eu.bank,us.bank,{indent:1,euCur:true,usCur:true});
+        if(bs.au.bank_detail){
+          bs.au.bank_detail.forEach(function(b){
+            if(b.val)out+=bsRow(b.name,b.val,0,0,{indent:2,sub:true});
+          });
+        }
+        out+=bsRow('Current assets',bs.au.current_assets||0,bs.eu.current_assets||0,us.current_assets||0,{indent:1});
+        if(bs.au.fixed_assets||us.fixed_assets)out+=bsRow('Fixed assets',bs.au.fixed_assets||0,0,us.fixed_assets||0,{indent:1});
+        if(bs.eu.non_current_assets)out+=bsRow('Non-current assets',0,bs.eu.non_current_assets,0,{indent:1,euCur:true});
+        out+=bsRow('Total assets',bs.au.assets,bs.eu.assets,us.assets,{bold:true,topBorder:true,euCur:true,usCur:true});
+
+        out+='<tr><td colspan="4" style="padding:6px 0"></td></tr>';
+
+        // Liabilities
+        out+='<tr><td style="font-weight:700;padding-top:14px">Liabilities</td><td></td><td></td><td></td></tr>';
+        out+=bsRow('Current liabilities',bs.au.current_liabilities||0,bs.eu.current_liabilities||0,us.current_liabilities||0,{indent:1,euCur:true,usCur:true});
+        if(bs.au.unearned_income)out+=bsRow('Unearned income (within above)',bs.au.unearned_income,0,0,{indent:2,sub:true});
+        out+=bsRow('Total liabilities',bs.au.liabilities,bs.eu.liabilities,us.liabilities,{bold:true,topBorder:true,euCur:true,usCur:true});
+
+        out+='<tr><td colspan="4" style="padding:6px 0"></td></tr>';
+
+        // Net Assets
+        out+=bsRow('Net assets',bs.au.net_assets,bs.eu.net_assets,us.net_assets,{bold:true,topBorder:true,euCur:true,usCur:true});
+
+        out+='<tr><td colspan="4" style="padding:6px 0"></td></tr>';
+
+        // Equity
+        out+='<tr><td style="font-weight:700;padding-top:14px">Equity</td><td></td><td></td><td></td></tr>';
+        out+=bsRow('Retained earnings',bs.au.retained_earnings||0,bs.eu.retained_earnings||0,us.retained_earnings||0,{indent:1,euCur:true,usCur:true});
+        out+=bsRow('Share capital',bs.au.share_capital||0,bs.eu.share_capital||0,us.share_capital||0,{indent:1,euCur:true,usCur:true});
+        out+=bsRow('Current year earnings',bs.au.current_year||0,bs.eu.current_year||0,us.current_year||0,{indent:1,euCur:true,usCur:true});
+
+        out+='</tbody></table></div>';
+
+        // ── Cash Position ──
+        out+='<div class="card" style="padding:24px;margin-bottom:24px">';
+        out+='<div style="font-size:14px;font-weight:700;margin-bottom:16px">Cash position</div>';
+        out+='<table class="tbl">';
+        out+='<thead><tr><th>Account</th><th class="r">Balance</th><th class="r">AUD equivalent</th></tr></thead>';
+        out+='<tbody>';
+        out+='<tr><td>WhitewaterTX Pty Ltd (AU banks)</td><td class="r mono">'+fUSD(bs.au.bank)+'</td><td class="r mono">'+fUSD(bs.au.bank)+'</td></tr>';
+        out+='<tr><td>Whitewater Europe BV (EU bank)</td><td class="r mono" style="color:'+SUB+'">\u20ac'+fNum(bs.eu.bank)+'</td><td class="r mono">'+fUSD(euAud)+'</td></tr>';
+        out+='<tr><td>Whitewater Reinventions US, Inc.</td><td class="r mono" style="color:'+SUB+'">US$'+fNum(us.bank)+'</td><td class="r mono">'+fUSD(usAud)+'</td></tr>';
+        out+='</tbody><tfoot>';
+        out+='<tr><td>Total cash (AUD)</td><td></td><td class="r mono" style="font-size:15px">'+fUSD(cash)+'</td></tr>';
+        out+='</tfoot></table>';
+        out+='<div style="font-size:11px;color:'+MUT+';margin-top:10px">EUR/AUD: '+bs.fx_eur+' · USD/AUD: '+(bs.fx_usd||1.50)+'</div>';
+        out+='</div>';
+      }
+    }
+  }
+
+  // ── Cash Forecast ──────────────────────────────────────────────────────
+  if(fTab==='forecast'){
+    var fc=SEED_FCST;
+    var nm=fc.months.length;
+
+    out+='<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:20px">';
+    out+='<div>';
+    out+='<div style="font-size:18px;font-weight:700;margin-bottom:2px">Cash Forecast</div>';
+    out+='<div style="font-size:13px;color:'+MUT+'">9-month rolling forecast, cash basis. Actuals in first column, forecast in columns 1–8.</div>';
+    out+='</div></div>';
+
+    // Helper: render a numeric row
+    function fcRow(label,vals,opts){
+      opts=opts||{};
+      var isSub=opts.sub, isBold=opts.bold, clr=opts.clr||TXT, indent=opts.indent||0, isTotal=opts.total;
+      var tag=isTotal?'tfoot':'tbody';
+      var bg=isTotal?'background:'+BG+';border-top:2px solid '+BRD+';':'';
+      var fw=(isBold||isTotal)?'font-weight:700;':'';
+      var fs=isSub?'font-size:12px;color:'+MUT+';':'';
+      var pad=indent?'padding-left:'+(14+indent*16)+'px;':'';
+      var o='<tr>';
+      o+='<td style="'+fw+fs+pad+bg+'white-space:nowrap;position:sticky;left:0;z-index:1;background:'+(bg?BG:SUR)+'">'+label+'</td>';
+      for(var i=0;i<nm;i++){
+        var v=vals[i]||0;
+        var vc=v<0?RED:clr;
+        o+='<td class="r mono" style="'+fw+bg+'color:'+vc+'">'+fUSD(v)+'</td>';
+      }
+      o+='</tr>';
+      return o;
+    }
+
+    // Section header row (expandable)
+    function fcSection(label,key,vals){
+      var exp=S.fcstExp[key];
+      var arrow=exp?IC.dn:IC.up; // dn when expanded (content visible below)
+      // Actually: use a simple toggle approach
+      var chevron=exp?'&#9660;':'&#9654;';
+      var o='<tr style="cursor:pointer" onclick="toggleFcst(\''+key+'\')">';
+      o+='<td style="font-weight:700;padding-top:14px;padding-bottom:4px;color:'+TXT+';position:sticky;left:0;z-index:1;background:'+SUR+'"><span style="font-size:10px;color:'+MUT+';margin-right:6px">'+chevron+'</span>'+label+'</td>';
+      for(var i=0;i<nm;i++){
+        var v=vals?vals[i]:null;
+        if(v!==null&&v!==undefined){
+          o+='<td class="r mono" style="font-weight:700;padding-top:14px;padding-bottom:4px;color:'+(v<0?RED:TXT)+'">'+fUSD(v)+'</td>';
+        } else {
+          o+='<td style="padding-top:14px"></td>';
+        }
+      }
+      o+='</tr>';
+      return o;
+    }
+
+    // Divider row
+    function fcDiv(){return'<tr><td colspan="'+(nm+1)+'" style="padding:0;height:1px;background:'+BRD+'"></td></tr>';}
+    // Spacer
+    function fcSpace(){return'<tr><td colspan="'+(nm+1)+'" style="padding:6px 0"></td></tr>';}
+
+    // Editable expense row
+    function fcRowEdit(label,key,vals){
+      var o='<tr>';
+      o+='<td style="font-size:12px;color:'+MUT+';padding-left:'+(14+16)+'px;white-space:nowrap;position:sticky;left:0;z-index:1;background:'+SUR+'">'+label+'</td>';
+      for(var i=0;i<nm;i++){
+        var v=vals[i]||0;
+        if(i===0){
+          // Actuals column — read-only
+          var vc=v<0?RED:MUT;
+          o+='<td class="r mono" style="font-size:12px;color:'+vc+'">'+fUSD(v)+'</td>';
+        } else {
+          // Forecast columns — editable
+          var vc=v<0?RED:TXT;
+          o+='<td class="r" style="padding:4px 6px">';
+          o+='<input type="text" value="'+v+'" ';
+          o+='onchange="onExpChange(\''+key+'\','+i+',this.value)" ';
+          o+='onfocus="this.select()" ';
+          o+='style="width:80px;text-align:right;font-family:\'Cascadia Code\',Consolas,monospace;font-size:12px;';
+          o+='padding:4px 6px;border:1px solid '+BRD+';border-radius:3px;outline:none;color:'+vc+';background:'+SUR+'" ';
+          o+='onfocusin="this.style.borderColor=\''+TEL+'\'" onfocusout="this.style.borderColor=\''+BRD+'\'"';
+          o+='/></td>';
+        }
+      }
+      o+='</tr>';
+      return o;
+    }
+
+    // Table
+    out+='<div class="card" style="padding:0;overflow-x:auto;margin-bottom:24px">';
+    out+='<table class="tbl" style="min-width:900px">';
+
+    // Header
+    out+='<thead><tr><th style="position:sticky;left:0;z-index:2;background:'+BG+'">Account</th>';
+    fc.months.forEach(function(m,i){
+      var isActual=i===0;
+      out+='<th class="r" style="'+(isActual?'background:rgba(0,152,152,.08);color:'+TEL+';':'')+'">'+m+(isActual?' (actual)':'')+'</th>';
+    });
+    out+='</tr></thead><tbody>';
+
+    // ── Trading Income AU ──
+    out+=fcSection('Trading income — AU','rev_au',fc.rev_au.total);
+    if(S.fcstExp.rev_au){
+      out+=fcRow('International sales',fc.rev_au.intl_sales,{indent:1,sub:true});
+      out+=fcRow('Reimbursement from clients',fc.rev_au.reimb,{indent:1,sub:true});
+      out+=fcRow('Domestic sales',fc.rev_au.domestic,{indent:1,sub:true});
+    }
+
+    // ── Cost of Sales AU ──
+    out+=fcSection('Cost of sales — AU','cos_au',fc.cos_au.total);
+    if(S.fcstExp.cos_au){
+      out+=fcRow('International experts',fc.cos_au.ie_fees,{indent:1,sub:true});
+      out+=fcRow('Referral fees',fc.cos_au.ref_fees,{indent:1,sub:true});
+      out+=fcRow('Client reimbursements',fc.cos_au.reimb,{indent:1,sub:true});
+    }
+
+    // Gross Profit AU
+    out+=fcRow('Gross profit — AU',fc.gp_au,{bold:true,clr:TEL});
+    out+=fcSpace();
+
+    // ── Trading Income EU ──
+    out+=fcSection('Trading income — EU','rev_eu',fc.rev_eu.total);
+    if(S.fcstExp.rev_eu){
+      out+=fcRow('International sales',fc.rev_eu.intl_sales,{indent:1,sub:true});
+      out+=fcRow('Reimbursement from clients',fc.rev_eu.reimb,{indent:1,sub:true});
+    }
+
+    // ── Cost of Sales EU ──
+    out+=fcSection('Cost of sales — EU','cos_eu',fc.cos_eu.total);
+    if(S.fcstExp.cos_eu){
+      out+=fcRow('International experts',fc.cos_eu.ie_fees,{indent:1,sub:true});
+      out+=fcRow('Referral fees',fc.cos_eu.ref_fees,{indent:1,sub:true});
+      out+=fcRow('Client reimbursements',fc.cos_eu.reimb,{indent:1,sub:true});
+    }
+    out+=fcRow('Gross profit — EU',fc.gp_eu,{bold:true,clr:TEL});
+    out+=fcSpace();
+
+    // ── Trading Income US ──
+    out+=fcSection('Trading income — US','rev_us',fc.rev_us.total);
+    if(S.fcstExp.rev_us){
+      out+=fcRow('International sales',fc.rev_us.intl_sales,{indent:1,sub:true});
+      out+=fcRow('Reimbursement from clients',fc.rev_us.reimb,{indent:1,sub:true});
+    }
+
+    // ── Cost of Sales US ──
+    out+=fcSection('Cost of sales — US','cos_us',fc.cos_us.total);
+    if(S.fcstExp.cos_us){
+      out+=fcRow('International experts',fc.cos_us.ie_fees,{indent:1,sub:true});
+      out+=fcRow('Referral fees',fc.cos_us.ref_fees,{indent:1,sub:true});
+      out+=fcRow('Client reimbursements',fc.cos_us.reimb,{indent:1,sub:true});
+    }
+    out+=fcRow('Gross profit — US',fc.gp_us,{bold:true,clr:TEL});
+    out+=fcDiv();
+
+    // TOTAL GROSS PROFIT
+    out+=fcRow('TOTAL GROSS PROFIT',fc.gp_total,{bold:true,clr:TEL});
+    out+=fcSpace();
+
+    // ── Operating Expenses ──
+    out+=fcSection('Operating expenses — overhead','opex',fc.opex.total_overhead);
+    if(S.fcstExp.opex){
+      EXP_LINES.forEach(function(l){
+        if(l.cat!=='overhead')return;
+        var vals=S.exp[l.key]||[];
+        if(!S.fcstExp.showAll&&!vals.some(function(v){return v!==0}))return;
+        out+=fcRowEdit(l.label,l.key,vals);
+      });
+      out+='<tr><td colspan="'+(nm+1)+'" style="padding:6px 14px">';
+      out+='<button class="btn-ghost btn-sm" onclick="addExpLine(\'overhead\')" style="font-size:11px">+ Add line</button> ';
+      out+='<button class="btn-ghost btn-sm" onclick="showAllExpLines()" style="font-size:11px">'+(S.fcstExp.showAll?'Hide zero lines':'Show all lines')+'</button>';
+      out+='</td></tr>';
+    }
+
+    out+=fcSection('Discretionary expenditure','disc',fc.discretionary.total);
+    if(S.fcstExp.disc){
+      EXP_LINES.forEach(function(l){
+        if(l.cat!=='discretionary')return;
+        var vals=S.exp[l.key]||[];
+        out+=fcRowEdit(l.label,l.key,vals);
+      });
+    }
+
+    // Tax (always visible, editable)
+    out+=fcRowEdit('Income tax expense','tax',S.exp.tax||[0,0,0,0,0,0,0,0,0]);
+    out+=fcDiv();
+
+    // TOTAL OPEX
+    out+=fcRow('TOTAL OPERATING EXPENSES',fc.opex_total,{bold:true});
+    out+=fcDiv();
+
+    // NET CASH MOVEMENT
+    out+=fcRow('Forecast net cash movement',fc.net_cash,{bold:true,clr:TEL});
+    out+=fcSpace();
+
+    // ── Potential Revenue ──
+    out+=fcSection('Potential pipeline (uncertain)','pot');
+    if(S.fcstExp.pot){
+      out+=fcRow('Potential AU revenue',fc.potential.au_rev,{indent:1,sub:true});
+      out+=fcRow('Potential AU gross profit',fc.potential.au_gp,{indent:1,sub:false,clr:GRN});
+      out+=fcRow('Potential EU revenue',fc.potential.eu_rev,{indent:1,sub:true});
+      out+=fcRow('Potential EU gross profit',fc.potential.eu_gp,{indent:1,sub:false,clr:GRN});
+      out+=fcRow('Potential US revenue',fc.potential.us_rev,{indent:1,sub:true});
+      out+=fcRow('Potential US gross profit',fc.potential.us_gp,{indent:1,sub:false,clr:GRN});
+    }
+    out+=fcRow('Potential net cash movement',fc.potential_net,{bold:true,clr:GRN});
+    out+=fcDiv();
+
+    // CASH POSITION
+    out+=fcSpace();
+    out+=fcRow('Opening forecast cash',fc.opening_forecast,{});
+    out+=fcRow('Closing forecast cash',fc.closing_forecast,{bold:true,clr:TEL});
+    out+=fcSpace();
+    out+=fcRow('Opening potential cash',fc.opening_potential,{});
+    out+=fcRow('Closing potential cash',fc.closing_potential,{bold:true,clr:GRN});
+
+    out+='</tbody></table></div>';
+
+    // Chart below table
+    var cashData=[];
+    fc.months.forEach(function(m,i){
+      cashData.push({m:m,forecast:fc.closing_forecast[i],potential:fc.closing_potential[i]});
+    });
+    if(cashData.length>1){
+      out+='<div class="card" style="padding:24px">';
+      out+='<div style="font-size:14px;font-weight:700;margin-bottom:4px">Cash forecast chart</div>';
+      out+='<div style="font-size:12px;color:'+MUT+';margin-bottom:16px">Closing cash position by month. Solid line: contracted and certain only. Dashed line: includes uncertain pipeline.</div>';
+      out+=svgCashChart(cashData);
+      out+='</div>';
+    }
+
+    // Reset button
+    out+='<div style="margin-top:20px;display:flex;gap:10px">';
+    out+='<button class="btn-ghost" onclick="resetExpenses()">Reset expenses to defaults</button>';
+    out+='</div>';
+  }
+
+  // ── Revenue Pipeline ───────────────────────────────────────────────────
+  if(fTab==='revenue'){
+    var rev=S.rev||[];
+    var fx=S.fx||SEED_FX;
+
+    // Compute derived fields for each row
+    function revCalc(r){
+      var fxr=fx[r.cur]||1;
+      var revAud=r.rev*fxr;
+      var refFee=revAud*(r.refPct||0);
+      var projTotal=revAud-refFee;
+      var ieFees=projTotal*(r.iePct||0);
+      var gp=projTotal-ieFees;
+      return{revAud:revAud,refFee:refFee,projTotal:projTotal,ieFees:ieFees,gp:gp};
+    }
+
+    out+='<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:20px">';
+    out+='<div>';
+    out+='<div style="font-size:18px;font-weight:700;margin-bottom:2px">Revenue Pipeline</div>';
+    out+='<div style="font-size:13px;color:'+MUT+'">Projected revenue by entity and status. Revenue converted to AUD at current FX rates.</div>';
+    out+='</div>';
+    out+='<div style="display:flex;gap:8px;align-items:center">';
+    out+='<span class="badge" style="background:rgba(0,152,152,.12);color:'+TEL+'">Contracted</span>';
+    out+='<span class="badge" style="background:rgba(30,140,74,.12);color:'+GRN+'">Certain</span>';
+    out+='<span class="badge" style="background:rgba(192,122,0,.12);color:'+AMB+'">Uncertain</span>';
+    out+='<span style="width:1px;height:18px;background:'+BRD+';margin:0 4px"></span>';
+    out+='<button class="btn-ghost btn-sm" onclick="sortRevPipeline()">Sort pipeline</button>';
+    out+='</div></div>';
+
+    // FX rates bar
+    out+='<div style="display:flex;gap:20px;margin-bottom:20px;font-size:12px;color:'+SUB+';align-items:center">';
+    out+='<span style="font-weight:600">FX rates:</span>';
+    ['EUR','USD','GBP'].forEach(function(c){
+      out+='<span>'+c+'/AUD: <span class="mono" style="font-weight:600">'+fx[c]+'</span></span>';
+    });
+    out+='<button class="btn-ghost btn-sm" onclick="fetchFX()" style="font-size:11px;margin-left:auto">Refresh rates</button>';
+    out+='</div>';
+
+    // Render entity tables
+    var entities=[{key:'AU',label:'AU — WhitewaterTX Pty Ltd'},{key:'EU',label:'EU — Whitewater Europe BV'},{key:'US',label:'US — Whitewater Reinventions US, Inc.'}];
+
+    entities.forEach(function(ent){
+      var rows=rev.filter(function(r){return r.entity===ent.key});
+
+      out+='<div class="card" style="padding:0;overflow-x:auto;margin-bottom:24px">';
+      out+='<div style="padding:16px 24px 8px;font-size:14px;font-weight:700;border-bottom:1px solid '+BRD+'">'+ent.label+'</div>';
+
+      if(rows.length===0){
+        out+='<div style="padding:24px;font-size:13px;color:'+MUT+'">No revenue lines for this entity.</div>';
+      } else {
+        out+='<table class="tbl">';
+        out+='<thead><tr>';
+        ['Status','Client','Project','Phase','Due','AUD Revenue','Fees','Gross Profit',''].forEach(function(hd,i){
+          var cls=i>=5&&i<8?'r':'';
+          out+='<th class="'+cls+'" style="'+(i===8?'width:32px':'')+'">'+hd+'</th>';
         });
         out+='</tr></thead><tbody>';
-        S.log.forEach(function(e){
-          var dt=new Date(e.date);
-          var ds=dt.toLocaleDateString('en-AU',{day:'2-digit',month:'2-digit',year:'numeric'})+' '+dt.toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit'});
-          var bdg=e.type==='seed'
-            ?'<span class="badge" style="background:rgba(192,57,43,.10);color:'+RED+'">Total pipeline</span>'
-            :e.type==='xero'
-            ?'<span class="badge" style="background:rgba(0,152,152,.10);color:'+TEL+'">Xero</span>'
-            :e.type==='rolling'
-            ?'<span class="badge" style="background:rgba(96,68,180,.10);color:#6044B4">Rolling</span>'
-            :'<span class="badge" style="background:rgba(30,140,74,.10);color:'+GRN+'">Update</span>';
-          out+='<tr><td style="color:'+SUB+';white-space:nowrap;font-size:12px">'+ds+'</td><td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:'+SUB+';font-size:12px">'+h(e.name)+'</td><td>'+bdg+'</td><td class="r" style="color:'+SUB+'">'+(e.type==='seed'?e.count:e.type==='xero'?e.count:(e.added||'–'))+'</td><td class="r" style="color:'+SUB+'">'+(e.updated||'–')+'</td><td class="r" style="color:'+(e.stale>0?AMB:MUT)+'">'+(e.stale||'–')+'</td></tr>';
+
+        var sorted=rows;
+
+        var totals={revAud:0,fees:0,gp:0};
+        var statusTotals={};
+
+        sorted.forEach(function(r){
+          var c=revCalc(r);
+          var sClr=STATUS_COLORS[r.status]||MUT;
+          var sLbl=STATUS_LABELS[r.status]||'';
+          var ri=S.rev.indexOf(r);
+          var fees=c.refFee+c.ieFees;
+          var gpPct=c.revAud?((c.gp/c.revAud)*100).toFixed(0)+'%':'';
+
+          totals.revAud+=c.revAud;
+          totals.fees+=fees;
+          totals.gp+=c.gp;
+
+          if(!statusTotals[r.status])statusTotals[r.status]={revAud:0,gp:0};
+          statusTotals[r.status].revAud+=c.revAud;
+          statusTotals[r.status].gp+=c.gp;
+
+          out+='<tr>';
+          out+='<td><span class="badge" style="background:'+sClr+'18;color:'+sClr+';cursor:pointer" onclick="cycleRevStatus('+ri+')" title="Click to change status">'+sLbl+'</span></td>';
+          out+='<td style="font-weight:600">'+h(r.client)+'</td>';
+          out+='<td style="font-size:12px;color:'+SUB+'">'+h(r.project||'')+'</td>';
+          out+='<td style="font-size:12px;color:'+SUB+'">'+h(r.phase||'')+'</td>';
+          out+='<td style="font-size:12px;white-space:nowrap">'+h(r.dueMo||'')+'</td>';
+          out+='<td class="r" style="padding:4px 6px">';
+          out+='<input type="text" value="'+r.rev+'" ';
+          out+='onchange="editRevField('+ri+',\'rev\',this.value)" ';
+          out+='onfocus="this.select()" ';
+          out+='style="width:80px;text-align:right;font-family:\'Cascadia Code\',Consolas,monospace;font-size:12px;';
+          out+='padding:4px 6px;border:1px solid '+BRD+';border-radius:3px;outline:none;color:'+TXT+';background:'+SUR+'" ';
+          out+='onfocusin="this.style.borderColor=\''+TEL+'\'" onfocusout="this.style.borderColor=\''+BRD+'\'"';
+          out+='/>';
+          out+='<div style="font-size:10px;color:'+MUT+';margin-top:1px">'+r.cur+' \u2192 '+fUSD(c.revAud)+'</div>';
+          out+='</td>';
+          out+='<td class="r mono" style="font-size:12px;color:'+SUB+'">'+fUSD(fees)+'</td>';
+          out+='<td class="r mono" style="font-weight:600;color:'+(c.gp<0?RED:TXT)+'">'+fUSD(c.gp)+' <span style="font-weight:400;font-size:11px;color:'+MUT+'">'+gpPct+'</span></td>';
+          out+='<td style="text-align:center"><button onclick="removeRevLine('+ri+')" style="background:none;border:none;cursor:pointer;padding:3px;display:flex;color:'+MUT+'" title="Remove line">'+IC.x+'</button></td>';
+          out+='</tr>';
+        });
+
+        // Status subtotals
+        out+='</tbody><tfoot>';
+        [1,2,3].forEach(function(s){
+          var st=statusTotals[s];
+          if(!st)return;
+          var sClr=STATUS_COLORS[s]||MUT;
+          var stPct=st.revAud?((st.gp/st.revAud)*100).toFixed(0)+'%':'';
+          out+='<tr>';
+          out+='<td colspan="5" style="text-align:right;font-size:12px;color:'+sClr+';font-weight:600">'+STATUS_LABELS[s]+' subtotal</td>';
+          out+='<td class="r mono" style="color:'+sClr+';font-weight:600">'+fUSD(st.revAud)+'</td>';
+          out+='<td></td>';
+          out+='<td class="r mono" style="color:'+sClr+';font-weight:600">'+fUSD(st.gp)+' <span style="font-weight:400;font-size:11px;color:'+MUT+'">'+stPct+'</span></td>';
+          out+='<td></td>';
+          out+='</tr>';
+        });
+        // Entity total
+        var totPct=totals.revAud?((totals.gp/totals.revAud)*100).toFixed(0)+'%':'';
+        out+='<tr style="border-top:2px solid '+BRD+'">';
+        out+='<td colspan="5" style="text-align:right;font-weight:700">Entity total</td>';
+        out+='<td class="r mono" style="font-weight:700">'+fUSD(totals.revAud)+'</td>';
+        out+='<td class="r mono" style="font-size:12px;color:'+SUB+'">'+fUSD(totals.fees)+'</td>';
+        out+='<td class="r mono" style="font-weight:700">'+fUSD(totals.gp)+' <span style="font-weight:400;font-size:11px;color:'+MUT+'">'+totPct+'</span></td>';
+        out+='<td></td>';
+        out+='</tr>';
+        out+='</tfoot></table>';
+      }
+      // Add line button
+      out+='<div style="padding:12px 24px;border-top:1px solid '+BRD+'">';
+      out+='<button class="btn-ghost btn-sm" onclick="addRevLine(\''+ent.key+'\')" style="font-size:11px">+ Add revenue line</button>';
+      out+='</div>';
+      out+='</div>';
+    });
+
+    // Monthly cash summary
+    out+='<div class="card" style="padding:24px">';
+    out+='<div style="font-size:14px;font-weight:700;margin-bottom:4px">Monthly revenue by due month — all entities combined (AUD)</div>';
+    out+='<div style="font-size:12px;color:'+MUT+';margin-bottom:16px">When cash is expected to arrive, based on due month. AU, EU, and US combined, grouped by status.</div>';
+
+    // Collect months
+    var moMap={};
+    rev.forEach(function(r){
+      var c=revCalc(r);
+      var mo=r.dueMo||'Unknown';
+      if(!moMap[mo])moMap[mo]={contracted:0,certain:0,uncertain:0,total:0,gp:0};
+      if(r.status===1)moMap[mo].contracted+=c.revAud;
+      else if(r.status===2)moMap[mo].certain+=c.revAud;
+      else moMap[mo].uncertain+=c.revAud;
+      moMap[mo].total+=c.revAud;
+      moMap[mo].gp+=c.gp;
+    });
+
+    var moKeys=Object.keys(moMap).sort();
+
+    out+='<table class="tbl">';
+    out+='<thead><tr>';
+    ['Month','Contracted','Certain','Uncertain','Total Revenue','Gross Profit'].forEach(function(hd,i){
+      out+='<th class="'+(i>0?'r':'')+'" style="'+(i===0?'':'')+'">'+hd+'</th>';
+    });
+    out+='</tr></thead><tbody>';
+
+    var grandTotal={contracted:0,certain:0,uncertain:0,total:0,gp:0};
+
+    moKeys.forEach(function(mo){
+      var d=moMap[mo];
+      grandTotal.contracted+=d.contracted;
+      grandTotal.certain+=d.certain;
+      grandTotal.uncertain+=d.uncertain;
+      grandTotal.total+=d.total;
+      grandTotal.gp+=d.gp;
+      out+='<tr>';
+      out+='<td style="font-weight:600;white-space:nowrap">'+mo+'</td>';
+      out+='<td class="r mono" style="color:'+TEL+'">'+(d.contracted?fUSD(d.contracted):'')+'</td>';
+      out+='<td class="r mono" style="color:'+GRN+'">'+(d.certain?fUSD(d.certain):'')+'</td>';
+      out+='<td class="r mono" style="color:'+AMB+'">'+(d.uncertain?fUSD(d.uncertain):'')+'</td>';
+      out+='<td class="r mono" style="font-weight:600">'+fUSD(d.total)+'</td>';
+      out+='<td class="r mono" style="font-weight:600;color:'+(d.gp<0?RED:TXT)+'">'+fUSD(d.gp)+'</td>';
+      out+='</tr>';
+    });
+
+    out+='</tbody><tfoot><tr>';
+    out+='<td style="font-weight:700">Total</td>';
+    out+='<td class="r mono" style="font-weight:700;color:'+TEL+'">'+fUSD(grandTotal.contracted)+'</td>';
+    out+='<td class="r mono" style="font-weight:700;color:'+GRN+'">'+fUSD(grandTotal.certain)+'</td>';
+    out+='<td class="r mono" style="font-weight:700;color:'+AMB+'">'+fUSD(grandTotal.uncertain)+'</td>';
+    out+='<td class="r mono" style="font-weight:700">'+fUSD(grandTotal.total)+'</td>';
+    out+='<td class="r mono" style="font-weight:700;color:'+(grandTotal.gp<0?RED:TXT)+'">'+fUSD(grandTotal.gp)+'</td>';
+    out+='</tr></tfoot>';
+    out+='</table></div>';
+  }
+
+  // ── Report ─────────────────────────────────────────────────────────────
+  if(fTab==='print'){
+    var pl=S.pl, bs=S.bs;
+    if(!pl){
+      out+='<div class="card" style="padding:40px;text-align:center">';
+      out+='<div style="font-size:15px;font-weight:600;margin-bottom:8px">No data to report</div>';
+      out+='<div style="font-size:13px;color:'+SUB+'">Import financial data first.</div>';
+      out+='</div>';
+    } else {
+      var moRev=pl.au_mo.revenue+pl.eu_mo.revenue;
+      var moGP=pl.au_mo.gp+pl.eu_mo.gp;
+      var moNet=pl.au_mo.net+pl.eu_mo.net;
+      var cash=bs?bs.au.bank+(bs.eu.bank*(bs.fx_eur||1))+((bs.us?bs.us.bank:0)*(bs.fx_usd||1)):0;
+      var ytdRev=pl.au_ytd.revenue+pl.eu_ytd.revenue;
+      var ytdGP=pl.au_ytd.gp+pl.eu_ytd.gp;
+      var ytdNet=pl.au_ytd.net+pl.eu_ytd.net;
+
+      out+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">';
+      out+='<div style="font-size:18px;font-weight:700">Print report</div>';
+      out+='<button class="btn-primary" onclick="window.print()">'+IC.save+' Print / Save PDF</button>';
+      out+='</div>';
+      out+='<div style="font-size:13px;color:'+MUT+';margin-bottom:24px">Preview below. Click Print to generate an A4 PDF via your browser print dialog.</div>';
+
+      // Preview card mirrors the print layout
+      out+='<div class="card" style="padding:32px;max-width:800px">';
+      out+='<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px">';
+      out+=WW;
+      out+='<div style="text-align:right">';
+      out+='<div style="font-size:17px;font-weight:700;letter-spacing:-0.02em">Finance Report</div>';
+      out+='<div style="font-size:12px;color:'+MUT+'">'+h(pl.period||'')+' — Cash basis</div>';
+      out+='</div></div>';
+
+      // KPI row
+      out+='<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px">';
+      [{l:'Total revenue',v:moRev,y:ytdRev},{l:'Gross profit',v:moGP,y:ytdGP},{l:'Operating profit',v:moNet,y:ytdNet},{l:'Cash position',v:cash,y:null}].forEach(function(k){
+        out+='<div style="padding:10px 12px;background:'+BG+';border-radius:6px">';
+        out+='<div style="font-size:9px;color:'+MUT+';text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">'+k.l+'</div>';
+        out+='<div style="font-size:16px;font-weight:700;color:'+(k.v<0?RED:TXT)+'">'+fUSD(k.v)+'</div>';
+        if(k.y!==null)out+='<div style="font-size:10px;color:'+SUB+';margin-top:2px">YTD: '+fUSD(k.y)+'</div>';
+        out+='</div>';
+      });
+      out+='</div>';
+
+      // P&L Month summary
+      out+='<div style="font-size:12px;font-weight:700;margin-bottom:8px">Profit and loss — month</div>';
+      out+='<table style="width:100%;border-collapse:collapse;font-size:11px;margin-bottom:16px">';
+      out+='<thead><tr style="border-bottom:1px solid '+BRD+'">';
+      ['','AU','EU','Combined'].forEach(function(h2,i){out+='<th style="padding:4px 8px;text-align:'+(i?'right':'left')+';font-size:9px;text-transform:uppercase;color:'+MUT+'">'+h2+'</th>'});
+      out+='</tr></thead><tbody>';
+      [[' Trading income',pl.au_mo.revenue,pl.eu_mo.revenue],[' Cost of sales',pl.au_mo.cos,pl.eu_mo.cos],[' Gross profit',pl.au_mo.gp,pl.eu_mo.gp],[' Operating expenses',pl.au_mo.opex,pl.eu_mo.opex],[' Net profit',pl.au_mo.net,pl.eu_mo.net]].forEach(function(r,i){
+        var bold=i===2||i===4;var bt=i===2||i===4?'border-top:1px solid '+BRD+';':'';
+        out+='<tr><td style="padding:3px 8px;'+(bold?'font-weight:700;':'')+bt+'">'+r[0]+'</td>';
+        out+='<td style="padding:3px 8px;text-align:right;font-family:monospace;'+(bold?'font-weight:700;':'')+bt+'color:'+(r[1]<0?RED:TXT)+'">'+fUSD(r[1])+'</td>';
+        out+='<td style="padding:3px 8px;text-align:right;font-family:monospace;'+bt+'color:'+(r[2]<0?RED:TXT)+'">'+fUSD(r[2])+'</td>';
+        out+='<td style="padding:3px 8px;text-align:right;font-family:monospace;'+(bold?'font-weight:700;':'')+bt+'color:'+((r[1]+r[2])<0?RED:TXT)+'">'+fUSD(r[1]+r[2])+'</td>';
+        out+='</tr>';
+      });
+      out+='</tbody></table>';
+
+      // P&L YTD summary
+      out+='<div style="font-size:12px;font-weight:700;margin-bottom:8px">Profit and loss — year to date</div>';
+      out+='<table style="width:100%;border-collapse:collapse;font-size:11px;margin-bottom:16px">';
+      out+='<thead><tr style="border-bottom:1px solid '+BRD+'">';
+      ['','AU','EU','Combined'].forEach(function(h2,i){out+='<th style="padding:4px 8px;text-align:'+(i?'right':'left')+';font-size:9px;text-transform:uppercase;color:'+MUT+'">'+h2+'</th>'});
+      out+='</tr></thead><tbody>';
+      [[' Trading income',pl.au_ytd.revenue,pl.eu_ytd.revenue],[' Cost of sales',pl.au_ytd.cos,pl.eu_ytd.cos],[' Gross profit',pl.au_ytd.gp,pl.eu_ytd.gp],[' Operating expenses',pl.au_ytd.opex,pl.eu_ytd.opex],[' Net profit',pl.au_ytd.net,pl.eu_ytd.net]].forEach(function(r,i){
+        var bold=i===2||i===4;var bt=i===2||i===4?'border-top:1px solid '+BRD+';':'';
+        out+='<tr><td style="padding:3px 8px;'+(bold?'font-weight:700;':'')+bt+'">'+r[0]+'</td>';
+        out+='<td style="padding:3px 8px;text-align:right;font-family:monospace;'+(bold?'font-weight:700;':'')+bt+'color:'+(r[1]<0?RED:TXT)+'">'+fUSD(r[1])+'</td>';
+        out+='<td style="padding:3px 8px;text-align:right;font-family:monospace;'+bt+'color:'+(r[2]<0?RED:TXT)+'">'+fUSD(r[2])+'</td>';
+        out+='<td style="padding:3px 8px;text-align:right;font-family:monospace;'+(bold?'font-weight:700;':'')+bt+'color:'+((r[1]+r[2])<0?RED:TXT)+'">'+fUSD(r[1]+r[2])+'</td>';
+        out+='</tr>';
+      });
+      out+='</tbody></table>';
+
+      // Balance Sheet summary
+      if(bs){
+        var us=bs.us||{bank:0,assets:0,liabilities:0,net_assets:0};
+        out+='<div style="font-size:12px;font-weight:700;margin-bottom:8px">Balance sheet summary — '+h(bs.period||'')+'</div>';
+        out+='<table style="width:100%;border-collapse:collapse;font-size:11px;margin-bottom:16px">';
+        out+='<thead><tr style="border-bottom:1px solid '+BRD+'">';
+        ['','AU','EU','US'].forEach(function(h2,i){out+='<th style="padding:4px 8px;text-align:'+(i?'right':'left')+';font-size:9px;text-transform:uppercase;color:'+MUT+'">'+h2+'</th>'});
+        out+='</tr></thead><tbody>';
+        [['Total assets',bs.au.assets,bs.eu.assets,us.assets],['Total liabilities',bs.au.liabilities,bs.eu.liabilities,us.liabilities],['Net assets',bs.au.net_assets,bs.eu.net_assets,us.net_assets]].forEach(function(r,i){
+          var bold=i===2;var bt=i===2?'border-top:1px solid '+BRD+';':'';
+          out+='<tr><td style="padding:3px 8px;'+(bold?'font-weight:700;':'')+bt+'">'+r[0]+'</td>';
+          out+='<td style="padding:3px 8px;text-align:right;font-family:monospace;'+(bold?'font-weight:700;':'')+bt+'color:'+(r[1]<0?RED:TXT)+'">'+fUSD(r[1])+'</td>';
+          out+='<td style="padding:3px 8px;text-align:right;font-family:monospace;'+bt+'color:'+(r[2]<0?RED:TXT)+'">\u20ac'+fNum(r[2])+'</td>';
+          out+='<td style="padding:3px 8px;text-align:right;font-family:monospace;'+bt+'color:'+(r[3]<0?RED:TXT)+'">US$'+fNum(r[3])+'</td>';
+          out+='</tr>';
         });
         out+='</tbody></table>';
       }
+
+      // Cash position
+      if(bs){
+        var euAud=bs.eu.bank*(bs.fx_eur||1);
+        var usAud2=(bs.us?bs.us.bank:0)*(bs.fx_usd||1);
+        out+='<div style="font-size:12px;font-weight:700;margin-bottom:8px">Cash position</div>';
+        out+='<table style="width:100%;border-collapse:collapse;font-size:11px;margin-bottom:16px">';
+        out+='<tr><td style="padding:3px 8px">AU banks (AUD)</td><td style="padding:3px 8px;text-align:right;font-family:monospace">'+fUSD(bs.au.bank)+'</td></tr>';
+        out+='<tr><td style="padding:3px 8px">EU bank (EUR \u2192 AUD)</td><td style="padding:3px 8px;text-align:right;font-family:monospace">'+fUSD(euAud)+'</td></tr>';
+        out+='<tr><td style="padding:3px 8px">US bank (USD \u2192 AUD)</td><td style="padding:3px 8px;text-align:right;font-family:monospace">'+fUSD(usAud2)+'</td></tr>';
+        out+='<tr style="border-top:1px solid '+BRD+'"><td style="padding:3px 8px;font-weight:700">Total cash (AUD)</td><td style="padding:3px 8px;text-align:right;font-family:monospace;font-weight:700">'+fUSD(cash)+'</td></tr>';
+        out+='</table>';
+      }
+
+      // Cash chart
+      var cashData2=[];
+      var fc2=SEED_FCST;
+      if(fc2){fc2.months.forEach(function(m,i){cashData2.push({m:m,forecast:fc2.closing_forecast[i],potential:fc2.closing_potential[i]})});}
+      if(cashData2.length>1){
+        out+='<div style="font-size:12px;font-weight:700;margin-bottom:8px">Cash forecast</div>';
+        out+=svgCashChart(cashData2);
+      }
+
+      // Footer
+      out+='<div style="margin-top:20px;padding-top:10px;border-top:1px solid '+BRD+';display:flex;justify-content:space-between;font-size:10px;color:'+MUT+'">';
+      out+='<span>Whitewater Reinventions — Finance Report — Confidential</span>';
+      out+='<span>'+h(pl.period||'')+'</span>';
       out+='</div>';
+
+      out+='</div>'; // preview card
     }
+
+    // ── Print-only container ──
+    if(pl){
+      var moRev2=pl.au_mo.revenue+pl.eu_mo.revenue;
+      var moGP2=pl.au_mo.gp+pl.eu_mo.gp;
+      var moNet2=pl.au_mo.net+pl.eu_mo.net;
+      var cash2=bs?bs.au.bank+(bs.eu.bank*(bs.fx_eur||1))+((bs.us?bs.us.bank:0)*(bs.fx_usd||1)):0;
+      var ytdRev2=pl.au_ytd.revenue+pl.eu_ytd.revenue;
+      var ytdGP2=pl.au_ytd.gp+pl.eu_ytd.gp;
+      var ytdNet2=pl.au_ytd.net+pl.eu_ytd.net;
+
+      out+='<div class="print-only"><div class="print-page" style="padding:0">';
+
+      // Header
+      out+='<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px">';
+      out+=WW;
+      out+='<div style="text-align:right">';
+      out+='<div style="font-size:17px;font-weight:700">Finance Report</div>';
+      out+='<div style="font-size:11px;color:'+MUT+'">'+h(pl.period||'')+' — Cash basis</div>';
+      out+='</div></div>';
+
+      // KPIs
+      out+='<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px">';
+      [{l:'Total revenue',v:moRev2,y:ytdRev2},{l:'Gross profit',v:moGP2,y:ytdGP2},{l:'Operating profit',v:moNet2,y:ytdNet2},{l:'Cash position',v:cash2,y:null}].forEach(function(k){
+        out+='<div style="padding:8px 10px;background:#F5F4F0;border-radius:4px">';
+        out+='<div style="font-size:8px;color:#888;text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px">'+k.l+'</div>';
+        out+='<div style="font-size:14px;font-weight:700;color:'+(k.v<0?RED:'#1A1A1A')+'">'+fUSD(k.v)+'</div>';
+        if(k.y!==null)out+='<div style="font-size:9px;color:#555;margin-top:1px">YTD: '+fUSD(k.y)+'</div>';
+        out+='</div>';
+      });
+      out+='</div>';
+
+      // P&L tables (compact for print)
+      out+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:14px">';
+
+      // Month
+      out+='<div><div style="font-size:10px;font-weight:700;margin-bottom:4px">P&L — Month</div>';
+      out+='<table style="width:100%;border-collapse:collapse;font-size:9px">';
+      [[' Revenue',pl.au_mo.revenue,pl.eu_mo.revenue],[' CoS',pl.au_mo.cos,pl.eu_mo.cos],[' Gross profit',pl.au_mo.gp,pl.eu_mo.gp],[' Opex',pl.au_mo.opex,pl.eu_mo.opex],[' Net profit',pl.au_mo.net,pl.eu_mo.net]].forEach(function(r,i){
+        var bold=i===2||i===4;
+        out+='<tr'+(bold?' style="border-top:1px solid #DDD"':'')+'><td style="padding:2px 4px;'+(bold?'font-weight:700':'')+'">'+r[0]+'</td><td style="padding:2px 4px;text-align:right;font-family:monospace;color:'+(r[1]<0?RED:'#1A1A1A')+'">'+fUSD(r[1])+'</td><td style="padding:2px 4px;text-align:right;font-family:monospace;color:'+(r[2]<0?RED:'#1A1A1A')+'">'+fUSD(r[2])+'</td><td style="padding:2px 4px;text-align:right;font-family:monospace;'+(bold?'font-weight:700;':'')+'color:'+((r[1]+r[2])<0?RED:'#1A1A1A')+'">'+fUSD(r[1]+r[2])+'</td></tr>';
+      });
+      out+='</table></div>';
+
+      // YTD
+      out+='<div><div style="font-size:10px;font-weight:700;margin-bottom:4px">P&L — Year to Date</div>';
+      out+='<table style="width:100%;border-collapse:collapse;font-size:9px">';
+      [[' Revenue',pl.au_ytd.revenue,pl.eu_ytd.revenue],[' CoS',pl.au_ytd.cos,pl.eu_ytd.cos],[' Gross profit',pl.au_ytd.gp,pl.eu_ytd.gp],[' Opex',pl.au_ytd.opex,pl.eu_ytd.opex],[' Net profit',pl.au_ytd.net,pl.eu_ytd.net]].forEach(function(r,i){
+        var bold=i===2||i===4;
+        out+='<tr'+(bold?' style="border-top:1px solid #DDD"':'')+'><td style="padding:2px 4px;'+(bold?'font-weight:700':'')+'">'+r[0]+'</td><td style="padding:2px 4px;text-align:right;font-family:monospace;color:'+(r[1]<0?RED:'#1A1A1A')+'">'+fUSD(r[1])+'</td><td style="padding:2px 4px;text-align:right;font-family:monospace;color:'+(r[2]<0?RED:'#1A1A1A')+'">'+fUSD(r[2])+'</td><td style="padding:2px 4px;text-align:right;font-family:monospace;'+(bold?'font-weight:700;':'')+'color:'+((r[1]+r[2])<0?RED:'#1A1A1A')+'">'+fUSD(r[1]+r[2])+'</td></tr>';
+      });
+      out+='</table></div>';
+      out+='</div>';
+
+      // Balance sheet summary (print)
+      if(bs){
+        var us3=bs.us||{bank:0,assets:0,liabilities:0,net_assets:0};
+        out+='<div style="font-size:10px;font-weight:700;margin-bottom:4px">Balance Sheet — '+h(bs.period||'')+'</div>';
+        out+='<table style="width:100%;border-collapse:collapse;font-size:9px;margin-bottom:10px">';
+        [['Assets',bs.au.assets,bs.eu.assets,us3.assets],['Liabilities',bs.au.liabilities,bs.eu.liabilities,us3.liabilities],['Net assets',bs.au.net_assets,bs.eu.net_assets,us3.net_assets]].forEach(function(r,i){
+          var bold=i===2;var bt=i===2?'border-top:1px solid #DDD;':'';
+          out+='<tr><td style="padding:2px 4px;'+(bold?'font-weight:700;':'')+bt+'">'+r[0]+'</td><td style="padding:2px 4px;text-align:right;font-family:monospace;'+(bold?'font-weight:700;':'')+bt+'">'+fUSD(r[1])+'</td><td style="padding:2px 4px;text-align:right;font-family:monospace;'+bt+'">\u20ac'+fNum(r[2])+'</td><td style="padding:2px 4px;text-align:right;font-family:monospace;'+bt+'">US$'+fNum(r[3])+'</td></tr>';
+        });
+        out+='</table>';
+
+        // Cash position (print)
+        var euA3=bs.eu.bank*(bs.fx_eur||1);
+        var usA3=(bs.us?bs.us.bank:0)*(bs.fx_usd||1);
+        out+='<div style="font-size:10px;font-weight:700;margin-bottom:4px">Cash Position</div>';
+        out+='<table style="width:100%;border-collapse:collapse;font-size:9px;margin-bottom:10px">';
+        out+='<tr><td style="padding:2px 4px">AU banks</td><td style="padding:2px 4px;text-align:right;font-family:monospace">'+fUSD(bs.au.bank)+'</td></tr>';
+        out+='<tr><td style="padding:2px 4px">EU bank</td><td style="padding:2px 4px;text-align:right;font-family:monospace">'+fUSD(euA3)+'</td></tr>';
+        out+='<tr><td style="padding:2px 4px">US bank</td><td style="padding:2px 4px;text-align:right;font-family:monospace">'+fUSD(usA3)+'</td></tr>';
+        out+='<tr style="border-top:1px solid #DDD"><td style="padding:2px 4px;font-weight:700">Total (AUD)</td><td style="padding:2px 4px;text-align:right;font-family:monospace;font-weight:700">'+fUSD(cash2)+'</td></tr>';
+        out+='</table>';
+      }
+
+      // Cash chart
+      var cd3=[];
+      if(fc2){fc2.months.forEach(function(m,i){cd3.push({m:m,forecast:fc2.closing_forecast[i],potential:fc2.closing_potential[i]})});}
+      if(cd3.length>1){
+        out+='<div style="font-size:10px;font-weight:700;margin-bottom:4px">Cash Forecast</div>';
+        out+=svgCashChart(cd3);
+      }
+
+      // Footer
+      out+='<div style="margin-top:14px;padding-top:6px;border-top:1px solid #DDD;display:flex;justify-content:space-between;font-size:9px;color:#888">';
+      out+='<span>Whitewater Reinventions — Finance Report — Confidential</span>';
+      out+='<span>'+h(pl.period||'')+'</span>';
+      out+='</div>';
+
+      out+='</div></div>'; // print-page, print-only
+    }
+  }
+
+    out+='</div>';
+  }
+
+  // ── Unified Controls ─────────────────────────────────────────────────────
+  if(S.tab==='controls'){
+    out+='<div style="padding:28px 40px 60px;max-width:1240px;margin:0 auto">';
+
+    out+='<div style="font-size:11px;color:'+MUT+';text-transform:uppercase;letter-spacing:.06em;margin-bottom:16px">Pipeline imports</div>';
+    out+='<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-bottom:32px">';
+
+    out+='<div class="card" style="padding:24px">';
+    out+='<div style="font-size:13px;font-weight:700;margin-bottom:6px">Import Total Pipeline</div>';
+    out+='<div style="font-size:12px;color:'+MUT+';margin-bottom:16px;line-height:1.5">Full HubSpot history export. Replaces the existing deal database.</div>';
+    out+='<button class="btn-primary" onclick="openPipelineFull()">'+IC.upload+' Import total pipeline</button>';
+    out+='<input id="fi-full" type="file" accept=".csv,.tsv" style="display:none" onchange="onFileFull(this)"/>';
+    out+='</div>';
+
+    out+='<div class="card" style="padding:24px">';
+    out+='<div style="font-size:13px;font-weight:700;margin-bottom:6px">Update Pipeline</div>';
+    out+='<div style="font-size:12px;color:'+MUT+';margin-bottom:16px;line-height:1.5">Active pipeline export only. Merges with existing database, flags missing deals as stale.</div>';
+    out+='<button class="btn-primary" onclick="openPipelineUpdate()">'+IC.upload+' Update pipeline</button>';
+    out+='<input id="fi-update" type="file" accept=".csv,.tsv" style="display:none" onchange="onFileUpdate(this)"/>';
+    out+='</div>';
+
+    out+='<div class="card" style="padding:24px">';
+    out+='<div style="font-size:13px;font-weight:700;margin-bottom:6px">Import Xero Data</div>';
+    out+='<div style="font-size:12px;color:'+MUT+';margin-bottom:16px;line-height:1.5">Xero invoice export. Updates the Active Projects tab.</div>';
+    out+='<button class="btn-primary" onclick="openXero()">'+IC.upload+' Import Xero data</button>';
+    out+='<input id="fi-xero" type="file" accept=".csv" style="display:none" onchange="onFileXero(this)"/>';
+    out+='</div>';
+
+    out+='<div class="card" style="padding:24px">';
+    out+='<div style="font-size:13px;font-weight:700;margin-bottom:6px">Import Rolling Totals</div>';
+    out+='<div style="font-size:12px;color:'+MUT+';margin-bottom:16px;line-height:1.5">Monthly pipeline snapshot CSV. Updates the rolling revenue chart.</div>';
+    out+='<button class="btn-primary" onclick="openRolling()">'+IC.upload+' Import rolling totals</button>';
+    out+='<input id="fi-rolling" type="file" accept=".csv" style="display:none" onchange="onFileRolling(this)"/>';
+    out+='</div>';
+
+    out+='<div class="card" style="padding:24px">';
+    out+='<div style="font-size:13px;font-weight:700;margin-bottom:6px">Import Leads</div>';
+    out+='<div style="font-size:12px;color:'+MUT+';margin-bottom:16px;line-height:1.5">HubSpot contacts export. Replaces current leads database.</div>';
+    out+='<button class="btn-primary" onclick="openLeads()">'+IC.upload+' Import leads</button>';
+    out+='</div>';
+
+    out+='</div>';
+
+    out+='<div style="font-size:11px;color:'+MUT+';text-transform:uppercase;letter-spacing:.06em;margin-bottom:16px">Finance imports</div>';
+    out+='<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-bottom:32px">';
+
+    out+='<div class="card" style="padding:24px"><div style="font-size:13px;font-weight:700;margin-bottom:6px">Balance Sheet AU</div><div style="font-size:12px;color:'+MUT+';margin-bottom:16px;line-height:1.5">Xero Balance Sheet export for WhitewaterTX Pty Ltd.</div><button class="btn-primary" onclick="openFinImport(\'fi-bs-au\')">'+ IC.upload+' Import BS AU</button><input id="fi-bs-au" type="file" accept=".csv" style="display:none" onchange="onFileBSAU(this)"/></div>';
+    out+='<div class="card" style="padding:24px"><div style="font-size:13px;font-weight:700;margin-bottom:6px">Balance Sheet EU</div><div style="font-size:12px;color:'+MUT+';margin-bottom:16px;line-height:1.5">Xero Balance Sheet export for Whitewater Europe BV.</div><button class="btn-primary" onclick="openFinImport(\'fi-bs-eu\')">'+ IC.upload+' Import BS EU</button><input id="fi-bs-eu" type="file" accept=".csv" style="display:none" onchange="onFileBSEU(this)"/></div>';
+    out+='<div class="card" style="padding:24px"><div style="font-size:13px;font-weight:700;margin-bottom:6px">P&L AU (month)</div><div style="font-size:12px;color:'+MUT+';margin-bottom:16px;line-height:1.5">Xero P&L for AU entity, monthly with two prior years.</div><button class="btn-primary" onclick="openFinImport(\'fi-pl-au-mo\')">'+ IC.upload+' Import P&L AU mo</button><input id="fi-pl-au-mo" type="file" accept=".csv" style="display:none" onchange="onFilePLAUmo(this)"/></div>';
+    out+='<div class="card" style="padding:24px"><div style="font-size:13px;font-weight:700;margin-bottom:6px">P&L EU (month)</div><div style="font-size:12px;color:'+MUT+';margin-bottom:16px;line-height:1.5">Xero P&L for EU entity, monthly with two prior years.</div><button class="btn-primary" onclick="openFinImport(\'fi-pl-eu-mo\')">'+ IC.upload+' Import P&L EU mo</button><input id="fi-pl-eu-mo" type="file" accept=".csv" style="display:none" onchange="onFilePLEUmo(this)"/></div>';
+    out+='<div class="card" style="padding:24px"><div style="font-size:13px;font-weight:700;margin-bottom:6px">P&L AU (YTD)</div><div style="font-size:12px;color:'+MUT+';margin-bottom:16px;line-height:1.5">Xero P&L for AU entity, year-to-date with two prior years.</div><button class="btn-primary" onclick="openFinImport(\'fi-pl-au-ytd\')">'+ IC.upload+' Import P&L AU YTD</button><input id="fi-pl-au-ytd" type="file" accept=".csv" style="display:none" onchange="onFilePLAUytd(this)"/></div>';
+    out+='<div class="card" style="padding:24px"><div style="font-size:13px;font-weight:700;margin-bottom:6px">P&L EU (YTD)</div><div style="font-size:12px;color:'+MUT+';margin-bottom:16px;line-height:1.5">Xero P&L for EU entity, year-to-date with two prior years.</div><button class="btn-primary" onclick="openFinImport(\'fi-pl-eu-ytd\')">'+ IC.upload+' Import P&L EU YTD</button><input id="fi-pl-eu-ytd" type="file" accept=".csv" style="display:none" onchange="onFilePLEUytd(this)"/></div>';
+
+    out+='</div>';
+
+    out+='<div style="font-size:11px;color:'+MUT+';text-transform:uppercase;letter-spacing:.06em;margin-bottom:16px">Data management</div>';
+    out+='<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-bottom:24px">';
+
+    out+='<div class="card" style="padding:24px"><div style="font-size:13px;font-weight:700;margin-bottom:6px">Export backup</div><div style="font-size:12px;color:'+MUT+';margin-bottom:16px;line-height:1.5">Download all pipeline and finance data as a JSON backup.</div><button class="btn-ghost" onclick="exportBackup()">'+IC.save+' Export backup</button></div>';
+    out+='<div class="card" style="padding:24px"><div style="font-size:13px;font-weight:700;margin-bottom:6px">Restore backup</div><div style="font-size:12px;color:'+MUT+';margin-bottom:16px;line-height:1.5">Restore from a previously exported backup.</div><button class="btn-primary" onclick="restoreBackup()">'+IC.upload+' Restore backup</button></div>';
+    out+='<div class="card" style="padding:24px"><div style="font-size:13px;font-weight:700;margin-bottom:6px">Save baseline</div><div style="font-size:12px;color:'+MUT+';margin-bottom:16px;line-height:1.5">Snapshot current pipeline for month-on-month comparison.</div><button class="btn-ghost" onclick="saveBL()">'+IC.save+' Save as baseline</button></div>';
+    out+='<div class="card" style="padding:24px;border-left:3px solid '+RED+'"><div style="font-size:13px;font-weight:700;margin-bottom:6px">Clear all data</div><div style="font-size:12px;color:'+MUT+';margin-bottom:16px;line-height:1.5">Remove all pipeline and finance data. Cannot be undone.</div><button class="btn-primary btn-danger" onclick="clearAllData()">'+IC.x+' Clear all data</button></div>';
+
+    out+='</div>';
+
+    var db=S.db;
+    out+='<div class="card" style="overflow:hidden">';
+    out+='<div style="padding:16px 24px;border-bottom:1px solid '+BRD+';display:flex;justify-content:space-between;align-items:center">';
+    out+='<div><div style="font-size:14px;font-weight:700">Import log</div><div style="font-size:12px;color:'+MUT+';margin-top:3px">Last 20 imports</div></div></div>';
+    if(!S.log.length){
+      out+='<div style="padding:40px;text-align:center;color:'+MUT+';font-size:13px">No imports yet.</div>';
+    } else {
+      out+='<table class="tbl"><thead><tr><th>Date & time</th><th>File</th><th>Type</th><th class="r">Records</th><th class="r">Updated</th><th class="r">Flagged</th></tr></thead><tbody>';
+      S.log.forEach(function(e){
+        var dt=new Date(e.date);
+        var ds=dt.toLocaleDateString('en-AU',{day:'2-digit',month:'2-digit',year:'numeric'})+' '+dt.toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit'});
+        var bdg=e.type==='seed'?'<span class="badge" style="background:rgba(192,57,43,.10);color:'+RED+'">Total pipeline</span>':e.type==='xero'?'<span class="badge" style="background:rgba(0,152,152,.10);color:'+TEL+'">Xero</span>':e.type==='rolling'?'<span class="badge" style="background:rgba(96,68,180,.10);color:#6044B4">Rolling</span>':'<span class="badge" style="background:rgba(30,140,74,.10);color:'+GRN+'">Update</span>';
+        out+='<tr><td style="color:'+SUB+';font-size:12px">'+ds+'</td><td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:'+SUB+';font-size:12px">'+h(e.name)+'</td><td>'+bdg+'</td><td class="r" style="color:'+SUB+'">'+(e.type==='seed'?e.count:e.type==='xero'?e.count:(e.added||'\u2013'))+'</td><td class="r" style="color:'+SUB+'">'+(e.updated||'\u2013')+'</td><td class="r" style="color:'+(e.stale>0?AMB:MUT)+'">'+(e.stale||'\u2013')+'</td></tr>';
+      });
+      out+='</tbody></table>';
+    }
+    out+='</div>';
 
     out+='</div>';
   }

@@ -5,7 +5,11 @@
       "Bash(git add:*)",
       "Bash(git commit:*)",
       "Bash(gh --version)",
-      "Bash(npm --version)"
+      "Bash(npm --version)",
+      "Bash(unzip -o files.zip -d .)",
+      "Bash(find /d/WWRI-Toolkit -type f \\\\\\(-name *.html -o -name *.md \\\\\\))",
+      "Bash(ls:*)",
+      "Bash(unzip -o \"files 2.zip\" -d .)"
     ]
   }
 }

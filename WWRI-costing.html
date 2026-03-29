@@ -1,0 +1,1479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Costing Sheet — Whitewater Reinventions</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#F5F4F0;color:#1A1A1A;-webkit-font-smoothing:antialiased}
+.card{background:#FFF;border:1px solid #DDDBD6;border-radius:8px}
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:#888884;padding:10px 14px;text-align:left;border-bottom:1px solid #DDDBD6;user-select:none}
+.tbl td{padding:10px 14px;border-bottom:1px solid #DDDBD6;vertical-align:middle}
+.tbl tbody tr:last-child td{border-bottom:none}
+.tbl .r{text-align:right}
+.mono{font-family:'Cascadia Code',Consolas,monospace;font-size:12px}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:2px 10px;border-radius:4px;font-size:11px;font-weight:600;white-space:nowrap}
+.tab-btn{background:none;border:none;padding:10px 18px;font-size:13px;font-weight:600;color:#888884;cursor:pointer;border-bottom:2px solid transparent;font-family:inherit;transition:color .15s,border-color .15s}
+.tab-btn.on{color:#009898;border-bottom-color:#009898}
+.tab-btn:not(.on):hover{color:#555550}
+.btn-primary{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;background:#009898;color:#fff;border:none;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:background .15s}
+.btn-primary:hover{background:#007A7A}
+.btn-primary:disabled{opacity:.5;cursor:not-allowed}
+.btn-ghost{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;background:none;color:#555550;border:1px solid #DDDBD6;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.btn-ghost:hover{background:rgba(0,0,0,.04)}
+.btn-sm{padding:5px 12px;font-size:12px}
+.btn-danger{background:#C0392B}.btn-danger:hover{background:#A93226}
+.field-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:#888884;margin-bottom:5px}
+.field-input{width:100%;padding:8px 12px;border:1px solid #DDDBD6;border-radius:6px;font-size:13px;font-family:inherit;color:#1A1A1A;background:#FFF;outline:none;transition:border-color .15s}
+.field-input:focus{border-color:#009898;box-shadow:0 0 0 2px rgba(0,152,152,.15)}
+.field-input::placeholder{color:#BBBBB6}
+.field-select{padding:8px 12px;border:1px solid #DDDBD6;border-radius:6px;font-size:13px;font-family:inherit;color:#1A1A1A;background:#FFF;outline:none;cursor:pointer}
+.field-select:focus{border-color:#009898}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;z-index:200}
+.lock-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:600;background:rgba(192,57,43,.08);color:#C0392B}
+@media print{
+  body{background:#fff!important}
+  .no-print{display:none!important}
+  .print-only{display:block!important}
+  .print-page{background:#fff!important;margin:0!important;padding:0!important;box-shadow:none!important;border:none!important;border-radius:0!important}
+}
+.print-only{display:none}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+// ── Palette ─────────────────────────────────────────────────────────────────
+var BG='#F5F4F0',SUR='#FFF',BRD='#DDDBD6',TXT='#1A1A1A',SUB='#555550',MUT='#888884';
+var TEL='#009898',AMB='#C07A00',GRN='#1E8C4A',RED='#C0392B';
+
+// ── Icons ───────────────────────────────────────────────────────────────────
+var IC={
+  check:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
+  save:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>',
+  upload:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/></svg>',
+  x:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>',
+  lock:'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>',
+  unlock:'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 019.9-1"/></svg>',
+  plus:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>',
+  info:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>'
+};
+
+// ── Logo ────────────────────────────────────────────────────────────────────
+var WW='<img src="data:image/jpeg;base64,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" alt="Whitewater Reinventions" style="height:32px">';
+
+// ── Helpers ─────────────────────────────────────────────────────────────────
+function h(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function fNum(n){return n.toLocaleString('en-AU',{minimumFractionDigits:0,maximumFractionDigits:0});}
+function fCur(n){return'$'+fNum(Math.round(n));}
+function fPct(n){return(n*100).toFixed(0)+'%';}
+function localDate(s){
+  if(!s)return null;
+  // YYYY-MM-DD format
+  if(/^\d{4}-\d{1,2}-\d{1,2}$/.test(s)){
+    var p=s.split('-');return new Date(parseInt(p[0]),parseInt(p[1])-1,parseInt(p[2]));
+  }
+  // DD/MM/YYYY or D/M/YYYY
+  if(/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(s)){
+    var p=s.split('/');return new Date(parseInt(p[2]),parseInt(p[1])-1,parseInt(p[0]));
+  }
+  // DD/MM or D/M (assume current year)
+  if(/^\d{1,2}\/\d{1,2}$/.test(s)){
+    var p=s.split('/');return new Date(new Date().getFullYear(),parseInt(p[1])-1,parseInt(p[0]));
+  }
+  // Fallback
+  var d=new Date(s);
+  return isNaN(d)?null:d;
+}
+
+// ── LocalStorage ────────────────────────────────────────────────────────────
+var LS_KEY='ww_costing';
+function lsGet(k){try{var v=localStorage.getItem(k);return v?JSON.parse(v):null}catch(e){return null}}
+function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+
+// ── Default data ────────────────────────────────────────────────────────────
+var DEFAULT_REVIEWERS=['Adam Salzer','Bernard Leung','Bruce Hamilton','Ian Riley','Niel Malan','Nicolette Grams','Robert Bruce'];
+
+var CURRENCIES=[
+  {name:'Australian dollar',code:'AUD'},
+  {name:'US dollar',code:'USD'},
+  {name:'Euro',code:'EUR'},
+  {name:'Pound sterling',code:'GBP'},
+  {name:'Japanese yen',code:'JPY'},
+  {name:'Canadian dollar',code:'CAD'},
+  {name:'Chinese renminbi',code:'CNH'},
+  {name:'New Zealand dollar',code:'NZD'},
+  {name:'Singapore dollar',code:'SGD'}
+];
+
+var IMPOST_OPTIONS=[
+  {name:'GST',rate:0.10},
+  {name:'VAT',rate:0.10},
+  {name:'None',rate:0}
+];
+
+var INVOICE_SCHEDULES=['per Phase','whole Project'];
+var INVOICE_SPLITS=['100%','50%, 50%','30%, 30%, 40%'];
+
+function emptyPhase(numExperts,numServices){
+  numExperts=numExperts||3;
+  numServices=numServices||1;
+  var experts=[];
+  for(var i=0;i<numExperts;i++)experts.push({actualFee:null,daysPerWeek:0,days:[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null]});
+  var services=[];
+  for(var i=0;i<numServices;i++)services.push({weeks:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]});
+  return{
+    name:'',
+    active:true,
+    startDate:'',
+    endDate:'',
+    weeks:0,
+    timeline:[],
+    experts:experts,
+    services:services
+  };
+}
+
+function defaultProject(){
+  return{
+    // Client overview
+    clientName:'',
+    legalEntity:'',
+    projectTitle:'',
+    shortName:'',
+    projectLead:'',
+    projectPartner:'',
+    reviewer:'',
+    referralPartner:'',
+    referralActive:false,
+    referralPct:0.05,
+    currency:'AUD',
+    govtImpost:'GST',
+    govtImpostRate:0.10,
+    wwriPct:0.30,
+
+    // Experts (default 3, expandable)
+    experts:[
+      {name:'',role:'',dailyFee:0},
+      {name:'',role:'',dailyFee:0},
+      {name:'',role:'',dailyFee:0}
+    ],
+
+    // Services (default 1, expandable)
+    services:[
+      {name:'',weeklyFee:0}
+    ],
+
+    // Phases (4 slots)
+    phases:[emptyPhase(3,1),emptyPhase(3,1),emptyPhase(3,1),emptyPhase(3,1)],
+
+    // Invoicing
+    invoiceSchedule:'per Phase',
+    invoiceSplit:'30%, 30%, 40%',
+    invoiceNotes:'',
+
+    // Approval
+    approvedBy:''
+  };
+}
+
+// ── Admin settings ──────────────────────────────────────────────────────────
+var ADMIN_KEY='ww_costing_admin';
+function loadAdmin(){
+  var stored=lsGet(ADMIN_KEY);
+  return stored||{reviewers:DEFAULT_REVIEWERS.slice(),adminPin:'0000'};
+}
+function saveAdmin(admin){lsSet(ADMIN_KEY,admin);}
+
+// ── State ───────────────────────────────────────────────────────────────────
+var S={
+  tab:'setup',
+  phaseTab:0,
+  project:lsGet(LS_KEY)||defaultProject(),
+  admin:loadAdmin(),
+  adminMode:false,
+  tlAdd:null,
+  msg:null,_mt:null
+};
+
+// ── Data migration: convert old [0,0,...] expert days to [null,null,...] ─────
+(function migrate(){
+  var P=S.project;
+  if(!P.phases||P._migrated>=1)return;
+  var changed=false;
+  for(var pi=0;pi<P.phases.length;pi++){
+    var ph=P.phases[pi];
+    if(!ph.experts)continue;
+    for(var ei=0;ei<ph.experts.length;ei++){
+      var pe=ph.experts[ei];
+      if(pe.daysPerWeek===undefined){pe.daysPerWeek=0;changed=true;}
+      if(pe.actualFee===undefined){pe.actualFee=null;changed=true;}
+      if(pe.days){
+        for(var w=0;w<pe.days.length;w++){
+          if(pe.days[w]===0){pe.days[w]=null;changed=true;}
+        }
+      }
+    }
+  }
+  P._migrated=1;
+  lsSet(LS_KEY,P);
+})();
+
+// ── One-time swap: Phase 1 ↔ Phase 2 (remove after confirmed) ──────────────
+(function swapPhases(){
+  var P=S.project;
+  if(P._swapped)return;
+  var temp=P.phases[0];
+  P.phases[0]=P.phases[1];
+  P.phases[1]=temp;
+  P._swapped=true;
+  lsSet(LS_KEY,P);
+})();
+
+// ── Recalculate all end dates on load ───────────────────────────────────────
+(function(){
+  var P=S.project;
+  if(!P.phases)return;
+  for(var i=0;i<P.phases.length;i++){
+    var p=P.phases[i];
+    if(p.startDate&&p.weeks>0){
+      var d=localDate(p.startDate);
+      d.setDate(d.getDate()+(p.weeks*7)-1);
+      var yyyy=d.getFullYear();
+      var mm=String(d.getMonth()+1).padStart(2,'0');
+      var dd=String(d.getDate()).padStart(2,'0');
+      p.endDate=yyyy+'-'+mm+'-'+dd;
+    }
+  }
+  lsSet(LS_KEY,P);
+})();
+
+// ── State management ────────────────────────────────────────────────────────
+function set(patch){
+  Object.assign(S,patch);
+  render();
+}
+
+function msg(txt){
+  if(S._mt)clearTimeout(S._mt);
+  var t=setTimeout(function(){set({msg:null,_mt:null})},5000);
+  set({msg:txt,_mt:t});
+}
+
+function save(){
+  lsSet(LS_KEY,S.project);
+}
+
+function updateProject(path,val){
+  var parts=path.split('.');
+  var obj=S.project;
+  for(var i=0;i<parts.length-1;i++){
+    var k=isNaN(parts[i])?parts[i]:parseInt(parts[i]);
+    obj=obj[k];
+  }
+  var lastKey=isNaN(parts[parts.length-1])?parts[parts.length-1]:parseInt(parts[parts.length-1]);
+  obj[lastKey]=val;
+
+  // Auto-set referral percentage when toggling active
+  if(path==='referralActive'){
+    S.project.referralPct=val?0.10:0.05;
+  }
+
+  // Auto-set govt impost rate when changing impost type
+  if(path==='govtImpost'){
+    var imp=IMPOST_OPTIONS.find(function(i){return i.name===val});
+    if(imp)S.project.govtImpostRate=imp.rate;
+  }
+
+  save();
+  render();
+}
+
+// ── Calculation engine ──────────────────────────────────────────────────────
+function calcPhase(phaseIdx){
+  var p=S.project.phases[phaseIdx];
+  var experts=S.project.experts;
+  var services=S.project.services;
+  var wwri=S.project.wwriPct;
+  var feesShare=1-wwri;
+
+  var profFees=0, svcFees=0, wwriAmt=0;
+  var expertResults=[];
+
+  // Expert calculations
+  for(var e=0;e<experts.length;e++){
+    var exp=experts[e];
+    var phaseExp=p.experts[e]||{actualFee:null,daysPerWeek:0,days:[]};
+    if(!exp.name&&!exp.dailyFee){expertResults.push({days:0,rate:0,profFee:0,wwriContrib:0,clientCharge:0});continue;}
+
+    // Rate: use per-phase override if set, otherwise nominal from setup
+    var rate=(phaseExp.actualFee!==null&&phaseExp.actualFee!==undefined&&phaseExp.actualFee!=='')?phaseExp.actualFee:exp.dailyFee;
+
+    // Sum days: null cells use daysPerWeek default, explicit values used as-is
+    var totalDays=0;
+    var dpw=phaseExp.daysPerWeek||0;
+    for(var w=0;w<(p.weeks||0);w++){
+      var d=phaseExp.days[w];
+      totalDays+=(d!==null&&d!==undefined)?d:dpw;
+    }
+
+    var profFee=totalDays*rate;
+    // WWRI contribution: fee / feesShare * wwri = fee * (wwri / feesShare)
+    var wwriContrib=feesShare>0?profFee/feesShare*wwri:0;
+    var clientCharge=profFee+wwriContrib;
+    profFees+=profFee;
+    expertResults.push({days:totalDays,rate:rate,profFee:profFee,wwriContrib:wwriContrib,clientCharge:clientCharge});
+  }
+
+  // Service calculations
+  var svcResults=[];
+  for(var s=0;s<services.length;s++){
+    var svc=services[s];
+    var phaseSvc=p.services[s]||{weeks:[]};
+    if(!svc.name&&!svc.weeklyFee){svcResults.push({weeks:0,fee:0,wwriContrib:0,charge:0});continue;}
+    var totalWeeks=0;
+    for(var w=0;w<(p.weeks||0);w++){
+      totalWeeks+=(phaseSvc.weeks[w]||0);
+    }
+    var fee=totalWeeks*svc.weeklyFee;
+    var wwriC=feesShare>0?fee/feesShare*wwri:0;
+    var charge=fee+wwriC;
+    svcFees+=fee;
+    svcResults.push({weeks:totalWeeks,fee:fee,wwriContrib:wwriC,charge:charge});
+  }
+
+  wwriAmt=feesShare>0?(profFees+svcFees)/feesShare*wwri:0;
+  var projectSubtotal=profFees+svcFees+wwriAmt;
+
+  // Referral fee
+  var refPct=S.project.referralPartner?(S.project.referralPct||0.05):0;
+  var referralFee=projectSubtotal*refPct;
+  var clientCharge=projectSubtotal+referralFee;
+
+  return{
+    profFees:profFees,
+    svcFees:svcFees,
+    wwriAmt:wwriAmt,
+    projectSubtotal:projectSubtotal,
+    referralFee:referralFee,
+    clientCharge:clientCharge,
+    experts:expertResults,
+    services:svcResults,
+    refPct:refPct
+  };
+}
+
+function calcTotals(){
+  var totals={profFees:0,svcFees:0,wwriAmt:0,projectSubtotal:0,referralFee:0,clientCharge:0};
+  var phaseResults=[];
+  for(var i=0;i<4;i++){
+    var p=S.project.phases[i];
+    var c=calcPhase(i);
+    phaseResults.push(c);
+    if(p.active){
+      totals.profFees+=c.profFees;
+      totals.svcFees+=c.svcFees;
+      totals.wwriAmt+=c.wwriAmt;
+      totals.projectSubtotal+=c.projectSubtotal;
+      totals.referralFee+=c.referralFee;
+      totals.clientCharge+=c.clientCharge;
+    }
+  }
+  return{totals:totals,phases:phaseResults};
+}
+
+// ── Admin PIN check ─────────────────────────────────────────────────────────
+function toggleAdmin(){
+  if(S.adminMode){
+    set({adminMode:false});
+    return;
+  }
+  var pin=prompt('Enter admin PIN:');
+  if(pin===S.admin.adminPin){
+    set({adminMode:true});
+  } else if(pin!==null){
+    msg('Incorrect PIN');
+  }
+}
+
+// ── Export / Import ─────────────────────────────────────────────────────────
+function exportProject(){
+  var data=Object.assign({},S.project,{_exported:new Date().toISOString()});
+  var blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');
+  var name=S.project.shortName||S.project.projectTitle||'costing';
+  a.href=url;a.download='wwri-costing-'+name.replace(/[^a-zA-Z0-9]/g,'-').toLowerCase()+'-'+new Date().toISOString().slice(0,10)+'.json';
+  a.click();URL.revokeObjectURL(url);
+  msg('Project exported');
+}
+
+function importProject(){
+  var inp=document.createElement('input');inp.type='file';inp.accept='.json';
+  inp.onchange=function(){
+    var f=inp.files[0];if(!f)return;
+    var r=new FileReader();
+    r.onload=function(){
+      try{
+        var data=JSON.parse(r.result);
+        if(!data.clientName&&!data.projectTitle){msg('Invalid project file');return;}
+        S.project=data;
+        save();
+        msg('Project imported: '+(data.projectTitle||data.shortName||'untitled'));
+        render();
+      }catch(e){msg('Invalid file format');}
+    };
+    r.readAsText(f);
+  };
+  inp.click();
+}
+
+function newProject(){
+  if(!confirm('Start a new project? Current data will be lost unless exported.'))return;
+  S.project=defaultProject();
+  save();
+  msg('New project created');
+  render();
+}
+
+// ── Expert / Service management ─────────────────────────────────────────────
+function addExpert(){
+  S.project.experts.push({name:'',role:'',dailyFee:0});
+  for(var i=0;i<S.project.phases.length;i++){
+    if(!S.project.phases[i].experts)S.project.phases[i].experts=[];
+    S.project.phases[i].experts.push({actualFee:null,daysPerWeek:0,days:[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null]});
+  }
+  save();render();
+}
+
+function removeExpert(idx){
+  if(S.project.experts.length<=1){msg('Need at least one expert');return;}
+  S.project.experts.splice(idx,1);
+  for(var i=0;i<S.project.phases.length;i++){
+    if(S.project.phases[i].experts&&S.project.phases[i].experts.length>idx){
+      S.project.phases[i].experts.splice(idx,1);
+    }
+  }
+  save();render();
+}
+
+function addService(){
+  S.project.services.push({name:'',weeklyFee:0});
+  for(var i=0;i<S.project.phases.length;i++){
+    if(!S.project.phases[i].services)S.project.phases[i].services=[];
+    S.project.phases[i].services.push({weeks:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]});
+  }
+  save();render();
+}
+
+function removeService(idx){
+  if(S.project.services.length<=1){msg('Need at least one service');return;}
+  S.project.services.splice(idx,1);
+  for(var i=0;i<S.project.phases.length;i++){
+    if(S.project.phases[i].services&&S.project.phases[i].services.length>idx){
+      S.project.phases[i].services.splice(idx,1);
+    }
+  }
+  save();render();
+}
+
+// ── Phase data helpers ──────────────────────────────────────────────────────
+function setPhaseWeeks(pi,val){
+  var weeks=parseInt(val)||0;
+  S.project.phases[pi].weeks=weeks;
+  // Pad expert/service arrays if needed
+  var p=S.project.phases[pi];
+  for(var e=0;e<p.experts.length;e++){
+    while(p.experts[e].days.length<weeks)p.experts[e].days.push(null);
+  }
+  for(var s=0;s<p.services.length;s++){
+    while(p.services[s].weeks.length<weeks)p.services[s].weeks.push(0);
+  }
+  calcEndDate(pi);
+  save();render();
+}
+function setPhaseStart(pi,val){
+  var parsed=parseFlexDate(val);
+  if(parsed){
+    S.project.phases[pi].startDate=parsed;
+  } else {
+    S.project.phases[pi].startDate='';
+  }
+  calcEndDate(pi);
+  save();render();
+}
+
+function toYMD(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function parseFlexDate(str){
+  if(!str||!str.trim())return'';
+  str=str.trim();
+
+  // Already ISO format (from date picker)
+  if(/^\d{4}-\d{2}-\d{2}$/.test(str))return str;
+
+  var months=['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'];
+  var now=new Date();
+  var day,month,year;
+
+  // Try d/m, d/m/yy, d/m/yyyy
+  var slashMatch=str.match(/^(\d{1,2})[\/\-\.](\d{1,2})(?:[\/\-\.](\d{2,4}))?$/);
+  if(slashMatch){
+    day=parseInt(slashMatch[1]);
+    month=parseInt(slashMatch[2])-1;
+    year=slashMatch[3]?parseInt(slashMatch[3]):now.getFullYear();
+    if(year<100)year+=2000;
+    var d=new Date(year,month,day);
+    if(!isNaN(d.getTime())&&d.getDate()===day)return toYMD(d);
+  }
+
+  // Try "20 Jul" or "20 Jul 2026" or "20 July 26"
+  var textMatch=str.match(/^(\d{1,2})\s+([a-zA-Z]+)\s*(\d{2,4})?$/);
+  if(textMatch){
+    day=parseInt(textMatch[1]);
+    var mStr=textMatch[2].toLowerCase().slice(0,3);
+    var mi=months.indexOf(mStr);
+    if(mi>-1){
+      month=mi;
+      year=textMatch[3]?parseInt(textMatch[3]):now.getFullYear();
+      if(year<100)year+=2000;
+      var d=new Date(year,month,day);
+      if(!isNaN(d.getTime())&&d.getDate()===day)return toYMD(d);
+    }
+  }
+
+  // Try "Jul 20" or "Jul 20 2026"
+  var textMatch2=str.match(/^([a-zA-Z]+)\s+(\d{1,2})(?:\s*,?\s*(\d{2,4}))?$/);
+  if(textMatch2){
+    var mStr2=textMatch2[1].toLowerCase().slice(0,3);
+    var mi2=months.indexOf(mStr2);
+    if(mi2>-1){
+      day=parseInt(textMatch2[2]);
+      month=mi2;
+      year=textMatch2[3]?parseInt(textMatch2[3]):now.getFullYear();
+      if(year<100)year+=2000;
+      var d=new Date(year,month,day);
+      if(!isNaN(d.getTime())&&d.getDate()===day)return toYMD(d);
+    }
+  }
+
+  return'';
+}
+function calcEndDate(pi){
+  var p=S.project.phases[pi];
+  if(p.startDate&&p.weeks>0){
+    var d=localDate(p.startDate);
+    d.setDate(d.getDate()+(p.weeks*7)-1);
+    var yyyy=d.getFullYear();
+    var mm=String(d.getMonth()+1).padStart(2,'0');
+    var dd=String(d.getDate()).padStart(2,'0');
+    p.endDate=yyyy+'-'+mm+'-'+dd;
+  } else {
+    p.endDate='';
+  }
+}
+function setExpertDPW(pi,ei,val){
+  var pe=S.project.phases[pi].experts[ei];
+  pe.daysPerWeek=parseFloat(val)||0;
+  save();debouncedRender();
+}
+function setExpertActualFee(pi,ei,val){
+  var pe=S.project.phases[pi].experts[ei];
+  pe.actualFee=val===''?null:(parseFloat(val)||0);
+  save();debouncedRender();
+}
+function setExpertDay(pi,ei,wi,val){
+  var pe=S.project.phases[pi].experts[ei];
+  while(pe.days.length<=wi)pe.days.push(null);
+  pe.days[wi]=val===''?null:(parseFloat(val)||0);
+  save();debouncedRender();
+}
+function setSvcWeek(pi,si,wi,val){
+  var ps=S.project.phases[pi].services[si];
+  while(ps.weeks.length<=wi)ps.weeks.push(0);
+  ps.weeks[wi]=parseFloat(val)||0;
+  save();debouncedRender();
+}
+
+// ── Timeline management ─────────────────────────────────────────────────────
+var TL_COLORS=['#009898','#C07A00','#6044B4','#1E8C4A','#C0392B','#2C6FB4','#888884'];
+
+function showAddMilestone(pi){
+  set({tlAdd:{type:'milestone',pi:pi,label:'',week:''}});
+}
+function showAddSpan(pi){
+  set({tlAdd:{type:'span',pi:pi,label:'',startWeek:'',endWeek:''}});
+}
+function cancelTlAdd(){
+  set({tlAdd:null});
+}
+function commitTlAdd(){
+  var a=S.tlAdd;
+  if(!a||!a.label)return;
+  if(!S.project.phases[a.pi].timeline)S.project.phases[a.pi].timeline=[];
+  var tl=S.project.phases[a.pi].timeline;
+
+  if(a.mode==='edit'){
+    // Edit existing item
+    var item=tl[a.editIdx];
+    if(!item){S.tlAdd=null;render();return;}
+    item.label=a.label;
+    if(a.type==='milestone'){
+      var wk=parseInt(a.week);
+      if(wk&&wk>=1)item.week=wk;
+    } else {
+      var sw=parseInt(a.startWeek);
+      var ew=parseInt(a.endWeek);
+      if(sw&&sw>=1)item.startWeek=sw;
+      if(ew&&ew>=1)item.endWeek=ew;
+    }
+  } else {
+    // Add new item
+    var clrIdx=tl.length%TL_COLORS.length;
+    if(a.type==='milestone'){
+      if(!a.week||a.week<1)return;
+      tl.push({type:'milestone',week:parseInt(a.week),label:a.label,color:TL_COLORS[clrIdx]});
+    } else {
+      if(!a.startWeek||!a.endWeek||a.startWeek<1||a.endWeek<a.startWeek)return;
+      tl.push({type:'span',startWeek:parseInt(a.startWeek),endWeek:parseInt(a.endWeek),label:a.label,color:TL_COLORS[clrIdx]});
+    }
+  }
+  S.tlAdd=null;
+  save();render();
+}
+function updateTlAdd(field,val){
+  if(!S.tlAdd)return;
+  S.tlAdd[field]=val;
+  // Don't re-render, just update state
+}
+
+function removeTimeline(pi,idx){
+  S.project.phases[pi].timeline.splice(idx,1);
+  save();render();
+}
+
+function editTimeline(pi,idx){
+  var item=S.project.phases[pi].timeline[idx];
+  S.tlAdd={
+    mode:'edit',editIdx:idx,pi:pi,type:item.type,
+    label:item.label,
+    week:item.week||'',
+    startWeek:item.startWeek||'',
+    endWeek:item.endWeek||''
+  };
+  render();
+}
+function updateTlEdit(field,val){
+  if(!S.tlEdit)return;
+  S.tlEdit[field]=val;
+}
+function commitTlEdit(){}
+function cancelTlEdit(){set({tlAdd:null});}
+
+// Debounced render — skips re-render if a data-fid input is focused
+var _renderTimer=null;
+function debouncedRender(){
+  if(_renderTimer)clearTimeout(_renderTimer);
+  _renderTimer=setTimeout(function(){
+    var active=document.activeElement;
+    if(active&&active.getAttribute('data-fid')){
+      return;
+    }
+    render();
+  },300);
+}
+
+// Blur render — waits for focus to settle, skips if user tabbed to another grid cell
+var _blurTimer=null;
+function blurRender(){
+  if(_blurTimer)clearTimeout(_blurTimer);
+  _blurTimer=setTimeout(function(){
+    var active=document.activeElement;
+    if(active&&active.getAttribute('data-fid')){
+      return; // focus moved to another grid cell, don't re-render
+    }
+    render();
+  },100);
+}
+
+// ── Render ──────────────────────────────────────────────────────────────────
+function render(){
+  // Save scroll positions of overflow containers
+  var scrollEls=document.querySelectorAll('[data-scroll-id]');
+  var scrollMap={};
+  scrollEls.forEach(function(el){scrollMap[el.getAttribute('data-scroll-id')]=el.scrollLeft;});
+
+  var P=S.project;
+  var out='';
+
+  // ── NAV BAR ──
+  out+='<div class="no-print" style="background:'+SUR+';border-bottom:1px solid '+BRD+';padding:0 40px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100">';
+  out+='<div style="display:flex;align-items:center;gap:14px">'+WW;
+  out+='<span style="width:1px;height:22px;background:'+BRD+'"></span>';
+  out+='<span style="font-size:14px;color:'+SUB+';font-weight:600">Costing Sheet</span>';
+  if(P.shortName||P.projectTitle){
+    out+='<span style="width:1px;height:22px;background:'+BRD+'"></span>';
+    out+='<span style="font-size:13px;color:'+TEL+';font-weight:600">'+h(P.shortName||P.projectTitle)+'</span>';
+  }
+  out+='</div>';
+  out+='<div style="display:flex;align-items:center;gap:10px">';
+  if(S.msg)out+='<span style="font-size:12px;color:'+GRN+';display:inline-flex;align-items:center;gap:5px">'+IC.check+' '+h(S.msg)+'</span>';
+  // Admin lock toggle
+  out+='<button class="btn-ghost btn-sm" onclick="toggleAdmin()" style="display:inline-flex;align-items:center;gap:4px;color:'+(S.adminMode?TEL:MUT)+'">';
+  out+=(S.adminMode?IC.unlock:IC.lock)+' '+(S.adminMode?'Admin':'Locked');
+  out+='</button>';
+  out+='</div></div>';
+
+  // ── CONTENT ──
+  out+='<div class="no-print" style="padding:28px 40px 60px;max-width:1240px;margin:0 auto">';
+
+  // Tab bar
+  var tabs=[
+    {k:'setup',l:'Project Setup'},
+    {k:'details',l:'Phase Details'},
+    {k:'summary',l:'Summary'},
+    {k:'quote',l:'Quote & Invoicing'},
+    {k:'admin',l:'Admin'}
+  ];
+  out+='<div style="display:flex;border-bottom:1px solid '+BRD+';margin-bottom:24px">';
+  tabs.forEach(function(t){
+    if(t.k==='admin'&&!S.adminMode)return;
+    out+='<button class="tab-btn'+(S.tab===t.k?' on':'')+'" onclick="set({tab:\''+t.k+'\'})">'+t.l+'</button>';
+  });
+  out+='</div>';
+
+  // ── PROJECT SETUP TAB ──
+  if(S.tab==='setup'){
+    out+='<div style="font-size:18px;font-weight:700;margin-bottom:20px">Project Setup</div>';
+
+    // ── Helper: render a field ──
+    function field(label,path,val,opts){
+      opts=opts||{};
+      var w=opts.full?'grid-column:1/-1;':'';
+      var locked=opts.locked&&!S.adminMode;
+      var o='<div style="'+w+'">';
+      o+='<div class="field-label">'+label;
+      if(locked)o+=' <span class="lock-badge">'+IC.lock+' Admin</span>';
+      o+='</div>';
+      if(opts.type==='select'){
+        o+='<select class="field-select" style="width:100%"'+(locked?' disabled':'')+' onchange="updateProject(\''+path+'\',this.value)">';
+        (opts.options||[]).forEach(function(op){
+          var opVal=typeof op==='object'?op.value:op;
+          var opLabel=typeof op==='object'?op.label:op;
+          o+='<option value="'+h(opVal)+'"'+(String(val)===String(opVal)?' selected':'')+'>'+h(opLabel)+'</option>';
+        });
+        o+='</select>';
+      } else if(opts.type==='checkbox'){
+        o+='<label style="display:flex;align-items:center;gap:8px;font-size:13px;color:'+SUB+';cursor:'+(locked?'not-allowed':'pointer')+'">';
+        o+='<input type="checkbox"'+(val?' checked':'')+(locked?' disabled':'')+' onchange="updateProject(\''+path+'\',this.checked)"/> '+h(opts.checkLabel||'')+'</label>';
+      } else if(opts.type==='number'){
+        o+='<input type="number" class="field-input mono" value="'+(val||0)+'" step="'+(opts.step||'1')+'"'+(locked?' disabled':'')+' onchange="updateProject(\''+path+'\',parseFloat(this.value)||0)" style="'+(opts.narrow?'width:120px;':'')+'"/>';
+      } else if(opts.type==='pct'){
+        o+='<div style="display:flex;align-items:center;gap:6px">';
+        o+='<input type="number" class="field-input mono" value="'+((val||0)*100)+'" step="1" min="0" max="100"'+(locked?' disabled':'')+' onchange="updateProject(\''+path+'\',parseFloat(this.value)/100||0)" style="width:80px;"/>';
+        o+='<span style="font-size:13px;color:'+MUT+'">%</span></div>';
+      } else {
+        o+='<input type="text" class="field-input" value="'+h(val||'')+'" placeholder="'+(opts.placeholder||'')+'"'+(locked?' disabled':'')+' onchange="updateProject(\''+path+'\',this.value)"/>';
+      }
+      if(opts.hint)o+='<div style="font-size:11px;color:'+MUT+';margin-top:4px">'+opts.hint+'</div>';
+      o+='</div>';
+      return o;
+    }
+
+    // ── Client Overview ──
+    out+='<div class="card" style="padding:24px;margin-bottom:24px">';
+    out+='<div style="font-size:14px;font-weight:700;margin-bottom:16px">Client overview</div>';
+    out+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">';
+
+    out+=field('Client name','clientName',P.clientName,{placeholder:'Company or organisation name'});
+    out+=field('Legal entity','legalEntity',P.legalEntity,{placeholder:'If different from client name'});
+    out+=field('Project title','projectTitle',P.projectTitle,{placeholder:'Full project title'});
+    out+=field('Short name','shortName',P.shortName,{placeholder:'Internal shortform name'});
+
+    out+='</div></div>';
+
+    // ── People ──
+    out+='<div class="card" style="padding:24px;margin-bottom:24px">';
+    out+='<div style="font-size:14px;font-weight:700;margin-bottom:16px">People</div>';
+    out+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">';
+
+    out+=field('Project lead','projectLead',P.projectLead,{placeholder:'Project and business development lead'});
+    out+=field('Project partner','projectPartner',P.projectPartner,{placeholder:'Design and support partner'});
+
+    // Reviewer dropdown from approved list
+    var revOpts=[{value:'',label:'Select a reviewer'}];
+    S.admin.reviewers.forEach(function(r){revOpts.push({value:r,label:r})});
+    out+=field('WWRI reviewer','reviewer',P.reviewer,{type:'select',options:revOpts,hint:'Senior person who signs off on this costing sheet'});
+
+    out+=field('Referral partner','referralPartner',P.referralPartner,{placeholder:'Referral provider for this project'});
+
+    // Referral active checkbox + percentage
+    out+='<div>';
+    out+=field('Referral involvement','referralActive',P.referralActive,{type:'checkbox',checkLabel:'Active involvement (10%)'});
+    out+='<div style="font-size:11px;color:'+MUT+';margin-top:4px">Active = 10%, no active involvement = 5%. Variations require Board approval.</div>';
+    out+='</div>';
+
+    out+=field('Referral fee %','referralPct',P.referralPct,{type:'pct',locked:true,hint:'Standard: 5% (inactive) or 10% (active)'});
+
+    out+='</div></div>';
+
+    // ── Financial settings ──
+    out+='<div class="card" style="padding:24px;margin-bottom:24px">';
+    out+='<div style="font-size:14px;font-weight:700;margin-bottom:16px">Financial settings</div>';
+    out+='<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px">';
+
+    var curOpts=CURRENCIES.map(function(c){return{value:c.code,label:c.code+' — '+c.name}});
+    out+=field('Currency','currency',P.currency,{type:'select',options:curOpts});
+
+    var impOpts=IMPOST_OPTIONS.map(function(i){return{value:i.name,label:i.name+' ('+fPct(i.rate)+')'}});
+    out+=field('Government impost','govtImpost',P.govtImpost,{type:'select',options:impOpts});
+
+    out+=field('WWRI contribution','wwriPct',P.wwriPct,{type:'pct',locked:true,hint:'Standard is 30%. Changes require Board approval.'});
+
+    out+='</div>';
+
+    // Derived fields display
+    var feesShare=1-P.wwriPct;
+    out+='<div style="display:flex;gap:24px;margin-top:16px;padding-top:16px;border-top:1px solid '+BRD+';font-size:13px">';
+    out+='<div style="color:'+MUT+'">Fees & services share: <span class="mono" style="font-weight:600;color:'+TXT+'">'+fPct(feesShare)+'</span></div>';
+    out+='<div style="color:'+MUT+'">Referral fee: <span class="mono" style="font-weight:600;color:'+TXT+'">'+fPct(P.referralPct)+'</span>';
+    if(P.referralPartner){
+      out+=' <span style="color:'+(P.referralActive?GRN:AMB)+'">('+(P.referralActive?'active':'inactive')+')</span>';
+    } else {
+      out+=' <span style="color:'+MUT+'">(no partner)</span>';
+    }
+    out+='</div></div>';
+    out+='</div>';
+
+    // ── Project phases ──
+    out+='<div class="card" style="padding:24px;margin-bottom:24px">';
+    out+='<div style="font-size:14px;font-weight:700;margin-bottom:16px">Project phases</div>';
+    for(var pi=0;pi<4;pi++){
+      var ph=P.phases[pi];
+      out+='<div style="display:flex;gap:12px;align-items:center;margin-bottom:'+(pi<3?'12':'0')+'px">';
+      out+='<div style="font-size:12px;font-weight:700;color:'+MUT+';width:56px;flex-shrink:0">Phase '+(pi+1)+'</div>';
+      out+='<input type="text" class="field-input" value="'+h(ph.name||'')+'" placeholder="Phase '+(pi+1)+' name" onchange="updateProject(\'phases.'+pi+'.name\',this.value)" style="flex:1"/>';
+      out+='<label style="display:flex;align-items:center;gap:6px;font-size:12px;color:'+SUB+';white-space:nowrap;cursor:pointer"><input type="checkbox"'+(ph.active?' checked':'')+' onchange="updateProject(\'phases.'+pi+'.active\',this.checked)"/> Active</label>';
+      out+='</div>';
+    }
+    out+='</div>';
+
+    // ── Professional fees — experts ──
+    out+='<div class="card" style="padding:0;margin-bottom:24px;overflow-x:auto">';
+    out+='<div style="padding:16px 24px 8px;font-size:14px;font-weight:700;border-bottom:1px solid '+BRD+';display:flex;justify-content:space-between;align-items:center">Professional fees — experts';
+    out+='<button class="btn-ghost btn-sm" onclick="addExpert()">'+IC.plus+' Add expert</button></div>';
+    out+='<table class="tbl">';
+    out+='<thead><tr>';
+    out+='<th style="width:40px">#</th>';
+    out+='<th>Expert name</th>';
+    out+='<th>Project role</th>';
+    out+='<th class="r" style="width:140px">Daily fee ('+h(P.currency)+')</th>';
+    out+='<th style="width:40px"></th>';
+    out+='</tr></thead><tbody>';
+    for(var ei=0;ei<P.experts.length;ei++){
+      var exp=P.experts[ei];
+      var tb=ei*3+1;
+      out+='<tr>';
+      out+='<td style="color:'+MUT+';font-size:12px">'+(ei+1)+'</td>';
+      out+='<td><input type="text" class="field-input" tabindex="'+tb+'" value="'+h(exp.name||'')+'" placeholder="Expert name" onchange="updateProject(\'experts.'+ei+'.name\',this.value)" style="padding:6px 10px;border:1px solid '+BRD+';border-radius:4px"/></td>';
+      out+='<td><input type="text" class="field-input" tabindex="'+(tb+1)+'" value="'+h(exp.role||'')+'" placeholder="Project role" onchange="updateProject(\'experts.'+ei+'.role\',this.value)" style="padding:6px 10px;border:1px solid '+BRD+';border-radius:4px"/></td>';
+      out+='<td class="r"><input type="number" class="field-input mono" tabindex="'+(tb+2)+'" value="'+(exp.dailyFee||'')+'" placeholder="0" min="0" onchange="updateProject(\'experts.'+ei+'.dailyFee\',parseFloat(this.value)||0)" style="text-align:right;width:120px;padding:6px 10px;border:1px solid '+BRD+';border-radius:4px"/></td>';
+      out+='<td><button type="button" tabindex="-1" onclick="removeExpert('+ei+')" style="background:none;border:none;cursor:pointer;padding:3px;color:'+MUT+'" title="Remove expert">'+IC.x+'</button></td>';
+      out+='</tr>';
+    }
+    out+='</tbody></table></div>';
+
+    // ── Service fees ──
+    var svcTabStart=P.experts.length*3+1;
+    out+='<div class="card" style="padding:0;margin-bottom:24px;overflow-x:auto">';
+    out+='<div style="padding:16px 24px 8px;font-size:14px;font-weight:700;border-bottom:1px solid '+BRD+';display:flex;justify-content:space-between;align-items:center">Service fees';
+    out+='<button class="btn-ghost btn-sm" onclick="addService()">'+IC.plus+' Add service</button></div>';
+    out+='<table class="tbl">';
+    out+='<thead><tr>';
+    out+='<th style="width:40px">#</th>';
+    out+='<th>Service name</th>';
+    out+='<th class="r" style="width:160px">Weekly fee ('+h(P.currency)+')</th>';
+    out+='<th style="width:40px"></th>';
+    out+='</tr></thead><tbody>';
+    for(var si=0;si<P.services.length;si++){
+      var svc=P.services[si];
+      var stb=svcTabStart+si*2;
+      out+='<tr>';
+      out+='<td style="color:'+MUT+';font-size:12px">'+(si+1)+'</td>';
+      out+='<td><input type="text" class="field-input" tabindex="'+stb+'" value="'+h(svc.name||'')+'" placeholder="Service name" onchange="updateProject(\'services.'+si+'.name\',this.value)" style="padding:6px 10px;border:1px solid '+BRD+';border-radius:4px"/></td>';
+      out+='<td class="r"><input type="number" class="field-input mono" tabindex="'+(stb+1)+'" value="'+(svc.weeklyFee||'')+'" placeholder="0" min="0" onchange="updateProject(\'services.'+si+'.weeklyFee\',parseFloat(this.value)||0)" style="text-align:right;width:140px;padding:6px 10px;border:1px solid '+BRD+';border-radius:4px"/></td>';
+      out+='<td><button type="button" tabindex="-1" onclick="removeService('+si+')" style="background:none;border:none;cursor:pointer;padding:3px;color:'+MUT+'" title="Remove service">'+IC.x+'</button></td>';
+      out+='</tr>';
+    }
+    out+='</tbody></table></div>';
+
+    // Navigation hint
+    out+='<div style="display:flex;justify-content:flex-end;margin-top:8px">';
+    out+='<button class="btn-primary" onclick="set({tab:\'details\',phaseTab:0})">Continue to Phase Details &rarr;</button>';
+    out+='</div>';
+  }
+
+  // ── PHASE DETAILS TAB ──
+  if(S.tab==='details'){
+    var pi=S.phaseTab;
+    var phase=P.phases[pi];
+    var phCalc=calcPhase(pi);
+    var nw=phase.weeks||0;
+    var pLabel=phase.name||('Phase '+(pi+1));
+
+    out+='<div style="font-size:18px;font-weight:700;margin-bottom:20px">Phase Details</div>';
+
+    // Phase sub-tabs
+    out+='<div style="display:flex;gap:8px;margin-bottom:24px">';
+    for(var pti=0;pti<4;pti++){
+      var ptActive=P.phases[pti].active;
+      var ptSel=S.phaseTab===pti;
+      out+='<button class="btn-ghost" onclick="set({phaseTab:'+pti+'})" style="'+(ptSel?'background:'+TEL+';color:#fff;border-color:'+TEL+';':'')+(!ptActive?'opacity:.5;':'')+'">Phase '+(pti+1)+'</button>';
+    }
+    out+='</div>';
+
+    // ── Phase config card ──
+    out+='<div class="card" style="padding:24px;margin-bottom:24px">';
+    out+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">';
+    out+='<div style="font-size:14px;font-weight:700">'+h(pLabel)+'</div>';
+    out+='<label style="display:flex;align-items:center;gap:6px;font-size:12px;color:'+SUB+';cursor:pointer"><input type="checkbox"'+(phase.active?' checked':'')+' onchange="updateProject(\'phases.'+pi+'.active\',this.checked)"/> Active</label>';
+    out+='</div>';
+    out+='<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px">';
+    out+='<div><div class="field-label">Start date</div><input type="date" class="field-input" value="'+(phase.startDate||'')+'" onchange="setPhaseStart('+pi+',this.value)"/>';
+    if(phase.startDate){out+='<div style="font-size:11px;color:'+MUT+';margin-top:4px">'+localDate(phase.startDate).toLocaleDateString('en-AU',{weekday:'long'})+'</div>';}
+    out+='</div>';
+    out+='<div><div class="field-label">Weeks</div><input type="number" class="field-input" min="0" value="'+nw+'" onchange="setPhaseWeeks('+pi+',this.value)"/></div>';
+    out+='<div><div class="field-label">End date</div><div style="padding:8px 12px;border:1px solid '+BRD+';border-radius:6px;font-size:13px;color:'+(phase.endDate?SUB:MUT)+';background:'+BG+'">'+(phase.endDate?localDate(phase.endDate).toLocaleDateString('en-AU',{day:'numeric',month:'long',year:'numeric'}):'Set start date and weeks')+'</div>';
+    if(phase.endDate){out+='<div style="font-size:11px;color:'+MUT+';margin-top:4px">'+localDate(phase.endDate).toLocaleDateString('en-AU',{weekday:'long'})+'</div>';}
+    out+='</div>';
+    out+='</div></div>';
+
+    // ── Phase summary card ──
+    out+='<div class="card" style="padding:24px;border-left:3px solid '+TEL+';margin-bottom:24px">';
+    out+='<div style="font-size:14px;font-weight:700;margin-bottom:16px">'+h(pLabel)+' — Summary</div>';
+    out+='<table style="width:100%;border-collapse:collapse;font-size:13px">';
+
+    function sumRow(label,val,opts){
+      opts=opts||{};
+      var fw=opts.bold?'font-weight:700;':'';
+      var bt=opts.topBorder?'border-top:2px solid '+BRD+';padding-top:10px;':'';
+      var clr=opts.clr||TXT;
+      return'<tr><td style="padding:5px 0;'+fw+bt+'color:'+SUB+'">'+label+'</td><td class="mono" style="padding:5px 0;text-align:right;width:140px;'+fw+bt+'color:'+clr+'">'+fCur(val)+'</td></tr>';
+    }
+
+    out+=sumRow('Professional fees',phCalc.profFees);
+    out+=sumRow('Service fees',phCalc.svcFees);
+    out+=sumRow('WWRI contribution ('+fPct(P.wwriPct)+')',phCalc.wwriAmt);
+    out+=sumRow('Project subtotal',phCalc.projectSubtotal,{bold:true,topBorder:true});
+    if(P.referralPartner){
+      out+=sumRow('Referral fee ('+fPct(phCalc.refPct)+')',phCalc.referralFee);
+    }
+    out+=sumRow('Client charge',phCalc.clientCharge,{bold:true,topBorder:true,clr:TEL});
+
+    if(nw>0){
+      var weeklyRate=phCalc.clientCharge/nw;
+      out+=sumRow('Weekly rate',weeklyRate);
+    }
+
+    out+='</table></div>';
+
+    // ── Expert fees table ──
+    out+='<div class="card" style="padding:0;margin-bottom:24px;overflow-x:auto">';
+    out+='<div style="padding:16px 24px 8px;font-size:14px;font-weight:700;border-bottom:1px solid '+BRD+'">Professional fees</div>';
+    out+='<table class="tbl" style="min-width:800px"><thead><tr>';
+    out+='<th>Expert</th><th class="r">Nominal fee</th><th class="r">Actual fee</th><th class="r">Days/wk</th><th class="r">Total days</th><th class="r">Prof. fees</th><th class="r">WWRI contrib.</th><th class="r">Client charge</th>';
+    out+='</tr></thead><tbody>';
+
+    for(var ei=0;ei<P.experts.length;ei++){
+      var exp=P.experts[ei];
+      if(!exp.name&&!exp.dailyFee)continue;
+      var pe=phase.experts[ei]||{actualFee:null,daysPerWeek:0,days:[]};
+      var ec=phCalc.experts[ei];
+      var usedRate=ec.rate;
+
+      out+='<tr>';
+      out+='<td style="font-weight:600">'+h(exp.name||('Expert '+(ei+1)))+'</td>';
+      out+='<td class="r mono" style="color:'+MUT+'">'+fCur(exp.dailyFee)+'</td>';
+      out+='<td class="r"><input type="number" class="field-input mono" data-fid="af-'+pi+'-'+ei+'" value="'+(pe.actualFee!==null&&pe.actualFee!==undefined?pe.actualFee:'')+'" placeholder="'+exp.dailyFee+'" min="0" onblur="blurRender()" oninput="setExpertActualFee('+pi+','+ei+',this.value)" style="width:90px;text-align:right;border:1px solid '+BRD+';padding:4px 8px;border-radius:4px"/></td>';
+      out+='<td class="r"><input type="number" class="field-input mono" data-fid="dpw-'+pi+'-'+ei+'" value="'+(pe.daysPerWeek||'')+'" placeholder="0" min="0" max="7" step="0.5" onblur="blurRender()" oninput="setExpertDPW('+pi+','+ei+',this.value)" style="width:60px;text-align:right;border:1px solid '+BRD+';padding:4px 8px;border-radius:4px"/></td>';
+      out+='<td class="r mono" style="font-weight:600">'+ec.days+'</td>';
+      out+='<td class="r mono">'+fCur(ec.profFee)+'</td>';
+      out+='<td class="r mono" style="color:'+MUT+'">'+fCur(ec.wwriContrib)+'</td>';
+      out+='<td class="r mono" style="font-weight:600">'+fCur(ec.clientCharge)+'</td>';
+      out+='</tr>';
+    }
+
+    // Subtotals
+    var expSubProf=0,expSubWWRI=0,expSubCharge=0;
+    for(var ei=0;ei<phCalc.experts.length;ei++){expSubProf+=phCalc.experts[ei].profFee;expSubWWRI+=phCalc.experts[ei].wwriContrib;expSubCharge+=phCalc.experts[ei].clientCharge;}
+    out+='</tbody><tfoot><tr>';
+    out+='<td colspan="5" style="text-align:right;font-weight:700">Subtotals</td>';
+    out+='<td class="r mono" style="font-weight:700">'+fCur(expSubProf)+'</td>';
+    out+='<td class="r mono" style="font-weight:700;color:'+MUT+'">'+fCur(expSubWWRI)+'</td>';
+    out+='<td class="r mono" style="font-weight:700">'+fCur(expSubCharge)+'</td>';
+    out+='</tr></tfoot></table></div>';
+
+    // ── Expert weekly grid ──
+    if(nw>0){
+      var tl=(phase.timeline||[]).slice().sort(function(a,b){
+        var aw=a.type==='milestone'?a.week:a.startWeek;
+        var bw=b.type==='milestone'?b.week:b.startWeek;
+        return aw-bw;
+      });
+      var colW=50; // week column width in px
+      var labelW=140; // first column width
+
+      out+='<div class="card" data-scroll-id="wk-grid-'+pi+'" style="padding:0;margin-bottom:24px;overflow-x:auto">';
+      out+='<div style="padding:16px 24px 8px;font-size:14px;font-weight:700;border-bottom:1px solid '+BRD+';display:flex;justify-content:space-between;align-items:center">Weekly allocation';
+      out+='<div style="display:flex;gap:6px">';
+      out+='<button class="btn-ghost btn-sm" onclick="showAddMilestone('+pi+')">&#9670; Add milestone</button>';
+      out+='<button class="btn-ghost btn-sm" onclick="showAddSpan('+pi+')">&#9644; Add activity</button>';
+      out+='</div></div>';
+
+      // Inline add/edit form
+      if(S.tlAdd&&S.tlAdd.pi===pi){
+        var a=S.tlAdd;
+        var isEdit=a.mode==='edit';
+        out+='<div style="padding:12px 24px;border-bottom:1px solid '+BRD+';background:'+BG+';display:flex;align-items:center;gap:10px;flex-wrap:wrap">';
+        if(a.type==='milestone'){
+          out+='<span style="font-size:12px;font-weight:600;color:'+TEL+'">'+(isEdit?'Edit':'&#9670; New')+' milestone:</span>';
+          out+='<input class="field-input" type="text" placeholder="Label" value="'+h(a.label||'')+'" onchange="updateTlAdd(\'label\',this.value)" oninput="updateTlAdd(\'label\',this.value)" style="width:180px;padding:5px 10px;font-size:12px"/>';
+          out+='<span style="font-size:12px;color:'+MUT+'">Week:</span>';
+          out+='<input class="field-input" type="number" min="1" max="'+nw+'" placeholder="1" value="'+(a.week||'')+'" onchange="updateTlAdd(\'week\',parseInt(this.value))" oninput="updateTlAdd(\'week\',parseInt(this.value))" style="width:60px;padding:5px 10px;font-size:12px;text-align:center"/>';
+        } else {
+          out+='<span style="font-size:12px;font-weight:600;color:'+TEL+'">'+(isEdit?'Edit':'&#9644; New')+' activity:</span>';
+          out+='<input class="field-input" type="text" placeholder="Label" value="'+h(a.label||'')+'" onchange="updateTlAdd(\'label\',this.value)" oninput="updateTlAdd(\'label\',this.value)" style="width:180px;padding:5px 10px;font-size:12px"/>';
+          out+='<span style="font-size:12px;color:'+MUT+'">From wk:</span>';
+          out+='<input class="field-input" type="number" min="1" max="'+nw+'" placeholder="1" value="'+(a.startWeek||'')+'" onchange="updateTlAdd(\'startWeek\',parseInt(this.value))" oninput="updateTlAdd(\'startWeek\',parseInt(this.value))" style="width:60px;padding:5px 10px;font-size:12px;text-align:center"/>';
+          out+='<span style="font-size:12px;color:'+MUT+'">To wk:</span>';
+          out+='<input class="field-input" type="number" min="1" max="'+nw+'" placeholder="'+nw+'" value="'+(a.endWeek||'')+'" onchange="updateTlAdd(\'endWeek\',parseInt(this.value))" oninput="updateTlAdd(\'endWeek\',parseInt(this.value))" style="width:60px;padding:5px 10px;font-size:12px;text-align:center"/>';
+        }
+        out+='<button type="button" class="btn-primary btn-sm" onclick="commitTlAdd()">'+(isEdit?'Save':'Add')+'</button>';
+        out+='<button type="button" class="btn-ghost btn-sm" onclick="cancelTlAdd()">Cancel</button>';
+        out+='</div>';
+      }
+
+      // Timeline visualisation
+      if(tl.length>0){
+        out+='<div style="padding:8px 14px 4px;min-width:'+(labelW+nw*(colW+6)+70)+'px;position:relative">';
+
+        // Render each timeline item
+        tl.forEach(function(item,ti){
+          var origIdx=(phase.timeline||[]).indexOf(item);
+          var rowH=28;
+          out+='<div style="display:flex;align-items:center;height:'+rowH+'px;position:relative">';
+
+          // Empty spacer to align with table first column
+          out+='<div style="width:'+labelW+'px;flex-shrink:0;display:flex;align-items:center;justify-content:flex-end;padding-right:8px">';
+          out+='<button type="button" onclick="removeTimeline('+pi+','+origIdx+')" style="background:none;border:none;cursor:pointer;padding:2px;color:'+MUT+';font-size:10px;opacity:0.4" title="Remove">'+IC.x+'</button>';
+          out+='</div>';
+
+          // Week columns area
+          out+='<div style="flex:1;position:relative;height:100%;display:flex;align-items:center">';
+
+          if(item.type==='milestone'){
+            var wIdx=item.week-1;
+            var xPos=wIdx*(colW+6)+(colW+6)/2;
+            // Diamond
+            out+='<div style="position:absolute;left:'+xPos+'px;transform:translateX(-50%) rotate(45deg);width:10px;height:10px;background:'+item.color+';border-radius:1px"></div>';
+            // Label to the right of diamond
+            out+='<span style="position:absolute;left:'+(xPos+12)+'px;font-size:10px;font-weight:600;color:'+item.color+';white-space:nowrap;cursor:pointer" onclick="editTimeline('+pi+','+origIdx+')" title="Click to edit">'+h(item.label)+'</span>';
+
+          } else if(item.type==='span'){
+            var startX=(item.startWeek-1)*(colW+6)+3;
+            var endX=item.endWeek*(colW+6)-3;
+            var barW=endX-startX;
+            var midX=startX+barW/2;
+            // Bar line
+            out+='<div style="position:absolute;left:'+(startX+4)+'px;width:'+(barW-8)+'px;height:3px;background:'+item.color+';border-radius:2px"></div>';
+            // Terminal dots
+            out+='<div style="position:absolute;left:'+startX+'px;width:8px;height:8px;background:'+item.color+';border-radius:50%;transform:translateX(-1px)"></div>';
+            out+='<div style="position:absolute;left:'+endX+'px;width:8px;height:8px;background:'+item.color+';border-radius:50%;transform:translateX(-6px)"></div>';
+            // Label centred above bar
+            out+='<span style="position:absolute;left:'+midX+'px;transform:translateX(-50%) translateY(-11px);font-size:10px;font-weight:600;color:'+item.color+';white-space:nowrap;cursor:pointer" onclick="editTimeline('+pi+','+origIdx+')" title="Click to edit">'+h(item.label)+'</span>';
+          }
+
+          out+='</div>'; // week columns area
+          out+='</div>'; // row
+        });
+
+        out+='</div>'; // timeline container
+        out+='<div style="border-top:1px solid '+BRD+'"></div>';
+      }
+
+      // Week number headers aligned to timeline
+      out+='<table class="tbl" style="min-width:'+(labelW+nw*(colW+6)+70)+'px"><thead><tr>';
+      out+='<th style="width:'+labelW+'px">Expert</th>';
+      for(var w=0;w<nw;w++)out+='<th class="r" style="width:'+colW+'px">Wk '+(w+1)+'</th>';
+      out+='<th class="r" style="width:60px">Total</th>';
+      out+='</tr></thead><tbody>';
+
+      for(var ei=0;ei<P.experts.length;ei++){
+        var exp=P.experts[ei];
+        if(!exp.name&&!exp.dailyFee)continue;
+        var pe=phase.experts[ei]||{daysPerWeek:0,days:[]};
+        var dpw=pe.daysPerWeek||0;
+        var total=0;
+
+        out+='<tr>';
+        out+='<td style="font-weight:600;white-space:nowrap;position:sticky;left:0;z-index:1;background:'+SUR+'">'+h(exp.name||('Expert '+(ei+1)))+'</td>';
+        for(var w=0;w<nw;w++){
+          var dv=pe.days[w];
+          var isDefault=(dv===null||dv===undefined);
+          var actual=isDefault?dpw:dv;
+          total+=actual;
+          out+='<td class="r" style="padding:4px 3px">';
+          out+='<input type="number" data-fid="ed-'+pi+'-'+ei+'-'+w+'" value="'+(isDefault?'':dv)+'" placeholder="'+dpw+'" min="0" max="7" step="0.5" ';
+          out+='onblur="blurRender()" oninput="setExpertDay('+pi+','+ei+','+w+',this.value)" ';
+          out+='style="width:44px;text-align:center;font-family:Cascadia Code,Consolas,monospace;font-size:11px;';
+          out+='padding:4px 2px;border:1px solid '+(isDefault?'transparent':BRD)+';border-radius:3px;';
+          out+='color:'+(isDefault?MUT:TXT)+';background:'+(isDefault?BG:SUR)+';outline:none" ';
+          out+='onfocus="this.style.borderColor=\''+TEL+'\'" onfocusout="this.style.borderColor=\''+(isDefault?'transparent':BRD)+'\'"/>';
+          out+='</td>';
+        }
+        out+='<td class="r mono" style="font-weight:600">'+total+'</td>';
+        out+='</tr>';
+      }
+      out+='</tbody></table></div>';
+    }
+
+    // ── Service fees table ──
+    out+='<div class="card" style="padding:0;margin-bottom:24px;overflow-x:auto">';
+    out+='<div style="padding:16px 24px 8px;font-size:14px;font-weight:700;border-bottom:1px solid '+BRD+'">Service fees</div>';
+    out+='<table class="tbl"><thead><tr>';
+    out+='<th>Service</th><th class="r">Weekly fee</th><th class="r">Total weeks</th><th class="r">Service fees</th><th class="r">WWRI contrib.</th><th class="r">Client charge</th>';
+    out+='</tr></thead><tbody>';
+
+    for(var si=0;si<P.services.length;si++){
+      var svc=P.services[si];
+      if(!svc.name&&!svc.weeklyFee)continue;
+      var sc=phCalc.services[si];
+
+      out+='<tr>';
+      out+='<td style="font-weight:600">'+h(svc.name||('Service '+(si+1)))+'</td>';
+      out+='<td class="r mono">'+fCur(svc.weeklyFee)+'</td>';
+      out+='<td class="r mono" style="font-weight:600">'+sc.weeks+'</td>';
+      out+='<td class="r mono">'+fCur(sc.fee)+'</td>';
+      out+='<td class="r mono" style="color:'+MUT+'">'+fCur(sc.wwriContrib)+'</td>';
+      out+='<td class="r mono" style="font-weight:600">'+fCur(sc.charge)+'</td>';
+      out+='</tr>';
+    }
+
+    var svcSubFee=0,svcSubWWRI=0,svcSubCharge=0;
+    for(var si=0;si<phCalc.services.length;si++){svcSubFee+=phCalc.services[si].fee;svcSubWWRI+=phCalc.services[si].wwriContrib;svcSubCharge+=phCalc.services[si].charge;}
+    out+='</tbody><tfoot><tr>';
+    out+='<td colspan="3" style="text-align:right;font-weight:700">Subtotals</td>';
+    out+='<td class="r mono" style="font-weight:700">'+fCur(svcSubFee)+'</td>';
+    out+='<td class="r mono" style="font-weight:700;color:'+MUT+'">'+fCur(svcSubWWRI)+'</td>';
+    out+='<td class="r mono" style="font-weight:700">'+fCur(svcSubCharge)+'</td>';
+    out+='</tr></tfoot></table></div>';
+
+    // ── Service weekly grid ──
+    if(nw>0&&P.services.some(function(s){return s.name||s.weeklyFee})){
+      out+='<div class="card" data-scroll-id="svc-grid-'+pi+'" style="padding:0;margin-bottom:24px;overflow-x:auto">';
+      out+='<div style="padding:16px 24px 8px;font-size:14px;font-weight:700;border-bottom:1px solid '+BRD+'">Weekly allocation — services</div>';
+      out+='<table class="tbl" style="min-width:'+(labelW+nw*(colW+6)+70)+'px"><thead><tr>';
+      out+='<th style="width:'+labelW+'px">Service</th>';
+      for(var w=0;w<nw;w++)out+='<th class="r" style="width:'+colW+'px">Wk '+(w+1)+'</th>';
+      out+='<th class="r" style="width:60px">Total</th>';
+      out+='</tr></thead><tbody>';
+
+      for(var si=0;si<P.services.length;si++){
+        var svc=P.services[si];
+        if(!svc.name&&!svc.weeklyFee)continue;
+        var ps=phase.services[si]||{weeks:[]};
+        var stotal=0;
+
+        out+='<tr>';
+        out+='<td style="font-weight:600;white-space:nowrap;position:sticky;left:0;z-index:1;background:'+SUR+'">'+h(svc.name||('Service '+(si+1)))+'</td>';
+        for(var w=0;w<nw;w++){
+          var sv=ps.weeks[w]||0;
+          stotal+=sv;
+          out+='<td class="r" style="padding:4px 3px">';
+          out+='<input type="number" data-fid="sw-'+pi+'-'+si+'-'+w+'" value="'+(sv||'')+'" placeholder="0" min="0" max="1" step="1" ';
+          out+='onblur="blurRender()" oninput="setSvcWeek('+pi+','+si+','+w+',this.value)" ';
+          out+='style="width:44px;text-align:center;font-family:Cascadia Code,Consolas,monospace;font-size:11px;';
+          out+='padding:4px 2px;border:1px solid '+BRD+';border-radius:3px;color:'+TXT+';background:'+SUR+';outline:none" ';
+          out+='onfocus="this.style.borderColor=\''+TEL+'\'" onfocusout="this.style.borderColor=\''+BRD+'\'"/>';
+          out+='</td>';
+        }
+        out+='<td class="r mono" style="font-weight:600">'+stotal+'</td>';
+        out+='</tr>';
+      }
+      out+='</tbody></table></div>';
+    }
+
+    // Navigation
+    out+='<div style="display:flex;justify-content:space-between;margin-top:20px">';
+    if(pi>0)out+='<button class="btn-ghost" onclick="set({phaseTab:'+(pi-1)+'})">← '+(P.phases[pi-1].name||('Phase '+pi))+'</button>';
+    else out+='<div></div>';
+    if(pi<3)out+='<button class="btn-primary" onclick="set({phaseTab:'+(pi+1)+'})">'+h(P.phases[pi+1].name||('Phase '+(pi+2)))+' →</button>';
+    else out+='<button class="btn-primary" onclick="set({tab:\'summary\'})">Summary →</button>';
+    out+='</div>';
+  }
+
+  // ── SUMMARY TAB ──
+  if(S.tab==='summary'){
+    var calc=calcTotals();
+    out+='<div style="font-size:18px;font-weight:700;margin-bottom:20px">Project Summary</div>';
+
+    // Phase breakdown
+    out+='<div class="card" style="padding:24px;margin-bottom:24px">';
+    out+='<div style="font-size:14px;font-weight:700;margin-bottom:16px">Client charges by phase</div>';
+    out+='<table class="tbl"><thead><tr>';
+    out+='<th></th><th class="r">Prof. Fees</th><th class="r">Services</th><th class="r">WWRI %</th><th class="r">Subtotal</th><th class="r">Referral</th><th class="r">Client Charge</th><th>Active</th>';
+    out+='</tr></thead><tbody>';
+    for(var i=0;i<4;i++){
+      var ph=P.phases[i];
+      var c=calc.phases[i];
+      var nm=ph.name||('Phase '+(i+1));
+      out+='<tr style="'+(ph.active?'':'opacity:.4')+'">';
+      out+='<td style="font-weight:600">'+h(nm)+'</td>';
+      out+='<td class="r mono">'+fCur(c.profFees)+'</td>';
+      out+='<td class="r mono">'+fCur(c.svcFees)+'</td>';
+      out+='<td class="r mono">'+fCur(c.wwriAmt)+'</td>';
+      out+='<td class="r mono">'+fCur(c.projectSubtotal)+'</td>';
+      out+='<td class="r mono">'+fCur(c.referralFee)+'</td>';
+      out+='<td class="r mono" style="font-weight:700">'+fCur(c.clientCharge)+'</td>';
+      out+='<td><input type="checkbox" '+(ph.active?'checked':'')+' onchange="updateProject(\'phases.'+i+'.active\',this.checked)"/></td>';
+      out+='</tr>';
+    }
+    out+='</tbody><tfoot><tr>';
+    out+='<td style="font-weight:700">Totals</td>';
+    out+='<td class="r mono" style="font-weight:700">'+fCur(calc.totals.profFees)+'</td>';
+    out+='<td class="r mono" style="font-weight:700">'+fCur(calc.totals.svcFees)+'</td>';
+    out+='<td class="r mono" style="font-weight:700">'+fCur(calc.totals.wwriAmt)+'</td>';
+    out+='<td class="r mono" style="font-weight:700">'+fCur(calc.totals.projectSubtotal)+'</td>';
+    out+='<td class="r mono" style="font-weight:700">'+fCur(calc.totals.referralFee)+'</td>';
+    out+='<td class="r mono" style="font-weight:700;color:'+TEL+'">'+fCur(calc.totals.clientCharge)+'</td>';
+    out+='<td></td>';
+    out+='</tr></tfoot></table>';
+    out+='</div>';
+
+    // Expert days by phase
+    out+='<div class="card" style="padding:24px;margin-bottom:24px">';
+    out+='<div style="font-size:14px;font-weight:700;margin-bottom:16px">Days by expert</div>';
+    out+='<table class="tbl"><thead><tr>';
+    out+='<th>Expert</th>';
+    for(var i=0;i<4;i++){var pn=P.phases[i].name||('Phase '+(i+1));out+='<th class="r"'+(P.phases[i].active?'':' style="opacity:.4"')+'>'+h(pn)+'</th>';}
+    out+='<th class="r" style="font-weight:700">Total Days</th>';
+    out+='</tr></thead><tbody>';
+
+    for(var ei=0;ei<P.experts.length;ei++){
+      var exp=P.experts[ei];
+      if(!exp.name&&!exp.dailyFee)continue;
+      var totalDays=0;
+      out+='<tr><td style="font-weight:600">'+h(exp.name||('Expert '+(ei+1)))+'</td>';
+      for(var i=0;i<4;i++){
+        var d=calc.phases[i].experts[ei]?calc.phases[i].experts[ei].days:0;
+        var show=P.phases[i].active?d:0;
+        totalDays+=show;
+        out+='<td class="r mono"'+(P.phases[i].active?'':' style="opacity:.4"')+'>'+(show||'–')+'</td>';
+      }
+      out+='<td class="r mono" style="font-weight:700">'+totalDays+'</td>';
+      out+='</tr>';
+    }
+    out+='</tbody></table></div>';
+
+    // Expert income by phase
+    out+='<div class="card" style="padding:24px;margin-bottom:24px">';
+    out+='<div style="font-size:14px;font-weight:700;margin-bottom:16px">Income by expert</div>';
+    out+='<table class="tbl"><thead><tr>';
+    out+='<th>Expert</th>';
+    for(var i=0;i<4;i++){var pn=P.phases[i].name||('Phase '+(i+1));out+='<th class="r"'+(P.phases[i].active?'':' style="opacity:.4"')+'>'+h(pn)+'</th>';}
+    out+='<th class="r" style="font-weight:700">Total Income</th>';
+    out+='</tr></thead><tbody>';
+
+    for(var ei=0;ei<P.experts.length;ei++){
+      var exp=P.experts[ei];
+      if(!exp.name&&!exp.dailyFee)continue;
+      var totalIncome=0;
+      out+='<tr><td style="font-weight:600">'+h(exp.name||('Expert '+(ei+1)))+'</td>';
+      for(var i=0;i<4;i++){
+        var pf=calc.phases[i].experts[ei]?calc.phases[i].experts[ei].profFee:0;
+        var show=P.phases[i].active?pf:0;
+        totalIncome+=show;
+        out+='<td class="r mono"'+(P.phases[i].active?'':' style="opacity:.4"')+'>'+(show?fCur(show):'–')+'</td>';
+      }
+      out+='<td class="r mono" style="font-weight:700">'+fCur(totalIncome)+'</td>';
+      out+='</tr>';
+    }
+
+    // Service income row(s)
+    for(var si=0;si<P.services.length;si++){
+      var svc=P.services[si];
+      if(!svc.name&&!svc.weeklyFee)continue;
+      var totalSvcIncome=0;
+      out+='<tr><td style="font-weight:600;color:'+SUB+'">'+h(svc.name||('Service '+(si+1)))+' <span style="font-size:10px;color:'+MUT+'">(service)</span></td>';
+      for(var i=0;i<4;i++){
+        var sf=calc.phases[i].services[si]?calc.phases[i].services[si].fee:0;
+        var show=P.phases[i].active?sf:0;
+        totalSvcIncome+=show;
+        out+='<td class="r mono"'+(P.phases[i].active?'':' style="opacity:.4"')+'>'+(show?fCur(show):'–')+'</td>';
+      }
+      out+='<td class="r mono" style="font-weight:700">'+fCur(totalSvcIncome)+'</td>';
+      out+='</tr>';
+    }
+
+    // Totals row
+    out+='</tbody><tfoot><tr><td style="font-weight:700">Total fees</td>';
+    var grandTotal=0;
+    for(var i=0;i<4;i++){
+      var pTotal=P.phases[i].active?(calc.phases[i].profFees+calc.phases[i].svcFees):0;
+      grandTotal+=pTotal;
+      out+='<td class="r mono" style="font-weight:700"'+(P.phases[i].active?'':' style="opacity:.4"')+'>'+fCur(pTotal)+'</td>';
+    }
+    out+='<td class="r mono" style="font-weight:700;color:'+TEL+'">'+fCur(grandTotal)+'</td>';
+    out+='</tr></tfoot></table></div>';
+
+    // WWRI share by phase
+    out+='<div class="card" style="padding:24px">';
+    out+='<div style="font-size:14px;font-weight:700;margin-bottom:16px">WWRI share by phase</div>';
+    out+='<table class="tbl"><thead><tr>';
+    out+='<th></th>';
+    for(var i=0;i<4;i++){var pn=P.phases[i].name||('Phase '+(i+1));out+='<th class="r"'+(P.phases[i].active?'':' style="opacity:.4"')+'>'+h(pn)+'</th>';}
+    out+='<th class="r" style="font-weight:700">Total</th>';
+    out+='</tr></thead><tbody>';
+
+    // Professional fees WWRI
+    out+='<tr><td style="color:'+SUB+'">Prof. fees WWRI</td>';
+    var totProfWWRI=0;
+    for(var i=0;i<4;i++){
+      var pw=0;
+      if(P.phases[i].active){for(var ei=0;ei<calc.phases[i].experts.length;ei++)pw+=calc.phases[i].experts[ei].wwriContrib;}
+      totProfWWRI+=pw;
+      out+='<td class="r mono"'+(P.phases[i].active?'':' style="opacity:.4"')+'>'+fCur(pw)+'</td>';
+    }
+    out+='<td class="r mono" style="font-weight:700">'+fCur(totProfWWRI)+'</td></tr>';
+
+    // Service fees WWRI
+    out+='<tr><td style="color:'+SUB+'">Service fees WWRI</td>';
+    var totSvcWWRI=0;
+    for(var i=0;i<4;i++){
+      var sw=0;
+      if(P.phases[i].active){for(var si=0;si<calc.phases[i].services.length;si++)sw+=calc.phases[i].services[si].wwriContrib;}
+      totSvcWWRI+=sw;
+      out+='<td class="r mono"'+(P.phases[i].active?'':' style="opacity:.4"')+'>'+fCur(sw)+'</td>';
+    }
+    out+='<td class="r mono" style="font-weight:700">'+fCur(totSvcWWRI)+'</td></tr>';
+
+    // Total WWRI
+    out+='</tbody><tfoot><tr><td style="font-weight:700">WWRI Share</td>';
+    var wwriGrand=0;
+    for(var i=0;i<4;i++){
+      var ww=P.phases[i].active?calc.phases[i].wwriAmt:0;
+      wwriGrand+=ww;
+      out+='<td class="r mono" style="font-weight:700"'+(P.phases[i].active?'':' style="opacity:.4"')+'>'+fCur(ww)+'</td>';
+    }
+    out+='<td class="r mono" style="font-weight:700;color:'+TEL+'">'+fCur(wwriGrand)+'</td>';
+    out+='</tr></tfoot></table>';
+
+    // WWRI as percentage of client charge
+    var totalCC=calc.totals.clientCharge;
+    out+='<div style="margin-top:16px;padding-top:16px;border-top:1px solid '+BRD+';display:flex;gap:32px;font-size:13px">';
+    out+='<div style="color:'+SUB+'">Total WWRI share: <span class="mono" style="font-weight:700;color:'+TEL+'">'+fCur(wwriGrand)+'</span></div>';
+    out+='<div style="color:'+SUB+'">As % of client charge: <span class="mono" style="font-weight:700;color:'+TEL+'">'+(totalCC?fPct(wwriGrand/totalCC):'0%')+'</span></div>';
+    out+='<div style="color:'+SUB+'">Total client charge: <span class="mono" style="font-weight:700">'+fCur(totalCC)+'</span></div>';
+    out+='</div>';
+    out+='</div>';
+  }
+
+  // ── QUOTE & INVOICING TAB ──
+  if(S.tab==='quote'){
+    out+='<div style="font-size:18px;font-weight:700;margin-bottom:20px">Quote & Invoicing</div>';
+
+    // Billing instructions
+    out+='<div class="card" style="padding:24px;margin-bottom:24px">';
+    out+='<div style="font-size:14px;font-weight:700;margin-bottom:16px">Invoicing configuration</div>';
+    out+='<div style="color:'+MUT+';font-size:13px">Invoice schedule (per phase / whole project), invoice split (100% / 50-50 / 30-30-40), special billing instructions will render here</div>';
+    out+='</div>';
+
+    // Invoice breakdown
+    out+='<div class="card" style="padding:24px;margin-bottom:24px">';
+    out+='<div style="font-size:14px;font-weight:700;margin-bottom:16px">Invoice schedule</div>';
+    out+='<div style="color:'+MUT+';font-size:13px">Up to 12 invoice cards showing IE Fees, Services, WWRI Share, Project Total, Referral Fee, Client Charge per invoice will render here</div>';
+    out+='</div>';
+
+    // Print button
+    out+='<div style="display:flex;gap:10px">';
+    out+='<button class="btn-primary" onclick="window.print()">'+IC.save+' Print / Export PDF</button>';
+    out+='<button class="btn-ghost" onclick="exportProject()">'+IC.save+' Export project JSON</button>';
+    out+='</div>';
+  }
+
+  // ── ADMIN TAB ──
+  if(S.tab==='admin'&&S.adminMode){
+    out+='<div style="font-size:18px;font-weight:700;margin-bottom:20px">Administration</div>';
+
+    // Approved reviewers
+    out+='<div class="card" style="padding:24px;margin-bottom:24px">';
+    out+='<div style="font-size:14px;font-weight:700;margin-bottom:16px">Approved reviewers</div>';
+    out+='<table class="tbl"><thead><tr><th>Name</th><th style="width:60px"></th></tr></thead><tbody>';
+    S.admin.reviewers.forEach(function(r,i){
+      out+='<tr><td>'+h(r)+'</td><td><button class="btn-ghost btn-sm" onclick="removeReviewer('+i+')">'+IC.x+'</button></td></tr>';
+    });
+    out+='</tbody></table>';
+    out+='<div style="margin-top:12px"><button class="btn-ghost btn-sm" onclick="addReviewer()">'+IC.plus+' Add reviewer</button></div>';
+    out+='</div>';
+
+    // Admin PIN
+    out+='<div class="card" style="padding:24px;margin-bottom:24px">';
+    out+='<div style="font-size:14px;font-weight:700;margin-bottom:16px">Admin PIN</div>';
+    out+='<div style="font-size:13px;color:'+MUT+';margin-bottom:12px">Change the PIN required to access admin settings and locked fields.</div>';
+    out+='<button class="btn-ghost" onclick="changePin()">Change PIN</button>';
+    out+='</div>';
+
+    // Project file management
+    out+='<div class="card" style="padding:24px;margin-bottom:24px">';
+    out+='<div style="font-size:14px;font-weight:700;margin-bottom:16px">Project management</div>';
+    out+='<div style="display:flex;gap:10px;flex-wrap:wrap">';
+    out+='<button class="btn-ghost" onclick="exportProject()">'+IC.save+' Export project</button>';
+    out+='<button class="btn-ghost" onclick="importProject()">'+IC.upload+' Import project</button>';
+    out+='<button class="btn-primary btn-danger" onclick="newProject()">'+IC.x+' New project</button>';
+    out+='</div></div>';
+  }
+
+  out+='</div>'; // content wrapper
+
+  document.getElementById('app').innerHTML=out;
+
+  // Restore scroll positions
+  for(var sid in scrollMap){
+    var el=document.querySelector('[data-scroll-id="'+sid+'"]');
+    if(el)el.scrollLeft=scrollMap[sid];
+  }
+}
+
+// ── Admin functions ─────────────────────────────────────────────────────────
+function addReviewer(){
+  var name=prompt('Reviewer name:');
+  if(!name||!name.trim())return;
+  S.admin.reviewers.push(name.trim());
+  S.admin.reviewers.sort();
+  saveAdmin(S.admin);
+  render();
+}
+
+function removeReviewer(idx){
+  if(!confirm('Remove '+S.admin.reviewers[idx]+'?'))return;
+  S.admin.reviewers.splice(idx,1);
+  saveAdmin(S.admin);
+  render();
+}
+
+function changePin(){
+  var current=prompt('Current PIN:');
+  if(current!==S.admin.adminPin){msg('Incorrect PIN');return;}
+  var newPin=prompt('New PIN (4 digits):');
+  if(!newPin||newPin.length<4){msg('PIN must be at least 4 characters');return;}
+  S.admin.adminPin=newPin;
+  saveAdmin(S.admin);
+  msg('PIN updated');
+}
+
+// ── Init ────────────────────────────────────────────────────────────────────
+render();
+</script>
+</body>
+</html>
