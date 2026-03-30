@@ -30,6 +30,7 @@ const SEED_FILES = {
   stageDefinitions: './data/stage-definitions.json',
   expenses:         './data/expense-categories.json',
   clientDefaults:   './data/client-defaults.json',
+  deals:            './data/seed-deals.json',
   revenue:          './data/seed-revenue.json',
   snapshots:        './data/seed-snapshots.json',
   balanceSheet:     './data/seed-balance-sheet.json',

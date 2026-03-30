@@ -31,7 +31,7 @@ function render(container) {
       </div>
 
       <div class="print-header print-only">
-        <img class="print-header__logo" src="./assets/WWT-Logo.jpg" alt="Whitewater Logo">
+        <img class="print-header__logo" src="./assets/WWT-Logo.jpg" alt="Whitewater Logo" width="60">
         <span class="print-header__title">Finance Report</span>
         <span class="print-header__date">${formatDate(today)}</span>
       </div>

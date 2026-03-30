@@ -21,10 +21,13 @@ function render(container) {
   `;
 }
 
-function renderHistoryChart(snapshots) {
-  if (snapshots.length === 0) {
-    return '<div class="chart-area"><div class="chart-area__title">24-Month Pipeline History</div><div class="chart-placeholder">No history data. Import rolling monthly totals from Controls.</div></div>';
+function renderHistoryChart(allSnapshots) {
+  if (allSnapshots.length === 0) {
+    return '<div class="chart-area"><div class="chart-area__title">Pipeline History</div><div class="chart-placeholder">No history data. Import rolling monthly totals from Controls.</div></div>';
   }
+
+  // Last 12 months only
+  const snapshots = allSnapshots.slice(-12);
 
   const width = 800;
   const height = 300;
@@ -32,29 +35,37 @@ function renderHistoryChart(snapshots) {
   const cw = width - pad.left - pad.right;
   const ch = height - pad.top - pad.bottom;
 
-  const maxVal = Math.max(...snapshots.map(s => s.active || 0), 1);
+  // Max is the highest total stack (m12 + m34 + active projects)
+  const maxVal = Math.max(...snapshots.map(s => (s.m12 || 0) + (s.m34 || 0) + (s.active || 0)), 1);
   const xStep = cw / Math.max(snapshots.length - 1, 1);
   const sy = (v) => pad.top + ch - ((v || 0) / maxVal) * ch;
   const sx = (i) => pad.left + i * xStep;
 
-  // Stacked areas: M1-M2 on bottom, M3-M4 on top
-  const m12Points = snapshots.map((s, i) => `${sx(i)},${sy(s.m12 || 0)}`);
-  const m34Points = snapshots.map((s, i) => `${sx(i)},${sy((s.m12 || 0) + (s.m34 || 0))}`);
-  const activePoints = snapshots.map((s, i) => `${sx(i)},${sy(s.active || 0)}`);
+  const baseY = pad.top + ch;
+  const lastIdx = snapshots.length - 1;
 
-  const baseline = `${sx(0)},${pad.top + ch}`;
-  const baselineEnd = `${sx(snapshots.length - 1)},${pad.top + ch}`;
+  // Stacked from baseline (matching monolith): Active on bottom, M3-M4 middle, M1-M2 top
+  // Polygons drawn back-to-front: largest (full stack) first, then smaller layers on top
+  const layer1Top = snapshots.map(s => s.active || 0);                                  // Active
+  const layer2Top = snapshots.map((s, i) => layer1Top[i] + (s.m34 || 0));               // + M3-M4
+  const layer3Top = snapshots.map((s, i) => layer2Top[i] + (s.m12 || 0));               // + M1-M2
 
-  const activeFill = `M ${activePoints.join(' L ')} L ${baselineEnd} L ${baseline} Z`;
-  const m34Fill = `M ${m34Points.join(' L ')} L ${baselineEnd} L ${baseline} Z`;
-  const m12Fill = `M ${m12Points.join(' L ')} L ${baselineEnd} L ${baseline} Z`;
+  // Build polygon points (forward across top, then baseline corners)
+  const polyPoints = (topValues) => {
+    const fwd = topValues.map((v, i) => `${sx(i)},${sy(v)}`).join(' ');
+    return `${fwd} ${sx(lastIdx)},${baseY} ${sx(0)},${baseY}`;
+  };
 
-  // X-axis labels (every 3rd)
+  const fullPoly = polyPoints(layer3Top);   // M1-M2 (outermost — light peach)
+  const midPoly = polyPoints(layer2Top);    // M3-M4 (middle — burnt orange)
+  const innerPoly = polyPoints(layer1Top);  // Active (innermost — dark navy)
+
+  // X-axis labels
   const xLabels = snapshots.map((s, i) =>
-    i % 3 === 0 ? `<text x="${sx(i)}" y="${height - 10}" text-anchor="middle" fill="var(--color-text-muted)" font-size="10">${s.label}</text>` : ''
+    `<text x="${sx(i)}" y="${height - 10}" text-anchor="middle" fill="var(--color-text-muted)" font-size="10">${s.label}</text>`
   ).join('');
 
-  // Y-axis
+  // Y-axis grid
   const gridLines = [];
   for (let i = 0; i <= 4; i++) {
     const val = (maxVal * i) / 4;
@@ -66,18 +77,20 @@ function renderHistoryChart(snapshots) {
 
   return `
     <div class="chart-area">
-      <div class="chart-area__title">24-Month Pipeline History</div>
+      <div class="chart-area__title">Pipeline History (12 months)</div>
       <svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">
         ${gridLines.join('')}
-        <path d="${activeFill}" fill="var(--color-accent-amber)" opacity="0.2" />
-        <path d="${m34Fill}" fill="var(--color-stage-m3)" opacity="0.3" />
-        <path d="${m12Fill}" fill="var(--color-stage-m1)" opacity="0.3" />
-        <path d="M ${activePoints.join(' L ')}" fill="none" stroke="var(--color-accent-amber)" stroke-width="2" />
+        <polygon points="${fullPoly}" fill="var(--color-chart-m12)" />
+        <polygon points="${midPoly}" fill="var(--color-chart-m34)" />
+        <polygon points="${innerPoly}" fill="var(--color-chart-active)" />
         ${xLabels}
-        <text x="${pad.left}" y="15" fill="var(--color-text-secondary)" font-size="11">
-          <tspan fill="var(--color-accent-amber)">■</tspan> Active
-          <tspan dx="12" fill="var(--color-stage-m3)">■</tspan> M3-M4
-          <tspan dx="12" fill="var(--color-stage-m1)">■</tspan> M1-M2
+        <text x="${width - pad.right}" y="15" text-anchor="end" fill="var(--color-text-secondary)" font-size="11">
+          <rect width="10" height="10" fill="var(--color-chart-m12)" />
+        </text>
+        <text x="${width - pad.right - 52}" y="24" text-anchor="start" fill="var(--color-text-muted)" font-size="10">
+          <tspan><tspan fill="var(--color-chart-m12)">■</tspan> M1–M2</tspan>
+          <tspan dx="16"><tspan fill="var(--color-chart-m34)">■</tspan> M3–M4</tspan>
+          <tspan dx="16"><tspan fill="var(--color-chart-active)">■</tspan> Active</tspan>
         </text>
       </svg>
     </div>

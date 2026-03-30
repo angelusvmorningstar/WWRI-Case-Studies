@@ -41,31 +41,107 @@ function render(container) {
 }
 
 function renderFunnel(active) {
-  const stages = STAGE_ORDER.map(sk => {
-    const deals = active.filter(d => d.sk === sk);
-    return { sk, count: deals.length, value: deals.reduce((s, d) => s + d.amt, 0) };
-  }).filter(s => s.count > 0);
+  const order = ['M1', 'M1.5', 'M2', 'M2.5', 'M3', 'M4'];
+  const colors = {
+    'M1': 'var(--color-stage-m1)', 'M1.5': 'var(--color-stage-m1-5)',
+    'M2': 'var(--color-stage-m2)', 'M2.5': 'var(--color-stage-m2-5)',
+    'M3': 'var(--color-stage-m3)', 'M4': 'var(--color-stage-m4)'
+  };
 
-  if (stages.length === 0) {
+  const sum = {};
+  let tot = 0;
+  for (const d of active) {
+    if (!d.sk) { continue; }
+    if (!sum[d.sk]) { sum[d.sk] = { count: 0, total: 0 }; }
+    sum[d.sk].count++;
+    sum[d.sk].total += d.amt;
+    tot += d.amt;
+  }
+
+  if (tot <= 0) {
     return '<div class="chart-placeholder">No active deals in pipeline</div>';
   }
 
-  const maxVal = Math.max(...stages.map(s => s.value));
-  const barHeight = 36;
-  const height = stages.length * (barHeight + 8) + 20;
+  // Funnel geometry — triangle with bands
+  const TY = 40, BY = 420, CX = 260, TLX = 60, TRX = 460, H = 380, HALF = 200;
+  const VW = 680, VH = 460;
 
-  const bars = stages.map((s, i) => {
-    const width = maxVal > 0 ? (s.value / maxVal) * 600 : 0;
-    const y = i * (barHeight + 8) + 10;
-    const color = STAGE_COLORS[s.sk] || 'var(--color-primary)';
-    return `
-      <rect x="80" y="${y}" width="${width}" height="${barHeight}" rx="4" fill="${color}" />
-      <text x="75" y="${y + barHeight / 2 + 4}" text-anchor="end" fill="var(--color-text-secondary)" font-size="12" font-weight="600">${s.sk}</text>
-      <text x="${85 + width}" y="${y + barHeight / 2 + 4}" fill="var(--color-text-secondary)" font-size="11">${s.count} deals · ${formatCurrency(s.value, 'USD')}</text>
-    `;
-  }).join('');
+  const rX = (y) => CX + (BY - y) / H * HALF;
 
-  return `<div class="chart-area"><div class="chart-area__title">Pipeline Funnel</div><svg viewBox="0 0 800 ${height}" xmlns="http://www.w3.org/2000/svg">${bars}</svg></div>`;
+  // Build bands proportional to value
+  let y = TY;
+  const bands = order.map(k => {
+    const val = sum[k] ? sum[k].total : 0;
+    const cnt = sum[k] ? sum[k].count : 0;
+    const bh = val / tot * H;
+    const band = { key: k, val, count: cnt, y, h: bh, color: colors[k] };
+    y += bh;
+    return band;
+  });
+
+  let svg = `<svg width="100%" viewBox="0 0 ${VW} ${VH}" xmlns="http://www.w3.org/2000/svg">`;
+
+  // Clip path — triangle
+  svg += `<defs><clipPath id="fc"><polygon points="${CX},${BY} ${TLX},${TY} ${TRX},${TY}"/></clipPath></defs>`;
+
+  // Coloured bands clipped to triangle
+  svg += '<g clip-path="url(#fc)">';
+  for (const b of bands) {
+    if (b.h > 0) {
+      svg += `<rect x="${TLX}" y="${b.y.toFixed(1)}" width="${TRX - TLX}" height="${Math.ceil(b.h + 1)}" fill="${b.color}"/>`;
+    }
+  }
+  svg += '</g>';
+
+  // White separator lines between bands
+  for (let i = 1; i < bands.length; i++) {
+    const b = bands[i];
+    if (b.h <= 0) { continue; }
+    const lx = CX - (BY - b.y) / H * HALF + 2;
+    const rx = CX + (BY - b.y) / H * HALF - 2;
+    if (rx > lx) {
+      svg += `<line x1="${lx.toFixed(1)}" y1="${b.y.toFixed(1)}" x2="${rx.toFixed(1)}" y2="${b.y.toFixed(1)}" stroke="white" stroke-width="1" opacity="0.5"/>`;
+    }
+  }
+
+  // Triangle outline
+  svg += `<polygon points="${CX},${BY} ${TLX},${TY} ${TRX},${TY}" fill="none" stroke="var(--color-border)" stroke-width="1.2"/>`;
+
+  // Labels with leader lines
+  const LX = 475, MIN_GAP = 26;
+  const visible = bands.filter(b => b.h >= 1);
+  const labelY = visible.map(b => b.y + b.h / 2);
+
+  // Space labels to avoid overlap
+  for (let pass = 0; pass < 10; pass++) {
+    for (let i = labelY.length - 2; i >= 0; i--) {
+      if (labelY[i + 1] - labelY[i] < MIN_GAP) { labelY[i] = labelY[i + 1] - MIN_GAP; }
+    }
+    for (let j = 1; j < labelY.length; j++) {
+      if (labelY[j] - labelY[j - 1] < MIN_GAP) { labelY[j] = labelY[j - 1] + MIN_GAP; }
+    }
+  }
+
+  for (let i = 0; i < labelY.length; i++) {
+    labelY[i] = Math.max(TY + 8, Math.min(BY - 8, labelY[i]));
+  }
+
+  visible.forEach((b, idx) => {
+    const midY = b.y + b.h / 2;
+    const ly = labelY[idx];
+    const pct = Math.round(b.val / tot * 100);
+    const rx = rX(midY);
+
+    svg += `<line x1="${rx.toFixed(1)}" y1="${midY.toFixed(1)}" x2="${LX - 4}" y2="${ly.toFixed(1)}" stroke="var(--color-text-muted)" stroke-width="0.8" stroke-dasharray="3 2"/>`;
+    svg += `<text font-size="11" font-weight="700" font-family="var(--font-ui)" x="${LX}" y="${(ly + 2)}" fill="var(--color-text-primary)">${b.key}</text>`;
+    svg += `<text font-size="10" font-family="var(--font-ui)" x="${LX}" y="${(ly + 14)}" fill="var(--color-text-secondary)">${formatCurrency(b.val, 'USD')}  ${b.count} deals  ${pct}%</text>`;
+  });
+
+  // Total at bottom
+  svg += `<text font-size="10" font-family="var(--font-ui)" x="${CX}" y="${VH - 8}" text-anchor="middle" fill="var(--color-text-muted)">Total: ${formatCurrency(tot, 'USD')}</text>`;
+  svg += '</svg>';
+
+  return `<div class="chart-area"><div class="chart-area__title">Pipeline Funnel</div>${svg}</div>`;
 }
 
 function renderDealTable(dealList) {
