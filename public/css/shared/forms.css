@@ -1,0 +1,212 @@
+/* ==========================================================================
+   forms.css — Buttons, inputs, import areas, feedback banners, status badges
+   ========================================================================== */
+
+/* ---------- Base Button ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-family: var(--font-ui);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1;
+  padding: var(--space-2) var(--space-4);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px var(--color-focus-ring);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ---------- Primary Button ---------- */
+
+.btn--primary {
+  background-color: var(--color-primary);
+  color: var(--color-bg-surface);
+}
+
+.btn--primary:hover:not(:disabled) {
+  background-color: var(--color-primary-hover);
+}
+
+/* ---------- Ghost Button ---------- */
+
+.btn--ghost {
+  background: transparent;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+}
+
+.btn--ghost:hover:not(:disabled) {
+  border-color: var(--color-text-secondary);
+  color: var(--color-text-primary);
+}
+
+/* ---------- Danger Button ---------- */
+
+.btn--danger {
+  background-color: var(--color-danger);
+  color: var(--color-bg-surface);
+}
+
+.btn--danger:hover:not(:disabled) {
+  background-color: var(--color-danger-hover);
+}
+
+/* ---------- Form Inputs ---------- */
+
+.form-input,
+.form-select {
+  font-family: var(--font-ui);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-3);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.form-input:focus,
+.form-select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-focus-ring);
+}
+
+/* ---------- Textarea ---------- */
+
+.form-textarea {
+  display: block;
+  width: 100%;
+  min-height: 120px;
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3);
+  resize: vertical;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.form-textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-focus-ring);
+}
+
+/* ---------- Label ---------- */
+
+.form-label {
+  display: block;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-1);
+}
+
+/* ---------- Import Area ---------- */
+
+.import-area {
+  margin-bottom: var(--space-6);
+}
+
+.import-area .form-textarea {
+  margin-bottom: var(--space-2);
+}
+
+/* ---------- Import Feedback Banners ---------- */
+
+.import-feedback {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  border-left: 4px solid var(--color-border);
+  padding: var(--space-3) var(--space-4);
+  margin-bottom: var(--space-2);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-bg-surface);
+  font-size: var(--font-size-sm);
+}
+
+.import-feedback--success {
+  border-left-color: var(--color-success);
+}
+
+.import-feedback--error {
+  border-left-color: var(--color-danger);
+}
+
+.import-feedback__icon {
+  flex-shrink: 0;
+  font-size: var(--font-size-base);
+}
+
+.import-feedback__text {
+  flex: 1;
+  color: var(--color-text-primary);
+}
+
+.import-feedback__meta {
+  flex-shrink: 0;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+/* ---------- Status Badges ---------- */
+
+.status-badge {
+  display: inline-block;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+  line-height: var(--line-height-normal);
+}
+
+.status-badge--contracted {
+  background-color: var(--color-status-contracted);
+  color: var(--color-bg-surface);
+}
+
+.status-badge--certain {
+  background-color: var(--color-status-certain);
+  color: var(--color-bg-surface);
+}
+
+.status-badge--uncertain {
+  background-color: var(--color-status-uncertain);
+  color: var(--color-bg-surface);
+}
+
+/* ---------- Inline Confirmation (Destructive Actions) ---------- */
+
+.confirm-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+}
+
+.confirm-row__message {
+  flex: 1;
+}

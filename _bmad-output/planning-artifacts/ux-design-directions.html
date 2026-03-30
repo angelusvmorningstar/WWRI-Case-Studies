@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WWRI Toolkit — UX Design Directions</title>
+<style>
+/* ── Reset & Base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  font-family: 'Calibri', 'Segoe UI', system-ui, sans-serif;
+  background: #1A1A1A;
+  color: #F5F4F0;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Design Tokens (shared across all directions) ── */
+:root {
+  --color-primary: #009898;
+  --color-primary-hover: #007878;
+  --color-danger: #C0392B;
+  --color-danger-hover: #A93226;
+  --color-success: #1E8C4A;
+  --color-accent-amber: #C07A00;
+  --color-text-primary: #1A1A1A;
+  --color-text-secondary: #555550;
+  --color-text-muted: #888884;
+  --color-bg-page: #F5F4F0;
+  --color-bg-surface: #FFFFFF;
+  --color-bg-alt: #FAFAF8;
+  --color-bg-hover: #F0EFEC;
+  --color-border: #DDDBD6;
+  --color-focus-ring: rgba(0,152,152,0.15);
+  --font-ui: 'Calibri', 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'Cascadia Code', Consolas, monospace;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+}
+
+/* ── Showcase Navigation ── */
+.showcase-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: #222;
+  border-bottom: 1px solid #444;
+  padding: 12px 32px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.showcase-nav h1 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #F5F4F0;
+  white-space: nowrap;
+}
+.showcase-nav .dir-btns {
+  display: flex;
+  gap: 8px;
+}
+.showcase-nav button {
+  padding: 6px 16px;
+  border: 1px solid #555;
+  border-radius: 4px;
+  background: transparent;
+  color: #CCC;
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.showcase-nav button:hover { border-color: #009898; color: #fff; }
+.showcase-nav button.active {
+  background: #009898;
+  border-color: #009898;
+  color: #fff;
+}
+.showcase-desc {
+  font-size: 13px;
+  color: #888;
+  margin-left: auto;
+}
+
+/* ── Direction Container ── */
+.direction {
+  display: none;
+  margin-top: 52px;
+  min-height: calc(100vh - 52px);
+}
+.direction.active { display: block; }
+
+/* ════════════════════════════════════════════════════════
+   DIRECTION A: Compact Header Bar
+   Mode switcher and tabs on the same horizontal bar.
+   Maximum vertical space for content.
+   ════════════════════════════════════════════════════════ */
+.dir-a .app-shell {
+  background: var(--color-bg-page);
+  min-height: calc(100vh - 52px);
+  display: flex;
+  flex-direction: column;
+}
+.dir-a .app-header {
+  background: var(--color-bg-surface);
+  border-bottom: 1px solid var(--color-border);
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  height: 48px;
+  gap: 0;
+}
+.dir-a .app-logo {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-right: 24px;
+  white-space: nowrap;
+}
+.dir-a .app-logo span { color: var(--color-primary); }
+.dir-a .mode-switcher {
+  display: flex;
+  gap: 0;
+  margin-right: 32px;
+}
+.dir-a .mode-btn {
+  padding: 12px 16px;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s;
+}
+.dir-a .mode-btn:hover { color: var(--color-text-primary); }
+.dir-a .mode-btn.active {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+}
+.dir-a .tab-bar {
+  display: flex;
+  gap: 0;
+}
+.dir-a .tab-btn {
+  padding: 12px 14px;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s;
+}
+.dir-a .tab-btn:hover { color: var(--color-text-secondary); }
+.dir-a .tab-btn.active {
+  color: var(--color-text-primary);
+  border-bottom-color: var(--color-text-primary);
+}
+.dir-a .app-content {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+}
+
+/* ════════════════════════════════════════════════════════
+   DIRECTION B: Split Header — Branded Top + Tab Row
+   Mode switcher in a branded top bar, tabs in a second row.
+   Clearer visual separation between mode and tab levels.
+   ════════════════════════════════════════════════════════ */
+.dir-b .app-shell {
+  background: var(--color-bg-page);
+  min-height: calc(100vh - 52px);
+  display: flex;
+  flex-direction: column;
+}
+.dir-b .app-header-top {
+  background: var(--color-text-primary);
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  height: 44px;
+  gap: 24px;
+}
+.dir-b .app-logo {
+  font-size: 15px;
+  font-weight: 700;
+  color: #FFFFFF;
+  white-space: nowrap;
+}
+.dir-b .app-logo span { color: var(--color-primary); }
+.dir-b .mode-switcher {
+  display: flex;
+  gap: 4px;
+  margin-left: 16px;
+}
+.dir-b .mode-btn {
+  padding: 6px 14px;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.6);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.dir-b .mode-btn:hover { border-color: rgba(255,255,255,0.4); color: rgba(255,255,255,0.8); }
+.dir-b .mode-btn.active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #FFFFFF;
+}
+.dir-b .app-header-tabs {
+  background: var(--color-bg-surface);
+  border-bottom: 1px solid var(--color-border);
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  height: 42px;
+}
+.dir-b .tab-bar { display: flex; gap: 0; }
+.dir-b .tab-btn {
+  padding: 10px 16px;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s;
+}
+.dir-b .tab-btn:hover { color: var(--color-text-secondary); }
+.dir-b .tab-btn.active {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+}
+.dir-b .app-content {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+}
+
+/* ════════════════════════════════════════════════════════
+   DIRECTION C: Pill Mode Switcher + Underline Tabs
+   Mode switcher as a pill toggle in the header.
+   Tabs as underlined text below.
+   ════════════════════════════════════════════════════════ */
+.dir-c .app-shell {
+  background: var(--color-bg-page);
+  min-height: calc(100vh - 52px);
+  display: flex;
+  flex-direction: column;
+}
+.dir-c .app-header {
+  background: var(--color-bg-surface);
+  border-bottom: 1px solid var(--color-border);
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  height: 52px;
+  gap: 20px;
+}
+.dir-c .app-logo {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+}
+.dir-c .app-logo span { color: var(--color-primary); }
+.dir-c .mode-switcher {
+  display: flex;
+  background: var(--color-bg-page);
+  border-radius: var(--radius-md);
+  padding: 3px;
+  gap: 2px;
+}
+.dir-c .mode-btn {
+  padding: 5px 14px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.dir-c .mode-btn:hover { color: var(--color-text-primary); }
+.dir-c .mode-btn.active {
+  background: var(--color-bg-surface);
+  color: var(--color-primary);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.dir-c .tab-row {
+  background: var(--color-bg-surface);
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  height: 40px;
+  border-bottom: 1px solid var(--color-border);
+}
+.dir-c .tab-bar { display: flex; gap: 0; }
+.dir-c .tab-btn {
+  padding: 9px 14px;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s;
+}
+.dir-c .tab-btn:hover { color: var(--color-text-secondary); }
+.dir-c .tab-btn.active {
+  color: var(--color-text-primary);
+  font-weight: 600;
+  border-bottom-color: var(--color-primary);
+}
+.dir-c .app-content {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+}
+
+/* ── Shared Content Styles (all directions) ── */
+.content-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.kpi-card {
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+}
+.kpi-card__label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+  margin-bottom: 8px;
+}
+.kpi-card__value {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  line-height: 1.2;
+  font-family: var(--font-mono);
+}
+.kpi-card__change {
+  font-size: 12px;
+  margin-top: 6px;
+  color: var(--color-success);
+  font-weight: 600;
+}
+.kpi-card__change.negative { color: var(--color-danger); }
+
+.data-table-wrap {
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+.data-table-wrap h3 {
+  padding: 14px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  border-bottom: 1px solid var(--color-border);
+}
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.data-table th {
+  padding: 10px 14px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+  background: var(--color-bg-page);
+  border-bottom: 1px solid var(--color-border);
+  text-align: left;
+  white-space: nowrap;
+}
+.data-table th.num { text-align: right; }
+.data-table td {
+  padding: 10px 14px;
+  color: var(--color-text-primary);
+  border-bottom: 1px solid var(--color-border);
+}
+.data-table td.num {
+  text-align: right;
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+.data-table tr:nth-child(even) td { background: var(--color-bg-alt); }
+.data-table tr:hover td { background: var(--color-bg-hover); }
+.data-table tfoot td {
+  padding: 12px 14px;
+  background: var(--color-bg-page);
+  border-top: 2px solid var(--color-border);
+  font-weight: 700;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.status-badge--contracted { background: #E8F5E9; color: #1E8C4A; }
+.status-badge--certain { background: #E0F2F1; color: #009898; }
+.status-badge--uncertain { background: #FFF3E0; color: #C07A00; }
+
+.chart-area {
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  margin-bottom: 24px;
+}
+.chart-area h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 16px;
+}
+.chart-placeholder {
+  height: 200px;
+  position: relative;
+  overflow: hidden;
+}
+.chart-placeholder svg { width: 100%; height: 100%; }
+
+/* ── Import feedback example ── */
+.import-feedback {
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-left: 3px solid var(--color-success);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.import-feedback__icon {
+  width: 20px;
+  height: 20px;
+  background: var(--color-success);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+.import-feedback__text {
+  font-size: 13px;
+  color: var(--color-text-primary);
+}
+.import-feedback__text strong { font-weight: 600; }
+.import-feedback__meta {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+/* ── Buttons ── */
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: var(--radius-md);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btn--primary { background: var(--color-primary); color: #fff; }
+.btn--primary:hover { background: var(--color-primary-hover); }
+.btn--ghost {
+  background: transparent;
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+}
+.btn--ghost:hover { border-color: var(--color-text-muted); }
+.btn--danger { background: var(--color-danger); color: #fff; }
+.btn--danger:hover { background: var(--color-danger-hover); }
+
+/* ── Two-column layout ── */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+</style>
+</head>
+<body>
+
+<!-- ── Showcase Navigation ── -->
+<nav class="showcase-nav">
+  <h1>WWRI Toolkit — Design Directions</h1>
+  <div class="dir-btns">
+    <button class="active" onclick="showDirection('a')">A: Compact Bar</button>
+    <button onclick="showDirection('b')">B: Split Header</button>
+    <button onclick="showDirection('c')">C: Pill Switcher</button>
+  </div>
+  <span class="showcase-desc" id="desc">Mode switcher and tabs on one line. Maximum content space.</span>
+</nav>
+
+<!-- ════════════════════════════════════════════════════
+     DIRECTION A: Compact Header Bar
+     ════════════════════════════════════════════════════ -->
+<div class="direction dir-a active" id="dir-a">
+  <div class="app-shell">
+    <header class="app-header">
+      <div class="app-logo">WW<span>RI</span> Toolkit</div>
+      <div class="mode-switcher">
+        <button class="mode-btn" onclick="setMode(this)">Pipeline Report</button>
+        <button class="mode-btn active" onclick="setMode(this)">Finance Report</button>
+      </div>
+      <div class="tab-bar">
+        <button class="tab-btn active" onclick="setTab(this)">Dashboard</button>
+        <button class="tab-btn" onclick="setTab(this)">Cash Forecast</button>
+        <button class="tab-btn" onclick="setTab(this)">Revenue Pipeline</button>
+        <button class="tab-btn" onclick="setTab(this)">Controls</button>
+        <button class="tab-btn" onclick="setTab(this)">Print</button>
+      </div>
+    </header>
+    <main class="app-content" id="content-a"></main>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     DIRECTION B: Split Header — Branded Top + Tab Row
+     ════════════════════════════════════════════════════ -->
+<div class="direction dir-b" id="dir-b">
+  <div class="app-shell">
+    <header class="app-header-top">
+      <div class="app-logo">WW<span>RI</span> Toolkit</div>
+      <div class="mode-switcher">
+        <button class="mode-btn" onclick="setMode(this)">Pipeline Report</button>
+        <button class="mode-btn active" onclick="setMode(this)">Finance Report</button>
+      </div>
+    </header>
+    <nav class="app-header-tabs">
+      <div class="tab-bar">
+        <button class="tab-btn active" onclick="setTab(this)">Dashboard</button>
+        <button class="tab-btn" onclick="setTab(this)">Cash Forecast</button>
+        <button class="tab-btn" onclick="setTab(this)">Revenue Pipeline</button>
+        <button class="tab-btn" onclick="setTab(this)">Controls</button>
+        <button class="tab-btn" onclick="setTab(this)">Print</button>
+      </div>
+    </nav>
+    <main class="app-content" id="content-b"></main>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     DIRECTION C: Pill Mode Switcher + Tab Row
+     ════════════════════════════════════════════════════ -->
+<div class="direction dir-c" id="dir-c">
+  <div class="app-shell">
+    <header class="app-header">
+      <div class="app-logo">WW<span>RI</span> Toolkit</div>
+      <div class="mode-switcher">
+        <button class="mode-btn" onclick="setMode(this)">Pipeline Report</button>
+        <button class="mode-btn active" onclick="setMode(this)">Finance Report</button>
+      </div>
+    </header>
+    <nav class="tab-row">
+      <div class="tab-bar">
+        <button class="tab-btn active" onclick="setTab(this)">Dashboard</button>
+        <button class="tab-btn" onclick="setTab(this)">Cash Forecast</button>
+        <button class="tab-btn" onclick="setTab(this)">Revenue Pipeline</button>
+        <button class="tab-btn" onclick="setTab(this)">Controls</button>
+        <button class="tab-btn" onclick="setTab(this)">Print</button>
+      </div>
+    </nav>
+    <main class="app-content" id="content-c"></main>
+  </div>
+</div>
+
+<script>
+// ── Direction switching ──
+const descriptions = {
+  a: 'Mode switcher and tabs on one line. Maximum content space.',
+  b: 'Dark branded header with mode toggle. Tabs on a separate row. Clear hierarchy.',
+  c: 'Pill-style mode switcher in header. Tabs on a separate row. Modern feel.'
+};
+
+function showDirection(dir) {
+  document.querySelectorAll('.direction').forEach(d => d.classList.remove('active'));
+  document.getElementById('dir-' + dir).classList.add('active');
+  document.querySelectorAll('.showcase-nav .dir-btns button').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('desc').textContent = descriptions[dir];
+}
+
+// ── Mode/Tab switching (visual only) ──
+function setMode(btn) {
+  btn.parentElement.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function setTab(btn) {
+  btn.parentElement.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ── Populate content areas with sample dashboard ──
+const dashboardHTML = `
+  <div class="import-feedback">
+    <div class="import-feedback__icon">✓</div>
+    <div class="import-feedback__text"><strong>P&L AU (Month)</strong> — 42 rows imported successfully</div>
+    <div class="import-feedback__meta">2 minutes ago</div>
+  </div>
+
+  <div class="content-grid">
+    <div class="kpi-card">
+      <div class="kpi-card__label">Revenue (Month)</div>
+      <div class="kpi-card__value">$284,500</div>
+      <div class="kpi-card__change">↑ 12.3% vs prior</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-card__label">Gross Profit</div>
+      <div class="kpi-card__value">$198,150</div>
+      <div class="kpi-card__change">↑ 8.7% vs prior</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-card__label">Operating Profit</div>
+      <div class="kpi-card__value">$62,340</div>
+      <div class="kpi-card__change negative">↓ 3.1% vs prior</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-card__label">Cash Position</div>
+      <div class="kpi-card__value">$741,200</div>
+      <div class="kpi-card__change">↑ 5.2% vs prior</div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="data-table-wrap">
+      <h3>Revenue by Entity</h3>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Entity</th>
+            <th class="num">Month</th>
+            <th class="num">YTD</th>
+            <th class="num">Budget</th>
+            <th class="num">Variance</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Whitewater AU</td>
+            <td class="num">$186,200</td>
+            <td class="num">$1,645,800</td>
+            <td class="num">$1,500,000</td>
+            <td class="num" style="color: var(--color-success)">+9.7%</td>
+          </tr>
+          <tr>
+            <td>Whitewater EU</td>
+            <td class="num">$72,400</td>
+            <td class="num">$598,300</td>
+            <td class="num">$620,000</td>
+            <td class="num" style="color: var(--color-danger)">-3.5%</td>
+          </tr>
+          <tr>
+            <td>Whitewater US</td>
+            <td class="num">$25,900</td>
+            <td class="num">$187,600</td>
+            <td class="num">$200,000</td>
+            <td class="num" style="color: var(--color-danger)">-6.2%</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td>Combined</td>
+            <td class="num">$284,500</td>
+            <td class="num">$2,431,700</td>
+            <td class="num">$2,320,000</td>
+            <td class="num" style="color: var(--color-success)">+4.8%</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <div class="chart-area">
+      <h3>Cash Forecast (9 months)</h3>
+      <div class="chart-placeholder">
+        <svg viewBox="0 0 500 200" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="grad1" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#009898" stop-opacity="0.15"/>
+              <stop offset="100%" stop-color="#009898" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <!-- Grid lines -->
+          <line x1="0" y1="50" x2="500" y2="50" stroke="#DDDBD6" stroke-width="0.5"/>
+          <line x1="0" y1="100" x2="500" y2="100" stroke="#DDDBD6" stroke-width="0.5"/>
+          <line x1="0" y1="150" x2="500" y2="150" stroke="#DDDBD6" stroke-width="0.5"/>
+          <!-- Forecast fill -->
+          <path d="M0,120 L56,110 L111,95 L167,100 L222,85 L278,70 L333,75 L389,60 L444,50 L500,45 L500,200 L0,200 Z" fill="url(#grad1)"/>
+          <!-- Forecast line -->
+          <polyline points="0,120 56,110 111,95 167,100 222,85 278,70 333,75 389,60 444,50 500,45" fill="none" stroke="#009898" stroke-width="2"/>
+          <!-- Potential line -->
+          <polyline points="0,120 56,108 111,90 167,85 222,70 278,55 333,50 389,40 444,30 500,25" fill="none" stroke="#C07A00" stroke-width="2" stroke-dasharray="6,4"/>
+          <!-- Data points -->
+          <circle cx="0" cy="120" r="3" fill="#009898"/>
+          <circle cx="56" cy="110" r="3" fill="#009898"/>
+          <circle cx="111" cy="95" r="3" fill="#009898"/>
+          <circle cx="167" cy="100" r="3" fill="#009898"/>
+          <circle cx="222" cy="85" r="3" fill="#009898"/>
+          <!-- Legend -->
+          <line x1="300" y1="185" x2="320" y2="185" stroke="#009898" stroke-width="2"/>
+          <text x="325" y="189" fill="#555550" font-size="10" font-family="Calibri, sans-serif">Forecast</text>
+          <line x1="390" y1="185" x2="410" y2="185" stroke="#C07A00" stroke-width="2" stroke-dasharray="6,4"/>
+          <text x="415" y="189" fill="#555550" font-size="10" font-family="Calibri, sans-serif">Potential</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="data-table-wrap">
+    <h3>Revenue Pipeline</h3>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Client</th>
+          <th>Project</th>
+          <th>Status</th>
+          <th class="num">Amount (AUD)</th>
+          <th class="num">WWRI Margin</th>
+          <th class="num">Due</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Acme Corp</td>
+          <td>Digital Transformation Phase 2</td>
+          <td><span class="status-badge status-badge--contracted">Contracted</span></td>
+          <td class="num">$125,000</td>
+          <td class="num">$43,750</td>
+          <td class="num">Apr 2026</td>
+        </tr>
+        <tr>
+          <td>GlobalTech</td>
+          <td>Change Readiness Assessment</td>
+          <td><span class="status-badge status-badge--certain">Certain</span></td>
+          <td class="num">$68,000</td>
+          <td class="num">$23,800</td>
+          <td class="num">May 2026</td>
+        </tr>
+        <tr>
+          <td>Meridian Partners</td>
+          <td>Operating Model Review</td>
+          <td><span class="status-badge status-badge--uncertain">Uncertain</span></td>
+          <td class="num">$92,500</td>
+          <td class="num">$32,375</td>
+          <td class="num">Jun 2026</td>
+        </tr>
+        <tr>
+          <td>Pacific Industries</td>
+          <td>Leadership Development</td>
+          <td><span class="status-badge status-badge--contracted">Contracted</span></td>
+          <td class="num">$45,000</td>
+          <td class="num">$15,750</td>
+          <td class="num">Apr 2026</td>
+        </tr>
+        <tr>
+          <td>Nexus Group</td>
+          <td>Strategy Workshop Series</td>
+          <td><span class="status-badge status-badge--certain">Certain</span></td>
+          <td class="num">$38,500</td>
+          <td class="num">$13,475</td>
+          <td class="num">May 2026</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+`;
+
+document.getElementById('content-a').innerHTML = dashboardHTML;
+document.getElementById('content-b').innerHTML = dashboardHTML;
+document.getElementById('content-c').innerHTML = dashboardHTML;
+</script>
+
+</body>
+</html>

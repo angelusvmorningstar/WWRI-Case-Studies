@@ -1,0 +1,18 @@
+{
+  "defaults": {
+    "iePct": 0.70,
+    "refPct": 0,
+    "avgPay": 30
+  },
+  "clients": [
+    { "name": "Yoplait Canada", "iePct": 0.75, "refPct": 0, "avgPay": 38 },
+    { "name": "SODIAAL R&D", "iePct": 0.70, "refPct": 0, "avgPay": 42 },
+    { "name": "Dominos Japan", "iePct": 0.70, "refPct": 0.10, "avgPay": 14 },
+    { "name": "Renesas", "iePct": 0.70, "refPct": 0.10, "avgPay": 30 }
+  ],
+  "revenueStatuses": [
+    { "id": 1, "label": "Contracted", "color": "--color-status-contracted" },
+    { "id": 2, "label": "Certain", "color": "--color-status-certain" },
+    { "id": 3, "label": "Uncertain", "color": "--color-status-uncertain" }
+  ]
+}

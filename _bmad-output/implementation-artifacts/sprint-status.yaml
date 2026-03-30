@@ -1,0 +1,87 @@
+# generated: 2026-03-30
+# last_updated: 2026-03-30
+# project: WWRI-Toolkit
+# project_key: NOKEY
+# tracking_system: file-system
+# story_location: {project-root}/_bmad-output/implementation-artifacts
+
+# STATUS DEFINITIONS:
+# ==================
+# Epic Status:
+#   - backlog: Epic not yet started
+#   - in-progress: Epic actively being worked on
+#   - done: All stories in epic completed
+#
+# Epic Status Transitions:
+#   - backlog → in-progress: Automatically when first story is created (via create-story)
+#   - in-progress → done: Manually when all stories reach 'done' status
+#
+# Story Status:
+#   - backlog: Story only exists in epic file
+#   - ready-for-dev: Story file created in stories folder
+#   - in-progress: Developer actively working on implementation
+#   - review: Ready for code review (via Dev's code-review workflow)
+#   - done: Story completed
+#
+# Retrospective Status:
+#   - optional: Can be completed but not required
+#   - done: Retrospective has been completed
+#
+# WORKFLOW NOTES:
+# ===============
+# - Epic transitions to 'in-progress' automatically when first story is created
+# - Stories can be worked in parallel if team capacity allows
+# - SM typically creates next story after previous one is 'done' to incorporate learnings
+# - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
+
+generated: 2026-03-30
+last_updated: 2026-03-30T01
+project: WWRI-Toolkit
+project_key: NOKEY
+tracking_system: file-system
+story_location: "{project-root}/_bmad-output/implementation-artifacts"
+
+development_status:
+  # Epic 1: App Foundation & Navigation
+  epic-1: in-progress
+  1-1-project-structure-theme-seed-data: review
+  1-2-data-storage-layer: review
+  1-3-shared-utilities: review
+  1-4-app-shell-navigation: review
+  1-5-shared-component-styles: review
+  epic-1-retrospective: optional
+
+  # Epic 2: Finance Controls & Data Management
+  epic-2: in-progress
+  2-1-finance-controls-tab-layout-import-areas: review
+  2-2-xero-csv-import-parsing: review
+  2-3-import-feedback-activity-log: review
+  2-4-fx-rates-client-reference-data: review
+  2-5-backup-export-restore: review
+  epic-2-retrospective: optional
+
+  # Epic 3: Finance Dashboard, Forecast & Revenue
+  epic-3: in-progress
+  3-1-finance-dashboard: review
+  3-2-cash-forecast-table-expense-editing: review
+  3-3-cash-forecast-revenue-projections-calculations: review
+  3-4-cash-forecast-svg-chart: review
+  3-5-revenue-pipeline-display-editing: review
+  3-6-revenue-pipeline-monthly-projections: review
+  epic-3-retrospective: optional
+
+  # Epic 4: Finance Print
+  epic-4: in-progress
+  4-1-finance-print-layout-css: review
+  4-2-finance-print-tab-content: review
+  epic-4-retrospective: optional
+
+  # Epic 5: Pipeline Report
+  epic-5: in-progress
+  5-1-pipeline-controls-hubspot-import: review
+  5-2-pipeline-tab-funnel-chart-deal-table: review
+  5-3-pipeline-performance-forecasting: review
+  5-4-leads-pipeline: review
+  5-5-pipeline-history-baselines: review
+  5-6-pipeline-print: review
+  epic-5-retrospective: optional

@@ -1,0 +1,70 @@
+/* ==========================================================================
+   revenue-pipeline.css — Revenue Pipeline tab layout
+   ========================================================================== */
+
+.revenue-pipeline__heading {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-6);
+}
+
+.revenue-pipeline__section {
+  margin-top: var(--space-6);
+}
+
+.revenue-pipeline__subheading {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-4);
+}
+
+.revenue-pipeline__empty {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  font-style: italic;
+  padding: var(--space-4) 0;
+}
+
+.revenue-pipeline__placeholder {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+.revenue-pipeline__link {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.revenue-pipeline__link:hover {
+  text-decoration: underline;
+}
+
+/* Status dropdown styled as badge */
+.revenue-pipeline select.status-badge {
+  appearance: none;
+  border: none;
+  cursor: pointer;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-sm);
+}
+
+.revenue-pipeline select.status-badge:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 1px;
+}
+
+/* Compact inputs for revenue table */
+.revenue-pipeline .data-table__cell--editable .form-input {
+  width: 100px;
+  padding: var(--space-1) var(--space-2);
+  font-size: var(--font-size-xs);
+}
+
+.revenue-pipeline .data-table__cell--editable input[type="date"] {
+  width: 130px;
+}

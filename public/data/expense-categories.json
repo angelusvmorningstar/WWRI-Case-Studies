@@ -1,0 +1,43 @@
+{
+  "categories": [
+    {
+      "name": "Overhead",
+      "lines": [
+        { "id": "ceo", "label": "CEO", "defaults": [0, 23000, 23000, 23000, 23000, 23000, 23000, 23000, 23000] },
+        { "id": "coo", "label": "COO (Niel)", "defaults": [8000, 8000, 8000, 8000, 8000, 8000, 8000, 8000, 8000] },
+        { "id": "contractors", "label": "Internal contractors", "defaults": [4357, 4300, 4300, 4300, 4300, 4300, 4300, 4300, 4300] },
+        { "id": "wages", "label": "Wages and salaries", "defaults": [7717, 8000, 8000, 8000, 8000, 8000, 8000, 8000, 8000] },
+        { "id": "super", "label": "Superannuation", "defaults": [1137, 1200, 1200, 1200, 1200, 1200, 1200, 1200, 1200] },
+        { "id": "consulting", "label": "Consulting fees", "defaults": [14771, 11458, 0, 0, 0, 0, 0, 0, 0] },
+        { "id": "legal-au", "label": "Legal expenses (AU)", "defaults": [1697, 10000, 0, 0, 0, 0, 0, 0, 0] },
+        { "id": "legal-eu", "label": "Legal expenses (EU)", "defaults": [0, 0, 0, 0, 0, 0, 0, 0, 0] },
+        { "id": "accountancy", "label": "Accountancy fees", "defaults": [0, 2500, 2500, 0, 0, 2500, 1000, 0, 2500] },
+        { "id": "bookkeeping", "label": "Bookkeeping fees", "defaults": [719, 0, 0, 0, 0, 0, 0, 0, 0] },
+        { "id": "hubspot", "label": "HubSpot", "defaults": [758, 800, 800, 800, 800, 800, 800, 800, 800] },
+        { "id": "software", "label": "Software expense", "defaults": [0, 750, 750, 750, 750, 750, 750, 750, 750] },
+        { "id": "subs-au", "label": "Subscriptions (AU)", "defaults": [1004, 400, 400, 400, 400, 400, 400, 400, 400] },
+        { "id": "subs-eu", "label": "Subscriptions (EU)", "defaults": [0, 0, 0, 0, 0, 0, 0, 0, 0] },
+        { "id": "phone-it", "label": "Telephone and IT", "defaults": [621, 500, 500, 500, 500, 500, 500, 500, 500] },
+        { "id": "travel-intl", "label": "Travel — international", "defaults": [5906, 0, 0, 0, 0, 0, 0, 0, 0] },
+        { "id": "travel-natl", "label": "Travel — national", "defaults": [3170, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000] },
+        { "id": "research", "label": "Research", "defaults": [309, 350, 350, 350, 350, 350, 350, 350, 350] },
+        { "id": "bank-reval", "label": "Bank revaluations", "defaults": [1869, 0, 0, 0, 0, 0, 0, 0, 0] },
+        { "id": "fx-gains", "label": "FX gains/losses", "defaults": [-701, 0, 0, 0, 0, 0, 0, 0, 0] },
+        { "id": "bank-fees", "label": "Bank fees", "defaults": [13, 0, 0, 0, 0, 0, 0, 0, 0] },
+        { "id": "filing", "label": "Filing fees", "defaults": [329, 0, 0, 0, 0, 0, 0, 0, 0] }
+      ]
+    },
+    {
+      "name": "Discretionary",
+      "lines": [
+        { "id": "gnowbe", "label": "Gnowbe/Ilonka", "defaults": [0, 500, 500, 500, 500, 500, 500, 500, 500] }
+      ]
+    },
+    {
+      "name": "Tax",
+      "lines": [
+        { "id": "income-tax", "label": "Income tax expense", "defaults": [0, 0, 0, 0, 0, 0, 0, 4500, 0] }
+      ]
+    }
+  ]
+}

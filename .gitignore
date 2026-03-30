@@ -11,3 +11,12 @@ Thumbs.db
 
 # IDE settings
 .vscode/
+
+# Private/sensitive data
+private/
+
+# BMAD internals (installed method — not project output)
+_bmad/
+
+# Claude Code local settings
+.claude/settings.local.json

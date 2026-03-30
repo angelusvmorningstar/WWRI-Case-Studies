@@ -1,0 +1,23 @@
+/* ==========================================================================
+   print-pipeline.css — Pipeline Report print layout
+   Uses same base patterns as print-finance.css
+   ========================================================================== */
+
+@media print {
+  .pipeline-print-tab input[type="radio"],
+  .pipeline-print-tab label {
+    display: none;
+  }
+
+  .pipeline-print-tab .btn {
+    display: none;
+  }
+
+  .pipeline-print-tab h2 {
+    display: none;
+  }
+
+  .print-page-break {
+    page-break-before: always;
+  }
+}

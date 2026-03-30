@@ -1,0 +1,38 @@
+{
+  "period": "28 February 2026",
+  "au": {
+    "bank": 53501.32,
+    "bankDetail": [
+      {"name": "WhitewaterTX Pty Ltd", "val": 28427.60},
+      {"name": "Wise AU Account", "val": 0},
+      {"name": "Wise EU Account", "val": 23703.26},
+      {"name": "Wise UK Account", "val": 298.75},
+      {"name": "Wise US Account", "val": 1071.71}
+    ],
+    "currentAssets": 1036.02,
+    "fixedAssets": 83423.30,
+    "assets": 137960.64,
+    "currentLiabilities": 42127.05,
+    "liabilities": 42127.05,
+    "unearnedIncome": 36966.13,
+    "netAssets": 95833.59,
+    "retainedEarnings": 129965.89,
+    "shareCapital": 850,
+    "currentYearEarnings": -34982.30
+  },
+  "eu": {
+    "bank": 774.51,
+    "bankDetail": [{"name": "Wise account", "val": 774.51}],
+    "currentAssets": 0,
+    "nonCurrentAssets": -1000,
+    "assets": -225.49,
+    "currentLiabilities": 10999.75,
+    "liabilities": 10999.75,
+    "netAssets": -11225.24,
+    "retainedEarnings": -19352.35,
+    "shareCapital": 100,
+    "currentYearEarnings": 8027.11
+  },
+  "fxEur": 1.76,
+  "fxUsd": 1.50
+}

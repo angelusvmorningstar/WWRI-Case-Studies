@@ -1,0 +1,16 @@
+{
+  "pipeline": [
+    { "id": "m4", "label": "M4", "color": "--color-stage-m4", "probability": 0.80, "order": 1 },
+    { "id": "m3", "label": "M3", "color": "--color-stage-m3", "probability": 0.60, "order": 2 },
+    { "id": "m2.5", "label": "M2.5", "color": "--color-stage-m2-5", "probability": 0.45, "order": 3 },
+    { "id": "m2", "label": "M2", "color": "--color-stage-m2", "probability": 0.30, "order": 4 },
+    { "id": "m1.5", "label": "M1.5", "color": "--color-stage-m1-5", "probability": 0.20, "order": 5 },
+    { "id": "m1", "label": "M1", "color": "--color-stage-m1", "probability": 0.10, "order": 6 }
+  ],
+  "leads": [
+    { "id": "0.1", "label": "0.1 Shortlist", "color": "--color-stage-shortlist", "order": 1 },
+    { "id": "0.2", "label": "0.2 Soft Engagement", "color": "--color-stage-soft", "order": 2 },
+    { "id": "0.3", "label": "0.3 Engaged", "color": "--color-stage-engaged", "order": 3 }
+  ],
+  "m1StallThresholdDays": 30
+}

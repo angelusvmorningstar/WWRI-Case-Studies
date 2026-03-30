@@ -1,0 +1,25 @@
+{
+  "period": "February 2026",
+  "auMo": {
+    "revenue": 121657.95, "cos": 113903.36, "gp": 7754.59, "opex": 51675.02, "net": -43920.43,
+    "intlSales": 108936.70, "reimb": 12721.25, "ieFees": 94903.24, "refFees": 6280.64, "clientExp": 12719.48,
+    "p1": {"label": "Feb 2025", "revenue": 221547.63, "cos": 159520.66, "gp": 62026.97, "opex": 52858.06, "net": 9168.91},
+    "p2": {"label": "Feb 2024", "revenue": 16151.83, "cos": 147478.30, "gp": -131326.47, "opex": 14680.26, "net": -146006.73}
+  },
+  "euMo": {
+    "revenue": 0, "cos": 0, "gp": 0, "opex": 167, "net": -167,
+    "intlSales": 0, "reimb": 0, "ieFees": 0, "refFees": 0, "clientExp": 0,
+    "p1": {"label": "Feb 2025", "revenue": 0, "cos": 0, "gp": 0, "opex": 0, "net": 0},
+    "p2": {"label": "Feb 2024", "revenue": 0, "cos": 0, "gp": 0, "opex": 0, "net": 0}
+  },
+  "auYtd": {
+    "revenue": 1007643.49, "cos": 741388.05, "gp": 266255.44, "opex": 301237.74, "net": -34982.30,
+    "p1": {"label": "Jul 2024 — Feb 2025", "revenue": 1171793.87, "cos": 857712.03, "gp": 314081.84, "opex": 344932.98, "net": -30851.14},
+    "p2": {"label": "Jul 2023 — Feb 2024", "revenue": 891986.45, "cos": 616016.07, "gp": 275970.38, "opex": 327332.94, "net": -51362.56}
+  },
+  "euYtd": {
+    "revenue": 19858.78, "cos": 0, "gp": 19858.78, "opex": 11831.67, "net": 8027.11,
+    "p1": {"label": "Jul 2024 — Feb 2025", "revenue": 0, "cos": 0, "gp": 0, "opex": 3686.91, "net": -3686.91},
+    "p2": {"label": "Jul 2023 — Feb 2024", "revenue": 0, "cos": 0, "gp": 0, "opex": 0, "net": 0}
+  }
+}

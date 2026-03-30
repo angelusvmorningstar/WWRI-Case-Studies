@@ -1,0 +1,113 @@
+/* ==========================================================================
+   WWRI Toolkit — Design Token System
+   All CSS custom properties for the application.
+   No hardcoded colour, font, or spacing values should exist outside this file.
+   ========================================================================== */
+
+:root {
+  /* ------------------------------------------------------------------
+     Brand & Interactive Colours
+     ------------------------------------------------------------------ */
+  --color-primary: #009898;
+  --color-primary-hover: #007878;
+  --color-danger: #C0392B;
+  --color-danger-hover: #A93226;
+  --color-success: #1E8C4A;
+  --color-accent-amber: #C07A00;
+
+  /* ------------------------------------------------------------------
+     Text Colours
+     ------------------------------------------------------------------ */
+  --color-text-primary: #1A1A1A;
+  --color-text-secondary: #555550;
+  --color-text-muted: #888884;
+
+  /* ------------------------------------------------------------------
+     Surface & Background Colours
+     ------------------------------------------------------------------ */
+  --color-bg-page: #F5F4F0;
+  --color-bg-surface: #FFFFFF;
+  --color-bg-alt: #FAFAF8;
+  --color-bg-hover: #F0EFEC;
+  --color-border: #DDDBD6;
+  --color-focus-ring: rgba(0, 152, 152, 0.15);
+
+  /* ------------------------------------------------------------------
+     Pipeline Stage Colours
+     ------------------------------------------------------------------ */
+  --color-stage-m1: #C07A00;
+  --color-stage-m1-5: #B07820;
+  --color-stage-m2: #7A8848;
+  --color-stage-m2-5: #4A9A70;
+  --color-stage-m3: #00A882;
+  --color-stage-m4: #009898;
+
+  /* ------------------------------------------------------------------
+     Lead Stage Colours
+     ------------------------------------------------------------------ */
+  --color-stage-shortlist: #C07A00;
+  --color-stage-soft: #1E7A5A;
+  --color-stage-engaged: #009898;
+
+  /* ------------------------------------------------------------------
+     Revenue Status Colours
+     ------------------------------------------------------------------ */
+  --color-status-contracted: #009898;
+  --color-status-certain: #1E8C4A;
+  --color-status-uncertain: #C07A00;
+
+  /* ------------------------------------------------------------------
+     Typography — Font Stacks
+     ------------------------------------------------------------------ */
+  --font-ui: 'Calibri', 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'Cascadia Code', Consolas, monospace;
+
+  /* ------------------------------------------------------------------
+     Typography — Size Scale
+     ------------------------------------------------------------------ */
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.25rem;
+  --font-size-xl: 1.5rem;
+  --font-size-2xl: 2rem;
+
+  /* ------------------------------------------------------------------
+     Typography — Weights
+     ------------------------------------------------------------------ */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* ------------------------------------------------------------------
+     Typography — Line Heights
+     ------------------------------------------------------------------ */
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.75;
+
+  /* ------------------------------------------------------------------
+     Spacing Scale (4px base unit)
+     ------------------------------------------------------------------ */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+
+  /* ------------------------------------------------------------------
+     Border Radius
+     ------------------------------------------------------------------ */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+
+  /* ------------------------------------------------------------------
+     Transitions
+     ------------------------------------------------------------------ */
+  --transition-fast: 150ms ease;
+  --transition-normal: 250ms ease;
+}

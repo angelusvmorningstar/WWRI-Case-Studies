@@ -1,0 +1,10 @@
+/* ==========================================================================
+   pipeline-controls.css — Pipeline Controls tab layout
+   ========================================================================== */
+
+.pipeline-controls { max-width: 800px; }
+.pipeline-controls__heading { font-size: var(--font-size-xl); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); margin-bottom: var(--space-6); }
+.pipeline-controls__subheading { font-size: var(--font-size-lg); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); margin-bottom: var(--space-2); }
+.pipeline-controls__description { font-size: var(--font-size-sm); color: var(--color-text-secondary); margin-bottom: var(--space-4); }
+.pipeline-controls__section { margin-bottom: var(--space-8); }
+.pipeline-controls__placeholder { font-size: var(--font-size-sm); color: var(--color-text-muted); font-style: italic; padding: var(--space-4) 0; }

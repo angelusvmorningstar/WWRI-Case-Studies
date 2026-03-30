@@ -1,0 +1,119 @@
+/* ==========================================================================
+   tables.css — Shared data table styles
+   ========================================================================== */
+
+/* ---------- Table Wrapper ---------- */
+
+.data-table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ---------- Table Title ---------- */
+
+.data-table__title {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  padding: var(--space-3) var(--space-3) var(--space-2);
+}
+
+/* ---------- Base Table ---------- */
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size-sm);
+}
+
+/* ---------- Header Cells ---------- */
+
+.data-table th {
+  text-align: left;
+  text-transform: uppercase;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-muted);
+  letter-spacing: 0.05em;
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 2px solid var(--color-border);
+  white-space: nowrap;
+}
+
+.data-table th[data-sortable] {
+  cursor: pointer;
+  user-select: none;
+}
+
+.data-table th[data-sortable]:hover {
+  color: var(--color-text-secondary);
+}
+
+/* ---------- Data Cells ---------- */
+
+.data-table td {
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text-primary);
+  vertical-align: middle;
+}
+
+/* Numeric columns — right-aligned, monospace */
+.data-table td.num,
+.data-table th.num {
+  text-align: right;
+  font-family: var(--font-mono);
+}
+
+/* Negative values */
+.data-table td.num--negative {
+  color: var(--color-danger);
+}
+
+/* Positive variance */
+.data-table td.num--positive {
+  color: var(--color-success);
+}
+
+/* ---------- Row States ---------- */
+
+.data-table tbody tr:nth-child(even) {
+  background-color: var(--color-bg-alt);
+}
+
+.data-table tbody tr:hover {
+  background-color: var(--color-bg-hover);
+}
+
+/* ---------- Editable Cells ---------- */
+
+.data-table__cell--editable {
+  background-color: var(--color-bg-alt);
+}
+
+.data-table__cell--editable input,
+.data-table__cell--editable select {
+  width: 100%;
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-bg-surface);
+  color: var(--color-text-primary);
+}
+
+.data-table__cell--editable input:focus,
+.data-table__cell--editable select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-focus-ring);
+}
+
+/* ---------- Footer / Totals Row ---------- */
+
+.data-table__footer td {
+  font-weight: var(--font-weight-semibold);
+  border-top: 2px solid var(--color-border);
+  border-bottom: none;
+}

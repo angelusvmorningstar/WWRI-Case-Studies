@@ -1,0 +1,46 @@
+/* ==========================================================================
+   cash-forecast.css — Cash Forecast tab layout
+   ========================================================================== */
+
+.cash-forecast__heading {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-6);
+}
+
+.cash-forecast__section {
+  margin-bottom: var(--space-6);
+}
+
+.cash-forecast__subheading {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-4);
+}
+
+.cash-forecast__placeholder {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  font-style: italic;
+  padding: var(--space-4) 0;
+}
+
+.cash-forecast__category {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding-top: var(--space-3);
+  border-bottom: none;
+}
+
+/* Compact inputs for expense table */
+.cash-forecast .data-table__cell--editable .form-input {
+  width: 90px;
+  padding: var(--space-1) var(--space-2);
+  font-size: var(--font-size-xs);
+  text-align: right;
+}
