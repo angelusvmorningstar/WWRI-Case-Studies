@@ -9,7 +9,27 @@
       "Bash(unzip -o files.zip -d .)",
       "Bash(find /d/WWRI-Toolkit -type f \\\\\\(-name *.html -o -name *.md \\\\\\))",
       "Bash(ls:*)",
-      "Bash(unzip -o \"files 2.zip\" -d .)"
+      "Bash(unzip -o \"files 2.zip\" -d .)",
+      "Bash(cd:*)",
+      "Bash(grep -o \"var RED=\\\\|var TXT=\\\\|var BRD=\\\\|var ACCENT=\" /d/WWRI-Toolkit/reference/*.html)",
+      "Bash(grep -oE \"#[0-9A-Fa-f]{6}\" /d/WWRI-Toolkit/reference/*.html)",
+      "Bash(xargs wc:*)",
+      "Bash(sed \"s/;$//\")",
+      "Read(//tmp/**)",
+      "Bash(node:*)",
+      "Bash(node -e \":*)",
+      "WebFetch(domain:miro.com)",
+      "WebSearch",
+      "Bash(npx create-next-app@latest m-suite --typescript --tailwind --eslint --app --turbopack --use-npm)",
+      "Bash(printf \"No\\\\nNo\\\\nNo\\\\n\")",
+      "Bash(yes \"No\")",
+      "Bash(npm install:*)",
+      "Bash(npx prisma:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npm search:*)",
+      "Bash(npm run:*)",
+      "Bash(npm init:*)",
+      "Bash(npx playwright:*)"
     ]
   }
 }

@@ -1,0 +1,191 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  entraId   String   @unique
+  name      String
+  email     String   @unique
+  role      Role     @default(IE)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  opportunities Opportunity[]
+  reviews       Review[]
+  stageHistory  StageHistory[]
+  auditLogs     AuditLog[]
+}
+
+enum Role {
+  IE
+  REVIEWER
+  ADMIN
+}
+
+model Opportunity {
+  id           String            @id @default(cuid())
+  clientName   String
+  prospect     String?
+  description  String?
+  currentStage String            @default("M0")
+  status       OpportunityStatus @default(ACTIVE)
+  ieId         String
+  ie           User              @relation(fields: [ieId], references: [id])
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+
+  stageHistory  StageHistory[]
+  costingSheets CostingSheet[]
+}
+
+enum OpportunityStatus {
+  ACTIVE
+  STOPPED
+  COMPLETED
+}
+
+model StageHistory {
+  id            String      @id @default(cuid())
+  opportunityId String
+  opportunity   Opportunity @relation(fields: [opportunityId], references: [id])
+  fromStage     String?
+  toStage       String
+  decision      String?
+  notes         String?
+  userId        String
+  user          User        @relation(fields: [userId], references: [id])
+  createdAt     DateTime    @default(now())
+}
+
+model CostingSheet {
+  id              String       @id @default(cuid())
+  opportunityId   String
+  opportunity     Opportunity  @relation(fields: [opportunityId], references: [id])
+  projectTitle    String?
+  clientName      String?
+  legalEntity     String?
+  shortName       String?
+  projectLead     String?
+  projectPartner  String?
+  reviewerId      String?
+  referralPartner String?
+  referralActive  Boolean      @default(false)
+  referralPct     Float        @default(0.05)
+  currency        String       @default("AUD")
+  govtImpost      String       @default("GST")
+  govtImpostRate  Float        @default(0.10)
+  wwriPct         Float        @default(0.30)
+  reviewStatus    ReviewStatus @default(DRAFT)
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  phases   Phase[]
+  experts  Expert[]
+  services Service[]
+  reviews  Review[]
+}
+
+enum ReviewStatus {
+  DRAFT
+  SUBMITTED
+  IN_REVIEW
+  CHANGES_REQUESTED
+  APPROVED
+}
+
+model Phase {
+  id             String       @id @default(cuid())
+  costingSheetId String
+  costingSheet   CostingSheet @relation(fields: [costingSheetId], references: [id], onDelete: Cascade)
+  name           String
+  active         Boolean      @default(true)
+  startDate      DateTime?
+  weeks          Int          @default(4)
+  sortOrder      Int
+
+  phaseExperts  PhaseExpert[]
+  phaseServices PhaseService[]
+}
+
+model Expert {
+  id             String       @id @default(cuid())
+  costingSheetId String
+  costingSheet   CostingSheet @relation(fields: [costingSheetId], references: [id], onDelete: Cascade)
+  name           String
+  role           String?
+  dailyFee       Float        @default(0)
+
+  phaseExperts PhaseExpert[]
+}
+
+model Service {
+  id             String       @id @default(cuid())
+  costingSheetId String
+  costingSheet   CostingSheet @relation(fields: [costingSheetId], references: [id], onDelete: Cascade)
+  name           String
+  weeklyFee      Float        @default(0)
+
+  phaseServices PhaseService[]
+}
+
+model PhaseExpert {
+  id          String @id @default(cuid())
+  phaseId     String
+  phase       Phase  @relation(fields: [phaseId], references: [id], onDelete: Cascade)
+  expertId    String
+  expert      Expert @relation(fields: [expertId], references: [id], onDelete: Cascade)
+  actualFee   Float?
+  daysPerWeek Float  @default(0)
+  weeklyDays  Json?
+}
+
+model PhaseService {
+  id           String  @id @default(cuid())
+  phaseId      String
+  phase        Phase   @relation(fields: [phaseId], references: [id], onDelete: Cascade)
+  serviceId    String
+  service      Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  weeklyActive Json?
+}
+
+model Review {
+  id             String       @id @default(cuid())
+  costingSheetId String
+  costingSheet   CostingSheet @relation(fields: [costingSheetId], references: [id])
+  reviewerId     String
+  reviewer       User         @relation(fields: [reviewerId], references: [id])
+  status         ReviewStatus
+  comments       String?
+  decidedAt      DateTime?
+  createdAt      DateTime     @default(now())
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  action     String
+  entityType String
+  entityId   String
+  details    Json?
+  createdAt  DateTime @default(now())
+}
+
+model IntegrationQueue {
+  id              String   @id @default(cuid())
+  integrationType String
+  operation       String
+  payload         Json
+  attempts        Int      @default(0)
+  maxAttempts     Int      @default(5)
+  lastError       String?
+  status          String   @default("pending")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
