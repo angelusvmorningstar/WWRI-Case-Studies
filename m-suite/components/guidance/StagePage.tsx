@@ -2,7 +2,7 @@ import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { pursueStageAction, stopOpportunityAction } from "@/actions/opportunityActions";
-import type { Opportunity } from "@/lib/mock-data";
+import type { Opportunity } from "@/lib/queries";
 
 interface StagePageProps {
   opportunity: Opportunity;

@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { getOpportunity } from "@/lib/mock-data";
+import { getOpportunity } from "@/lib/queries";
 import { MStageProgressBar } from "@/components/layout/MStageProgressBar";
 import Link from "next/link";
 
@@ -11,7 +11,7 @@ export default async function OpportunityLayout({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const opp = getOpportunity(id);
+  const opp = await getOpportunity(id);
 
   if (!opp) notFound();
 

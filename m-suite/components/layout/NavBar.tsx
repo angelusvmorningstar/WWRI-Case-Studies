@@ -2,8 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { getCurrentUser } from "@/lib/mock-auth";
 
-export function NavBar() {
-  const user = getCurrentUser();
+export async function NavBar() {
+  const user = await getCurrentUser();
 
   return (
     <nav className="sticky top-0 z-50 h-14 bg-ww-surface border-b border-ww-border flex items-center px-4 gap-4">

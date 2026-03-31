@@ -2,13 +2,10 @@
 
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/mock-auth";
-import {
-  createOpportunity as createOpp,
-  progressStage as progressOppStage,
-} from "@/lib/mock-data";
+import { createOpportunity, progressStage } from "@/lib/queries";
 
 export async function createOpportunityAction(formData: FormData): Promise<void> {
-  const user = getCurrentUser();
+  const user = await getCurrentUser();
   const clientName = formData.get("clientName") as string;
   const prospect = formData.get("prospect") as string;
   const description = formData.get("description") as string;
@@ -17,7 +14,7 @@ export async function createOpportunityAction(formData: FormData): Promise<void>
     redirect("/opportunity/new");
   }
 
-  const opp = createOpp({
+  const opp = await createOpportunity({
     clientName: clientName.trim(),
     prospect: prospect?.trim() || "",
     description: description?.trim() || "",
@@ -28,11 +25,11 @@ export async function createOpportunityAction(formData: FormData): Promise<void>
 }
 
 export async function pursueStageAction(formData: FormData): Promise<void> {
-  const user = getCurrentUser();
+  const user = await getCurrentUser();
   const opportunityId = formData.get("opportunityId") as string;
   const notes = formData.get("notes") as string;
 
-  const opp = progressOppStage(opportunityId, "pursue", notes || null, user.id);
+  const opp = await progressStage(opportunityId, "pursue", notes || null, user.id);
 
   if (!opp) {
     redirect("/");
@@ -43,11 +40,11 @@ export async function pursueStageAction(formData: FormData): Promise<void> {
 }
 
 export async function stopOpportunityAction(formData: FormData): Promise<void> {
-  const user = getCurrentUser();
+  const user = await getCurrentUser();
   const opportunityId = formData.get("opportunityId") as string;
   const notes = formData.get("notes") as string;
 
-  progressOppStage(opportunityId, "stop", notes || null, user.id);
+  await progressStage(opportunityId, "stop", notes || null, user.id);
 
   redirect("/");
 }

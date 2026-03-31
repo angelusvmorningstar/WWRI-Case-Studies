@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: "standalone",
+  // Removed output: "standalone" — Netlify handles the build output via @opennextjs/netlify
 };
 
 export default nextConfig;

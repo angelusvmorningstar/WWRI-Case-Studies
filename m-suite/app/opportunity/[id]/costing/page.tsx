@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useTransition } from "react";
 import { useParams } from "next/navigation";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/Badge";
 import Link from "next/link";
 import { calcTotals, formatCurrency, formatPct } from "@/lib/calculations";
 import type { PhaseExpertInput, PhaseServiceInput } from "@/lib/calculations";
+import { loadCostingSheet, saveCostingSheet } from "@/actions/costingActions";
 
 interface Expert {
   id: string;
@@ -40,15 +41,22 @@ const IMPOST_OPTIONS = [
   { value: "None", label: "None" },
 ];
 
+const IMPOST_RATES: Record<string, number> = { GST: 0.10, VAT: 0.10, None: 0 };
+
 let nextId = 1;
 function genId() { return `id-${nextId++}`; }
 
 export default function CostingPage() {
   const params = useParams();
   const opportunityId = params.id as string;
+  const [isPending, startTransition] = useTransition();
+  const [costingSheetId, setCostingSheetId] = useState<string | undefined>();
+  const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved">("idle");
+  const [loading, setLoading] = useState(true);
 
   // Project setup
   const [projectTitle, setProjectTitle] = useState("");
+  const [clientName, setClientName] = useState("");
   const [legalEntity, setLegalEntity] = useState("");
   const [shortName, setShortName] = useState("");
   const [currency, setCurrency] = useState("AUD");
@@ -82,6 +90,102 @@ export default function CostingPage() {
 
   // Active tab
   const [activeTab, setActiveTab] = useState<"setup" | "phases" | "summary">("setup");
+
+  // Load existing costing sheet from database
+  useEffect(() => {
+    loadCostingSheet(opportunityId).then((sheet) => {
+      if (sheet) {
+        setCostingSheetId(sheet.id);
+        setProjectTitle(sheet.projectTitle || "");
+        setClientName(sheet.clientName || "");
+        setLegalEntity(sheet.legalEntity || "");
+        setShortName(sheet.shortName || "");
+        setCurrency(sheet.currency);
+        setGovtImpost(sheet.govtImpost);
+        setWwriPct(sheet.wwriPct);
+        setReferralPartner(sheet.referralPartner || "");
+        setReferralActive(sheet.referralActive);
+        setReferralPct(sheet.referralPct);
+
+        if (sheet.experts.length > 0) {
+          setExperts(sheet.experts.map((e) => ({
+            id: e.id,
+            name: e.name,
+            role: e.role || "",
+            dailyFee: e.dailyFee,
+          })));
+        }
+
+        if (sheet.services.length > 0) {
+          setServices(sheet.services.map((s) => ({
+            id: s.id,
+            name: s.name,
+            weeklyFee: s.weeklyFee,
+          })));
+        }
+
+        if (sheet.phases.length > 0) {
+          setPhases(sheet.phases.map((p) => ({
+            name: p.name,
+            active: p.active,
+            startDate: p.startDate ? new Date(p.startDate).toISOString().split("T")[0] : "",
+            weeks: p.weeks,
+            expertAllocations: sheet.experts.map((exp) => {
+              const pe = p.phaseExperts.find((a) => a.expertId === exp.id);
+              return {
+                daysPerWeek: pe?.daysPerWeek ?? 0,
+                actualFee: pe?.actualFee ?? null,
+                weeklyDays: (pe?.weeklyDays as (number | null)[] | null) ?? Array(p.weeks).fill(null),
+              };
+            }),
+            serviceAllocations: sheet.services.map((svc) => {
+              const ps = p.phaseServices.find((a) => a.serviceId === svc.id);
+              return {
+                weeklyActive: (ps?.weeklyActive as number[] | null) ?? Array(p.weeks).fill(0),
+              };
+            }),
+          })));
+        }
+      }
+      setLoading(false);
+    });
+  }, [opportunityId]);
+
+  // Save handler
+  const handleSave = () => {
+    setSaveStatus("saving");
+    startTransition(async () => {
+      const result = await saveCostingSheet({
+        opportunityId,
+        costingSheetId,
+        projectTitle,
+        clientName,
+        legalEntity,
+        shortName,
+        currency,
+        govtImpost,
+        govtImpostRate: IMPOST_RATES[govtImpost] ?? 0.10,
+        wwriPct,
+        referralPartner,
+        referralActive,
+        referralPct,
+        experts: experts.map((e) => ({ name: e.name, role: e.role, dailyFee: e.dailyFee })),
+        services: services.map((s) => ({ name: s.name, weeklyFee: s.weeklyFee })),
+        phases: phases.map((p, i) => ({
+          name: p.name,
+          active: p.active,
+          startDate: p.startDate || null,
+          weeks: p.weeks,
+          sortOrder: i,
+          expertAllocations: p.expertAllocations,
+          serviceAllocations: p.serviceAllocations,
+        })),
+      });
+      setCostingSheetId(result.id);
+      setSaveStatus("saved");
+      setTimeout(() => setSaveStatus("idle"), 2000);
+    });
+  };
 
   // Sync allocations when experts/services change
   const syncAllocations = useCallback((
@@ -184,6 +288,14 @@ export default function CostingPage() {
     }));
   };
 
+  if (loading) {
+    return (
+      <div className="max-w-5xl mx-auto px-4 py-6">
+        <p className="text-ww-text-muted">Loading costing sheet...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-5xl mx-auto px-4 py-6">
       <div className="flex items-center justify-between mb-4">
@@ -193,6 +305,14 @@ export default function CostingPage() {
           </Link>
           <h1 className="text-lg font-semibold text-ww-text">Costing Sheet</h1>
           {shortName && <Badge variant="teal">{shortName}</Badge>}
+        </div>
+        <div className="flex items-center gap-3">
+          {saveStatus === "saved" && (
+            <span className="text-sm text-ww-green font-medium">Saved</span>
+          )}
+          <Button onClick={handleSave} disabled={isPending}>
+            {isPending ? "Saving..." : "Save"}
+          </Button>
         </div>
       </div>
 
@@ -244,6 +364,7 @@ export default function CostingPage() {
             <h2 className="text-md font-semibold text-ww-text mb-4">Project Details</h2>
             <div className="grid grid-cols-2 gap-4">
               <Input label="Project Title" value={projectTitle} onChange={(e) => setProjectTitle(e.target.value)} />
+              <Input label="Client Name" value={clientName} onChange={(e) => setClientName(e.target.value)} />
               <Input label="Legal Entity" value={legalEntity} onChange={(e) => setLegalEntity(e.target.value)} />
               <Input label="Short Name" value={shortName} onChange={(e) => setShortName(e.target.value)} />
               <div className="flex gap-4">
@@ -598,6 +719,9 @@ export default function CostingPage() {
 
           <div className="flex justify-between">
             <Button variant="ghost" onClick={() => setActiveTab("phases")}>&larr; Back to Phases</Button>
+            <Button onClick={handleSave} disabled={isPending}>
+              {isPending ? "Saving..." : "Save Costing Sheet"}
+            </Button>
           </div>
         </div>
       )}

@@ -1,31 +1,21 @@
 // Mock auth for local development without Azure AD
 // Replace with real Auth.js when deploying for IEs
 
-export type MockUser = {
-  id: string;
-  name: string;
-  email: string;
-  role: "IE" | "REVIEWER" | "ADMIN";
-};
+import { prisma } from "@/lib/db";
+import type { User } from "@/app/generated/prisma/client";
 
-const MOCK_USERS: MockUser[] = [
-  { id: "admin-1", name: "Angelus Morningstar", email: "angelus@whitewater.com", role: "ADMIN" },
-  { id: "ie-1", name: "Priya Sharma", email: "priya@whitewater.com", role: "IE" },
-  { id: "reviewer-1", name: "Bernard Leung", email: "bernard@whitewater.com", role: "REVIEWER" },
-  { id: "reviewer-2", name: "Adam Salzer", email: "adam@whitewater.com", role: "REVIEWER" },
-];
+export type { User };
 
-// Default to Angelus for local dev
-let currentUserId = "admin-1";
-
-export function getCurrentUser(): MockUser {
-  return MOCK_USERS.find((u) => u.id === currentUserId) ?? MOCK_USERS[0];
+// Returns the admin user (Angelus) for demo purposes
+// In production, this would come from the Auth.js session
+export async function getCurrentUser(): Promise<User> {
+  const user = await prisma.user.findFirst({
+    where: { email: "angelus@whitewater.com" },
+  });
+  if (!user) throw new Error("Admin user not found — run prisma db seed");
+  return user;
 }
 
-export function setCurrentUser(id: string) {
-  currentUserId = id;
-}
-
-export function getAllUsers(): MockUser[] {
-  return MOCK_USERS;
+export async function getAllUsers(): Promise<User[]> {
+  return prisma.user.findMany({ orderBy: { name: "asc" } });
 }

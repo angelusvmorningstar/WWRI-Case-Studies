@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { getCurrentUser } from "@/lib/mock-auth";
-import { getOpportunities } from "@/lib/mock-data";
+import { getOpportunities } from "@/lib/queries";
 
 const STAGES = [
   {
@@ -55,10 +55,10 @@ const stageColor: Record<string, string> = {
   M4: "border-t-ww-green",
 };
 
-export default function Home() {
-  const user = getCurrentUser();
+export default async function Home() {
+  const user = await getCurrentUser();
   const allOpportunities =
-    user.role === "ADMIN" ? getOpportunities() : getOpportunities(user.id);
+    user.role === "ADMIN" ? await getOpportunities() : await getOpportunities(user.id);
 
   const active = allOpportunities.filter((o) => o.status === "ACTIVE");
   const stopped = allOpportunities.filter((o) => o.status === "STOPPED");
