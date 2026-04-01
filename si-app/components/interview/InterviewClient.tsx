@@ -504,7 +504,7 @@ export function InterviewClient({
     return (
       <div>
         <StickyHeader />
-        <div style={{ padding: "36px", maxWidth: 780 }}>
+        <div style={{ padding: "36px", maxWidth: 780, margin: "0 auto" }}>
           <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 4 }}>
             Interviewer&rsquo;s introduction
           </h2>
@@ -694,7 +694,7 @@ export function InterviewClient({
     return (
       <div>
         <StickyHeader />
-        <div style={{ padding: "36px", maxWidth: 640 }}>
+        <div style={{ padding: "36px", maxWidth: 640, margin: "0 auto" }}>
           <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 4 }}>
             Background information
           </h2>
@@ -1153,7 +1153,7 @@ export function InterviewClient({
     return (
       <div>
         <StickyHeader />
-        <div style={{ padding: "48px 36px", maxWidth: 560 }}>
+        <div style={{ padding: "48px 36px", maxWidth: 560, margin: "0 auto" }}>
           {/* Green checkmark circle */}
           <div
             style={{
