@@ -267,12 +267,12 @@ export default async function ReportPage({
         <div style={{ height: 4, background: "#009898", marginBottom: 48 }} />
 
         {/* Logo */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/ww-logo.jpg"
-          alt="Whitewater Reinventions"
-          style={{ height: 36, display: "block", marginBottom: 48 }}
-        />
+        {/* Logo + wordmark */}
+        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 48 }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/ww-logo.svg" alt="" style={{ height: 32 }} />
+          <span style={{ fontSize: 16, fontWeight: 700, color: "#1A1A1A", letterSpacing: "0.02em" }}>Whitewater Reinventions</span>
+        </div>
 
         {/* Title block */}
         <div style={{ marginBottom: 40 }}>
