@@ -124,11 +124,19 @@ export default async function InterviewPage({
     <InterviewClient
       accessKey={accessKey}
       engagementId={engagement.id}
-      interviewee={{ id: interviewee.id, name: interviewee.name, title: interviewee.title || "", category: interviewee.category }}
+      interviewee={{ id: interviewee.id, name: interviewee.name, title: interviewee.title || "", category: interviewee.category, interviewerNames: interviewee.assignments.map((a) => a.interviewer.name) }}
       questions={questions}
       existingSession={sessionData}
       guidanceData={guidanceData}
-      sidebarData={sidebarData}
+      activeTopicNames={[...new Set(questions.map((q) => q.topicName))]}
+      sidebarData={engagement.interviewees.map((i) => ({
+        id: i.id,
+        name: i.name,
+        title: i.title || "",
+        category: i.category,
+        status: i.sessions[0]?.status ?? "pending",
+        isCurrent: i.id === intervieweeId,
+      }))}
     />
   );
 }
