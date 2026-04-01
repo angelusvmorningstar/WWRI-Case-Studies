@@ -60,7 +60,7 @@ export function ReportCohortAnalysis({
   return (
     <>
       {/* ── Heatmap page ── */}
-      <div className="report-page" style={{ padding: "40px 48px", background: C.sur, minHeight: "100vh", position: "relative" }}>
+      <div className="report-page" style={{ padding: "40px 48px", background: C.sur, minHeight: "100vh", position: "relative", maxWidth: 860, margin: "0 auto" }}>
         {sH("Readiness heatmap — all interviewees by topic")}
         <div style={{ border: `1px solid ${C.brd}`, borderRadius: 10, padding: "20px 20px 16px", overflowX: "auto", background: C.sur }}>
           <SvgHeatmap
@@ -112,7 +112,7 @@ export function ReportCohortAnalysis({
       </div>
 
       {/* ── Gap analysis + Strengths/Risks page ── */}
-      <div className="report-page" style={{ padding: "40px 48px", background: C.sur, minHeight: "100vh", position: "relative" }}>
+      <div className="report-page" style={{ padding: "40px 48px", background: C.sur, minHeight: "100vh", position: "relative", maxWidth: 860, margin: "0 auto" }}>
         {/* Gap analysis */}
         {sH("Gap analysis — current vs. required readiness")}
         <div style={{ border: `1px solid ${C.brd}`, borderRadius: 10, padding: "20px 24px", background: C.sur, marginBottom: 32 }}>
