@@ -168,7 +168,7 @@ export function SetupTab({
   };
 
   return (
-    <div style={{ padding: "32px 36px", maxWidth: 900 }}>
+    <div style={{ padding: "32px 36px", maxWidth: 900, margin: "0 auto" }}>
 
       {/* ── Engagement name + reset ── */}
       <div style={{ marginBottom: 40 }}>
