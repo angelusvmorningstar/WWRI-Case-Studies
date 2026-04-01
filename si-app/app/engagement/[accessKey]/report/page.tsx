@@ -4,6 +4,7 @@ import { TOPIC_LIBRARY } from "@/lib/topic-library";
 import { averageScores, applyCalibration } from "@/lib/calculations";
 import { SvgRadar } from "@/components/results/SvgRadar";
 import { PrintButton } from "@/components/report/PrintButton";
+import { ReportCohortAnalysis } from "@/components/report/ReportCohortAnalysis";
 
 /* ── Colour helpers (inline, matching prototype exactly) ───────────── */
 function bColor(v: number | null): string {
@@ -634,7 +635,13 @@ export default async function ReportPage({
         </div>
       </div>
 
-      {/* ── PAGE 3+: Individual profiles ───────────────────────────── */}
+      {/* ── PAGES 3-4: Cohort analysis (heatmap, distribution, gap, strengths/risks) */}
+      <ReportCohortAnalysis
+        people={sortedPeople}
+        activeTopics={activeTopics.map((t) => ({ id: t.id, name: t.name }))}
+      />
+
+      {/* ── PAGE 5+: Individual profiles ───────────────────────────── */}
       {sortedPeople.map((p, pi) => {
         const overall = p.overall;
         const topicScores = activeTopics.map((t) => {
