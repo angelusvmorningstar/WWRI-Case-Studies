@@ -321,83 +321,110 @@ export function SetupTab({
 
       {/* ── Topic configuration ── */}
       <div style={{ marginBottom: 40 }}>
-        <h2 className="text-[20px] font-bold mb-0.5">Topics & Questions</h2>
-        <p className="text-ww-text-secondary text-[13px] m-0 mb-4">
-          Select up to 3 subtopics per topic. Customise questions and time allocations.
-        </p>
+        <div style={{ marginBottom: 14 }}>
+          <h2 style={{ fontSize: 20, fontWeight: 700, marginBottom: 2 }}>Topics &amp; questions</h2>
+          <p style={{ color: "#555550", fontSize: 13 }}>Expand a topic to select subtopics (up to 3 per topic) and write the interview question for each.</p>
+        </div>
 
-        <div className="flex flex-col gap-3">
-          {TOPIC_LIBRARY.map((topic) => {
-            const config = topicConfig[topic.id];
-            const isExpanded = expandedTopic === topic.id;
-            return (
-              <div key={topic.id} className={`ww-card ${!config?.enabled ? "opacity-50" : ""}`}>
-                <div className="flex items-center justify-between">
-                  <label className="flex items-center gap-3 cursor-pointer">
-                    <input type="checkbox" checked={config?.enabled ?? true} onChange={() => handleToggleTopic(topic.id)}
-                      className="w-4 h-4 accent-ww-teal" />
-                    <span className="text-[15px] font-bold">{topic.name}</span>
-                  </label>
-                  <div className="flex items-center gap-3">
-                    <span className="text-[12px] text-ww-text-muted">{config?.selectedSubtopics.length || 0}/3 subtopics</span>
-                    <button onClick={() => setExpandedTopic(isExpanded ? null : topic.id)}
-                      className="text-[13px] text-ww-teal cursor-pointer bg-transparent border-0 font-sans font-semibold hover:underline">
-                      {isExpanded ? "Collapse" : "Expand"}
-                    </button>
-                  </div>
-                </div>
+        {TOPIC_LIBRARY.map((topic) => {
+          const config = topicConfig[topic.id];
+          const isExpanded = expandedTopic === topic.id;
+          const atCap = (config?.selectedSubtopics.length || 0) >= 3;
+          return (
+            <div key={topic.id} className="topic-block">
+              <div className="topic-block-header" onClick={() => setExpandedTopic(isExpanded ? null : topic.id)}>
+                <input
+                  type="checkbox" checked={config?.enabled ?? true}
+                  onChange={(e) => { e.stopPropagation(); handleToggleTopic(topic.id); }}
+                  style={{ width: 18, height: 18, accentColor: "#009898", cursor: "pointer", flexShrink: 0 }}
+                />
+                <span style={{ fontWeight: 700, fontSize: 15, flex: 1, color: config?.enabled ? "#1A1A1A" : "#888884" }}>{topic.name}</span>
+                {(config?.selectedSubtopics.length || 0) > 0 && (
+                  <span style={{ fontSize: 12, color: "#009898", fontWeight: 600, background: "rgba(0,152,152,.1)", borderRadius: 12, padding: "2px 10px", marginRight: 8, whiteSpace: "nowrap" }}>
+                    {config?.selectedSubtopics.length} / 3 subtopics
+                  </span>
+                )}
+                <span style={{ color: "#888884", fontSize: 13, display: "inline-block", transform: isExpanded ? "rotate(180deg)" : "none", transition: "transform .2s" }}>▾</span>
+              </div>
 
-                {isExpanded && config?.enabled && (
-                  <div className="flex flex-col gap-2.5 mt-4 pt-4 border-t border-ww-border">
+              {isExpanded && (
+                <div className="topic-block-body">
+                  <p style={{ fontSize: 13, color: atCap ? "#C07A00" : "#555550", marginBottom: 12, fontWeight: atCap ? 600 : 400 }}>
+                    {atCap ? "Maximum of 3 subtopics selected. Deselect one to choose a different subtopic." : "Select the subtopics to include in this engagement."}
+                  </p>
+
+                  {/* Subtopic card grid */}
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(210px, 1fr))", gap: 10, marginBottom: 24 }}>
                     {topic.subtopics.map((sub) => {
-                      const isSelected = config.selectedSubtopics.includes(sub.id);
-                      const override = questionOverrides[sub.id];
+                      const isSel = config?.selectedSubtopics.includes(sub.id);
+                      const isCapped = !isSel && atCap;
                       return (
-                        <div key={sub.id} className={`border rounded-md p-3 ${isSelected ? "border-ww-teal/30 bg-ww-teal/5" : "border-ww-border"}`}>
-                          <div className="flex items-center gap-2 mb-1">
-                            <label className="flex items-center gap-2 cursor-pointer">
-                              <input type="checkbox" checked={isSelected}
-                                onChange={() => handleToggleSubtopic(topic.id, sub.id)}
-                                disabled={!isSelected && config.selectedSubtopics.length >= 3}
-                                className="w-3.5 h-3.5 accent-ww-teal" />
-                              <span className="text-[13px] font-semibold">{sub.name}</span>
-                            </label>
-                            {isSelected && (
-                              <>
-                                <input type="number" min="1" max="30" value={override?.customMins ?? sub.defaultMins}
-                                  onChange={(e) => handleMinsChange(sub.id, Number(e.target.value))}
-                                  className="w-14 px-2 py-1 border border-ww-border rounded text-[12px] font-mono text-right outline-none focus:border-ww-teal" />
-                                <span className="text-[11px] text-ww-text-muted">min</span>
-                              </>
-                            )}
+                        <div
+                          key={sub.id}
+                          className={`subtopic-card${isSel ? " selected" : ""}${isCapped ? " capped" : ""}`}
+                          onClick={() => { if (!isCapped) handleToggleSubtopic(topic.id, sub.id); }}
+                        >
+                          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 5 }}>
+                            <span style={{ fontWeight: 700, fontSize: 14, color: isSel ? "#009898" : "#1A1A1A", lineHeight: 1.3, flex: 1 }}>{sub.name}</span>
+                            {isSel && <span style={{ color: "#009898", fontSize: 15, marginLeft: 8, flexShrink: 0 }}>✓</span>}
                           </div>
-                          {isSelected && (
-                            <>
-                              <p className="text-[11px] text-ww-text-muted mb-2 mt-1">{sub.purpose}</p>
-                              <textarea
-                                value={override?.customQuestion ?? sub.examples[0]}
-                                onChange={(e) => handleQuestionChange(sub.id, e.target.value)}
-                                rows={2}
-                                className="w-full px-3 py-2 border border-ww-border rounded-md text-[13px] text-ww-text bg-ww-surface outline-none focus:border-ww-teal resize-y font-sans" />
-                              {sub.examples.length > 1 && (
-                                <details className="mt-1">
-                                  <summary className="text-[11px] text-ww-teal cursor-pointer">More example questions</summary>
-                                  <ul className="mt-1 text-[11px] text-ww-text-muted list-disc pl-4">
-                                    {sub.examples.slice(1).map((ex, i) => <li key={i} className="mb-1">{ex}</li>)}
-                                  </ul>
-                                </details>
-                              )}
-                            </>
-                          )}
+                          <p style={{ fontSize: 12, color: "#555550", lineHeight: 1.4, margin: 0 }}>
+                            {sub.purpose.length > 85 ? sub.purpose.slice(0, 85) + "…" : sub.purpose}
+                          </p>
                         </div>
                       );
                     })}
                   </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
+
+                  {/* Selected subtopic question editors */}
+                  {(config?.selectedSubtopics.length || 0) > 0 && (
+                    <div>
+                      <div style={{ fontSize: 11, color: "#888884", textTransform: "uppercase", letterSpacing: "0.07em", fontWeight: 700, marginBottom: 14 }}>
+                        Question text for each selected subtopic
+                      </div>
+                      {config?.selectedSubtopics.map((stId) => {
+                        const sub = topic.subtopics.find((s) => s.id === stId);
+                        if (!sub) return null;
+                        const override = questionOverrides[stId];
+                        return (
+                          <div key={stId} style={{ background: "#FFFFFF", border: "1.5px solid #009898", borderRadius: 8, padding: "18px 20px", marginBottom: 14 }}>
+                            <div style={{ marginBottom: 14 }}>
+                              <div style={{ fontWeight: 700, fontSize: 15, color: "#009898", marginBottom: 6 }}>{sub.name}</div>
+                              <div style={{ fontSize: 13, color: "#555550", lineHeight: 1.5, padding: "8px 12px", background: "rgba(0,152,152,.06)", borderRadius: 6, borderLeft: "3px solid #009898" }}>
+                                <span style={{ fontWeight: 700, color: "#009898" }}>Purpose: </span>{sub.purpose}
+                              </div>
+                            </div>
+                            <div style={{ marginBottom: 12 }}>
+                              <p style={{ fontSize: 11, color: "#888884", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 8 }}>
+                                Example phrasings — click to use
+                              </p>
+                              {sub.examples.map((ex, i) => (
+                                <button key={i} className="example-row" onClick={() => handleQuestionChange(stId, ex)}>
+                                  &ldquo;{ex}&rdquo;
+                                </button>
+                              ))}
+                            </div>
+                            <div>
+                              <p style={{ fontSize: 11, color: "#888884", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 6 }}>
+                                Your question
+                              </p>
+                              <textarea
+                                value={override?.customQuestion ?? sub.examples[0]}
+                                onChange={(e) => handleQuestionChange(stId, e.target.value)}
+                                placeholder="Write or edit the question to be asked in the interview..."
+                                style={{ background: "#FFFFFF", border: "1.5px solid #AAAAA5", borderRadius: 6, color: "#1A1A1A", fontSize: 14, padding: "10px 12px", fontFamily: "inherit", width: "100%", outline: "none", resize: "vertical", lineHeight: 1.6, minHeight: 72 }}
+                              />
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
 
       {/* ── Interviewer guidance ── */}
