@@ -19,3 +19,17 @@ export async function createEngagementAction(clientName: string): Promise<string
 
   return engagement.accessKey;
 }
+
+export async function archiveEngagementAction(engagementId: string): Promise<void> {
+  await prisma.engagement.update({
+    where: { id: engagementId },
+    data: { status: "archived" },
+  });
+}
+
+export async function unarchiveEngagementAction(engagementId: string): Promise<void> {
+  await prisma.engagement.update({
+    where: { id: engagementId },
+    data: { status: "active" },
+  });
+}

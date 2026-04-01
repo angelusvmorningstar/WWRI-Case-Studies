@@ -71,6 +71,26 @@ export default async function Home() {
             </Link>
           </div>
         )}
+
+        {archived.length > 0 && (
+          <div className="mt-8">
+            <h2 className="text-sm font-semibold text-ww-text-muted mb-3">Archived</h2>
+            <div className="flex flex-col gap-2">
+              {archived.map((eng) => (
+                <Link
+                  key={eng.id}
+                  href={`/engagement/${eng.accessKey}`}
+                  className="no-underline"
+                >
+                  <div className="bg-ww-surface border border-ww-border rounded-lg p-3 opacity-60 hover:opacity-80 transition-opacity cursor-pointer flex items-center justify-between">
+                    <span className="text-[13px] text-ww-text">{eng.clientName}</span>
+                    <Badge variant="muted">Archived</Badge>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -3,6 +3,7 @@ import { prisma } from "@/lib/db";
 import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import Link from "next/link";
+import { EngagementActions } from "@/components/layout/EngagementActions";
 
 export default async function EngagementDashboard({
   params,
@@ -51,7 +52,7 @@ export default async function EngagementDashboard({
                 : "No interviewees yet — go to Setup to add them"}
             </p>
           </div>
-          <Badge variant="teal">{engagement.status}</Badge>
+          <div className="flex items-center gap-3"><EngagementActions engagementId={engagement.id} accessKey={accessKey} status={engagement.status} /><Badge variant={engagement.status === "active" ? "teal" : "muted"}>{engagement.status}</Badge></div>
         </div>
 
         <div className="grid grid-cols-2 gap-3 mb-6">
