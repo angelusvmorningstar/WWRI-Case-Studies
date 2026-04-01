@@ -253,7 +253,7 @@ export default async function ReportPage({
         <PrintButton />
       </div>
 
-      {/* ── PAGE 1: Cover ──────────────────────────────────────────── */}
+      {/* ── PAGE 1: Cover + Executive Summary ─────────────────────── */}
       <div
         className="report-page"
         style={{
@@ -261,93 +261,64 @@ export default async function ReportPage({
           minHeight: 760,
           display: "flex",
           flexDirection: "column",
-          justifyContent: "space-between",
         }}
       >
-        {/* Header bar */}
-        <div
-          style={{
-            borderBottom: "3px solid #1A1A1A",
-            paddingBottom: 24,
-            marginBottom: 40,
-          }}
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/ww-logo.jpg"
-            alt="Whitewater Reinventions"
-            style={{ height: 44, display: "block" }}
-          />
-        </div>
-        {/* Centre content */}
-        <div
-          style={{
-            flex: 1,
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-          }}
-        >
-          <div
-            style={{
-              fontSize: 11,
-              fontWeight: 700,
-              letterSpacing: "0.12em",
-              textTransform: "uppercase",
-              color: "#009898",
-              marginBottom: 16,
-            }}
-          >
+        {/* Top accent bar */}
+        <div style={{ height: 4, background: "#009898", marginBottom: 48 }} />
+
+        {/* Logo */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/ww-logo.jpg"
+          alt="Whitewater Reinventions"
+          style={{ height: 36, display: "block", marginBottom: 48 }}
+        />
+
+        {/* Title block */}
+        <div style={{ marginBottom: 40 }}>
+          <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "#009898", marginBottom: 12 }}>
             Confidential
           </div>
-          <h1
-            style={{
-              fontSize: 40,
-              fontWeight: 700,
-              color: "#1A1A1A",
-              lineHeight: 1.15,
-              marginBottom: 16,
-            }}
-          >
-            Change Readiness
-            <br />
-            Assessment
+          <h1 style={{ fontSize: 36, fontWeight: 700, color: "#1A1A1A", lineHeight: 1.2, marginBottom: 0 }}>
+            Change Readiness Assessment
           </h1>
-          <div
-            style={{
-              width: 48,
-              height: 3,
-              background: "#009898",
-              marginBottom: 24,
-            }}
-          />
-          <div
-            style={{
-              fontSize: 22,
-              color: "#1A1A1A",
-              fontWeight: 600,
-              marginBottom: 8,
-            }}
-          >
-            {eng || "Engagement"}
-          </div>
-          <div style={{ fontSize: 15, color: "#555550" }}>
-            Prepared by Whitewater Reinventions
-          </div>
         </div>
+
+        {/* Client + meta */}
+        <div style={{ borderLeft: "3px solid #009898", paddingLeft: 16, marginBottom: 40 }}>
+          <div style={{ fontSize: 20, color: "#1A1A1A", fontWeight: 600, marginBottom: 4 }}>{eng || "Engagement"}</div>
+          <div style={{ fontSize: 13, color: "#555550" }}>Prepared by Whitewater Reinventions</div>
+          <div style={{ fontSize: 13, color: "#888884", marginTop: 2 }}>{today}</div>
+        </div>
+
+        {/* Executive summary */}
+        <div style={{ flex: 1 }}>
+          <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#888884", marginBottom: 12 }}>
+            Executive summary
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16, marginBottom: 20 }}>
+            <div style={{ background: "#F5F4F0", borderRadius: 8, padding: "14px 16px" }}>
+              <div style={{ fontSize: 24, fontWeight: 800, color: "#009898" }}>{sortedPeople.filter((p) => p.hasData).length}</div>
+              <div style={{ fontSize: 11, color: "#555550" }}>Interviews completed</div>
+            </div>
+            <div style={{ background: "#F5F4F0", borderRadius: 8, padding: "14px 16px" }}>
+              <div style={{ fontSize: 24, fontWeight: 800, color: bColor(cohortAvg) }}>{cohortAvg != null ? `${cohortAvg}%` : "—"}</div>
+              <div style={{ fontSize: 11, color: "#555550" }}>Cohort average</div>
+            </div>
+            <div style={{ background: "#F5F4F0", borderRadius: 8, padding: "14px 16px" }}>
+              <div style={{ fontSize: 24, fontWeight: 800, color: "#1A1A1A" }}>{activeTopics.length}</div>
+              <div style={{ fontSize: 11, color: "#555550" }}>Topics assessed</div>
+            </div>
+          </div>
+          <p style={{ fontSize: 13, color: "#555550", lineHeight: 1.6 }}>
+            This report presents the findings from {sortedPeople.filter((p) => p.hasData).length} structured interviews conducted with members of the {eng} leadership team. Participants were assessed across {activeTopics.length} topic areas using Whitewater Reinventions&apos; proprietary change readiness framework.
+          </p>
+        </div>
+
         {/* Footer */}
-        <div
-          style={{
-            borderTop: "1px solid #DDDBD6",
-            paddingTop: 20,
-            display: "flex",
-            justifyContent: "space-between",
-            fontSize: 12,
-            color: "#888884",
-          }}
-        >
-          <span>{today}</span>
-          <span>whitewater-ri.com</span>
+        <div style={{ borderTop: "1px solid #DDDBD6", paddingTop: 16, display: "flex", justifyContent: "space-between", fontSize: 10, color: "#888884" }}>
+          <span>Confidential — Whitewater Reinventions</span>
+          <span>1</span>
         </div>
       </div>
 
