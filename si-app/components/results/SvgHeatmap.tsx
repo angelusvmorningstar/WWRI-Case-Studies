@@ -6,7 +6,6 @@ export interface HeatmapPerson {
   id: string;
   name: string;
   category: string;
-  title?: string;
   overallScore: number | null;
   topicScores: Record<string, number | null>;
   hasData: boolean;
@@ -69,26 +68,14 @@ export function SvgHeatmap({ people, activeTopics }: SvgHeatmapProps) {
         height={totalH}
         style={{ display: "block", fontFamily: "Calibri,Segoe UI,sans-serif" }}
       >
-        {/* Header: INTERVIEWEE label */}
+        {/* Header: INTERVIEWEE */}
         <rect x={0} y={0} width={NAME_W} height={HEAD_H} fill="#F5F4F0" />
-        <text
-          x={12}
-          y={HEAD_H - 12}
-          fontSize={11}
-          fontWeight={700}
-          fill="#888884"
-        >
+        <text x={12} y={HEAD_H - 12} fontSize={11} fontWeight={700} fill="#888884">
           INTERVIEWEE
         </text>
 
-        {/* Header: OVERALL label */}
-        <rect
-          x={NAME_W}
-          y={0}
-          width={OVERALL_W}
-          height={HEAD_H}
-          fill="#F0EFEC"
-        />
+        {/* Header: OVERALL */}
+        <rect x={NAME_W} y={0} width={OVERALL_W} height={HEAD_H} fill="#F0EFEC" />
         {["OVER", "ALL"].map((w, i) => (
           <text
             key={i}
@@ -109,38 +96,13 @@ export function SvgHeatmap({ people, activeTopics }: SvgHeatmapProps) {
           const [l1, l2] = shortLabel(t.name);
           return (
             <g key={t.id}>
-              <rect
-                x={x}
-                y={0}
-                width={CELL_W}
-                height={HEAD_H}
-                fill={ci % 2 === 0 ? "#F5F4F0" : "#ECEAE4"}
-              />
-              <line
-                x1={x}
-                y1={0}
-                x2={x}
-                y2={HEAD_H}
-                stroke="#DDDBD6"
-                strokeWidth={1}
-              />
-              <text
-                x={x + CELL_W / 2}
-                y={HEAD_H - 28}
-                textAnchor="middle"
-                fontSize={9}
-                fill="#555550"
-              >
+              <rect x={x} y={0} width={CELL_W} height={HEAD_H} fill={ci % 2 === 0 ? "#F5F4F0" : "#ECEAE4"} />
+              <line x1={x} y1={0} x2={x} y2={HEAD_H} stroke="#DDDBD6" strokeWidth={1} />
+              <text x={x + CELL_W / 2} y={HEAD_H - 28} textAnchor="middle" fontSize={9} fill="#555550">
                 {l1}
               </text>
               {l2 && (
-                <text
-                  x={x + CELL_W / 2}
-                  y={HEAD_H - 16}
-                  textAnchor="middle"
-                  fontSize={9}
-                  fill="#555550"
-                >
+                <text x={x + CELL_W / 2} y={HEAD_H - 16} textAnchor="middle" fontSize={9} fill="#555550">
                   {l2}
                 </text>
               )}
@@ -149,14 +111,7 @@ export function SvgHeatmap({ people, activeTopics }: SvgHeatmapProps) {
         })}
 
         {/* Header bottom line */}
-        <line
-          x1={0}
-          y1={HEAD_H}
-          x2={totalW}
-          y2={HEAD_H}
-          stroke="#DDDBD6"
-          strokeWidth={1.5}
-        />
+        <line x1={0} y1={HEAD_H} x2={totalW} y2={HEAD_H} stroke="#DDDBD6" strokeWidth={1.5} />
 
         {/* Data rows */}
         {rows.map((p, ri) => {
@@ -167,58 +122,18 @@ export function SvgHeatmap({ people, activeTopics }: SvgHeatmapProps) {
 
           return (
             <g key={p.id}>
-              {/* Name cell */}
-              <rect
-                x={0}
-                y={y}
-                width={NAME_W}
-                height={CELL_H}
-                fill={isEven ? "#FFFFFF" : "#FAFAF8"}
-              />
-              <line
-                x1={0}
-                y1={y + CELL_H}
-                x2={totalW}
-                y2={y + CELL_H}
-                stroke="#DDDBD6"
-                strokeWidth={0.5}
-              />
-              <text
-                x={12}
-                y={y + CELL_H / 2 - 4}
-                fontSize={13}
-                fontWeight={700}
-                fill="#1A1A1A"
-                dominantBaseline="auto"
-              >
+              <rect x={0} y={y} width={NAME_W} height={CELL_H} fill={isEven ? "#FFFFFF" : "#FAFAF8"} />
+              <line x1={0} y1={y + CELL_H} x2={totalW} y2={y + CELL_H} stroke="#DDDBD6" strokeWidth={0.5} />
+              <text x={12} y={y + CELL_H / 2 - 4} fontSize={13} fontWeight={700} fill="#1A1A1A" dominantBaseline="auto">
                 {p.name}
               </text>
-              <text
-                x={12}
-                y={y + CELL_H / 2 + 9}
-                fontSize={10}
-                fill="#888884"
-                dominantBaseline="auto"
-              >
+              <text x={12} y={y + CELL_H / 2 + 9} fontSize={10} fill="#888884" dominantBaseline="auto">
                 {p.category}
               </text>
 
               {/* Overall cell */}
-              <rect
-                x={NAME_W}
-                y={y}
-                width={OVERALL_W}
-                height={CELL_H}
-                fill={hasSess ? cellFill(overall) : "#F0EFEC"}
-              />
-              <line
-                x1={NAME_W}
-                y1={y}
-                x2={NAME_W}
-                y2={y + CELL_H}
-                stroke="#DDDBD6"
-                strokeWidth={1}
-              />
+              <rect x={NAME_W} y={y} width={OVERALL_W} height={CELL_H} fill={hasSess ? cellFill(overall) : "#F0EFEC"} />
+              <line x1={NAME_W} y1={y} x2={NAME_W} y2={y + CELL_H} stroke="#DDDBD6" strokeWidth={1} />
               <text
                 x={NAME_W + OVERALL_W / 2}
                 y={y + CELL_H / 2}
@@ -238,33 +153,12 @@ export function SvgHeatmap({ people, activeTopics }: SvgHeatmapProps) {
                 return (
                   <g
                     key={t.id}
-                    onMouseEnter={() =>
-                      setTooltip({
-                        name: p.name,
-                        topic: t.name,
-                        score,
-                        x: cx + CELL_W / 2,
-                        y,
-                      })
-                    }
+                    onMouseEnter={() => setTooltip({ name: p.name, topic: t.name, score, x: cx + CELL_W / 2, y })}
                     onMouseLeave={() => setTooltip(null)}
                     style={{ cursor: "default" }}
                   >
-                    <rect
-                      x={cx}
-                      y={y}
-                      width={CELL_W}
-                      height={CELL_H}
-                      fill={hasSess ? cellFill(score) : "#F0EFEC"}
-                    />
-                    <line
-                      x1={cx}
-                      y1={y}
-                      x2={cx}
-                      y2={y + CELL_H}
-                      stroke="rgba(255,255,255,.15)"
-                      strokeWidth={1}
-                    />
+                    <rect x={cx} y={y} width={CELL_W} height={CELL_H} fill={hasSess ? cellFill(score) : "#F0EFEC"} />
+                    <line x1={cx} y1={y} x2={cx} y2={y + CELL_H} stroke="rgba(255,255,255,.15)" strokeWidth={1} />
                     <text
                       x={cx + CELL_W / 2}
                       y={y + CELL_H / 2}
@@ -289,16 +183,7 @@ export function SvgHeatmap({ people, activeTopics }: SvgHeatmapProps) {
           if (fi <= 0) return null;
           const y = HEAD_H + fi * CELL_H;
           return (
-            <line
-              key={cat}
-              x1={0}
-              y1={y}
-              x2={totalW}
-              y2={y}
-              stroke="#009898"
-              strokeWidth={1.5}
-              strokeDasharray="4 3"
-            />
+            <line key={cat} x1={0} y1={y} x2={totalW} y2={y} stroke="#009898" strokeWidth={1.5} strokeDasharray="4 3" />
           );
         })}
       </svg>
@@ -323,20 +208,13 @@ export function SvgHeatmap({ people, activeTopics }: SvgHeatmapProps) {
           }}
         >
           <div style={{ fontWeight: 700, marginBottom: 2 }}>{tooltip.name}</div>
-          <div style={{ color: "#888884", fontSize: 12, marginBottom: 4 }}>
-            {tooltip.topic}
-          </div>
+          <div style={{ color: "#888884", fontSize: 12, marginBottom: 4 }}>{tooltip.topic}</div>
           {tooltip.score != null ? (
             <div
               style={{
                 fontWeight: 800,
                 fontSize: 16,
-                color:
-                  tooltip.score >= 70
-                    ? "#1E8C4A"
-                    : tooltip.score >= 40
-                      ? "#C07A00"
-                      : "#C0392B",
+                color: tooltip.score >= 70 ? "#1E8C4A" : tooltip.score >= 40 ? "#C07A00" : "#C0392B",
               }}
             >
               {tooltip.score}%

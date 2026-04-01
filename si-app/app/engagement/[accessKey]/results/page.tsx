@@ -41,8 +41,6 @@ export default async function ResultsPage({
   if (!engagement) notFound();
 
   // ── Determine active topics ──────────────────────────────────────────────
-  // A topic is active if it has a TopicConfig with enabled=true and at least
-  // one selected subtopic.
   const topicConfigMap: Record<
     string,
     { enabled: boolean; selectedSubtopics: string[] }
@@ -60,7 +58,6 @@ export default async function ResultsPage({
   }).map((t) => ({ id: t.id, name: t.name }));
 
   // ── Build a flat list of active criteria IDs grouped by topic ────────────
-  // For each active topic, gather criteria IDs from selected subtopics.
   const topicCriteriaMap: Record<string, string[]> = {};
   const allActiveCriteriaIds: string[] = [];
 
@@ -84,25 +81,21 @@ export default async function ResultsPage({
 
   // ── Compute scores per person ────────────────────────────────────────────
   const people: PersonResult[] = engagement.interviewees.map((person) => {
-    // Collect all score records from completed sessions
     const allScores: Record<string, number> = {};
     let hasData = false;
     for (const session of person.sessions) {
       if (session.scores.length > 0) {
         hasData = true;
         for (const s of session.scores) {
-          // Use the latest score if multiple sessions exist
           allScores[s.criteriaId] = s.value;
         }
       }
     }
 
-    // Compute calibration adjustment: average of all assigned interviewers' adjustments
     const interviewerAdjustments = person.assignments.map(
       (a) => a.interviewer.adjustment
     );
 
-    // Topic scores: for each active topic, average the criteria scores
     const topicScores: Record<string, number | null> = {};
     for (const [topicId, criteriaIds] of Object.entries(topicCriteriaMap)) {
       const vals = criteriaIds
@@ -118,7 +111,6 @@ export default async function ResultsPage({
       }
     }
 
-    // Overall score: average of ALL active criteria scores (not averaged-of-averages)
     let overallScore: number | null = null;
     if (hasData) {
       const allVals = allActiveCriteriaIds
@@ -154,21 +146,25 @@ export default async function ResultsPage({
   });
 
   return (
-    <div className="px-4 py-6">
-      <div className="max-w-[1100px] mx-auto">
-        <div className="flex items-center gap-3 mb-4">
+    <div style={{ padding: "24px 16px" }}>
+      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
           <Link
             href={`/engagement/${accessKey}`}
-            className="text-sm text-ww-teal no-underline hover:underline"
+            style={{
+              fontSize: 13,
+              color: "#009898",
+              textDecoration: "none",
+              fontFamily: "Calibri,Segoe UI,system-ui,sans-serif",
+            }}
           >
             &larr; {engagement.clientName}
           </Link>
         </div>
 
-        <h1 className="text-lg font-semibold text-ww-text mb-1">Results</h1>
-        <p className="text-sm text-ww-text-muted mb-6">
-          Readiness scores, benchmarks, and visualisations for{" "}
-          {engagement.clientName}.
+        <h1 style={{ fontSize: 18, fontWeight: 600, color: "#1A1A1A", marginBottom: 4 }}>Results</h1>
+        <p style={{ fontSize: 13, color: "#888884", marginBottom: 24 }}>
+          Readiness scores, benchmarks, and visualisations for {engagement.clientName}.
         </p>
 
         <ResultsClient

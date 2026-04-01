@@ -5,20 +5,14 @@ interface SvgRadarProps {
   scores: number[];
   adequate: number;
   best: number;
-  category?: string;
   size?: number;
 }
 
-export function SvgRadar({
-  topics,
-  scores,
-  adequate,
-  best,
-  size = 220,
-}: SvgRadarProps) {
-  const cx = size / 2;
-  const cy = size / 2;
-  const maxR = size / 2 - 36;
+export function SvgRadar({ topics, scores, adequate, best, size = 220 }: SvgRadarProps) {
+  const s = size;
+  const cx = s / 2;
+  const cy = s / 2;
+  const maxR = s / 2 - 36;
   const n = topics.length;
 
   if (n < 3) return null;
@@ -36,9 +30,7 @@ export function SvgRadar({
   }
 
   function ring(val: number): string {
-    return topics
-      .map((_, i) => pt(val, i).join(","))
-      .join(" ");
+    return topics.map((_, i) => pt(val, i).join(",")).join(" ");
   }
 
   function anchor(i: number): "start" | "middle" | "end" {
@@ -47,115 +39,35 @@ export function SvgRadar({
     return Math.cos(a) > 0 ? "start" : "end";
   }
 
-  function splitLabel(text: string): string[] {
-    if (text.length > 14) {
-      const mid = Math.ceil(text.length / 2);
-      return [text.slice(0, mid), text.slice(mid)];
-    }
-    return [text];
-  }
-
-  const scorePolygon = topics
-    .map((_, i) => pt(scores[i] || 0, i).join(","))
-    .join(" ");
+  const scorePolygon = topics.map((_, i) => pt(scores[i] || 0, i).join(",")).join(" ");
 
   return (
-    <svg width={size} height={size} style={{ display: "block" }}>
-      {/* Concentric grid rings */}
+    <svg width={s} height={s} style={{ display: "block" }}>
       {[25, 50, 75, 100].map((v) => (
-        <polygon
-          key={v}
-          points={ring(v)}
-          fill="none"
-          stroke="#DDDBD6"
-          strokeWidth={1}
-        />
+        <polygon key={v} points={ring(v)} fill="none" stroke="#DDDBD6" strokeWidth={1} />
       ))}
-
-      {/* Axis lines from centre to each vertex */}
       {topics.map((_, i) => {
         const [x, y] = pt(100, i);
-        return (
-          <line
-            key={`axis-${i}`}
-            x1={cx}
-            y1={cy}
-            x2={x}
-            y2={y}
-            stroke="#DDDBD6"
-            strokeWidth={1}
-          />
-        );
+        return <line key={i} x1={cx} y1={cy} x2={x} y2={y} stroke="#DDDBD6" strokeWidth={1} />;
       })}
-
-      {/* Best-in-class benchmark ring (dashed green) */}
-      <polygon
-        points={ring(best)}
-        fill="#1E8C4A"
-        fillOpacity={0.06}
-        stroke="#1E8C4A"
-        strokeWidth={1.5}
-        strokeDasharray="4 3"
-      />
-
-      {/* Adequate benchmark ring (dashed amber) */}
-      <polygon
-        points={ring(adequate)}
-        fill="#C07A00"
-        fillOpacity={0.06}
-        stroke="#C07A00"
-        strokeWidth={1.5}
-        strokeDasharray="4 3"
-      />
-
-      {/* Score polygon (filled teal) */}
-      <polygon
-        points={scorePolygon}
-        fill="#009898"
-        fillOpacity={0.18}
-        stroke="#009898"
-        strokeWidth={2}
-      />
-
-      {/* Score dots */}
+      <polygon points={ring(best)} fill="#1E8C4A" fillOpacity={0.06} stroke="#1E8C4A" strokeWidth={1.5} strokeDasharray="4 3" />
+      <polygon points={ring(adequate)} fill="#C07A00" fillOpacity={0.06} stroke="#C07A00" strokeWidth={1.5} strokeDasharray="4 3" />
+      <polygon points={scorePolygon} fill="#009898" fillOpacity={0.18} stroke="#009898" strokeWidth={2} />
       {topics.map((_, i) => {
         const [x, y] = pt(scores[i] || 0, i);
-        return (
-          <circle
-            key={`dot-${i}`}
-            cx={x}
-            cy={y}
-            r={3.5}
-            fill="#009898"
-          />
-        );
+        return <circle key={i} cx={x} cy={y} r={3.5} fill="#009898" />;
       })}
-
-      {/* Topic labels */}
       {topics.map((t, i) => {
         const [x, y] = ptLabel(i);
-        const words = splitLabel(t);
+        const words = t.length > 14 ? [t.slice(0, Math.ceil(t.length / 2)), t.slice(Math.ceil(t.length / 2))] : [t];
         return (
-          <text
-            key={`label-${i}`}
-            x={x}
-            y={y}
-            textAnchor={anchor(i)}
-            dominantBaseline="middle"
-            fontSize={9}
-            fill="#555550"
-            fontFamily="Calibri,Segoe UI,sans-serif"
-          >
+          <text key={i} x={x} y={y} textAnchor={anchor(i)} dominantBaseline="middle" fontSize={9} fill="#555550" fontFamily="Calibri,Segoe UI,sans-serif">
             {words.length === 1 ? (
               words[0]
             ) : (
               <>
-                <tspan x={x} dy="-0.5em">
-                  {words[0]}
-                </tspan>
-                <tspan x={x} dy="1.1em">
-                  {words[1]}
-                </tspan>
+                <tspan x={x} dy="-0.5em">{words[0]}</tspan>
+                <tspan x={x} dy="1.1em">{words[1]}</tspan>
               </>
             )}
           </text>

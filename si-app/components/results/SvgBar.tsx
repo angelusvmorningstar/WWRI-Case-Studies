@@ -28,11 +28,7 @@ function sColor(v: number): string {
 }
 
 export function SvgBar({ data, benchmarks }: SvgBarProps) {
-  const [tooltip, setTooltip] = useState<{
-    d: BarPerson;
-    x: number;
-    y: number;
-  } | null>(null);
+  const [tooltip, setTooltip] = useState<{ d: BarPerson; x: number; y: number } | null>(null);
 
   const w = 700;
   const h = 300;
@@ -67,9 +63,7 @@ export function SvgBar({ data, benchmarks }: SvgBarProps) {
     let i = 0;
     while (i < n) {
       const cat = sorted[i].category;
-      const val = (benchmarks[cat] || ({} as Record<string, number>))[kind] as
-        | number
-        | undefined;
+      const val = (benchmarks[cat] || ({} as Record<string, number>))[kind] as number | undefined;
       if (val == null) {
         i++;
         continue;
@@ -79,29 +73,20 @@ export function SvgBar({ data, benchmarks }: SvgBarProps) {
       const x1 = xPos(i) - gap / 2;
       const x2 = xPos(j - 1) + gap / 2;
       const y = yPos(val);
-      pts.push(x1 + "," + y);
+      if (pts.length === 0) pts.push(x1 + "," + y);
+      else pts.push(x1 + "," + y);
       pts.push(x2 + "," + y);
       i = j;
     }
     return pts.join(" ");
   }
 
-  function segLabels(
-    kind: "adequate" | "best"
-  ): { key: string; x: number; y: number; label: string; color: string }[] {
-    const labels: {
-      key: string;
-      x: number;
-      y: number;
-      label: string;
-      color: string;
-    }[] = [];
+  function segLabels(kind: "adequate" | "best"): { key: string; x: number; y: number; label: string; color: string }[] {
+    const labels: { key: string; x: number; y: number; label: string; color: string }[] = [];
     let i = 0;
     while (i < n) {
       const cat = sorted[i].category;
-      const val = (benchmarks[cat] || ({} as Record<string, number>))[kind] as
-        | number
-        | undefined;
+      const val = (benchmarks[cat] || ({} as Record<string, number>))[kind] as number | undefined;
       if (val == null) {
         i++;
         continue;
@@ -122,11 +107,7 @@ export function SvgBar({ data, benchmarks }: SvgBarProps) {
 
   return (
     <div style={{ position: "relative" }}>
-      <svg
-        width="100%"
-        viewBox={`0 0 ${w} ${h}`}
-        style={{ display: "block" }}
-      >
+      <svg width="100%" viewBox={"0 0 " + w + " " + h} style={{ display: "block" }}>
         {/* Horizontal grid lines + axis labels */}
         {[0, 25, 50, 75, 100].map((v) => (
           <g key={v}>
@@ -168,14 +149,7 @@ export function SvgBar({ data, benchmarks }: SvgBarProps) {
         {/* Benchmark segment labels */}
         {(["best", "adequate"] as const).flatMap((kind) =>
           segLabels(kind).map((l) => (
-            <text
-              key={l.key}
-              x={l.x}
-              y={l.y - 3}
-              fontSize={9}
-              fill={l.color}
-              fontFamily="Calibri,Segoe UI,sans-serif"
-            >
+            <text key={l.key} x={l.x} y={l.y - 3} fontSize={9} fill={l.color} fontFamily="Calibri,Segoe UI,sans-serif">
               {l.label}
             </text>
           ))
@@ -212,15 +186,7 @@ export function SvgBar({ data, benchmarks }: SvgBarProps) {
               onMouseLeave={() => setTooltip(null)}
               style={{ cursor: "default" }}
             >
-              <rect
-                x={x - barW / 2}
-                y={by}
-                width={barW}
-                height={bh}
-                fill="#009898"
-                fillOpacity={0.75}
-                rx={3}
-              />
+              <rect x={x - barW / 2} y={by} width={barW} height={bh} fill="#009898" fillOpacity={0.75} rx={3} />
               <text
                 x={x}
                 y={by - 4}
@@ -240,7 +206,7 @@ export function SvgBar({ data, benchmarks }: SvgBarProps) {
         {sorted.map((d, i) => (
           <text
             key={d.pid + "_lbl"}
-            transform={`translate(${xPos(i)},${h - padB + 10}) rotate(-40)`}
+            transform={"translate(" + xPos(i) + "," + (h - padB + 10) + ") rotate(-40)"}
             textAnchor="end"
             fontSize={11}
             fill="#555550"
@@ -270,21 +236,9 @@ export function SvgBar({ data, benchmarks }: SvgBarProps) {
             zIndex: 10,
           }}
         >
-          <div style={{ fontWeight: 700, marginBottom: 2 }}>
-            {tooltip.d.fullName}
-          </div>
-          <div style={{ color: "#888884", fontSize: 12 }}>
-            {tooltip.d.category}
-          </div>
-          <div
-            style={{
-              color: sColor(tooltip.d.score),
-              fontWeight: 800,
-              fontSize: 16,
-            }}
-          >
-            {tooltip.d.score}%
-          </div>
+          <div style={{ fontWeight: 700, marginBottom: 2 }}>{tooltip.d.fullName}</div>
+          <div style={{ color: "#888884", fontSize: 12 }}>{tooltip.d.category}</div>
+          <div style={{ color: sColor(tooltip.d.score), fontWeight: 800, fontSize: 16 }}>{tooltip.d.score}%</div>
         </div>
       )}
     </div>
