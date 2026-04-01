@@ -1,0 +1,156 @@
+generator client {
+  provider        = "prisma-client"
+  output          = "../app/generated/prisma"
+
+}
+
+datasource db {
+  provider = "postgresql"
+  schemas  = ["si"]
+}
+
+model Engagement {
+  id          String   @id @default(cuid())
+  accessKey   String   @unique @default(cuid())
+  clientName  String
+  status      String   @default("active")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  topicConfigs      TopicConfig[]
+  questionOverrides QuestionOverride[]
+  guidanceOverride  GuidanceOverride?
+  interviewees      Interviewee[]
+  interviewers      Interviewer[]
+  benchmarks        Benchmark[]
+
+  @@schema("si")
+}
+
+model TopicConfig {
+  id                String     @id @default(cuid())
+  engagementId      String
+  engagement        Engagement @relation(fields: [engagementId], references: [id], onDelete: Cascade)
+  topicId           String
+  enabled           Boolean    @default(false)
+  selectedSubtopics Json       @default("[]")
+
+  @@schema("si")
+}
+
+model QuestionOverride {
+  id             String     @id @default(cuid())
+  engagementId   String
+  engagement     Engagement @relation(fields: [engagementId], references: [id], onDelete: Cascade)
+  subtopicId     String
+  customQuestion String?
+  customMins     Int?
+
+  @@schema("si")
+}
+
+model GuidanceOverride {
+  id                   String     @id @default(cuid())
+  engagementId         String     @unique
+  engagement           Engagement @relation(fields: [engagementId], references: [id], onDelete: Cascade)
+  boilerplateOverrides Json       @default("{}")
+  bespokeSection       String     @default("")
+
+  @@schema("si")
+}
+
+model Interviewee {
+  id           String     @id @default(cuid())
+  engagementId String
+  engagement   Engagement @relation(fields: [engagementId], references: [id], onDelete: Cascade)
+  name         String
+  title        String?
+  category     String     @default("Senior Management")
+  status       String     @default("pending")
+  createdAt    DateTime   @default(now())
+
+  assignments InterviewerAssignment[]
+  sessions    Session[]
+
+  @@schema("si")
+}
+
+model Interviewer {
+  id           String     @id @default(cuid())
+  engagementId String
+  engagement   Engagement @relation(fields: [engagementId], references: [id], onDelete: Cascade)
+  name         String
+  adjustment   Float      @default(0)
+
+  assignments InterviewerAssignment[]
+
+  @@schema("si")
+}
+
+model InterviewerAssignment {
+  id             String      @id @default(cuid())
+  intervieweeId  String
+  interviewee    Interviewee @relation(fields: [intervieweeId], references: [id], onDelete: Cascade)
+  interviewerId  String
+  interviewer    Interviewer @relation(fields: [interviewerId], references: [id], onDelete: Cascade)
+
+  @@schema("si")
+}
+
+model Session {
+  id             String      @id @default(cuid())
+  intervieweeId  String
+  interviewee    Interviewee @relation(fields: [intervieweeId], references: [id], onDelete: Cascade)
+  status         String      @default("pending")
+  startedAt      DateTime?
+  completedAt    DateTime?
+
+  background Background?
+  scores     Score[]
+  notes      Note[]
+
+  @@schema("si")
+}
+
+model Background {
+  id        String  @id @default(cuid())
+  sessionId String  @unique
+  session   Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  data      Json    @default("{}")
+
+  @@schema("si")
+}
+
+model Score {
+  id         String  @id @default(cuid())
+  sessionId  String
+  session    Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  criteriaId String
+  value      Float   @default(0)
+
+  @@unique([sessionId, criteriaId])
+  @@schema("si")
+}
+
+model Note {
+  id         String  @id @default(cuid())
+  sessionId  String
+  session    Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  questionId String
+  text       String  @default("")
+
+  @@unique([sessionId, questionId])
+  @@schema("si")
+}
+
+model Benchmark {
+  id           String     @id @default(cuid())
+  engagementId String
+  engagement   Engagement @relation(fields: [engagementId], references: [id], onDelete: Cascade)
+  category     String
+  adequate     Float      @default(40)
+  best         Float      @default(85)
+
+  @@unique([engagementId, category])
+  @@schema("si")
+}
