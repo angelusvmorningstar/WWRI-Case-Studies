@@ -20,6 +20,17 @@
   margin-bottom: var(--space-4);
 }
 
+.cash-forecast__section-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-4);
+}
+
+.cash-forecast__section-topbar .cash-forecast__subheading {
+  margin-bottom: 0;
+}
+
 .cash-forecast__placeholder {
   font-size: var(--font-size-sm);
   color: var(--color-text-muted);

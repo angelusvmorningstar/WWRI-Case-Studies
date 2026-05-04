@@ -68,3 +68,368 @@
 .revenue-pipeline .data-table__cell--editable input[type="date"] {
   width: 130px;
 }
+
+/* Override indicator */
+.rev-override-dot {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  margin-left: var(--space-1);
+  opacity: 0.6;
+}
+
+.rev-row--overridden {
+  background-color: color-mix(in srgb, var(--color-primary) 4%, transparent);
+}
+
+/* ── Top bar ── */
+
+.revenue-pipeline__topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-6);
+}
+
+.revenue-pipeline__topbar .revenue-pipeline__heading {
+  margin-bottom: 0;
+}
+
+/* ── Add Phase Panel ── */
+
+.add-phase-panel {
+  background-color: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  margin-bottom: var(--space-6);
+}
+
+.add-phase-panel__inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.add-phase-panel__heading {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.add-phase-panel__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.add-phase-panel__error {
+  font-size: var(--font-size-sm);
+  color: var(--color-danger);
+}
+
+/* ── Add Phase Form ── */
+
+.add-phase-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.add-phase-form__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  align-items: flex-end;
+}
+
+.add-phase-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 110px;
+}
+
+.add-phase-form__field--lg {
+  min-width: 180px;
+}
+
+.add-phase-form__field .form-label {
+  font-size: var(--font-size-xs);
+  margin-bottom: 0;
+}
+
+.add-phase-form__field .form-input,
+.add-phase-form__field .form-select {
+  font-size: var(--font-size-sm);
+  padding: var(--space-1) var(--space-2);
+}
+
+/* ── Invoice Split Toggle ── */
+
+.split-toggle {
+  display: inline-flex;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.split-toggle__btn {
+  background: transparent;
+  border: none;
+  padding: var(--space-1) var(--space-3);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.split-toggle__btn + .split-toggle__btn {
+  border-left: 1px solid var(--color-border);
+}
+
+.split-toggle__btn--active {
+  background-color: var(--color-primary);
+  color: var(--color-bg-surface);
+}
+
+.split-toggle__btn:hover:not(.split-toggle__btn--active) {
+  background-color: var(--color-bg-subtle);
+}
+
+/* ── Action column ── */
+
+.rev-action-cell {
+  width: 32px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.rev-project-actions {
+  width: auto;
+  text-align: right;
+  padding-right: var(--space-3);
+}
+
+.btn-delete-phase,
+.btn-delete-project {
+  background: transparent;
+  border: none;
+  padding: 2px var(--space-1);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+  line-height: 1;
+  border-radius: var(--radius-sm);
+  transition: color var(--transition-fast);
+}
+
+.btn-delete-phase:hover,
+.btn-delete-project:hover {
+  color: var(--color-danger);
+}
+
+/* ── Project group rows ── */
+
+.rev-project-row {
+  background-color: var(--color-bg-subtle);
+  border-top: 2px solid var(--color-border);
+}
+
+.rev-project-row:first-child {
+  border-top: none;
+}
+
+.rev-project-cell {
+  padding: var(--space-2) var(--space-3);
+}
+
+.rev-project-name {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-sm);
+  margin-right: var(--space-3);
+}
+
+.rev-project-meta {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.rev-phase-row td {
+  font-size: var(--font-size-sm);
+}
+
+.rev-phase-indent {
+  width: 16px;
+}
+
+/* ── Project panel ── */
+
+.project-panel {
+  background-color: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  margin-bottom: var(--space-6);
+}
+
+.project-panel__inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.project-panel__heading {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.project-panel__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.project-panel__error {
+  font-size: var(--font-size-sm);
+  color: var(--color-danger);
+}
+
+/* ── Project form ── */
+
+.project-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.project-form__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  align-items: flex-end;
+}
+
+.project-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 110px;
+}
+
+.project-form__field--lg {
+  min-width: 180px;
+}
+
+.project-form__field .form-label {
+  font-size: var(--font-size-xs);
+  margin-bottom: 0;
+}
+
+.project-form__field .form-input {
+  font-size: var(--font-size-sm);
+  padding: var(--space-1) var(--space-2);
+}
+
+.project-form__phases-label {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: calc(-1 * var(--space-2));
+}
+
+.project-form__phases {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* ── Phase entry within project panel ── */
+
+.phase-entry {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-4);
+  background-color: var(--color-bg-page, var(--color-bg-surface));
+}
+
+.phase-entry__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-3);
+}
+
+.phase-entry__number {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.btn-remove-phase {
+  background: transparent;
+  border: none;
+  padding: 2px var(--space-1);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+  border-radius: var(--radius-sm);
+  transition: color var(--transition-fast);
+}
+
+.btn-remove-phase:hover {
+  color: var(--color-danger);
+}
+
+/* ── Small button variant ── */
+
+.btn--sm {
+  font-size: var(--font-size-xs);
+  padding: var(--space-1) var(--space-3);
+}
+
+/* ── Paid column ── */
+
+.rev-paid-cell {
+  width: 44px;
+  text-align: center;
+}
+
+.paid-checkbox {
+  cursor: pointer;
+  width: 15px;
+  height: 15px;
+  accent-color: var(--color-primary);
+}
+
+/* ── Paid row — visually de-emphasised ── */
+
+.rev-phase-row--paid td {
+  color: var(--color-text-muted);
+  text-decoration: line-through;
+}
+
+.rev-phase-row--paid .status-badge,
+.rev-phase-row--paid .paid-checkbox {
+  text-decoration: none;
+  opacity: 0.6;
+}
+
+/* ── Overdue due date ── */
+
+.rev-due--overdue {
+  color: var(--color-warning, #d97706);
+  font-weight: var(--font-weight-medium);
+}
+
+/* ── Custom split row within phase entry ── */
+
+.phase-custom-split {
+  margin-top: var(--space-3);
+}

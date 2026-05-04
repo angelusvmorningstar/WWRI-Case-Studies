@@ -21,7 +21,7 @@ import { renderDualLineChart } from '../shared/charts.js';
 function render(container) {
   const months = generateMonthColumns();
   const expenses = get('expenses') || { categories: [] };
-  const revenue = get('revenue') || [];
+  const revenue  = flattenProjectsToLines(get('projects') || []);
   const bs = get('balanceSheet') || {};
 
   const projections = calculateProjections(revenue, months);
@@ -57,7 +57,10 @@ function render(container) {
       </div>
 
       <div class="cash-forecast__section">
-        <h3 class="cash-forecast__subheading">Operating Expenses</h3>
+        <div class="cash-forecast__section-topbar">
+          <h3 class="cash-forecast__subheading">Operating Expenses</h3>
+          <button class="btn btn--ghost btn--sm" type="button" id="btn-roll-forward">Roll forward 1 month</button>
+        </div>
         <div class="data-table-wrap">
           <table class="data-table" id="expense-table">
             <thead>
@@ -78,7 +81,94 @@ function render(container) {
     </div>
   `;
 
-  bindExpenseEditing(container, expenses, months, revenue, bs);
+  bindExpenseEditing(container, expenses, months, bs);
+}
+
+// ── Projects → flat revenue lines ────────────────────────────────────────────
+
+function deriveInstallments(phase) {
+  const { split, total, startDate, weeks, avgPay, customSplit } = phase;
+  const DAY_MS  = 24 * 60 * 60 * 1000;
+  const startMs = new Date(startDate).getTime();
+  const endMs   = startMs + (weeks || 0) * 7 * DAY_MS;
+  const midMs   = Math.round((startMs + endMs) / 2);
+  const payMs   = (avgPay || 30) * DAY_MS;
+  const due     = ms => new Date(ms + payMs).toISOString().slice(0, 10);
+
+  if (split === '5050') {
+    const a = Math.round(total / 2);
+    return [
+      { amount: a,         due: due(startMs) },
+      { amount: total - a, due: due(endMs)   },
+    ];
+  }
+  if (split === 'single') {
+    return [{ amount: total, due: due(startMs) }];
+  }
+  if (split === '252550') {
+    const a = Math.round(total * 0.25);
+    const b = Math.round(total * 0.25);
+    return [
+      { amount: a,             due: due(startMs) },
+      { amount: b,             due: due(midMs)   },
+      { amount: total - a - b, due: due(endMs)   },
+    ];
+  }
+  if (split === 'custom') {
+    const [pA = 33, pB = 33] = customSplit || [];
+    const a = Math.round(total * pA / 100);
+    const b = Math.round(total * pB / 100);
+    return [
+      { amount: a,             due: due(startMs) },
+      { amount: b,             due: due(midMs)   },
+      { amount: total - a - b, due: due(endMs)   },
+    ];
+  }
+  const a = Math.round(total * 0.30);
+  const b = Math.round(total * 0.30);
+  return [
+    { amount: a,             due: due(startMs) },
+    { amount: b,             due: due(midMs)   },
+    { amount: total - a - b, due: due(endMs)   },
+  ];
+}
+
+function effectiveDue(dueStr, paid) {
+  if (paid || !dueStr) return dueStr;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const due = new Date(dueStr);
+  if (!isNaN(due) && due < today) {
+    const rolled = new Date(today);
+    rolled.setDate(rolled.getDate() + 7);
+    return rolled.toISOString().slice(0, 10);
+  }
+  return dueStr;
+}
+
+function flattenProjectsToLines(projects) {
+  const lines = [];
+  for (const project of projects) {
+    const iePct  = project.iePct  || 0;
+    const refPct = project.refPct || 0;
+    for (const phase of (project.phases || [])) {
+      const installments = deriveInstallments(phase);
+      for (let i = 0; i < installments.length; i++) {
+        const paid = (phase.paid || [])[i] === true;
+        if (paid) continue; // already received — skip from forecast
+        const inst = installments[i];
+        lines.push({
+          rev:    inst.amount,
+          cur:    phase.currency || 'AUD',
+          due:    effectiveDue(inst.due, false),
+          iePct,
+          refPct,
+          status: phase.status,
+        });
+      }
+    }
+  }
+  return lines;
 }
 
 // ── Month Columns ────────────────────────────────────────────────────────────
@@ -247,7 +337,22 @@ function renderExpenseLine(line, months) {
 
 // ── Expense Editing ──────────────────────────────────────────────────────────
 
-function bindExpenseEditing(container, expenses, months, revenue, bs) {
+function bindExpenseEditing(container, expenses, months, bs) {
+  container.querySelector('#btn-roll-forward')?.addEventListener('click', () => {
+    if (!confirm('Roll all expense values forward by one month? The last month\'s value will repeat in the new final slot.')) return;
+
+    for (const category of (expenses.categories || [])) {
+      for (const line of category.lines) {
+        const last = line.defaults[line.defaults.length - 1] || 0;
+        line.defaults.shift();
+        line.defaults.push(last);
+      }
+    }
+
+    set('expenses', expenses);
+    render(container);
+  });
+
   container.querySelectorAll('[data-expense-id]').forEach(input => {
     input.addEventListener('blur', () => {
       const expenseId = input.dataset.expenseId;
@@ -266,6 +371,7 @@ function bindExpenseEditing(container, expenses, months, revenue, bs) {
       set('expenses', expenses);
 
       // Recalculate and re-render summary
+      const revenue = flattenProjectsToLines(get('projects') || []);
       const expenseTotals = calculateExpenseTotals(expenses, months);
       const projections = calculateProjections(revenue, months);
       const cashFlow = calculateCashFlow(projections, expenseTotals, bs, months);
