@@ -1,0 +1,496 @@
+/* WWRI Subscription Cost Tracker — board pack print stylesheet
+   Applied when window.print() is called from the Dashboard view.
+   Three print modes toggled via body class (Story 6.5):
+     .print-numbers-only     — values only, no provenance markers
+     .print-with-footnotes   — values + per-value footnotes
+     .print-full-provenance  — values + full Assumption appendix */
+
+@page {
+  size: A4 portrait;
+  margin: 15mm 18mm 20mm 18mm;
+}
+
+@media print {
+
+  /* ── Hide interactive chrome ────────────────────────────────────────────── */
+  .nav-bar,
+  .save-indicator,
+  .needs-decision-tray,
+  .decision-drawer,
+  .btn,
+  .page-placeholder,
+  .dashboard__scenario-ticker,
+  .dashboard__savings-link,
+  .page-header {
+    display: none !important;
+  }
+
+  /* ── Body reset ─────────────────────────────────────────────────────────── */
+  body {
+    background: #fff;
+    color: #000;
+    font-family: 'Calibri', 'Segoe UI', sans-serif;
+    font-size: 10pt;
+    line-height: 1.4;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* ── App shell — remove screen padding ─────────────────────────────────── */
+  .app-shell {
+    display: block;
+  }
+
+  .app-shell__content {
+    padding: 0;
+    max-width: none;
+  }
+
+  /* ── Print-only header (logo + title + date) ────────────────────────────── */
+  .dashboard__print-header {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2pt solid #009898;
+    padding-bottom: 8pt;
+    margin-bottom: 14pt;
+  }
+
+  .dashboard__print-header-logo {
+    height: 26pt;
+    width: auto;
+  }
+
+  .dashboard__print-header-title {
+    font-size: 14pt;
+    font-weight: 700;
+    color: #009898;
+  }
+
+  .dashboard__print-header-date {
+    font-size: 8.5pt;
+    color: #666;
+  }
+
+  /* ── Dashboard container ────────────────────────────────────────────────── */
+  .dashboard {
+    display: block;
+    gap: 0;
+    padding-bottom: 18pt; /* clearance for fixed footer */
+  }
+
+  /* ── Headline KPI panel ─────────────────────────────────────────────────── */
+  .dashboard__headline {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8pt;
+    margin-bottom: 10pt;
+    border: none;
+    border-radius: 0;
+    overflow: visible;
+    page-break-after: avoid;
+  }
+
+  .dashboard__headline-col {
+    padding: 8pt 10pt;
+    border: 1pt solid #ddd;
+    border-radius: 3pt;
+  }
+
+  .dashboard__headline-col:last-child {
+    border-right: 1pt solid #ddd;
+  }
+
+  .dashboard__col-header {
+    background: transparent;
+    font-size: 7.5pt;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #009898;
+    padding: 3pt 0;
+    text-align: left;
+    margin-bottom: 3pt;
+  }
+
+  .dashboard__col-amount {
+    font-size: 17pt;
+    font-weight: 700;
+    color: #000;
+    line-height: 1.1;
+    padding: 4pt 0 2pt;
+    text-align: left;
+  }
+
+  .dashboard__col-amount--up {
+    color: #c0392b;
+  }
+
+  .dashboard__col-amount--down {
+    color: #1a7a4a;
+  }
+
+  .dashboard__col-period {
+    font-size: 7.5pt;
+    color: #666;
+    margin-top: 2pt;
+    text-align: left;
+  }
+
+  .dashboard__col-desc {
+    font-size: 7.5pt;
+    color: #888;
+    padding: 0;
+    min-height: 0;
+    border-bottom: none;
+    margin-bottom: 3pt;
+    font-style: normal;
+  }
+
+  /* ── Shared panel base ──────────────────────────────────────────────────── */
+  .dashboard__savings-panel,
+  .dashboard__category-panel,
+  .dashboard__movers-panel {
+    border: 1pt solid #ddd;
+    border-radius: 0;
+    padding: 8pt 10pt;
+    margin-bottom: 10pt;
+    page-break-inside: avoid;
+  }
+
+  /* ── Panel titles ───────────────────────────────────────────────────────── */
+  .dashboard__savings-title,
+  .dashboard__category-title,
+  .dashboard__movers-title {
+    font-size: 10pt;
+    font-weight: 700;
+    color: #009898;
+    margin-bottom: 5pt;
+  }
+
+  /* ── Savings panel ──────────────────────────────────────────────────────── */
+  .dashboard__savings-desc {
+    font-size: 8.5pt;
+    color: #444;
+    margin-bottom: 7pt;
+  }
+
+  .dashboard__savings-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 7pt;
+  }
+
+  .dashboard__savings-col {
+    padding: 6pt 8pt;
+    border: 1pt solid #ddd;
+    border-radius: 2pt;
+  }
+
+  .dashboard__savings-col--savings {
+    background: #f0faf6;
+  }
+
+  .dashboard__savings-header {
+    font-size: 7.5pt;
+    color: #666;
+    margin-bottom: 2pt;
+  }
+
+  .dashboard__savings-amount {
+    font-size: 13pt;
+    font-weight: 700;
+    color: #000;
+  }
+
+  .dashboard__savings-sub {
+    font-size: 7pt;
+    color: #888;
+    margin-top: 2pt;
+  }
+
+  /* ── Category breakdown ─────────────────────────────────────────────────── */
+  .dashboard__category-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 3pt;
+  }
+
+  .dashboard__category-row {
+    display: grid;
+    grid-template-columns: 180pt 1fr 36pt 72pt;
+    align-items: center;
+    gap: 6pt;
+  }
+
+  .dashboard__category-row--empty {
+    opacity: 0.4;
+  }
+
+  .dashboard__category-label {
+    font-size: 9pt;
+    color: #222;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .dashboard__category-bar-wrap {
+    height: 5pt;
+    background: #e0e0e0;
+    border-radius: 2.5pt;
+    overflow: hidden;
+  }
+
+  .dashboard__category-bar {
+    display: block;
+    height: 100%;
+    background: #009898;
+    border-radius: 2.5pt;
+  }
+
+  .dashboard__category-pct {
+    font-size: 8.5pt;
+    text-align: right;
+    color: #444;
+  }
+
+  .dashboard__category-amount {
+    font-size: 8.5pt;
+    font-weight: 600;
+    text-align: right;
+    color: #000;
+  }
+
+  /* ── Top movers ─────────────────────────────────────────────────────────── */
+  .dashboard__movers-table {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .dashboard__movers-header,
+  .dashboard__movers-row {
+    display: grid;
+    grid-template-columns: 1fr 72pt 72pt 82pt 62pt;
+    gap: 6pt;
+    padding: 3pt 0;
+    border-bottom: 0.5pt solid #ddd;
+    align-items: baseline;
+  }
+
+  .dashboard__movers-row:last-child {
+    border-bottom: none;
+  }
+
+  .dashboard__movers-header {
+    font-size: 7pt;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #666;
+  }
+
+  .dashboard__movers-name {
+    display: flex;
+    flex-direction: column;
+    gap: 1pt;
+  }
+
+  .dashboard__movers-vendor {
+    font-size: 9pt;
+    font-weight: 600;
+    color: #000;
+  }
+
+  .dashboard__movers-product {
+    font-size: 7.5pt;
+    color: #666;
+  }
+
+  .dashboard__movers-col-num {
+    font-size: 8.5pt;
+    text-align: right;
+    color: #222;
+    white-space: nowrap;
+  }
+
+  .dashboard__movers-delta--up {
+    color: #c0392b;
+    font-weight: 600;
+  }
+
+  .dashboard__movers-delta--down {
+    color: #1a7a4a;
+    font-weight: 600;
+  }
+
+  /* ── PDF page footer ────────────────────────────────────────────────────── */
+  .dashboard__print-footer {
+    display: flex !important;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 7pt;
+    color: #888;
+    padding-top: 3pt;
+    border-top: 0.5pt solid #ccc;
+    background: #fff;
+  }
+
+  .dashboard__print-footer-left {
+    font-size: 7pt;
+    color: #888;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 75%;
+  }
+
+  .dashboard__print-footer-right {
+    font-size: 7pt;
+    color: #aaa;
+    white-space: nowrap;
+    text-align: right;
+  }
+
+  /* ── Provenance markers — numbers-only mode ─────────────────────────────── */
+  body.print-numbers-only .assumption-marker {
+    display: none !important;
+  }
+
+  /* ── Print mode sections ────────────────────────────────────────────────── */
+
+  .dashboard__print-section-title {
+    font-size: 10pt;
+    font-weight: 700;
+    color: #009898;
+    margin-bottom: 6pt;
+    padding-bottom: 3pt;
+    border-bottom: 1pt solid #009898;
+  }
+
+  .dashboard__print-empty {
+    font-size: 8.5pt;
+    color: #888;
+    font-style: italic;
+  }
+
+  /* Footnotes: visible only in with-footnotes mode */
+  body.print-with-footnotes .dashboard__print-footnotes {
+    display: block !important;
+    margin-top: 10pt;
+    page-break-inside: avoid;
+  }
+
+  .dashboard__print-fn-grid {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .dashboard__print-fn-header,
+  .dashboard__print-fn-row {
+    display: grid;
+    grid-template-columns: 16pt 110pt 44pt 52pt 1fr;
+    gap: 4pt;
+    padding: 2.5pt 0;
+    border-bottom: 0.5pt solid #eee;
+    align-items: baseline;
+  }
+
+  .dashboard__print-fn-row:last-child {
+    border-bottom: none;
+  }
+
+  .dashboard__print-fn-header {
+    font-size: 7pt;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #666;
+    border-bottom-color: #ccc;
+  }
+
+  .dashboard__print-fn-cell {
+    font-size: 8.5pt;
+    color: #222;
+  }
+
+  .dashboard__print-fn-cell--num {
+    font-size: 7.5pt;
+    color: #999;
+    text-align: right;
+  }
+
+  .dashboard__print-fn-cell--wide {
+    color: #444;
+  }
+
+  .dashboard__print-fn-label {
+    display: block;
+    font-size: 8.5pt;
+    font-weight: 600;
+    color: #000;
+  }
+
+  .dashboard__print-fn-cat {
+    display: block;
+    font-size: 7pt;
+    color: #888;
+  }
+
+  .dashboard__print-fn-unit {
+    font-size: 7.5pt;
+    color: #666;
+  }
+
+  /* Appendix: visible only in full-provenance mode, starts new page */
+  body.print-full-provenance .dashboard__print-appendix {
+    display: block !important;
+    page-break-before: always;
+  }
+
+  .dashboard__print-appendix-entry {
+    margin-bottom: 8pt;
+    page-break-inside: avoid;
+  }
+
+  .dashboard__print-appendix-header {
+    display: flex;
+    align-items: baseline;
+    gap: 6pt;
+    margin-bottom: 3pt;
+  }
+
+  .dashboard__print-appendix-label {
+    font-size: 9.5pt;
+    font-weight: 700;
+    color: #000;
+  }
+
+  .dashboard__print-appendix-key {
+    font-size: 7.5pt;
+    color: #888;
+    font-family: 'Courier New', monospace;
+  }
+
+  .dashboard__print-appendix-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 8pt;
+  }
+
+  .dashboard__print-appendix-table td {
+    padding: 1.5pt 4pt;
+    border: 0.5pt solid #ddd;
+    vertical-align: top;
+  }
+
+  .dashboard__print-appendix-table td:first-child {
+    font-weight: 600;
+    color: #444;
+    width: 60pt;
+    white-space: nowrap;
+  }
+
+}

@@ -1,0 +1,59 @@
+generated: 2026-05-13
+last_updated: 2026-05-27T00:00:00.000Z
+project: WWRI-Cost-Tracker
+story_location: "_bmad-output/cost-tracker-implementation"
+development_status:
+  epic-1: done
+  1-1-project-scaffold-and-design-system: done
+  1-2-user-identity: done
+  1-3-workbook-state-store-and-localstorage-autosave: done
+  1-4-load-and-save-workbook-to-json-file: done
+  1-5-assumption-entity-lifecycle-and-validation: done
+  1-6-assumption-supersession: done
+  1-7-subscription-entity-model-and-seed-workbook: done
+  1-8-subscription-inventory-view-with-search-and-filter: done
+  1-9-subscription-inventory-crud: done
+  1-10-inline-provenance-markers-and-hover-tooltip: done
+  1-11-decision-drawer: done
+  1-12-decision-log-view-and-needs-decision-tray: done
+  epic-2: done
+  2-1-monthly-cost-time-series-view: done
+  2-2-manual-forecast-cell-override-with-provenance: done
+  2-3-xero-csv-upload-parse-and-reconcile: done
+  2-4-yoy-comparison-view: done
+  2-5-cohort-driven-row-auto-population: done
+  2-6-currency-formatting-and-fx-conversion: done
+  2-7-override-source-field-optional: done
+  2-8-override-variable-editing: done
+  epic-3: in-progress
+  3-1-scenario-inputs-panel: done
+  3-2-scenario-selector-and-primary-target-locking: done
+  3-3-phase-1-cohort-assumptions-panel: done
+  3-4-licence-forecast-view-with-cohort-markers: done
+  3-5-edit-cohort-timing-and-manual-licence-overrides: done
+  3-6-scenarios-recruitment-forecast-model: review
+  epic-4: in-progress
+  4-1-hubspot-architecture-comparison: done
+  4-2-discount-slider-for-renewal-modelling: done
+  4-3-subscription-active-not-active-toggle: done
+  4-4-savings-calculations-architecture-vs-toggle: review
+  4-5-calculation-notes-firm-vs-indicative: review
+  4-6-savings-opportunity-register: review
+  4-7-subscriptions-view-grouped-by-type: done
+  4-8-cohort-demand-rate-subscription-model: review
+  4-9-per-ie-subscription-expanded-table: review
+  4-10-absorb-inventory-into-subscriptions: review
+  epic-5: in-progress
+  5-1-renewal-calendar-list-view: review
+  5-2-renewal-status-workflow-and-notes: review
+  5-3-document-attachments-for-renewal-events: review
+  epic-6: done
+  6-1-headline-kpis-and-scenario-envelope-tiles: done
+  6-2-category-breakdown-with-percentage-share: review
+  6-3-top-movers-driving-yoy-change: review
+  6-4-print-stylesheet-for-board-pack: done
+  6-5-three-print-modes: done
+  6-6-export-log-and-pdf-footer-metadata: done
+  epic-7: in-progress
+  7-1-four-tab-ui-restructure: done
+  7-2-forecast-model-driven-costs: done

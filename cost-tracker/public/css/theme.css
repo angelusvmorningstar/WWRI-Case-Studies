@@ -1,0 +1,76 @@
+/* WWRI Subscription Cost Tracker — Whitewater design tokens
+   Mirrors the Finance Toolkit theme.css exactly; scoped to cost-tracker. */
+
+:root {
+  /* Brand colours */
+  --color-primary: #009898;
+  --color-primary-hover: #007878;
+  --color-bg-page: #F5F4F0;
+  --color-bg-surface: #FFFFFF;
+  --color-bg-alt: #FAFAF8;
+  --color-bg-hover: #F0EFEC;
+  --color-border: #DDDBD6;
+  --color-focus-ring: rgba(0, 152, 152, 0.15);
+
+  /* Text */
+  --color-text-primary: #1A1A1A;
+  --color-text-secondary: #555550;
+  --color-text-muted: #888884;
+
+  /* Semantic */
+  --color-danger: #C0392B;
+  --color-success: #1E8C4A;
+  --color-accent-amber: #C07A00;
+
+  /* Typography */
+  --font-ui: 'Calibri', 'Segoe UI', system-ui, sans-serif;
+  --font-size-xs:   0.75rem;
+  --font-size-sm:   0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg:   1.25rem;
+  --font-size-xl:   1.5rem;
+  --font-size-2xl:  2rem;
+
+  --font-weight-normal:   400;
+  --font-weight-medium:   500;
+  --font-weight-semibold: 600;
+  --font-weight-bold:     700;
+
+  --line-height-tight:   1.2;
+  --line-height-normal:  1.5;
+  --line-height-relaxed: 1.75;
+
+  /* Spacing (4px base unit) */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-12: 48px;
+
+  /* Radius */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+
+  /* Motion */
+  --transition-fast:   150ms ease;
+  --transition-normal: 250ms ease;
+
+  /* Provenance markers */
+  --color-assumption-marker:   rgba(0, 152, 152, 0.6);
+  --color-assumption-placeholder: rgba(192, 122, 0, 0.7);
+
+  /* Save indicator */
+  --color-save-saved:  var(--color-success);
+  --color-save-dirty:  var(--color-accent-amber);
+  --color-save-cached: var(--color-text-muted);
+
+  /* Z-index layers */
+  --z-drawer:  400;
+  --z-overlay: 300;
+  --z-tray:    200;
+  --z-nav:     100;
+}

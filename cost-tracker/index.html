@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WWRI Subscription Cost Tracker</title>
+
+  <!-- Whitewater design tokens and app styles -->
+  <link rel="stylesheet" href="public/css/theme.css" />
+  <link rel="stylesheet" href="public/css/app.css" />
+  <link rel="stylesheet" href="public/css/print-board.css" />
+
+  <!-- React 18 + ReactDOM via CDN (no build step) -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+  <!-- htm: JSX-like syntax without a compiler (UMD build exposes window.htm) -->
+  <script src="https://unpkg.com/htm@3/dist/htm.umd.js"></script>
+
+  <script>
+    // Expose React primitives as a single namespace so ES modules can import them
+    // without a bundler. Each module does: const { html, useState, ... } = window.__WWCT__;
+    const htm = window.htm;
+    window.__WWCT__ = {
+      html: htm.bind(React.createElement),
+      ...React,
+    };
+  </script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="module">
+    import { mount } from './src/app.js';
+    mount(document.getElementById('root'));
+  </script>
+</body>
+</html>
