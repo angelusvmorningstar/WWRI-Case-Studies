@@ -144,75 +144,106 @@ function HeroStat({ total, scenarioLabel, perIECost, fy27Target, registeredActiv
   `;
 }
 
-// ── FY Timeline ───────────────────────────────────────────────────────────────
+// ── FY Cost Table (horizontal: months as columns, 4 data rows) ───────────────
 
-function FYTimeline({ subs, monthlyEntries, assumptions, scenario, target, ieRegister }) {
-  const rows = useMemo(() => {
+function FYCostTable({ subs, monthlyEntries, assumptions, scenario, target, ieRegister }) {
+  const cols = useMemo(() => {
     const hasRegister = Object.keys(ieRegister).length > 0;
+    const fy26Total     = lookupValue(assumptions, 'forecast.model.target.fy26', 22);
+    const ch17Contrib   = activeCohortIEs('2026-06', scenario, assumptions);
+    const preExisting   = Math.max(0, fy26Total - ch17Contrib);
 
-    // Fallback when no register data: cohort model with pre-ch17 baseline
-    const fy26Total = lookupValue(assumptions, 'forecast.model.target.fy26', 22);
-    const ch17Contribution = activeCohortIEs('2026-06', scenario, assumptions);
-    const preExisting = Math.max(0, fy26Total - ch17Contribution);
+    const cohortSubs  = subs.filter(s => s.cohort_driven);
+    const platformSubs = subs.filter(s => !s.cohort_driven);
 
-    let prevIECount = null;
-    let targetReached = false;
     return FY_2627_MONTHS.map(ym => {
-      const regCount = registeredActiveAtMonth(ieRegister, ym);
+      const regCount   = registeredActiveAtMonth(ieRegister, ym);
       const modelCount = preExisting + activeCohortIEs(ym, scenario, assumptions);
-      const ieCount = hasRegister ? regCount : modelCount;
+      const ieCount    = hasRegister ? (regCount ?? modelCount) : modelCount;
 
-      const monthlyCost = subs.reduce((sum, s) => {
+      // IE-linked costs: cohort_driven subs scaled by IE count
+      const ieCost = cohortSubs.reduce((sum, s) => {
         const entry = monthlyEntries[`${s.id}_${ym}`];
         if (entry?.isActual && entry?.costAud != null) return sum + entry.costAud;
         return sum + (computeForecast(s, ym, assumptions, scenario, regCount).value ?? 0);
       }, 0);
 
-      const ieDelta = prevIECount !== null ? ieCount - prevIECount : null;
-      const isFirstTarget = !targetReached && ieCount >= target;
-      if (ieCount >= target) targetReached = true;
-      prevIECount = ieCount;
-      return { ym, ieCount, monthlyCost, ieDelta, isFirstTarget };
+      // Platform costs: fixed non-cohort_driven subs
+      const platformCost = platformSubs.reduce((sum, s) => {
+        const entry = monthlyEntries[`${s.id}_${ym}`];
+        if (entry?.isActual && entry?.costAud != null) return sum + entry.costAud;
+        return sum + (computeForecast(s, ym, assumptions, scenario, null).value ?? 0);
+      }, 0);
+
+      return { ym, ieCount, ieCost, platformCost, total: ieCost + platformCost };
     });
   }, [subs, monthlyEntries, assumptions, scenario, target, ieRegister]);
 
+  const fyTotal = cols.reduce((s, c) => s + c.total, 0);
+
   return html`
-    <section class="panel dashboard__fy-timeline">
-      <h2 class="panel__title">FY 26/27 — Recruitment & Cost</h2>
-      <div class="dashboard__fy-tl-head">
-        <span class="dashboard__fy-tl-col-month"></span>
-        <span class="dashboard__fy-tl-col-bar">Active IEs → ${target} target</span>
-        <span class="dashboard__fy-tl-col-ies"></span>
-        <span class="dashboard__fy-tl-col-cost">Monthly cost</span>
-        <span class="dashboard__fy-tl-col-event"></span>
+    <section class="panel dashboard__fy-table-panel">
+      <div class="dashboard__fy-table-header">
+        <h2 class="panel__title">FY 26/27 — Recruitment &amp; Cost</h2>
+        <span class="dashboard__fy-table-fy-total">${fmt.aud(fyTotal)} total</span>
       </div>
-      <div class="dashboard__fy-tl-rows">
-        ${rows.map(({ ym, ieCount, monthlyCost, ieDelta, isFirstTarget }) => {
-          const pct = target > 0 ? Math.min(ieCount / target * 100, 100) : 0;
-          const isStep = ieDelta !== null && ieDelta > 0;
-          return html`
-            <div key=${ym} class=${'dashboard__fy-tl-row' + (isStep ? ' dashboard__fy-tl-row--step' : '')}>
-              <span class="dashboard__fy-tl-col-month">${fmtMonth(ym)}</span>
-              <span class="dashboard__fy-tl-col-bar">
-                <span class="dashboard__fy-tl-bar-wrap">
-                  <span class="dashboard__fy-tl-bar" style=${{ width: pct.toFixed(1) + '%' }}></span>
-                </span>
-              </span>
-              <span class="dashboard__fy-tl-col-ies">
-                ${ieCount}<span class="dashboard__fy-tl-of"> / ${target}</span>
-              </span>
-              <span class="dashboard__fy-tl-col-cost">${fmt.aud(monthlyCost)}</span>
-              <span class="dashboard__fy-tl-col-event">
-                ${isFirstTarget
-                  ? html`<span class="dashboard__fy-tl-badge dashboard__fy-tl-badge--target">✓ Target</span>`
-                  : (ieDelta !== null && ieDelta > 0)
-                    ? html`<span class="dashboard__fy-tl-badge">+${ieDelta} IEs</span>`
-                    : null
-                }
-              </span>
-            </div>
-          `;
-        })}
+      <div class="dashboard__fy-table-scroll">
+        <table class="dashboard__fy-table">
+          <thead>
+            <tr>
+              <th class="dashboard__fy-table-label-col"></th>
+              ${cols.map(({ ym, ieCount }) => {
+                const atTarget = ieCount >= target;
+                return html`
+                  <th key=${ym} class=${'dashboard__fy-table-month-col' + (atTarget ? ' dashboard__fy-table-month-col--target' : '')}>
+                    ${fmtMonth(ym)}
+                    ${atTarget ? html`<span class="dashboard__fy-table-target-pip" title="Target reached">✓</span>` : null}
+                  </th>
+                `;
+              })}
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="dashboard__fy-table-row dashboard__fy-table-row--ies">
+              <td class="dashboard__fy-table-label">
+                <span class="dashboard__fy-table-row-title">Total IEs</span>
+                <span class="dashboard__fy-table-row-hint">of ${target} target</span>
+              </td>
+              ${cols.map(({ ym, ieCount }) => html`
+                <td key=${ym} class="dashboard__fy-table-cell dashboard__fy-table-cell--ies">
+                  <span class="dashboard__fy-table-ie-count">${ieCount}</span>
+                </td>
+              `)}
+            </tr>
+            <tr class="dashboard__fy-table-row dashboard__fy-table-row--ie-cost">
+              <td class="dashboard__fy-table-label">
+                <span class="dashboard__fy-table-row-title">IE-linked</span>
+                <span class="dashboard__fy-table-row-hint">subscription cost</span>
+              </td>
+              ${cols.map(({ ym, ieCost }) => html`
+                <td key=${ym} class="dashboard__fy-table-cell">${fmt.aud(ieCost)}</td>
+              `)}
+            </tr>
+            <tr class="dashboard__fy-table-row dashboard__fy-table-row--platform">
+              <td class="dashboard__fy-table-label">
+                <span class="dashboard__fy-table-row-title">Platform</span>
+                <span class="dashboard__fy-table-row-hint">monthly fixed cost</span>
+              </td>
+              ${cols.map(({ ym, platformCost }) => html`
+                <td key=${ym} class="dashboard__fy-table-cell">${fmt.aud(platformCost)}</td>
+              `)}
+            </tr>
+            <tr class="dashboard__fy-table-row dashboard__fy-table-row--total">
+              <td class="dashboard__fy-table-label">
+                <span class="dashboard__fy-table-row-title">Total</span>
+                <span class="dashboard__fy-table-row-hint">expected monthly</span>
+              </td>
+              ${cols.map(({ ym, total }) => html`
+                <td key=${ym} class="dashboard__fy-table-cell dashboard__fy-table-cell--total">${fmt.aud(total)}</td>
+              `)}
+            </tr>
+          </tbody>
+        </table>
       </div>
     </section>
   `;
@@ -344,7 +375,7 @@ export function DashboardView() {
         registeredActive=${registeredActive}
       />
 
-      <${FYTimeline}
+      <${FYCostTable}
         subs=${subs}
         monthlyEntries=${monthlyEntries}
         assumptions=${assumptions}

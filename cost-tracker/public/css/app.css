@@ -3392,6 +3392,137 @@ html, body {
   border-color: #a5d6a7;
 }
 
+/* ── Dashboard — FY Cost Table (horizontal: months as columns) ───────────── */
+
+.dashboard__fy-table-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.dashboard__fy-table-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.dashboard__fy-table-header .panel__title { margin: 0; }
+
+.dashboard__fy-table-fy-total {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.dashboard__fy-table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.dashboard__fy-table {
+  width: 100%;
+  min-width: 860px;
+  border-collapse: collapse;
+  font-size: var(--font-size-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Header row — month labels */
+.dashboard__fy-table thead th {
+  padding: var(--space-2) var(--space-2);
+  text-align: center;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-bottom: 2px solid var(--color-border);
+  white-space: nowrap;
+}
+
+.dashboard__fy-table-label-col {
+  text-align: left !important;
+  min-width: 110px;
+  width: 110px;
+}
+
+.dashboard__fy-table-month-col {
+  min-width: 68px;
+}
+
+.dashboard__fy-table-month-col--target {
+  color: var(--color-success) !important;
+}
+
+.dashboard__fy-table-target-pip {
+  display: inline-block;
+  margin-left: 2px;
+  font-size: 9px;
+  vertical-align: super;
+}
+
+/* Data rows */
+.dashboard__fy-table-row td {
+  padding: var(--space-2) var(--space-2);
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: middle;
+}
+
+.dashboard__fy-table-row:last-child td { border-bottom: none; }
+
+/* Label cell */
+.dashboard__fy-table-label {
+  text-align: left;
+  white-space: nowrap;
+  padding-right: var(--space-3) !important;
+}
+
+.dashboard__fy-table-row-title {
+  display: block;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-xs);
+}
+
+.dashboard__fy-table-row-hint {
+  display: block;
+  font-size: 11px;
+  color: var(--color-text-muted);
+  font-weight: normal;
+}
+
+/* Data cells */
+.dashboard__fy-table-cell {
+  text-align: center;
+  color: var(--color-text-secondary);
+}
+
+/* IE count row */
+.dashboard__fy-table-row--ies td {
+  background: var(--color-bg-alt);
+}
+
+.dashboard__fy-table-cell--ies {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary) !important;
+}
+
+.dashboard__fy-table-ie-count {
+  display: block;
+}
+
+/* Total row */
+.dashboard__fy-table-row--total td {
+  border-top: 2px solid var(--color-border);
+  font-weight: var(--font-weight-semibold);
+}
+
+.dashboard__fy-table-cell--total {
+  color: var(--color-text-primary) !important;
+}
+
 /* ── Dashboard (redesign) — FY intake tracker (legacy, unused) ────────────── */
 
 .dashboard__fy-tracker {
