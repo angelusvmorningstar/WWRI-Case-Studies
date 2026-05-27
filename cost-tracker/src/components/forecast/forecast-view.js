@@ -5,47 +5,7 @@ import { lookupValue, lookupAssumption, buildSupersessionPayload, STATUS } from 
 import { intakeIEsAtMonth } from '../../state/cohort.js';
 import { fmt } from '../../shared/format.js';
 import { getAuthor } from '../../state/identity.js';
-
-// ── Forecast models ───────────────────────────────────────────────────────────
-
-const MODELS = {
-  basic: {
-    id: 'basic',
-    label: 'Basic',
-    description: 'M365 Basic only — no Copilot, no HubSpot cohort seat, no Miro',
-    attrOverrides: {},
-    // Whitelist: only these IDs are included — everything else is ignored
-    includeSubs: ['sub-m365-basic'],
-  },
-  standard: {
-    id: 'standard',
-    label: 'Standard',
-    description: 'M365 Standard + Copilot · HubSpot core seat (1 per IE) · Miro standard',
-    // Force 100% attribution so the Standard model shows full projected cost
-    attrOverrides: {
-      'subscription.m365_standard_ie.attribution_rate': 1.0,
-      'subscription.copilot_ie.attribution_rate':       1.0,
-      'subscription.miro.attribution_rate':             1.0,
-      'subscription.hubspot_core.attribution_rate':     1.0,
-    },
-    includeSubs: ['sub-m365-standard-cohort', 'sub-copilot-cohort', 'sub-miro', 'sub-hubspot-cohort'],
-  },
-};
-
-// Build a modified assumptions object with per-key value overrides
-function buildModelAssumptions(assumptions, overrides) {
-  const result = { ...assumptions };
-  for (const [key, value] of Object.entries(overrides)) {
-    const existing = Object.values(result).find(a => a.key === key);
-    if (existing) {
-      result[existing.id] = { ...existing, value };
-    } else {
-      const id = 'model-' + key.replace(/\./g, '-');
-      result[id] = { id, key, value };
-    }
-  }
-  return result;
-}
+import { SUBSCRIPTION_MODELS, buildModelAssumptions } from '../../state/subscription-models.js';
 
 function monthLabel(ym) {
   const [y, m] = ym.split('-').map(Number);
@@ -88,7 +48,7 @@ function makeActiveStatusAssumption(subId, subLabel, value, effectiveFrom) {
 
 function PerIEForecast({ cohortSubs, monthlyEntries, assumptions, primaryScenario, ieRegister, intakeSchedule }) {
   const [modelId, setModelId] = useState('basic');
-  const model = MODELS[modelId];
+  const model = SUBSCRIPTION_MODELS[modelId];
 
   const { rows, annual, subBreakdown } = useMemo(() => {
     const modelAss  = buildModelAssumptions(assumptions, model.attrOverrides);
@@ -144,7 +104,7 @@ function PerIEForecast({ cohortSubs, monthlyEntries, assumptions, primaryScenari
           <p class="text-muted forecast__model-desc">${model.description}</p>
         </div>
         <div class="forecast__model-toggle">
-          ${Object.values(MODELS).map(m => html`
+          ${Object.values(SUBSCRIPTION_MODELS).map(m => html`
             <button
               key=${m.id}
               class=${'btn btn--sm ' + (modelId === m.id ? 'btn--primary' : 'btn--ghost')}

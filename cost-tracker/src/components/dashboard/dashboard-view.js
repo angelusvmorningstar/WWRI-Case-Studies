@@ -6,6 +6,7 @@ import { runForecastModel, activeCohortIEs, intakeIEsAtMonth } from '../../state
 import { fmt } from '../../shared/format.js';
 import { exportPrintView } from '../../state/file-io.js';
 import { getAuthor } from '../../state/identity.js';
+import { SUBSCRIPTION_MODELS, buildModelAssumptions } from '../../state/subscription-models.js';
 
 const CATEGORY_ORDER = [
   'Sales & Marketing',
@@ -16,9 +17,9 @@ const CATEGORY_ORDER = [
 ];
 
 const SCENARIO_DEFS = [
-  { id: 'scenario-minimum-viable',  label: 'Minimum Viable',  cls: 'min'     },
-  { id: 'scenario-primary-target',  label: 'Primary Target',  cls: 'primary' },
-  { id: 'scenario-optimal-maximum', label: 'Optimal Maximum', cls: 'max'     },
+  { id: 'scenario-minimum-viable',  label: '+5 IEs per cohort',  cls: 'min'     },
+  { id: 'scenario-primary-target',  label: '+10 IEs per cohort', cls: 'primary' },
+  { id: 'scenario-optimal-maximum', label: '+15 IEs per cohort', cls: 'max'     },
 ];
 
 function fmtMonth(yearMonth) {
@@ -112,6 +113,26 @@ function ScenarioSelector({ activeScenarioId, onSwitch }) {
   `;
 }
 
+// ── Model selector ────────────────────────────────────────────────────────────
+
+function ModelSelector({ modelId, onSwitch }) {
+  return html`
+    <div class="dashboard__scene-sel">
+      <span class="dashboard__scene-sel-label">Model</span>
+      <div class="dashboard__scene-sel-btns">
+        ${Object.values(SUBSCRIPTION_MODELS).map(m => html`
+          <button
+            key=${m.id}
+            class=${'dashboard__scene-btn' + (modelId === m.id ? ' dashboard__scene-btn--active' : '')}
+            onClick=${() => onSwitch(m.id)}
+            title=${m.description}
+          >${m.label}</button>
+        `)}
+      </div>
+    </div>
+  `;
+}
+
 // ── Hero stat ─────────────────────────────────────────────────────────────────
 
 function HeroStat({ total, scenarioLabel, perIECost, fy27Target, registeredActive }) {
@@ -146,7 +167,7 @@ function HeroStat({ total, scenarioLabel, perIECost, fy27Target, registeredActiv
 
 // ── FY Cost Table (horizontal: months as columns, 4 data rows) ───────────────
 
-function FYCostTable({ subs, monthlyEntries, assumptions, scenario, target, ieRegister, intakeSchedule }) {
+function FYCostTable({ subs, monthlyEntries, assumptions, scenario, target, ieRegister, intakeSchedule, model }) {
   const cols = useMemo(() => {
     const hasSchedule    = intakeSchedule && intakeSchedule.length > 0;
     const regCurrent     = registeredActiveCurrent(ieRegister);
@@ -156,11 +177,15 @@ function FYCostTable({ subs, monthlyEntries, assumptions, scenario, target, ieRe
     const root           = scenario?.id?.replace('scenario-', '').replace(/-/g, '_') ?? 'primary_target';
     const iesPerCohort   = lookupValue(assumptions, `scenario.${root}.ies_per_cohort`, 10);
 
+    // Apply model assumptions overrides (e.g. force 100% attribution for Standard)
+    const modelAss = buildModelAssumptions(assumptions, model.attrOverrides);
+
     // Fallback cohort model (no register AND no schedule)
-    const ch17Contrib  = activeCohortIEs('2026-06', scenario, assumptions);
+    const ch17Contrib  = activeCohortIEs('2026-06', scenario, modelAss);
     const preExisting  = Math.max(0, fy26Baseline - ch17Contrib);
 
-    const cohortSubs   = subs.filter(s => s.cohort_driven);
+    // Only include cohort subs in the selected model's whitelist
+    const cohortSubs   = subs.filter(s => s.cohort_driven && model.includeSubs.includes(s.id));
     const platformSubs = subs.filter(s => !s.cohort_driven);
 
     // IE count for a month: schedule projects from baseline; register snapshot if no schedule; cohort model as last resort
@@ -177,10 +202,10 @@ function FYCostTable({ subs, monthlyEntries, assumptions, scenario, target, ieRe
       const ieCost = cohortSubs.reduce((sum, s) => {
         const entry = monthlyEntries[`${s.id}_${ym}`];
         if (entry?.isActual && entry?.costAud != null) return sum + entry.costAud;
-        return sum + (computeForecast(s, ym, assumptions, scenario, ieCount).value ?? 0);
+        return sum + (computeForecast(s, ym, modelAss, scenario, ieCount).value ?? 0);
       }, 0);
 
-      // Platform costs: fixed non-cohort_driven subs
+      // Platform costs: fixed non-cohort_driven subs (not affected by model)
       const platformCost = platformSubs.reduce((sum, s) => {
         const entry = monthlyEntries[`${s.id}_${ym}`];
         if (entry?.isActual && entry?.costAud != null) return sum + entry.costAud;
@@ -189,7 +214,7 @@ function FYCostTable({ subs, monthlyEntries, assumptions, scenario, target, ieRe
 
       return { ym, ieCount, ieCost, platformCost, total: ieCost + platformCost };
     });
-  }, [subs, monthlyEntries, assumptions, scenario, target, ieRegister, intakeSchedule]);
+  }, [subs, monthlyEntries, assumptions, scenario, target, ieRegister, intakeSchedule, model]);
 
   const fyTotal = cols.reduce((s, c) => s + c.total, 0);
 
@@ -314,6 +339,9 @@ export function DashboardView() {
     [assumptions],
   );
 
+  const [modelId, setModelId] = useState('basic');
+  const activeModel = SUBSCRIPTION_MODELS[modelId];
+
   const [printMode, setPrintMode] = useState('print-with-footnotes');
   const [printMeta, setPrintMeta] = useState(null);
 
@@ -378,7 +406,10 @@ export function DashboardView() {
         <span class="dashboard__print-header-date">${new Date().toLocaleDateString('en-AU', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
       </div>
 
-      <${ScenarioSelector} activeScenarioId=${activeScenarioId} onSwitch=${handleScenarioSwitch} />
+      <div class="dashboard__controls-row">
+        <${ScenarioSelector} activeScenarioId=${activeScenarioId} onSwitch=${handleScenarioSwitch} />
+        <${ModelSelector} modelId=${modelId} onSwitch=${setModelId} />
+      </div>
 
       <${HeroStat}
         total=${activeTotal}
@@ -396,6 +427,7 @@ export function DashboardView() {
         target=${fy27Target}
         ieRegister=${ieRegister}
         intakeSchedule=${intakeSchedule}
+        model=${activeModel}
       />
 
       <div class="panel dashboard__category-panel">

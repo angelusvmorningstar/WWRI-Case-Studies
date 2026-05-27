@@ -3161,7 +3161,16 @@ html, body {
   font-variant-numeric: tabular-nums;
 }
 
-/* ── Dashboard — scenario selector ───────────────────────────────────────── */
+/* ── Dashboard — controls row (scenario + model selectors) ───────────────── */
+
+.dashboard__controls-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  flex-wrap: wrap;
+}
+
+/* ── Dashboard — scenario / model selector ───────────────────────────────── */
 
 .dashboard__scene-sel {
   display: flex;
