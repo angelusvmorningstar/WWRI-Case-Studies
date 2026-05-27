@@ -4496,13 +4496,13 @@ html, body {
   table-layout: fixed;
 }
 
-.forecast__month-col   { width: 14%; }
+.forecast__month-col   { width: 18%; }
 .forecast__ie-col      { width: 9%; }
 .forecast__intake-col  { width: 10%; }
-.forecast__cost-col    { width: 39%; }
-.forecast__delta-col   { width: 28%; }
+.forecast__cost-col    { width: 36%; }
+.forecast__delta-col   { width: 27%; }
 
-/* 14 + 9 + 10 + 39 + 28 = 100% */
+/* 18 + 9 + 10 + 36 + 27 = 100% */
 
 .forecast__ie-cell {
   text-align: right;
@@ -4536,7 +4536,10 @@ html, body {
 
 .forecast__cost-col--primary { font-weight: var(--font-weight-semibold); }
 
-.forecast__month-cell { color: var(--color-text-secondary); }
+.forecast__month-cell {
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+}
 
 .forecast__cost-cell  { text-align: right; font-variant-numeric: tabular-nums; }
 .forecast__cost-cell--primary {
@@ -4613,14 +4616,16 @@ html, body {
 
 /* Table stays compact; breakdown takes remaining space */
 .forecast__per-ie-body .forecast__monthly-table {
-  min-width: 300px;
-  max-width: 380px;
+  min-width: 320px;
+  max-width: 420px;
 }
 
 .forecast__monthly-total td {
   border-top: 2px solid var(--color-border);
   background: var(--color-bg-alt);
   font-weight: var(--font-weight-semibold);
+  padding-top: var(--space-3);
+  padding-bottom: var(--space-3);
 }
 
 .forecast__sub-breakdown {
