@@ -13,22 +13,22 @@ const MODELS = {
     id: 'basic',
     label: 'Basic',
     description: 'M365 Basic only — no Copilot, no HubSpot cohort seat, no Miro',
-    // Only sub-m365-basic survives; everything else excluded below
     attrOverrides: {},
-    excludeSubs: ['sub-m365-standard-cohort', 'sub-copilot-cohort', 'sub-miro', 'sub-hubspot-cohort'],
+    // Whitelist: only these IDs are included — everything else is ignored
+    includeSubs: ['sub-m365-basic'],
   },
   standard: {
     id: 'standard',
     label: 'Standard',
     description: 'M365 Standard + Copilot · HubSpot core seat (1 per IE) · Miro standard',
-    // Project at 100% attribution so the Standard model shows full cost
+    // Force 100% attribution so the Standard model shows full projected cost
     attrOverrides: {
       'subscription.m365_standard_ie.attribution_rate': 1.0,
       'subscription.copilot_ie.attribution_rate':       1.0,
       'subscription.miro.attribution_rate':             1.0,
       'subscription.hubspot_core.attribution_rate':     1.0,
     },
-    excludeSubs: ['sub-m365-basic'],
+    includeSubs: ['sub-m365-standard-cohort', 'sub-copilot-cohort', 'sub-miro', 'sub-hubspot-cohort'],
   },
 };
 
@@ -92,7 +92,7 @@ function PerIEForecast({ cohortSubs, monthlyEntries, assumptions, primaryScenari
 
   const { rows, annual, subBreakdown } = useMemo(() => {
     const modelAss  = buildModelAssumptions(assumptions, model.attrOverrides);
-    const activeSubs = cohortSubs.filter(s => !model.excludeSubs.includes(s.id) && s.status !== 'archived');
+    const activeSubs = cohortSubs.filter(s => model.includeSubs.includes(s.id) && s.status !== 'archived');
 
     const fy26Baseline = lookupValue(assumptions, 'forecast.model.target.fy26', 22);
     const root = (primaryScenario?.id || 'scenario-primary-target').replace('scenario-', '').replace(/-/g, '_');
