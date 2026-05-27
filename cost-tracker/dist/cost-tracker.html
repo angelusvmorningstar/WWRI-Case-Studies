@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>WWRI Subscription Cost Tracker</title>
-<meta name="generator" content="cost-tracker build 2026-05-27T01:34:58.474Z">
+<meta name="generator" content="cost-tracker build 2026-05-27T01:38:40.551Z">
 <style>
 /* WWRI Subscription Cost Tracker — Whitewater design tokens
    Mirrors the Finance Toolkit theme.css exactly; scoped to cost-tracker. */
@@ -4711,6 +4711,12 @@ html, body {
   font-weight: var(--font-weight-semibold);
   padding-top: var(--space-3);
   padding-bottom: var(--space-3);
+}
+
+.forecast__total-label {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  vertical-align: middle;
 }
 
 .forecast__sub-breakdown {
@@ -12231,8 +12237,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
             </tbody>
             <tfoot>
               <tr class="forecast__monthly-total">
-                <td><strong>FY 26/27 total</strong></td>
-                <td></td>
+                <td colspan="3" class="forecast__total-label"><strong>FY 26/27 total</strong></td>
                 <td class="forecast__cost-cell forecast__cost-cell--primary"><strong>${E.aud(l)}</strong></td>
                 <td></td>
               </tr>

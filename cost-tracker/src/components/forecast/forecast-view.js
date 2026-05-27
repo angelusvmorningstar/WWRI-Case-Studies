@@ -132,8 +132,7 @@ function PerIEForecast({ cohortSubs, monthlyEntries, assumptions, primaryScenari
             </tbody>
             <tfoot>
               <tr class="forecast__monthly-total">
-                <td><strong>FY 26/27 total</strong></td>
-                <td></td>
+                <td colspan="3" class="forecast__total-label"><strong>FY 26/27 total</strong></td>
                 <td class="forecast__cost-cell forecast__cost-cell--primary"><strong>${fmt.aud(annual)}</strong></td>
                 <td></td>
               </tr>
