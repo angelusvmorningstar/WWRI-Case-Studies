@@ -1,6 +1,6 @@
 const { html, useMemo, useState } = window.__WWCT__;
 import { useWorkbook } from '../../state/store.js';
-import { computeForecast, activeStatusKey, FY_2627_MONTHS, registeredActiveAtMonth } from '../../state/compute.js';
+import { computeForecast, activeStatusKey, FY_2627_MONTHS, registeredActiveAtMonth, registeredActiveCurrent } from '../../state/compute.js';
 import { lookupValue, lookupAssumption, buildSupersessionPayload, STATUS } from '../../state/assumptions.js';
 import { intakeIEsAtMonth } from '../../state/cohort.js';
 import { fmt } from '../../shared/format.js';
@@ -94,16 +94,22 @@ function PerIEForecast({ cohortSubs, monthlyEntries, assumptions, primaryScenari
     const modelAss  = buildModelAssumptions(assumptions, model.attrOverrides);
     const activeSubs = cohortSubs.filter(s => model.includeSubs.includes(s.id) && s.status !== 'archived');
 
-    const fy26Baseline = lookupValue(assumptions, 'forecast.model.target.fy26', 22);
+    // Baseline: current registered IE count (source of truth) or FY26 assumption
+    const regCurrent   = registeredActiveCurrent(ieRegister);
+    const fy26Baseline = regCurrent !== null ? regCurrent : lookupValue(assumptions, 'forecast.model.target.fy26', 22);
     const root = (primaryScenario?.id || 'scenario-primary-target').replace('scenario-', '').replace(/-/g, '_');
     const iesPerCohort = lookupValue(assumptions, `scenario.${root}.ies_per_cohort`, 10);
     const hasSchedule  = intakeSchedule && intakeSchedule.length > 0;
 
+    // For each month: schedule projects from baseline; otherwise fall back to register snapshot
+    function ieCountAt(ym) {
+      if (hasSchedule) return intakeIEsAtMonth(ym, fy26Baseline, iesPerCohort, intakeSchedule);
+      return registeredActiveAtMonth(ieRegister, ym);
+    }
+
     let prev = null;
     const rows = FY_2627_MONTHS.map(ym => {
-      const regCount   = registeredActiveAtMonth(ieRegister, ym);
-      const schedCount = hasSchedule ? intakeIEsAtMonth(ym, fy26Baseline, iesPerCohort, intakeSchedule) : null;
-      const ieCount    = regCount ?? schedCount;
+      const ieCount     = ieCountAt(ym);
       const intakeDelta = intakeSchedule.includes(ym) ? iesPerCohort : null;
       const total = activeSubs.reduce((sum, s) => {
         const entry = monthlyEntries[`${s.id}_${ym}`];
@@ -119,9 +125,7 @@ function PerIEForecast({ cohortSubs, monthlyEntries, assumptions, primaryScenari
 
     const subBreakdown = activeSubs.map(s => {
       const ann = FY_2627_MONTHS.reduce((sum, ym) => {
-        const regCount   = registeredActiveAtMonth(ieRegister, ym);
-        const schedCount = hasSchedule ? intakeIEsAtMonth(ym, fy26Baseline, iesPerCohort, intakeSchedule) : null;
-        const ieCount    = regCount ?? schedCount;
+        const ieCount = ieCountAt(ym);
         const entry = monthlyEntries[`${s.id}_${ym}`];
         if (entry?.isActual && entry?.costAud != null) return sum + entry.costAud;
         return sum + (computeForecast(s, ym, modelAss, primaryScenario, ieCount).value ?? 0);

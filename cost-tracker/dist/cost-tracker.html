@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>WWRI Subscription Cost Tracker</title>
-<meta name="generator" content="cost-tracker build 2026-05-27T01:05:36.181Z">
+<meta name="generator" content="cost-tracker build 2026-05-27T01:08:30.184Z">
 <style>
 /* WWRI Subscription Cost Tracker — Whitewater design tokens
    Mirrors the Finance Toolkit theme.css exactly; scoped to cost-tracker. */
@@ -9204,10 +9204,10 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
         </form>
       </div>
     </div>
-  `}var{createContext:fs,useContext:vs,useReducer:$s,useEffect:gs,useCallback:ys,useState:Ze,createElement:Ss}=window.__WWCT__,ea="wwct_workbook",ta="wwct_dirty";function aa(){return{schemaVersion:1,workbookId:crypto.randomUUID(),createdAt:new Date().toISOString(),updatedAt:new Date().toISOString(),activeScenarioId:"scenario-primary-target",scenarios:{},assumptions:{},subscriptions:{},monthlyEntries:{},opportunities:{},renewals:{},exportLog:[],ieRegister:{},intakeSchedule:[]}}function ws(){try{let t=localStorage.getItem(ea);if(!t)return null;let a=JSON.parse(t);return a.schemaVersion===1?a:null}catch{return null}}function ks(){try{let t=typeof window<"u"&&window.__WWCT_SEED__;return!t||t.schemaVersion!==1?null:t}catch{return null}}function As(t,a){switch(a.type){case"WORKBOOK_LOADED":return{...a.payload};case"WORKBOOK_RESET":return aa();case"ASSUMPTION_PROPOSED":{let e=a.payload;return{...t,assumptions:{...t.assumptions,[e.id]:e},updatedAt:new Date().toISOString()}}case"ASSUMPTION_UPDATED":{let e=a.payload;return{...t,assumptions:{...t.assumptions,[e.id]:e},updatedAt:new Date().toISOString()}}case"ASSUMPTION_SUPERSEDED":{let{next:e,prior:s}=a.payload;return{...t,assumptions:{...t.assumptions,[e.id]:e,[s.id]:s},updatedAt:new Date().toISOString()}}case"SUBSCRIPTION_SAVED":{let{subscription:e,costAssumption:s}=a.payload;return{...t,subscriptions:{...t.subscriptions,[e.id]:e},assumptions:s?{...t.assumptions,[s.id]:s}:t.assumptions,updatedAt:new Date().toISOString()}}case"MONTHLY_ENTRIES_BATCH_UPDATED":{let e=a.payload,s={...t.monthlyEntries};for(let o of e)s[`${o.subscriptionId}_${o.yearMonth}`]=o;return{...t,monthlyEntries:s,updatedAt:new Date().toISOString()}}case"MONTHLY_ENTRY_UPSERTED":{let e=a.payload,s=`${e.subscriptionId}_${e.yearMonth}`;return{...t,monthlyEntries:{...t.monthlyEntries,[s]:e},updatedAt:new Date().toISOString()}}case"SCENARIO_SWITCHED":return{...t,activeScenarioId:a.payload,updatedAt:new Date().toISOString()};case"INTAKE_SCHEDULE_UPDATED":return{...t,intakeSchedule:a.payload,updatedAt:new Date().toISOString()};case"SUBSCRIPTION_ARCHIVED":{let e=a.payload,s=t.subscriptions[e];return s?{...t,subscriptions:{...t.subscriptions,[e]:{...s,status:"archived"}},updatedAt:new Date().toISOString()}:t}case"OPPORTUNITY_SAVED":{let e=a.payload;return{...t,opportunities:{...t.opportunities||{},[e.id]:e},updatedAt:new Date().toISOString()}}case"OPPORTUNITY_STATUS_CHANGED":{let{id:e,status:s}=a.payload,o=(t.opportunities||{})[e];return o?{...t,opportunities:{...t.opportunities||{},[e]:{...o,status:s}},updatedAt:new Date().toISOString()}:t}case"RENEWAL_UPSERTED":{let e=a.payload;return{...t,renewals:{...t.renewals||{},[e.subId]:e},updatedAt:new Date().toISOString()}}case"RENEWAL_DOCUMENT_ADDED":{let{subId:e,doc:s}=a.payload,o=(t.renewals||{})[e]||{subId:e,status:"pending",notes:"",statusLog:[],documents:[]};return{...t,renewals:{...t.renewals||{},[e]:{...o,documents:[...o.documents||[],s]}},updatedAt:new Date().toISOString()}}case"RENEWAL_DOCUMENT_REMOVED":{let{subId:e,docId:s}=a.payload,o=(t.renewals||{})[e];return o?{...t,renewals:{...t.renewals||{},[e]:{...o,documents:(o.documents||[]).filter(r=>r.id!==s)}},updatedAt:new Date().toISOString()}:t}case"EXPORT_LOG_APPENDED":{let e=a.payload;return{...t,exportLog:[...t.exportLog||[],e],updatedAt:new Date().toISOString()}}case"IE_SAVED":{let e=a.payload;return{...t,ieRegister:{...t.ieRegister||{},[e.id]:e},updatedAt:new Date().toISOString()}}case"IE_DEACTIVATED":{let e=a.payload,s=(t.ieRegister||{})[e];return s?{...t,ieRegister:{...t.ieRegister||{},[e]:{...s,active:!1}},updatedAt:new Date().toISOString()}:t}case"IE_REACTIVATED":{let e=a.payload,s=(t.ieRegister||{})[e];return s?{...t,ieRegister:{...t.ieRegister||{},[e]:{...s,active:!0}},updatedAt:new Date().toISOString()}:t}case"IE_DELETED":{let e=a.payload,s={...t.ieRegister||{}};return delete s[e],{...t,ieRegister:s,updatedAt:new Date().toISOString()}}default:return t}}var sa=fs(null);function oa({children:t}){let a=ws(),e=ks(),s;if(!a)s=e??aa();else if(e?.ieRegister){let c=a.ieRegister??{},_={...e.ieRegister,...c};s={...a,ieRegister:_}}else s=a;let[o,r]=$s(As,s),[n,p]=Ze(a||e?"cached":"saved"),[l,h]=Ze(!0);gs(()=>{if(l){h(!1);return}try{localStorage.setItem(ea,JSON.stringify(o)),localStorage.setItem(ta,"1"),p("dirty")}catch(c){console.error("[WWCT] localStorage write failed:",c)}},[o]);let u=ys(()=>{localStorage.removeItem(ta),p("saved")},[]);return Ss(sa.Provider,{value:{workbook:o,dispatch:r,saveState:n,markSaved:u}},t)}function T(){let t=vs(sa);if(!t)throw new Error("useWorkbook must be used inside WorkbookProvider");return t}async function na(){return new Promise((t,a)=>{let e=document.createElement("input");e.type="file",e.accept=".json,application/json",e.onchange=async()=>{let s=e.files?.[0];if(!s){a(new Error("No file selected."));return}try{let o=await s.text(),r=JSON.parse(o);Cs(r),t({workbook:r,filename:s.name})}catch(o){a(o)}},e.oncancel=()=>a(new Error("File selection cancelled.")),e.click()})}function ra(t,a){let e={...t,updatedAt:new Date().toISOString()},s=new Blob([JSON.stringify(e,null,2)],{type:"application/json"}),o=URL.createObjectURL(s),r=document.createElement("a");return r.href=o,r.download=a||"WWRI Cost Tracker.json",document.body.appendChild(r),r.click(),document.body.removeChild(r),URL.revokeObjectURL(o),e}function ia(t="print-with-footnotes"){["print-numbers-only","print-with-footnotes","print-full-provenance"].forEach(e=>document.body.classList.remove(e)),document.body.classList.add(t),window.print()}function Cs(t){if(!t||typeof t!="object")throw re("Root must be an object.");if(t.schemaVersion!==1)throw re(`Unsupported schema version: ${t.schemaVersion}. Expected 1.`);if(!t.workbookId)throw re("Missing field: workbookId");if(typeof t.assumptions!="object")throw re("Missing or invalid field: assumptions")}function re(t){let a=new Error(`Invalid workbook: ${t}`);return a.code="INVALID_WORKBOOK",a}var yt=class extends Error{constructor(a,e,s=[]){super(e),this.name="ValidationError",this.code=a,this.fields=s}},Mt={ASSUMPTION_RATIONALE_REQUIRED:"ASSUMPTION_RATIONALE_REQUIRED",ASSUMPTION_SOURCE_REQUIRED:"ASSUMPTION_SOURCE_REQUIRED",ASSUMPTION_KEY_REQUIRED:"ASSUMPTION_KEY_REQUIRED",ASSUMPTION_VALUE_REQUIRED:"ASSUMPTION_VALUE_REQUIRED",ASSUMPTION_LABEL_REQUIRED:"ASSUMPTION_LABEL_REQUIRED",INVALID_LIFECYCLE_TRANSITION:"INVALID_LIFECYCLE_TRANSITION",INVALID_WORKBOOK:"INVALID_WORKBOOK"};var O={PROPOSED:"Proposed",UNDER_DISCUSSION:"Under Discussion",RESOLVED:"Resolved",SUPERSEDED:"Superseded",WITHDRAWN:"Withdrawn"},Es={[O.PROPOSED]:[O.UNDER_DISCUSSION,O.RESOLVED,O.WITHDRAWN],[O.UNDER_DISCUSSION]:[O.RESOLVED,O.WITHDRAWN],[O.RESOLVED]:[O.SUPERSEDED,O.WITHDRAWN],[O.SUPERSEDED]:[],[O.WITHDRAWN]:[]},ot={HIGH:"high",MEDIUM:"medium",LOW:"low",PLACEHOLDER:"placeholder"};function Q(t){let{key:a,label:e,value:s,unit:o="",category:r="Subscription cost",rationale:n="",source:p="",confidence:l=ot.PLACEHOLDER,effective_from:h=new Date().toISOString().slice(0,10),effective_to:u=null,applies_to:c=[],tags:_=[]}=t;if(!a)throw new yt(Mt.ASSUMPTION_KEY_REQUIRED,"key is required",["key"]);if(!e)throw new yt(Mt.ASSUMPTION_LABEL_REQUIRED,"label is required",["label"]);if(s==null)throw new yt(Mt.ASSUMPTION_VALUE_REQUIRED,"value is required",["value"]);return{id:crypto.randomUUID(),key:a,label:e,value:s,unit:o,category:r,rationale:n,source:p,confidence:l,status:O.PROPOSED,author:M()||"Unknown",decided_on:new Date().toISOString(),effective_from:h,effective_to:u,applies_to:c,tags:_,supersedes:null,superseded_by:null}}function X(t,{rationale:a,source:e,confidence:s,decided_on:o}={}){let r=a??t.rationale,n=e??t.source;if(!r||!r.trim())throw new yt(Mt.ASSUMPTION_RATIONALE_REQUIRED,"Rationale is required to resolve an assumption.",["rationale"]);if(!n||!n.trim())throw new yt(Mt.ASSUMPTION_SOURCE_REQUIRED,"Source is required to resolve an assumption.",["source"]);return De(t.status,O.RESOLVED),{...t,status:O.RESOLVED,rationale:r.trim(),source:n.trim(),confidence:s??t.confidence,decided_on:o??new Date().toISOString()}}function la(t){return De(t.status,O.UNDER_DISCUSSION),{...t,status:O.UNDER_DISCUSSION}}function ca(t){return De(t.status,O.WITHDRAWN),{...t,status:O.WITHDRAWN}}function De(t,a){if(!Es[t]?.includes(a))throw new yt(Mt.INVALID_LIFECYCLE_TRANSITION,`Cannot transition assumption from ${t} to ${a}.`)}function J(t,a){let e=Object.values(t).find(p=>p.key===a.key&&p.status===O.RESOLVED);if(!e)return null;let s=a.effective_from??new Date().toISOString().slice(0,10),o=Is(s),r={...e,status:O.SUPERSEDED,effective_to:o,superseded_by:a.id};return{next:{...a,supersedes:e.id},prior:r}}function Is(t){let a=new Date(t);return a.setDate(a.getDate()-1),a.toISOString().slice(0,10)}function z(t,a){return Object.values(t).find(s=>s.key===a&&s.status===O.RESOLVED)??null}function v(t,a,e=null){return z(t,a)?.value??e}function da(t,a){let e=[],s=t[a];for(;s?.supersedes;){let o=t[s.supersedes];o&&e.push(o),s=o}return e}var Ds=new Intl.NumberFormat("en-AU",{style:"currency",currency:"AUD",maximumFractionDigits:0}),Os=new Intl.NumberFormat("en-AU",{style:"currency",currency:"AUD",minimumFractionDigits:2,maximumFractionDigits:2}),Rs=new Intl.NumberFormat("en-AU",{style:"percent",minimumFractionDigits:1}),A={aud:t=>Ds.format(t),aud2:t=>Os.format(t),pct:t=>Rs.format(t),date:t=>t?new Date(t).toLocaleDateString("en-AU",{year:"numeric",month:"short",day:"numeric"}):"\u2014",month:t=>t?new Date(t).toLocaleDateString("en-AU",{year:"numeric",month:"short"}):"\u2014"};var{html:Z,useState:Vt,useEffect:Ts}=window.__WWCT__,Ps={high:"High",medium:"Medium",low:"Low",placeholder:"Placeholder"};function At({assumptionId:t,onClose:a}){let{workbook:e,dispatch:s}=T(),o=e.assumptions||{},r=o[t],[n,p]=Vt(!1),[l,h]=Vt({value:"",rationale:"",source:"",confidence:ot.MEDIUM}),[u,c]=Vt({}),[_,$]=Vt({rationale:"",source:""}),[m,d]=Vt({}),[f,i]=Vt(!1);if(Ts(()=>{function b(w){w.key==="Escape"&&a()}return window.addEventListener("keydown",b),()=>window.removeEventListener("keydown",b)},[a]),!r)return null;let y=da(o,t);function g(){try{let b=la(r);s({type:"ASSUMPTION_UPDATED",payload:b})}catch(b){alert(b.message)}}function k(){if(confirm("Withdraw this assumption? This cannot be undone."))try{let b=ca(r);s({type:"ASSUMPTION_UPDATED",payload:b})}catch(b){alert(b.message)}}function E(b){b.preventDefault();let w={};if(_.rationale.trim()||(w.rationale="Rationale is required."),_.source.trim()||(w.source="Source is required."),Object.keys(w).length){d(w);return}try{let C=X(r,_),D=J(o,C);s(D?{type:"ASSUMPTION_SUPERSEDED",payload:D}:{type:"ASSUMPTION_UPDATED",payload:C}),i(!1)}catch(C){alert(C.message)}}function S(b){b.preventDefault();let w={};if(!l.value&&l.value!==0&&(w.value="Value is required."),l.rationale.trim()||(w.rationale="Rationale is required."),l.source.trim()||(w.source="Source is required."),Object.keys(w).length){c(w);return}try{let C=Q({...r,...l,value:Number(l.value)}),D=X(C,l),R=J(o,D);s(R?{type:"ASSUMPTION_SUPERSEDED",payload:R}:{type:"ASSUMPTION_PROPOSED",payload:C}),p(!1)}catch(C){alert(C.message)}}return Z`
+  `}var{createContext:fs,useContext:vs,useReducer:$s,useEffect:gs,useCallback:ys,useState:Ze,createElement:Ss}=window.__WWCT__,ea="wwct_workbook",ta="wwct_dirty";function aa(){return{schemaVersion:1,workbookId:crypto.randomUUID(),createdAt:new Date().toISOString(),updatedAt:new Date().toISOString(),activeScenarioId:"scenario-primary-target",scenarios:{},assumptions:{},subscriptions:{},monthlyEntries:{},opportunities:{},renewals:{},exportLog:[],ieRegister:{},intakeSchedule:[]}}function ws(){try{let t=localStorage.getItem(ea);if(!t)return null;let a=JSON.parse(t);return a.schemaVersion===1?a:null}catch{return null}}function ks(){try{let t=typeof window<"u"&&window.__WWCT_SEED__;return!t||t.schemaVersion!==1?null:t}catch{return null}}function As(t,a){switch(a.type){case"WORKBOOK_LOADED":return{...a.payload};case"WORKBOOK_RESET":return aa();case"ASSUMPTION_PROPOSED":{let e=a.payload;return{...t,assumptions:{...t.assumptions,[e.id]:e},updatedAt:new Date().toISOString()}}case"ASSUMPTION_UPDATED":{let e=a.payload;return{...t,assumptions:{...t.assumptions,[e.id]:e},updatedAt:new Date().toISOString()}}case"ASSUMPTION_SUPERSEDED":{let{next:e,prior:s}=a.payload;return{...t,assumptions:{...t.assumptions,[e.id]:e,[s.id]:s},updatedAt:new Date().toISOString()}}case"SUBSCRIPTION_SAVED":{let{subscription:e,costAssumption:s}=a.payload;return{...t,subscriptions:{...t.subscriptions,[e.id]:e},assumptions:s?{...t.assumptions,[s.id]:s}:t.assumptions,updatedAt:new Date().toISOString()}}case"MONTHLY_ENTRIES_BATCH_UPDATED":{let e=a.payload,s={...t.monthlyEntries};for(let o of e)s[`${o.subscriptionId}_${o.yearMonth}`]=o;return{...t,monthlyEntries:s,updatedAt:new Date().toISOString()}}case"MONTHLY_ENTRY_UPSERTED":{let e=a.payload,s=`${e.subscriptionId}_${e.yearMonth}`;return{...t,monthlyEntries:{...t.monthlyEntries,[s]:e},updatedAt:new Date().toISOString()}}case"SCENARIO_SWITCHED":return{...t,activeScenarioId:a.payload,updatedAt:new Date().toISOString()};case"INTAKE_SCHEDULE_UPDATED":return{...t,intakeSchedule:a.payload,updatedAt:new Date().toISOString()};case"SUBSCRIPTION_ARCHIVED":{let e=a.payload,s=t.subscriptions[e];return s?{...t,subscriptions:{...t.subscriptions,[e]:{...s,status:"archived"}},updatedAt:new Date().toISOString()}:t}case"OPPORTUNITY_SAVED":{let e=a.payload;return{...t,opportunities:{...t.opportunities||{},[e.id]:e},updatedAt:new Date().toISOString()}}case"OPPORTUNITY_STATUS_CHANGED":{let{id:e,status:s}=a.payload,o=(t.opportunities||{})[e];return o?{...t,opportunities:{...t.opportunities||{},[e]:{...o,status:s}},updatedAt:new Date().toISOString()}:t}case"RENEWAL_UPSERTED":{let e=a.payload;return{...t,renewals:{...t.renewals||{},[e.subId]:e},updatedAt:new Date().toISOString()}}case"RENEWAL_DOCUMENT_ADDED":{let{subId:e,doc:s}=a.payload,o=(t.renewals||{})[e]||{subId:e,status:"pending",notes:"",statusLog:[],documents:[]};return{...t,renewals:{...t.renewals||{},[e]:{...o,documents:[...o.documents||[],s]}},updatedAt:new Date().toISOString()}}case"RENEWAL_DOCUMENT_REMOVED":{let{subId:e,docId:s}=a.payload,o=(t.renewals||{})[e];return o?{...t,renewals:{...t.renewals||{},[e]:{...o,documents:(o.documents||[]).filter(r=>r.id!==s)}},updatedAt:new Date().toISOString()}:t}case"EXPORT_LOG_APPENDED":{let e=a.payload;return{...t,exportLog:[...t.exportLog||[],e],updatedAt:new Date().toISOString()}}case"IE_SAVED":{let e=a.payload;return{...t,ieRegister:{...t.ieRegister||{},[e.id]:e},updatedAt:new Date().toISOString()}}case"IE_DEACTIVATED":{let e=a.payload,s=(t.ieRegister||{})[e];return s?{...t,ieRegister:{...t.ieRegister||{},[e]:{...s,active:!1}},updatedAt:new Date().toISOString()}:t}case"IE_REACTIVATED":{let e=a.payload,s=(t.ieRegister||{})[e];return s?{...t,ieRegister:{...t.ieRegister||{},[e]:{...s,active:!0}},updatedAt:new Date().toISOString()}:t}case"IE_DELETED":{let e=a.payload,s={...t.ieRegister||{}};return delete s[e],{...t,ieRegister:s,updatedAt:new Date().toISOString()}}default:return t}}var sa=fs(null);function oa({children:t}){let a=ws(),e=ks(),s;if(!a)s=e??aa();else if(e?.ieRegister){let c=a.ieRegister??{},_={...e.ieRegister,...c};s={...a,ieRegister:_}}else s=a;let[o,r]=$s(As,s),[n,p]=Ze(a||e?"cached":"saved"),[l,h]=Ze(!0);gs(()=>{if(l){h(!1);return}try{localStorage.setItem(ea,JSON.stringify(o)),localStorage.setItem(ta,"1"),p("dirty")}catch(c){console.error("[WWCT] localStorage write failed:",c)}},[o]);let u=ys(()=>{localStorage.removeItem(ta),p("saved")},[]);return Ss(sa.Provider,{value:{workbook:o,dispatch:r,saveState:n,markSaved:u}},t)}function T(){let t=vs(sa);if(!t)throw new Error("useWorkbook must be used inside WorkbookProvider");return t}async function na(){return new Promise((t,a)=>{let e=document.createElement("input");e.type="file",e.accept=".json,application/json",e.onchange=async()=>{let s=e.files?.[0];if(!s){a(new Error("No file selected."));return}try{let o=await s.text(),r=JSON.parse(o);Cs(r),t({workbook:r,filename:s.name})}catch(o){a(o)}},e.oncancel=()=>a(new Error("File selection cancelled.")),e.click()})}function ra(t,a){let e={...t,updatedAt:new Date().toISOString()},s=new Blob([JSON.stringify(e,null,2)],{type:"application/json"}),o=URL.createObjectURL(s),r=document.createElement("a");return r.href=o,r.download=a||"WWRI Cost Tracker.json",document.body.appendChild(r),r.click(),document.body.removeChild(r),URL.revokeObjectURL(o),e}function ia(t="print-with-footnotes"){["print-numbers-only","print-with-footnotes","print-full-provenance"].forEach(e=>document.body.classList.remove(e)),document.body.classList.add(t),window.print()}function Cs(t){if(!t||typeof t!="object")throw re("Root must be an object.");if(t.schemaVersion!==1)throw re(`Unsupported schema version: ${t.schemaVersion}. Expected 1.`);if(!t.workbookId)throw re("Missing field: workbookId");if(typeof t.assumptions!="object")throw re("Missing or invalid field: assumptions")}function re(t){let a=new Error(`Invalid workbook: ${t}`);return a.code="INVALID_WORKBOOK",a}var yt=class extends Error{constructor(a,e,s=[]){super(e),this.name="ValidationError",this.code=a,this.fields=s}},xt={ASSUMPTION_RATIONALE_REQUIRED:"ASSUMPTION_RATIONALE_REQUIRED",ASSUMPTION_SOURCE_REQUIRED:"ASSUMPTION_SOURCE_REQUIRED",ASSUMPTION_KEY_REQUIRED:"ASSUMPTION_KEY_REQUIRED",ASSUMPTION_VALUE_REQUIRED:"ASSUMPTION_VALUE_REQUIRED",ASSUMPTION_LABEL_REQUIRED:"ASSUMPTION_LABEL_REQUIRED",INVALID_LIFECYCLE_TRANSITION:"INVALID_LIFECYCLE_TRANSITION",INVALID_WORKBOOK:"INVALID_WORKBOOK"};var O={PROPOSED:"Proposed",UNDER_DISCUSSION:"Under Discussion",RESOLVED:"Resolved",SUPERSEDED:"Superseded",WITHDRAWN:"Withdrawn"},Es={[O.PROPOSED]:[O.UNDER_DISCUSSION,O.RESOLVED,O.WITHDRAWN],[O.UNDER_DISCUSSION]:[O.RESOLVED,O.WITHDRAWN],[O.RESOLVED]:[O.SUPERSEDED,O.WITHDRAWN],[O.SUPERSEDED]:[],[O.WITHDRAWN]:[]},nt={HIGH:"high",MEDIUM:"medium",LOW:"low",PLACEHOLDER:"placeholder"};function Q(t){let{key:a,label:e,value:s,unit:o="",category:r="Subscription cost",rationale:n="",source:p="",confidence:l=nt.PLACEHOLDER,effective_from:h=new Date().toISOString().slice(0,10),effective_to:u=null,applies_to:c=[],tags:_=[]}=t;if(!a)throw new yt(xt.ASSUMPTION_KEY_REQUIRED,"key is required",["key"]);if(!e)throw new yt(xt.ASSUMPTION_LABEL_REQUIRED,"label is required",["label"]);if(s==null)throw new yt(xt.ASSUMPTION_VALUE_REQUIRED,"value is required",["value"]);return{id:crypto.randomUUID(),key:a,label:e,value:s,unit:o,category:r,rationale:n,source:p,confidence:l,status:O.PROPOSED,author:M()||"Unknown",decided_on:new Date().toISOString(),effective_from:h,effective_to:u,applies_to:c,tags:_,supersedes:null,superseded_by:null}}function X(t,{rationale:a,source:e,confidence:s,decided_on:o}={}){let r=a??t.rationale,n=e??t.source;if(!r||!r.trim())throw new yt(xt.ASSUMPTION_RATIONALE_REQUIRED,"Rationale is required to resolve an assumption.",["rationale"]);if(!n||!n.trim())throw new yt(xt.ASSUMPTION_SOURCE_REQUIRED,"Source is required to resolve an assumption.",["source"]);return De(t.status,O.RESOLVED),{...t,status:O.RESOLVED,rationale:r.trim(),source:n.trim(),confidence:s??t.confidence,decided_on:o??new Date().toISOString()}}function la(t){return De(t.status,O.UNDER_DISCUSSION),{...t,status:O.UNDER_DISCUSSION}}function ca(t){return De(t.status,O.WITHDRAWN),{...t,status:O.WITHDRAWN}}function De(t,a){if(!Es[t]?.includes(a))throw new yt(xt.INVALID_LIFECYCLE_TRANSITION,`Cannot transition assumption from ${t} to ${a}.`)}function J(t,a){let e=Object.values(t).find(p=>p.key===a.key&&p.status===O.RESOLVED);if(!e)return null;let s=a.effective_from??new Date().toISOString().slice(0,10),o=Is(s),r={...e,status:O.SUPERSEDED,effective_to:o,superseded_by:a.id};return{next:{...a,supersedes:e.id},prior:r}}function Is(t){let a=new Date(t);return a.setDate(a.getDate()-1),a.toISOString().slice(0,10)}function z(t,a){return Object.values(t).find(s=>s.key===a&&s.status===O.RESOLVED)??null}function v(t,a,e=null){return z(t,a)?.value??e}function da(t,a){let e=[],s=t[a];for(;s?.supersedes;){let o=t[s.supersedes];o&&e.push(o),s=o}return e}var Ds=new Intl.NumberFormat("en-AU",{style:"currency",currency:"AUD",maximumFractionDigits:0}),Os=new Intl.NumberFormat("en-AU",{style:"currency",currency:"AUD",minimumFractionDigits:2,maximumFractionDigits:2}),Rs=new Intl.NumberFormat("en-AU",{style:"percent",minimumFractionDigits:1}),A={aud:t=>Ds.format(t),aud2:t=>Os.format(t),pct:t=>Rs.format(t),date:t=>t?new Date(t).toLocaleDateString("en-AU",{year:"numeric",month:"short",day:"numeric"}):"\u2014",month:t=>t?new Date(t).toLocaleDateString("en-AU",{year:"numeric",month:"short"}):"\u2014"};var{html:Z,useState:Lt,useEffect:Ts}=window.__WWCT__,Ps={high:"High",medium:"Medium",low:"Low",placeholder:"Placeholder"};function At({assumptionId:t,onClose:a}){let{workbook:e,dispatch:s}=T(),o=e.assumptions||{},r=o[t],[n,p]=Lt(!1),[l,h]=Lt({value:"",rationale:"",source:"",confidence:nt.MEDIUM}),[u,c]=Lt({}),[_,$]=Lt({rationale:"",source:""}),[b,d]=Lt({}),[f,i]=Lt(!1);if(Ts(()=>{function m(y){y.key==="Escape"&&a()}return window.addEventListener("keydown",m),()=>window.removeEventListener("keydown",m)},[a]),!r)return null;let S=da(o,t);function g(){try{let m=la(r);s({type:"ASSUMPTION_UPDATED",payload:m})}catch(m){alert(m.message)}}function k(){if(confirm("Withdraw this assumption? This cannot be undone."))try{let m=ca(r);s({type:"ASSUMPTION_UPDATED",payload:m})}catch(m){alert(m.message)}}function E(m){m.preventDefault();let y={};if(_.rationale.trim()||(y.rationale="Rationale is required."),_.source.trim()||(y.source="Source is required."),Object.keys(y).length){d(y);return}try{let C=X(r,_),D=J(o,C);s(D?{type:"ASSUMPTION_SUPERSEDED",payload:D}:{type:"ASSUMPTION_UPDATED",payload:C}),i(!1)}catch(C){alert(C.message)}}function w(m){m.preventDefault();let y={};if(!l.value&&l.value!==0&&(y.value="Value is required."),l.rationale.trim()||(y.rationale="Rationale is required."),l.source.trim()||(y.source="Source is required."),Object.keys(y).length){c(y);return}try{let C=Q({...r,...l,value:Number(l.value)}),D=X(C,l),R=J(o,D);s(R?{type:"ASSUMPTION_SUPERSEDED",payload:R}:{type:"ASSUMPTION_PROPOSED",payload:C}),p(!1)}catch(C){alert(C.message)}}return Z`
     <div class="drawer-overlay" onClick=${a} role="presentation">
       <aside class="drawer" role="dialog" aria-modal="true" aria-label="Decision drawer"
-             onClick=${b=>b.stopPropagation()}>
+             onClick=${m=>m.stopPropagation()}>
         <div class="drawer__header">
           <div class="drawer__key">${r.key}</div>
           <button class="btn btn--ghost btn--sm" onClick=${a} aria-label="Close">✕</button>
@@ -9277,16 +9277,16 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
         ${f&&Z`
           <form class="drawer__form" onSubmit=${E}>
             <div class="drawer__section-label">Resolve this assumption</div>
-            <${Gt} label="Rationale" error=${m.rationale} required>
+            <${Gt} label="Rationale" error=${b.rationale} required>
               <textarea class="field__input" rows="3"
                 value=${_.rationale}
-                onInput=${b=>{$(w=>({...w,rationale:b.target.value})),d(w=>({...w,rationale:""}))}}
+                onInput=${m=>{$(y=>({...y,rationale:m.target.value})),d(y=>({...y,rationale:""}))}}
               ></textarea>
             <//>
-            <${Gt} label="Source" error=${m.source} required>
+            <${Gt} label="Source" error=${b.source} required>
               <input class="field__input"
                 value=${_.source}
-                onInput=${b=>{$(w=>({...w,source:b.target.value})),d(w=>({...w,source:""}))}}
+                onInput=${m=>{$(y=>({...y,source:m.target.value})),d(y=>({...y,source:""}))}}
               />
             <//>
             <div class="drawer__form-actions">
@@ -9298,24 +9298,24 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
 
         <!-- Propose new value form -->
         ${n&&Z`
-          <form class="drawer__form" onSubmit=${S}>
+          <form class="drawer__form" onSubmit=${w}>
             <div class="drawer__section-label">Propose new value</div>
             <${Gt} label="New value" error=${u.value} required>
               <input class="field__input" type="number" step="any"
                 value=${l.value}
-                onInput=${b=>{h(w=>({...w,value:b.target.value})),c(w=>({...w,value:""}))}}
+                onInput=${m=>{h(y=>({...y,value:m.target.value})),c(y=>({...y,value:""}))}}
               />
             <//>
             <${Gt} label="Rationale" error=${u.rationale} required>
               <textarea class="field__input" rows="3"
                 value=${l.rationale}
-                onInput=${b=>{h(w=>({...w,rationale:b.target.value})),c(w=>({...w,rationale:""}))}}
+                onInput=${m=>{h(y=>({...y,rationale:m.target.value})),c(y=>({...y,rationale:""}))}}
               ></textarea>
             <//>
             <${Gt} label="Source" error=${u.source} required>
               <input class="field__input"
                 value=${l.source}
-                onInput=${b=>{h(w=>({...w,source:b.target.value})),c(w=>({...w,source:""}))}}
+                onInput=${m=>{h(y=>({...y,source:m.target.value})),c(y=>({...y,source:""}))}}
               />
             <//>
             <div class="drawer__form-actions">
@@ -9326,16 +9326,16 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
         `}
 
         <!-- Supersession chain -->
-        ${y.length>0&&Z`
+        ${S.length>0&&Z`
           <details class="drawer__chain">
             <summary class="drawer__chain-summary">
-              Prior versions (${y.length})
+              Prior versions (${S.length})
             </summary>
-            ${y.map(b=>Z`
-              <div class="drawer__chain-item" key=${b.id}>
-                <span class="drawer__chain-value">${b.value} ${b.unit}</span>
-                <span class="text-muted">${A.date(b.decided_on)} — ${b.author}</span>
-                <p class="drawer__text text-muted">${b.rationale}</p>
+            ${S.map(m=>Z`
+              <div class="drawer__chain-item" key=${m.id}>
+                <span class="drawer__chain-value">${m.value} ${m.unit}</span>
+                <span class="text-muted">${A.date(m.decided_on)} — ${m.author}</span>
+                <p class="drawer__text text-muted">${m.rationale}</p>
               </div>
             `)}
           </details>
@@ -9350,7 +9350,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
       ${s}
       ${a&&Z`<span class="field__error">${a}</span>`}
     </div>
-  `}var{html:pt,useState:Wt,useMemo:ua}=window.__WWCT__,xs=[{value:"",label:"All statuses"},...Object.values(O).map(t=>({value:t,label:t}))],Ms=[{value:"",label:"All confidence levels"},{value:ot.HIGH,label:"High"},{value:ot.MEDIUM,label:"Medium"},{value:ot.LOW,label:"Low"},{value:ot.PLACEHOLDER,label:"Placeholder"}],Us=["","Headcount","Subscription cost","Licence count","Scenario input","FX rate","Attribution rate","HubSpot","Renewal","Savings","Governance"];function ie(){let{workbook:t}=T(),a=Object.values(t.assumptions||{}),[e,s]=Wt(""),[o,r]=Wt(""),[n,p]=Wt(""),[l,h]=Wt(""),[u,c]=Wt(""),[_,$]=Wt(null),m=ua(()=>{let i=new Set(a.map(y=>y.author).filter(Boolean));return["",...Array.from(i).sort()]},[a]),d=ua(()=>a.filter(i=>{if(e&&i.status!==e||o&&i.confidence!==o||n&&i.category!==n||l&&i.author!==l)return!1;if(u){let y=u.toLowerCase();if(!i.label.toLowerCase().includes(y)&&!i.rationale.toLowerCase().includes(y)&&!i.key.toLowerCase().includes(y))return!1}return!0}).sort((i,y)=>new Date(y.decided_on)-new Date(i.decided_on)),[a,e,o,n,l,u]),f=e||o||n||l||u;return pt`
+  `}var{html:pt,useState:Vt,useMemo:ua}=window.__WWCT__,xs=[{value:"",label:"All statuses"},...Object.values(O).map(t=>({value:t,label:t}))],Ms=[{value:"",label:"All confidence levels"},{value:nt.HIGH,label:"High"},{value:nt.MEDIUM,label:"Medium"},{value:nt.LOW,label:"Low"},{value:nt.PLACEHOLDER,label:"Placeholder"}],Us=["","Headcount","Subscription cost","Licence count","Scenario input","FX rate","Attribution rate","HubSpot","Renewal","Savings","Governance"];function ie(){let{workbook:t}=T(),a=Object.values(t.assumptions||{}),[e,s]=Vt(""),[o,r]=Vt(""),[n,p]=Vt(""),[l,h]=Vt(""),[u,c]=Vt(""),[_,$]=Vt(null),b=ua(()=>{let i=new Set(a.map(S=>S.author).filter(Boolean));return["",...Array.from(i).sort()]},[a]),d=ua(()=>a.filter(i=>{if(e&&i.status!==e||o&&i.confidence!==o||n&&i.category!==n||l&&i.author!==l)return!1;if(u){let S=u.toLowerCase();if(!i.label.toLowerCase().includes(S)&&!i.rationale.toLowerCase().includes(S)&&!i.key.toLowerCase().includes(S))return!1}return!0}).sort((i,S)=>new Date(S.decided_on)-new Date(i.decided_on)),[a,e,o,n,l,u]),f=e||o||n||l||u;return pt`
     <div class="decision-log">
       ${_&&pt`
         <${At}
@@ -9389,7 +9389,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
         </select>
         <select class="filter-bar__select" value=${l}
           onChange=${i=>h(i.target.value)}>
-          ${m.map(i=>pt`<option key=${i} value=${i}>${i||"All authors"}</option>`)}
+          ${b.map(i=>pt`<option key=${i} value=${i}>${i||"All authors"}</option>`)}
         </select>
         ${f&&pt`
           <button class="btn btn--ghost btn--sm"
@@ -9404,7 +9404,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
             ${d.map(i=>pt`
               <div class="assumption-card" key=${i.id}
                 onClick=${()=>$(i.id)} role="button" tabIndex="0"
-                onKeyDown=${y=>{(y.key==="Enter"||y.key===" ")&&$(i.id)}}>
+                onKeyDown=${S=>{(S.key==="Enter"||S.key===" ")&&$(i.id)}}>
                 <div class="assumption-card__header">
                   <span class="assumption-card__key">${i.key}</span>
                   <span class=${"status-badge status-badge--"+i.status.toLowerCase().replace(" ","-")}>
@@ -9424,7 +9424,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
           </div>
         `}
     </div>
-  `}var Ct=["apac","americas","emea"],Ns=["ch18","ch19","ch20","ch21","ch22"];function Oe(t){return t?t.id.replace("scenario-","").replace(/-/g,"_"):"primary_target"}function Xt(t,a,e){let s=Oe(a),o=v(e,`scenario.${s}.ies_per_cohort`,10),r=v(e,"cohort.timing.ch17.start_month",null),n=r&&t>=r?o:0,p=v(e,`scenario.${s}.num_cohorts_fy2627`,5),l=Ns.slice(0,p).reduce((h,u)=>{let c=v(e,`cohort.timing.${u}.start_month`,null);return c&&t>=c?h+o:h},0);return n+l}var le=[27,28,29];function Yt(t,a=null){let e={26:a!==null?a:v(t,"forecast.model.target.fy26",22),27:v(t,"forecast.model.target.fy27",60),28:v(t,"forecast.model.target.fy28",99),29:v(t,"forecast.model.target.fy29",150)},s={apac:v(t,"forecast.model.region_weight.apac",.333),americas:v(t,"forecast.model.region_weight.americas",.333),emea:v(t,"forecast.model.region_weight.emea",.334)},o={apac:v(t,"forecast.model.attrition_rate.apac",.1),americas:v(t,"forecast.model.attrition_rate.americas",.1),emea:v(t,"forecast.model.attrition_rate.emea",.1)},r=v(t,"forecast.model.vet_to_short_rate",.4),n=v(t,"forecast.model.short_to_onboard_rate",.5),p=v(t,"forecast.model.cohorts_per_year",5),l={apac:{},americas:{},emea:{}},h={apac:{},americas:{},emea:{}},u={apac:{},americas:{},emea:{}},c={apac:{},americas:{},emea:{}},_={apac:{},americas:{},emea:{}};for(let d of Ct)l[d][26]=Math.round(e[26]*s[d]);for(let d of le)for(let f of Ct)l[f][d]=Math.round(e[d]*s[f]),h[f][d]=Math.ceil(l[f][d-1]*o[f]),u[f][d]=Math.max(l[f][d]-l[f][d-1]+h[f][d],0),c[f][d]=u[f][d]>0?Math.ceil(u[f][d]/n):0,_[f][d]=c[f][d]>0?Math.ceil(c[f][d]/r):0;let $={};for(let d of le)$[d]={activeIEs:Ct.reduce((f,i)=>f+l[i][d],0),attrition:Ct.reduce((f,i)=>f+h[i][d],0),shortlist:Ct.reduce((f,i)=>f+u[i][d],0),longlist:Ct.reduce((f,i)=>f+c[i][d],0),sourced:Ct.reduce((f,i)=>f+_[i][d],0)};let m={};for(let d of le){let f=$[d].shortlist/p,i=f>=10&&f<=15;m[d]={avgOnboards:Math.round(f*10)/10,withinBand:i,band:i?"Within band":f<10?"Below band":"Above band"}}return{params:{targets:e,regionWeights:s,attritionRates:o,vetToShortRate:r,shortToOnboardRate:n,cohortsPerYear:p},regions:Ct,fys:[26,...le],activeIEs:l,attrition:h,shortlist:u,longlist:c,sourced:_,globalTotals:$,sanity:m}}function Ut(t,a,e,s){if(!s||s.length===0)return null;let o=s.filter(r=>r<=t).length;return a+o*e}function ce(t,a,e){let[s,o]=t.split("-"),r=Number(s),l=(Number(o)>=7?r+1:r)%100,h=v(e,`forecast.model.target.fy${l}`,0),u=l<=26?1:a?.id==="scenario-minimum-viable"?v(e,"forecast.model.variance.min",.8):a?.id==="scenario-optimal-maximum"?v(e,"forecast.model.variance.max",1.2):1,c=Math.round(h*u),_=v(e,"forecast.model.region_weight.apac",.333),$=v(e,"forecast.model.region_weight.americas",.333),m=v(e,"forecast.model.region_weight.emea",.334);return{apac:Math.round(c*_),americas:Math.round(c*$),emea:Math.round(c*m)}}var de=12;function pa(t,a,e){return Array.from({length:e},(s,o)=>{let r=a-1+o,n=t+Math.floor(r/de),p=r%de+1;return`${n}-${String(p).padStart(2,"0")}`})}var ue=pa(2025,7,de),q=pa(2026,7,de),St=[...ue,...q],pe=[{label:"FY 25/26",months:ue},{label:"FY 26/27",months:q}];function Fs(t,a,e){if(a==="AUD")return t;let s=`scenario.fx_rate.aud_${a.toLowerCase()}`,o=v(e,s,1);return t/o}function _t(t){return`subscription.${t.replace(/^sub-/,"").replace(/-/g,"_")}.active_status`}function Et(t,a){let e=Object.values(t||{});return e.length===0?null:e.filter(s=>s.active!==!1&&s.training&&(s.startMonth||"")<=a).length}function it(t){let a=Object.values(t||{});if(a.length===0)return null;let e=a.filter(s=>s.active!==!1&&s.training).length;return e>0?e:null}function Y(t,a,e,s=null,o=null){let{id:r,currency:n,cohort_driven:p,unit_cost_assumption_key:l,attribution_assumption_key:h,seat_count_assumption_key:u}=t,c=z(e,_t(r));if(c?.value==="not_active"){let d=c.effective_from?c.effective_from.slice(0,7):null;if(!d||a>=d)return{value:0,nativeValue:0,nativeCurrency:n||"AUD",primaryAssumptionKey:_t(r)}}if(r==="sub-hubspot-bundle"){let d=v(e,"subscription.hubspot.renewal_start_month","2026-11"),f=a<d?v(e,"subscription.hubspot.bundle_monthly_aud",918):v(e,"subscription.hubspot.renewal_monthly_aud",1101.6);return{value:f,nativeValue:f,nativeCurrency:"AUD",primaryAssumptionKey:"subscription.hubspot.bundle_monthly_aud"}}if(r==="sub-hubspot-cohort"&&o===null){let d=v(e,"subscription.hubspot.cohort_addition_start_month","2026-12");if(a<d)return{value:0,nativeValue:0,nativeCurrency:"AUD",primaryAssumptionKey:"subscription.hubspot.per_seat_rate_aud_discounted"};let f=v(e,"subscription.hubspot.per_seat_rate_aud_discounted",48),i=Oe(s),y=v(e,`scenario.${i}.hubspot_seats_per_cohort`,5),g=["ch18","ch19","ch20"].reduce((E,S)=>{let b=v(e,`cohort.timing.hubspot.${S}.start_month`,null);return b&&a>=b?E+1:E},0),k=f*g*y;return{value:k,nativeValue:k,nativeCurrency:"AUD",primaryAssumptionKey:"subscription.hubspot.per_seat_rate_aud_discounted"}}let _=v(e,l,0),$;if(p){let d=v(e,h,1),f;if(o!==null)f=Math.round(o*d);else{let i=v(e,u,0),y=ce(a,s,e),g=y.apac+y.americas+y.emea;f=i+Math.round(g*d)}$=_*f}else{let d=u?v(e,u,1):1;$=_*d}return{value:Fs($,n,e),nativeValue:$,nativeCurrency:n,primaryAssumptionKey:l}}var Ls=["ch18","ch19","ch20"];function Vs(t){return t?t.id.replace("scenario-","").replace(/-/g,"_"):"primary_target"}function _e(t,a,e){let s=Vs(a),o=v(t,`scenario.${s}.hubspot_seats_per_cohort`,5),r=0;for(let n of Ls){let p=v(t,`cohort.timing.hubspot.${n}.start_month`,null);if(!p)continue;let l=q.filter(h=>h>=p).length;r+=l*o*e}return r}function he(t){return t.filter(Boolean).join(" \xB7 ")}function be(t,a,e=null){let s=e??v(t,"hubspot.discount_rate",.4),o=v(t,"hubspot.arch.onboarding_fee_aud",1500),r=v(t,"hubspot.arch.f.bundle_list_monthly_aud",1836),n=v(t,"hubspot.arch.f.core_seat_list_price_aud",80),p=v(t,"hubspot.arch.f.base_seat_count",12),l=r*(1-s)*12,h=n*(1-s),u=_e(t,a,h),c=l+u,_=v(t,"hubspot.arch.1.seat_list_price_aud",20),$=v(t,"hubspot.arch.1.base_seat_count",7),m=_*(1-s)*$*12,d=_*(1-s),f=_e(t,a,d),i=m+f,y=v(t,"hubspot.arch.2.pro_seat_list_price_aud",100),g=v(t,"hubspot.arch.2.core_seat_list_price_aud",50),k=v(t,"hubspot.arch.2.pro_seat_count",1),E=v(t,"hubspot.arch.2.core_seat_count",6),S=(y*k+g*E)*(1-s)*12,b=g*(1-s),w=_e(t,a,b),C=S+w+o,D=v(t,"hubspot.arch.3.pro_seat_list_price_aud",100),R=v(t,"hubspot.arch.3.pro_seat_count",7),P=D*(1-s)*R*12,L=D*(1-s),ht=_e(t,a,L),rt=P+ht+o,st=Math.round(s*100);return[{id:"F",label:"Architecture F",badge:"Current",bundleAnnual:l,cohortSeatCost:u,onboardingFee:0,yearOneTotal:c,savingVsF:0,compositionString:he([`5 Hub seats + ${p-5} Pro Core seats (${p} total)`,`AUD ${n}/seat/mo list`,`${st}% renewal discount`])},{id:"1",label:"Architecture 1",badge:null,bundleAnnual:m,cohortSeatCost:f,onboardingFee:0,yearOneTotal:i,savingVsF:c-i,compositionString:he([`${$} Sales Hub Starter Core seats`,`AUD ${_}/seat/mo list`,`${st}% renewal discount`])},{id:"2",label:"Architecture 2",badge:null,bundleAnnual:S,cohortSeatCost:w,onboardingFee:o,yearOneTotal:C,savingVsF:c-C,compositionString:he([`${k} Sales Pro seat + ${E} Pro Core seats`,`AUD ${y} + AUD ${g}/seat/mo list`,`AUD ${o.toLocaleString()} onboarding`,`${st}% renewal discount`])},{id:"3",label:"Architecture 3",badge:null,bundleAnnual:P,cohortSeatCost:ht,onboardingFee:o,yearOneTotal:rt,savingVsF:c-rt,compositionString:he([`${R} Sales Pro seats`,`AUD ${D}/seat/mo list`,`AUD ${o.toLocaleString()} onboarding`,`${st}% renewal discount`])}]}var{html:It,useState:zt}=window.__WWCT__,_a=["Sales & Marketing","Productivity & IT","Collaboration & Docs","Training & Development","Infrastructure"],Ws=["AUD","USD","EUR","GBP"],Ys=["AU","EU","US"];function ha({initial:t,onSave:a,onCancel:e}){let s=!!t?.id,[o,r]=zt({vendor:t?.vendor||"",product:t?.product||"",category:t?.category||_a[0],currency:t?.currency||"AUD",billing_entity:t?.billing_entity||"AU",cardholder:t?.cardholder||"",tier:t?.tier||"",renewal_date:t?.renewal_date||"",status:t?.status||"active",cohort_driven:t?.cohort_driven||!1,subscription_type:t?.subscription_type??"cohort"}),[n,p]=zt(""),[l,h]=zt(""),[u,c]=zt(""),[_,$]=zt({});function m(i,y){r(g=>({...g,[i]:y})),$(g=>({...g,[i]:""}))}function d(){let i={};return o.vendor.trim()||(i.vendor="Vendor is required."),o.product.trim()||(i.product="Product is required."),s||((!n||isNaN(Number(n))||Number(n)<=0)&&(i.unitCost="A positive unit cost is required."),l.trim()||(i.rationale="Rationale is required."),u.trim()||(i.source="Source is required.")),$(i),Object.keys(i).length===0}function f(i){if(i.preventDefault(),!d())return;let y=t?.id||crypto.randomUUID(),g=`subscription.${y.slice(0,8)}.unit_cost`,k=null;if(!s){let S=Q({key:g,label:`${o.vendor} ${o.product} \u2014 unit cost`,value:Number(n),unit:`${o.currency}/seat/month`,category:"Subscription cost",rationale:l,source:u});k=X(S,{rationale:l,source:u})}let E={id:y,vendor:o.vendor.trim(),product:o.product.trim(),category:o.category,currency:o.currency,billing_entity:o.billing_entity,cardholder:o.cardholder.trim(),tier:o.tier.trim(),renewal_date:o.renewal_date||null,status:o.status,cohort_driven:o.cohort_driven,subscription_type:o.subscription_type,unit_cost_assumption_key:g,...t||{}};a({subscription:E,costAssumption:k})}return It`
+  `}var Ct=["apac","americas","emea"],Ns=["ch18","ch19","ch20","ch21","ch22"];function Oe(t){return t?t.id.replace("scenario-","").replace(/-/g,"_"):"primary_target"}function Xt(t,a,e){let s=Oe(a),o=v(e,`scenario.${s}.ies_per_cohort`,10),r=v(e,"cohort.timing.ch17.start_month",null),n=r&&t>=r?o:0,p=v(e,`scenario.${s}.num_cohorts_fy2627`,5),l=Ns.slice(0,p).reduce((h,u)=>{let c=v(e,`cohort.timing.${u}.start_month`,null);return c&&t>=c?h+o:h},0);return n+l}var le=[27,28,29];function Wt(t,a=null){let e={26:a!==null?a:v(t,"forecast.model.target.fy26",22),27:v(t,"forecast.model.target.fy27",60),28:v(t,"forecast.model.target.fy28",99),29:v(t,"forecast.model.target.fy29",150)},s={apac:v(t,"forecast.model.region_weight.apac",.333),americas:v(t,"forecast.model.region_weight.americas",.333),emea:v(t,"forecast.model.region_weight.emea",.334)},o={apac:v(t,"forecast.model.attrition_rate.apac",.1),americas:v(t,"forecast.model.attrition_rate.americas",.1),emea:v(t,"forecast.model.attrition_rate.emea",.1)},r=v(t,"forecast.model.vet_to_short_rate",.4),n=v(t,"forecast.model.short_to_onboard_rate",.5),p=v(t,"forecast.model.cohorts_per_year",5),l={apac:{},americas:{},emea:{}},h={apac:{},americas:{},emea:{}},u={apac:{},americas:{},emea:{}},c={apac:{},americas:{},emea:{}},_={apac:{},americas:{},emea:{}};for(let d of Ct)l[d][26]=Math.round(e[26]*s[d]);for(let d of le)for(let f of Ct)l[f][d]=Math.round(e[d]*s[f]),h[f][d]=Math.ceil(l[f][d-1]*o[f]),u[f][d]=Math.max(l[f][d]-l[f][d-1]+h[f][d],0),c[f][d]=u[f][d]>0?Math.ceil(u[f][d]/n):0,_[f][d]=c[f][d]>0?Math.ceil(c[f][d]/r):0;let $={};for(let d of le)$[d]={activeIEs:Ct.reduce((f,i)=>f+l[i][d],0),attrition:Ct.reduce((f,i)=>f+h[i][d],0),shortlist:Ct.reduce((f,i)=>f+u[i][d],0),longlist:Ct.reduce((f,i)=>f+c[i][d],0),sourced:Ct.reduce((f,i)=>f+_[i][d],0)};let b={};for(let d of le){let f=$[d].shortlist/p,i=f>=10&&f<=15;b[d]={avgOnboards:Math.round(f*10)/10,withinBand:i,band:i?"Within band":f<10?"Below band":"Above band"}}return{params:{targets:e,regionWeights:s,attritionRates:o,vetToShortRate:r,shortToOnboardRate:n,cohortsPerYear:p},regions:Ct,fys:[26,...le],activeIEs:l,attrition:h,shortlist:u,longlist:c,sourced:_,globalTotals:$,sanity:b}}function Yt(t,a,e,s){if(!s||s.length===0)return null;let o=s.filter(r=>r<=t).length;return a+o*e}function ce(t,a,e){let[s,o]=t.split("-"),r=Number(s),l=(Number(o)>=7?r+1:r)%100,h=v(e,`forecast.model.target.fy${l}`,0),u=l<=26?1:a?.id==="scenario-minimum-viable"?v(e,"forecast.model.variance.min",.8):a?.id==="scenario-optimal-maximum"?v(e,"forecast.model.variance.max",1.2):1,c=Math.round(h*u),_=v(e,"forecast.model.region_weight.apac",.333),$=v(e,"forecast.model.region_weight.americas",.333),b=v(e,"forecast.model.region_weight.emea",.334);return{apac:Math.round(c*_),americas:Math.round(c*$),emea:Math.round(c*b)}}var de=12;function pa(t,a,e){return Array.from({length:e},(s,o)=>{let r=a-1+o,n=t+Math.floor(r/de),p=r%de+1;return`${n}-${String(p).padStart(2,"0")}`})}var ue=pa(2025,7,de),q=pa(2026,7,de),St=[...ue,...q],pe=[{label:"FY 25/26",months:ue},{label:"FY 26/27",months:q}];function Fs(t,a,e){if(a==="AUD")return t;let s=`scenario.fx_rate.aud_${a.toLowerCase()}`,o=v(e,s,1);return t/o}function _t(t){return`subscription.${t.replace(/^sub-/,"").replace(/-/g,"_")}.active_status`}function Mt(t,a){let e=Object.values(t||{});return e.length===0?null:e.filter(s=>s.active!==!1&&s.training&&(s.startMonth||"")<=a).length}function at(t){let a=Object.values(t||{});if(a.length===0)return null;let e=a.filter(s=>s.active!==!1&&s.training).length;return e>0?e:null}function Y(t,a,e,s=null,o=null){let{id:r,currency:n,cohort_driven:p,unit_cost_assumption_key:l,attribution_assumption_key:h,seat_count_assumption_key:u}=t,c=z(e,_t(r));if(c?.value==="not_active"){let d=c.effective_from?c.effective_from.slice(0,7):null;if(!d||a>=d)return{value:0,nativeValue:0,nativeCurrency:n||"AUD",primaryAssumptionKey:_t(r)}}if(r==="sub-hubspot-bundle"){let d=v(e,"subscription.hubspot.renewal_start_month","2026-11"),f=a<d?v(e,"subscription.hubspot.bundle_monthly_aud",918):v(e,"subscription.hubspot.renewal_monthly_aud",1101.6);return{value:f,nativeValue:f,nativeCurrency:"AUD",primaryAssumptionKey:"subscription.hubspot.bundle_monthly_aud"}}if(r==="sub-hubspot-cohort"&&o===null){let d=v(e,"subscription.hubspot.cohort_addition_start_month","2026-12");if(a<d)return{value:0,nativeValue:0,nativeCurrency:"AUD",primaryAssumptionKey:"subscription.hubspot.per_seat_rate_aud_discounted"};let f=v(e,"subscription.hubspot.per_seat_rate_aud_discounted",48),i=Oe(s),S=v(e,`scenario.${i}.hubspot_seats_per_cohort`,5),g=["ch18","ch19","ch20"].reduce((E,w)=>{let m=v(e,`cohort.timing.hubspot.${w}.start_month`,null);return m&&a>=m?E+1:E},0),k=f*g*S;return{value:k,nativeValue:k,nativeCurrency:"AUD",primaryAssumptionKey:"subscription.hubspot.per_seat_rate_aud_discounted"}}let _=v(e,l,0),$;if(p){let d=v(e,h,1),f;if(o!==null)f=Math.round(o*d);else{let i=v(e,u,0),S=ce(a,s,e),g=S.apac+S.americas+S.emea;f=i+Math.round(g*d)}$=_*f}else{let d=u?v(e,u,1):1;$=_*d}return{value:Fs($,n,e),nativeValue:$,nativeCurrency:n,primaryAssumptionKey:l}}var Ls=["ch18","ch19","ch20"];function Vs(t){return t?t.id.replace("scenario-","").replace(/-/g,"_"):"primary_target"}function _e(t,a,e){let s=Vs(a),o=v(t,`scenario.${s}.hubspot_seats_per_cohort`,5),r=0;for(let n of Ls){let p=v(t,`cohort.timing.hubspot.${n}.start_month`,null);if(!p)continue;let l=q.filter(h=>h>=p).length;r+=l*o*e}return r}function he(t){return t.filter(Boolean).join(" \xB7 ")}function be(t,a,e=null){let s=e??v(t,"hubspot.discount_rate",.4),o=v(t,"hubspot.arch.onboarding_fee_aud",1500),r=v(t,"hubspot.arch.f.bundle_list_monthly_aud",1836),n=v(t,"hubspot.arch.f.core_seat_list_price_aud",80),p=v(t,"hubspot.arch.f.base_seat_count",12),l=r*(1-s)*12,h=n*(1-s),u=_e(t,a,h),c=l+u,_=v(t,"hubspot.arch.1.seat_list_price_aud",20),$=v(t,"hubspot.arch.1.base_seat_count",7),b=_*(1-s)*$*12,d=_*(1-s),f=_e(t,a,d),i=b+f,S=v(t,"hubspot.arch.2.pro_seat_list_price_aud",100),g=v(t,"hubspot.arch.2.core_seat_list_price_aud",50),k=v(t,"hubspot.arch.2.pro_seat_count",1),E=v(t,"hubspot.arch.2.core_seat_count",6),w=(S*k+g*E)*(1-s)*12,m=g*(1-s),y=_e(t,a,m),C=w+y+o,D=v(t,"hubspot.arch.3.pro_seat_list_price_aud",100),R=v(t,"hubspot.arch.3.pro_seat_count",7),P=D*(1-s)*R*12,L=D*(1-s),ht=_e(t,a,L),it=P+ht+o,ot=Math.round(s*100);return[{id:"F",label:"Architecture F",badge:"Current",bundleAnnual:l,cohortSeatCost:u,onboardingFee:0,yearOneTotal:c,savingVsF:0,compositionString:he([`5 Hub seats + ${p-5} Pro Core seats (${p} total)`,`AUD ${n}/seat/mo list`,`${ot}% renewal discount`])},{id:"1",label:"Architecture 1",badge:null,bundleAnnual:b,cohortSeatCost:f,onboardingFee:0,yearOneTotal:i,savingVsF:c-i,compositionString:he([`${$} Sales Hub Starter Core seats`,`AUD ${_}/seat/mo list`,`${ot}% renewal discount`])},{id:"2",label:"Architecture 2",badge:null,bundleAnnual:w,cohortSeatCost:y,onboardingFee:o,yearOneTotal:C,savingVsF:c-C,compositionString:he([`${k} Sales Pro seat + ${E} Pro Core seats`,`AUD ${S} + AUD ${g}/seat/mo list`,`AUD ${o.toLocaleString()} onboarding`,`${ot}% renewal discount`])},{id:"3",label:"Architecture 3",badge:null,bundleAnnual:P,cohortSeatCost:ht,onboardingFee:o,yearOneTotal:it,savingVsF:c-it,compositionString:he([`${R} Sales Pro seats`,`AUD ${D}/seat/mo list`,`AUD ${o.toLocaleString()} onboarding`,`${ot}% renewal discount`])}]}var{html:Et,useState:zt}=window.__WWCT__,_a=["Sales & Marketing","Productivity & IT","Collaboration & Docs","Training & Development","Infrastructure"],Ws=["AUD","USD","EUR","GBP"],Ys=["AU","EU","US"];function ha({initial:t,onSave:a,onCancel:e}){let s=!!t?.id,[o,r]=zt({vendor:t?.vendor||"",product:t?.product||"",category:t?.category||_a[0],currency:t?.currency||"AUD",billing_entity:t?.billing_entity||"AU",cardholder:t?.cardholder||"",tier:t?.tier||"",renewal_date:t?.renewal_date||"",status:t?.status||"active",cohort_driven:t?.cohort_driven||!1,subscription_type:t?.subscription_type??"cohort"}),[n,p]=zt(""),[l,h]=zt(""),[u,c]=zt(""),[_,$]=zt({});function b(i,S){r(g=>({...g,[i]:S})),$(g=>({...g,[i]:""}))}function d(){let i={};return o.vendor.trim()||(i.vendor="Vendor is required."),o.product.trim()||(i.product="Product is required."),s||((!n||isNaN(Number(n))||Number(n)<=0)&&(i.unitCost="A positive unit cost is required."),l.trim()||(i.rationale="Rationale is required."),u.trim()||(i.source="Source is required.")),$(i),Object.keys(i).length===0}function f(i){if(i.preventDefault(),!d())return;let S=t?.id||crypto.randomUUID(),g=`subscription.${S.slice(0,8)}.unit_cost`,k=null;if(!s){let w=Q({key:g,label:`${o.vendor} ${o.product} \u2014 unit cost`,value:Number(n),unit:`${o.currency}/seat/month`,category:"Subscription cost",rationale:l,source:u});k=X(w,{rationale:l,source:u})}let E={id:S,vendor:o.vendor.trim(),product:o.product.trim(),category:o.category,currency:o.currency,billing_entity:o.billing_entity,cardholder:o.cardholder.trim(),tier:o.tier.trim(),renewal_date:o.renewal_date||null,status:o.status,cohort_driven:o.cohort_driven,subscription_type:o.subscription_type,unit_cost_assumption_key:g,...t||{}};a({subscription:E,costAssumption:k})}return Et`
     <div class="dialog-overlay" onClick=${e} role="presentation">
       <div class="dialog dialog--wide" role="dialog" aria-modal="true"
            aria-labelledby="sub-form-title" onClick=${i=>i.stopPropagation()}>
@@ -9435,15 +9435,15 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
           <div class="form-grid">
             <${lt} label="Vendor" error=${_.vendor} required>
               <input class="field__input" value=${o.vendor}
-                onInput=${i=>m("vendor",i.target.value)} />
+                onInput=${i=>b("vendor",i.target.value)} />
             <//>
             <${lt} label="Product" error=${_.product} required>
               <input class="field__input" value=${o.product}
-                onInput=${i=>m("product",i.target.value)} />
+                onInput=${i=>b("product",i.target.value)} />
             <//>
             <${lt} label="Subscription type" required>
               <select class="filter-bar__select" value=${o.subscription_type}
-                onChange=${i=>m("subscription_type",i.target.value)}>
+                onChange=${i=>b("subscription_type",i.target.value)}>
                 <option value="cohort">Per IE (scales with cohort headcount)</option>
                 <option value="bespoke">Bespoke (individual subscription)</option>
                 <option value="company">Company (fixed seats)</option>
@@ -9451,54 +9451,54 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
             <//>
             <${lt} label="Category" required>
               <select class="filter-bar__select" value=${o.category}
-                onChange=${i=>m("category",i.target.value)}>
-                ${_a.map(i=>It`<option key=${i}>${i}</option>`)}
+                onChange=${i=>b("category",i.target.value)}>
+                ${_a.map(i=>Et`<option key=${i}>${i}</option>`)}
               </select>
             <//>
             <${lt} label="Currency" required>
               <select class="filter-bar__select" value=${o.currency}
-                onChange=${i=>m("currency",i.target.value)}>
-                ${Ws.map(i=>It`<option key=${i}>${i}</option>`)}
+                onChange=${i=>b("currency",i.target.value)}>
+                ${Ws.map(i=>Et`<option key=${i}>${i}</option>`)}
               </select>
             <//>
             <${lt} label="Billing entity">
               <select class="filter-bar__select" value=${o.billing_entity}
-                onChange=${i=>m("billing_entity",i.target.value)}>
-                ${Ys.map(i=>It`<option key=${i}>${i}</option>`)}
+                onChange=${i=>b("billing_entity",i.target.value)}>
+                ${Ys.map(i=>Et`<option key=${i}>${i}</option>`)}
               </select>
             <//>
             <${lt} label="Cardholder">
               <input class="field__input" value=${o.cardholder}
-                onInput=${i=>m("cardholder",i.target.value)} />
+                onInput=${i=>b("cardholder",i.target.value)} />
             <//>
             <${lt} label="Tier">
               <input class="field__input" value=${o.tier}
-                onInput=${i=>m("tier",i.target.value)} />
+                onInput=${i=>b("tier",i.target.value)} />
             <//>
             <${lt} label="Renewal date">
               <input class="field__input" type="date" value=${o.renewal_date}
-                onInput=${i=>m("renewal_date",i.target.value)} />
+                onInput=${i=>b("renewal_date",i.target.value)} />
             <//>
           </div>
 
-          ${!s&&It`
+          ${!s&&Et`
             <div class="form-section">
               <h3 class="form-section__title">Unit cost (required for new subscriptions)</h3>
               <div class="form-grid">
                 <${lt} label="Unit cost" error=${_.unitCost} required>
                   <input class="field__input" type="number" min="0" step="0.01"
                     value=${n}
-                    onInput=${i=>{p(i.target.value),$(y=>({...y,unitCost:""}))}}
+                    onInput=${i=>{p(i.target.value),$(S=>({...S,unitCost:""}))}}
                     placeholder="e.g. 10.10" />
                 <//>
                 <${lt} label="Rationale" error=${_.rationale} required>
                   <input class="field__input" value=${l}
-                    onInput=${i=>{h(i.target.value),$(y=>({...y,rationale:""}))}}
+                    onInput=${i=>{h(i.target.value),$(S=>({...S,rationale:""}))}}
                     placeholder="Why this value?" />
                 <//>
                 <${lt} label="Source" error=${_.source} required>
                   <input class="field__input" value=${u}
-                    onInput=${i=>{c(i.target.value),$(y=>({...y,source:""}))}}
+                    onInput=${i=>{c(i.target.value),$(S=>({...S,source:""}))}}
                     placeholder="e.g. Vendor invoice, May 2026" />
                 <//>
               </div>
@@ -9514,20 +9514,20 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
         </form>
       </div>
     </div>
-  `}function lt({label:t,error:a,required:e,children:s}){return It`
+  `}function lt({label:t,error:a,required:e,children:s}){return Et`
     <div class="field">
       <label class="field__label">
-        ${t}${e?It`<span class="field__required"> *</span>`:""}
+        ${t}${e?Et`<span class="field__required"> *</span>`:""}
       </label>
       ${s}
-      ${a&&It`<span class="field__error">${a}</span>`}
+      ${a&&Et`<span class="field__error">${a}</span>`}
     </div>
-  `}var{html:me,useState:ba}=window.__WWCT__;function Nt({assumptionKey:t,children:a,passive:e=!1}){let{workbook:s}=T(),o=z(s.assumptions||{},t),[r,n]=ba(!1),[p,l]=ba(!1);if(!o)return me`
+  `}var{html:me,useState:ba}=window.__WWCT__;function Ut({assumptionKey:t,children:a,passive:e=!1}){let{workbook:s}=T(),o=z(s.assumptions||{},t),[r,n]=ba(!1),[p,l]=ba(!1);if(!o)return me`
       <span class="assumption-missing" title="No resolved assumption for key: ${t}">
         ${a}
         <span class="assumption-marker assumption-marker--missing" aria-label="Missing assumption">●</span>
       </span>
-    `;let h=o.confidence===ot.PLACEHOLDER,u="assumption-marker"+(h?" assumption-marker--placeholder":""),c=[o.value+(o.unit?" "+o.unit:""),o.author,A.date(o.decided_on),h?"Placeholder confidence":o.confidence+" confidence"].join(" \xB7 ");return me`
+    `;let h=o.confidence===nt.PLACEHOLDER,u="assumption-marker"+(h?" assumption-marker--placeholder":""),c=[o.value+(o.unit?" "+o.unit:""),o.author,A.date(o.decided_on),h?"Placeholder confidence":o.confidence+" confidence"].join(" \xB7 ");return me`
     <span
       class="assumption-value-wrap"
       tabIndex="0"
@@ -9586,7 +9586,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
         `)}
       </td>
     </tr>
-  `}function fe(){let{workbook:t,dispatch:a}=T(),e=t.opportunities||{},s=t.subscriptions||{},[o,r]=Re(!1),[n,p]=Re(()=>va(M())),[l,h]=Re({}),u=ma(()=>Object.values(e).sort((d,f)=>{let i=fa.indexOf(d.status),y=fa.indexOf(f.status);return i!==y?i-y:new Date(f.createdAt)-new Date(d.createdAt)}),[e]),c=ma(()=>Object.values(s).filter(d=>d.status!=="archived"),[s]);function _(d,f){p(i=>({...i,[d]:f})),l[d]&&h(i=>({...i,[d]:null}))}function $(){let d={};if(n.title.trim()||(d.title="Required"),Object.keys(d).length>0){h(d);return}let f={id:crypto.randomUUID(),title:n.title.trim(),description:n.description.trim(),estimatedSaving:parseFloat(n.estimatedSaving)||0,classification:n.classification,status:"Proposed",owner:n.owner.trim()||M()||"Unknown",relatedSubscriptionId:n.relatedSubscriptionId||null,relatedArchitecture:n.relatedArchitecture||null,createdAt:new Date().toISOString()};a({type:"OPPORTUNITY_SAVED",payload:f}),p(va(M())),r(!1),h({})}function m(d,f){a({type:"OPPORTUNITY_STATUS_CHANGED",payload:{id:d,status:f}})}return mt`
+  `}function fe(){let{workbook:t,dispatch:a}=T(),e=t.opportunities||{},s=t.subscriptions||{},[o,r]=Re(!1),[n,p]=Re(()=>va(M())),[l,h]=Re({}),u=ma(()=>Object.values(e).sort((d,f)=>{let i=fa.indexOf(d.status),S=fa.indexOf(f.status);return i!==S?i-S:new Date(f.createdAt)-new Date(d.createdAt)}),[e]),c=ma(()=>Object.values(s).filter(d=>d.status!=="archived"),[s]);function _(d,f){p(i=>({...i,[d]:f})),l[d]&&h(i=>({...i,[d]:null}))}function $(){let d={};if(n.title.trim()||(d.title="Required"),Object.keys(d).length>0){h(d);return}let f={id:crypto.randomUUID(),title:n.title.trim(),description:n.description.trim(),estimatedSaving:parseFloat(n.estimatedSaving)||0,classification:n.classification,status:"Proposed",owner:n.owner.trim()||M()||"Unknown",relatedSubscriptionId:n.relatedSubscriptionId||null,relatedArchitecture:n.relatedArchitecture||null,createdAt:new Date().toISOString()};a({type:"OPPORTUNITY_SAVED",payload:f}),p(va(M())),r(!1),h({})}function b(d,f){a({type:"OPPORTUNITY_STATUS_CHANGED",payload:{id:d,status:f}})}return mt`
     <div class="savings">
       <div class="page-header">
         <h1 class="page-header__title">Savings register</h1>
@@ -9712,14 +9712,14 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
                 key=${d.id}
                 opp=${d}
                 subscriptions=${s}
-                onTransition=${m}
+                onTransition=${b}
               />
             `)}
           </tbody>
         </table>
       `}
     </div>
-  `}var{html:x,useMemo:et,useState:Dt}=window.__WWCT__,qs=["Sales & Marketing","Productivity & IT","Collaboration & Docs","Training & Development","Infrastructure"],js=["AUD","USD","EUR","GBP"],Gs=["AU","EU","US"];function Xs(t,a,e){let s=_t(t),o=e==="not_active"?"Paused":"Reactivated";return{id:crypto.randomUUID(),key:s,label:`${a} \u2014 active status`,value:e,unit:"",category:"Governance",rationale:`${o} via Decisions view. Edit in Decision Drawer to add context.`,source:"Decisions view toggle",confidence:"high",status:O.RESOLVED,author:M()||"Unknown",decided_on:new Date().toISOString(),effective_from:new Date().toISOString().slice(0,10),effective_to:null,applies_to:[t],tags:["active-status"],supersedes:null,superseded_by:null}}function zs(t,a){return{id:crypto.randomUUID(),key:t.attribution_assumption_key,label:`${t.vendor} ${t.product} \u2014 demand rate`,value:a/100,unit:"%",category:"Subscription cost",rationale:`Demand rate set to ${a}% via Subscriptions view.`,source:"Subscriptions view",confidence:"high",status:O.RESOLVED,author:M()||"Unknown",decided_on:new Date().toISOString(),effective_from:new Date().toISOString().slice(0,10),effective_to:null,applies_to:[t.id],tags:["demand-rate","subscription"],supersedes:null,superseded_by:null}}function Qs(t){let a=t==="firm"?"Confirmed contract or quote \u2014 treat as committed saving":"Estimate based on pricing \u2014 treat as indicative only";return{id:crypto.randomUUID(),key:"hubspot.arch.saving_classification",label:"HubSpot architecture saving \u2014 classification",value:t,unit:"",category:"HubSpot",rationale:a,source:"Decisions view",confidence:t==="firm"?"high":"medium",status:O.RESOLVED,author:M()||"Unknown",decided_on:new Date().toISOString(),effective_from:new Date().toISOString().slice(0,10),effective_to:null,applies_to:[],tags:["hubspot","savings","classification"],supersedes:null,superseded_by:null}}function $a({classification:t}){let a=t==="firm";return x`
+  `}var{html:x,useMemo:et,useState:It}=window.__WWCT__,qs=["Sales & Marketing","Productivity & IT","Collaboration & Docs","Training & Development","Infrastructure"],js=["AUD","USD","EUR","GBP"],Gs=["AU","EU","US"];function Xs(t,a,e){let s=_t(t),o=e==="not_active"?"Paused":"Reactivated";return{id:crypto.randomUUID(),key:s,label:`${a} \u2014 active status`,value:e,unit:"",category:"Governance",rationale:`${o} via Decisions view. Edit in Decision Drawer to add context.`,source:"Decisions view toggle",confidence:"high",status:O.RESOLVED,author:M()||"Unknown",decided_on:new Date().toISOString(),effective_from:new Date().toISOString().slice(0,10),effective_to:null,applies_to:[t],tags:["active-status"],supersedes:null,superseded_by:null}}function zs(t,a){return{id:crypto.randomUUID(),key:t.attribution_assumption_key,label:`${t.vendor} ${t.product} \u2014 demand rate`,value:a/100,unit:"%",category:"Subscription cost",rationale:`Demand rate set to ${a}% via Subscriptions view.`,source:"Subscriptions view",confidence:"high",status:O.RESOLVED,author:M()||"Unknown",decided_on:new Date().toISOString(),effective_from:new Date().toISOString().slice(0,10),effective_to:null,applies_to:[t.id],tags:["demand-rate","subscription"],supersedes:null,superseded_by:null}}function Qs(t){let a=t==="firm"?"Confirmed contract or quote \u2014 treat as committed saving":"Estimate based on pricing \u2014 treat as indicative only";return{id:crypto.randomUUID(),key:"hubspot.arch.saving_classification",label:"HubSpot architecture saving \u2014 classification",value:t,unit:"",category:"HubSpot",rationale:a,source:"Decisions view",confidence:t==="firm"?"high":"medium",status:O.RESOLVED,author:M()||"Unknown",decided_on:new Date().toISOString(),effective_from:new Date().toISOString().slice(0,10),effective_to:null,applies_to:[],tags:["hubspot","savings","classification"],supersedes:null,superseded_by:null}}function $a({classification:t}){let a=t==="firm";return x`
     <span
       class=${"decisions__classification-badge "+(a?"decisions__classification-badge--firm":"decisions__classification-badge--indicative")}
       title=${a?"Firm: based on a confirmed contract or quote":"Indicative: based on forecast estimates, not a confirmed contract"}
@@ -9741,7 +9741,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
       ${r!==null?x`<span>${r} fixed seats</span>`:null}
       <span>${t.currency} ${o.toFixed(2)}/seat</span>
     </span>
-  `}function Zs({sub:t,assumptions:a,scenario:e,monthlyEntries:s,avgCohortSize:o,ieCount:r,onToggle:n,onRateChange:p,onEdit:l,onArchive:h}){let u=_t(t.id),c=v(a,u,"active")!=="not_active",_=v(a,t.attribution_assumption_key,1),$=v(a,t.unit_cost_assumption_key,0),m=Math.round(_*o),d=Math.round(_*100),f=et(()=>{let i=0;for(let y of q){let g=`${t.id}_${y}`;if(s[g]?.isActual)continue;let{value:E}=Y(t,y,a,e,r);i+=E??0}return i},[t,a,e,s,r]);return x`
+  `}function Zs({sub:t,assumptions:a,scenario:e,monthlyEntries:s,avgCohortSize:o,ieCount:r,onToggle:n,onRateChange:p,onEdit:l,onArchive:h}){let u=_t(t.id),c=v(a,u,"active")!=="not_active",_=v(a,t.attribution_assumption_key,1),$=v(a,t.unit_cost_assumption_key,0),b=Math.round(_*o),d=Math.round(_*100),f=et(()=>{let i=0;for(let S of q){let g=`${t.id}_${S}`;if(s[g]?.isActual)continue;let{value:E}=Y(t,S,a,e,r);i+=E??0}return i},[t,a,e,s,r]);return x`
     <tr class=${"decisions__row"+(c?"":" decisions__row--inactive")}>
       <td class="decisions__sub-cell">
         <div class="decisions__vendor">${t.vendor}</div>
@@ -9755,12 +9755,12 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
           defaultValue=${d}
           min=0
           max=100
-          onBlur=${i=>{let y=Math.min(100,Math.max(0,Number(i.target.value)||0));y!==d&&p(t,y)}}
+          onBlur=${i=>{let S=Math.min(100,Math.max(0,Number(i.target.value)||0));S!==d&&p(t,S)}}
           onKeyDown=${i=>{i.key==="Enter"&&i.target.blur()}}
         />
         <span class="decisions__rate-pct">%</span>
       </td>
-      <td class="decisions__seats-cell">~${m}</td>
+      <td class="decisions__seats-cell">~${b}</td>
       <td class="decisions__unitcost-cell">${t.currency} ${$.toFixed(2)}/seat</td>
       <td class="decisions__saving-cell">
         ${c?A.aud(f):x`<span class="decisions__paused-label">Paused</span>`}
@@ -9781,7 +9781,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
         `}
       </td>
     </tr>
-  `}function to({sub:t,assumptions:a,scenario:e,monthlyEntries:s,onToggle:o,avgCohortSize:r,ieCount:n,onEdit:p,onArchive:l}){let h=_t(t.id),u=v(a,h,"active")!=="not_active",c=et(()=>{let _=0;for(let $ of q){let m=`${t.id}_${$}`;if(s[m]?.isActual)continue;let{value:f}=Y(t,$,a,e,n);_+=f??0}return _},[t,a,e,s,n]);return x`
+  `}function to({sub:t,assumptions:a,scenario:e,monthlyEntries:s,onToggle:o,avgCohortSize:r,ieCount:n,onEdit:p,onArchive:l}){let h=_t(t.id),u=v(a,h,"active")!=="not_active",c=et(()=>{let _=0;for(let $ of q){let b=`${t.id}_${$}`;if(s[b]?.isActual)continue;let{value:f}=Y(t,$,a,e,n);_+=f??0}return _},[t,a,e,s,n]);return x`
     <tr class=${"decisions__row"+(u?"":" decisions__row--inactive")}>
       <td class="decisions__sub-cell">
         <div class="decisions__vendor">${t.vendor}</div>
@@ -9880,12 +9880,12 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
         </tbody>
       </table>
     </div>
-  `}function ya(){let{workbook:t,dispatch:a}=T(),e=t.assumptions||{},s=t.ieRegister||{},o=t.scenarios?.[t.activeScenarioId]??null,r=t.monthlyEntries||{},[n,p]=Dt(!1),[l,h]=Dt(!1),[u,c]=Dt(null),[_,$]=Dt(""),[m,d]=Dt(""),[f,i]=Dt(""),[y,g]=Dt(""),[k,E]=Dt(!1),S=et(()=>it(s),[s]),b=et(()=>Yt(e,S),[e,S]),w=et(()=>{let G=(new Date().getMonth()>=6?new Date().getFullYear()+1:new Date().getFullYear())%100;return b.sanity[G]?.avgOnboards??b.sanity[27]?.avgOnboards??0},[b]),C=et(()=>Object.values(t.subscriptions||{}),[t.subscriptions]),D=et(()=>C.filter(I=>I.status!=="archived"),[C]),R=et(()=>C.filter(I=>{if(!k&&I.status==="archived")return!1;let G=_.toLowerCase();return!(G&&!I.vendor.toLowerCase().includes(G)&&!I.product.toLowerCase().includes(G)||m&&I.category!==m||f&&I.currency!==f||y&&I.billing_entity!==y)}),[C,_,m,f,y,k]),P=_||m||f||y,{statusQuoTotal:L,toggleSaving:ht,archSaving:rt,archClassification:st}=et(()=>{let I=0,G=0;for(let Tt of D){let Pt=_t(Tt.id),se=v(e,Pt,"active")==="not_active",xt=0;for(let Ke of q){let ns=`${Tt.id}_${Ke}`;if(r[ns]?.isActual)continue;let{value:rs}=Y(Tt,Ke,e,o,S);xt+=rs??0}se?G+=xt:I+=xt}let gt=v(e,"hubspot.selected_architecture","F"),bt=0;if(gt!=="F"){let Tt=be(e,o),Pt=Tt.find(xt=>xt.id==="F"),se=Tt.find(xt=>xt.id===gt);Pt&&se&&(bt=Math.max(0,Pt.yearOneTotal-se.yearOneTotal))}let Lt=v(e,"hubspot.arch.saving_classification","indicative");return{statusQuoTotal:I,toggleSaving:G,archSaving:bt,archClassification:Lt}},[D,e,o,r,S]),qt=n?st==="firm"?rt:0:rt,W=n?0:ht,dt=L-qt-W,ut=et(()=>R.filter(I=>ve(I)==="cohort"),[R]),Rt=et(()=>R.filter(I=>ve(I)==="bespoke"),[R]),kt=et(()=>R.filter(I=>ve(I)==="company"),[R]),Ae=et(()=>Te(ut,r,e,o,S),[ut,r,e,o,S]),te=et(()=>Te(Rt,r,e,o,S),[Rt,r,e,o,S]),ee=et(()=>Te(kt,r,e,o,S),[kt,r,e,o,S]);function jt(I,G){let gt=`${I.vendor} ${I.product}`,bt=Xs(I.id,gt,G),Lt=_t(I.id);if(z(e,Lt)){let Pt=J(e,bt);a(Pt?{type:"ASSUMPTION_SUPERSEDED",payload:Pt}:{type:"ASSUMPTION_PROPOSED",payload:bt})}else a({type:"ASSUMPTION_PROPOSED",payload:bt})}function ae(I,G){let gt=zs(I,G);if(z(e,I.attribution_assumption_key)){let Lt=J(e,gt);a(Lt?{type:"ASSUMPTION_SUPERSEDED",payload:Lt}:{type:"ASSUMPTION_PROPOSED",payload:gt})}else a({type:"ASSUMPTION_PROPOSED",payload:gt})}function ss(){let G=Qs(st==="firm"?"indicative":"firm");if(z(e,"hubspot.arch.saving_classification")){let bt=J(e,G);a(bt?{type:"ASSUMPTION_SUPERSEDED",payload:bt}:{type:"ASSUMPTION_PROPOSED",payload:G})}else a({type:"ASSUMPTION_PROPOSED",payload:G})}function os({subscription:I,costAssumption:G}){a({type:"SUBSCRIPTION_SAVED",payload:{subscription:I,costAssumption:G}}),h(!1),c(null)}function Ce(I){confirm("Archive this subscription? Historical data and assumptions are preserved.")&&a({type:"SUBSCRIPTION_ARCHIVED",payload:I})}if(D.length===0)return x`
+  `}function ya(){let{workbook:t,dispatch:a}=T(),e=t.assumptions||{},s=t.ieRegister||{},o=t.scenarios?.[t.activeScenarioId]??null,r=t.monthlyEntries||{},[n,p]=It(!1),[l,h]=It(!1),[u,c]=It(null),[_,$]=It(""),[b,d]=It(""),[f,i]=It(""),[S,g]=It(""),[k,E]=It(!1),w=et(()=>at(s),[s]),m=et(()=>Wt(e,w),[e,w]),y=et(()=>{let G=(new Date().getMonth()>=6?new Date().getFullYear()+1:new Date().getFullYear())%100;return m.sanity[G]?.avgOnboards??m.sanity[27]?.avgOnboards??0},[m]),C=et(()=>Object.values(t.subscriptions||{}),[t.subscriptions]),D=et(()=>C.filter(I=>I.status!=="archived"),[C]),R=et(()=>C.filter(I=>{if(!k&&I.status==="archived")return!1;let G=_.toLowerCase();return!(G&&!I.vendor.toLowerCase().includes(G)&&!I.product.toLowerCase().includes(G)||b&&I.category!==b||f&&I.currency!==f||S&&I.billing_entity!==S)}),[C,_,b,f,S,k]),P=_||b||f||S,{statusQuoTotal:L,toggleSaving:ht,archSaving:it,archClassification:ot}=et(()=>{let I=0,G=0;for(let Rt of D){let Tt=_t(Rt.id),se=v(e,Tt,"active")==="not_active",Pt=0;for(let Ke of q){let ns=`${Rt.id}_${Ke}`;if(r[ns]?.isActual)continue;let{value:rs}=Y(Rt,Ke,e,o,w);Pt+=rs??0}se?G+=Pt:I+=Pt}let gt=v(e,"hubspot.selected_architecture","F"),bt=0;if(gt!=="F"){let Rt=be(e,o),Tt=Rt.find(Pt=>Pt.id==="F"),se=Rt.find(Pt=>Pt.id===gt);Tt&&se&&(bt=Math.max(0,Tt.yearOneTotal-se.yearOneTotal))}let Ft=v(e,"hubspot.arch.saving_classification","indicative");return{statusQuoTotal:I,toggleSaving:G,archSaving:bt,archClassification:Ft}},[D,e,o,r,w]),qt=n?ot==="firm"?it:0:it,W=n?0:ht,dt=L-qt-W,ut=et(()=>R.filter(I=>ve(I)==="cohort"),[R]),Ot=et(()=>R.filter(I=>ve(I)==="bespoke"),[R]),kt=et(()=>R.filter(I=>ve(I)==="company"),[R]),Ae=et(()=>Te(ut,r,e,o,w),[ut,r,e,o,w]),te=et(()=>Te(Ot,r,e,o,w),[Ot,r,e,o,w]),ee=et(()=>Te(kt,r,e,o,w),[kt,r,e,o,w]);function jt(I,G){let gt=`${I.vendor} ${I.product}`,bt=Xs(I.id,gt,G),Ft=_t(I.id);if(z(e,Ft)){let Tt=J(e,bt);a(Tt?{type:"ASSUMPTION_SUPERSEDED",payload:Tt}:{type:"ASSUMPTION_PROPOSED",payload:bt})}else a({type:"ASSUMPTION_PROPOSED",payload:bt})}function ae(I,G){let gt=zs(I,G);if(z(e,I.attribution_assumption_key)){let Ft=J(e,gt);a(Ft?{type:"ASSUMPTION_SUPERSEDED",payload:Ft}:{type:"ASSUMPTION_PROPOSED",payload:gt})}else a({type:"ASSUMPTION_PROPOSED",payload:gt})}function ss(){let G=Qs(ot==="firm"?"indicative":"firm");if(z(e,"hubspot.arch.saving_classification")){let bt=J(e,G);a(bt?{type:"ASSUMPTION_SUPERSEDED",payload:bt}:{type:"ASSUMPTION_PROPOSED",payload:G})}else a({type:"ASSUMPTION_PROPOSED",payload:G})}function os({subscription:I,costAssumption:G}){a({type:"SUBSCRIPTION_SAVED",payload:{subscription:I,costAssumption:G}}),h(!1),c(null)}function Ce(I){confirm("Archive this subscription? Historical data and assumptions are preserved.")&&a({type:"SUBSCRIPTION_ARCHIVED",payload:I})}if(D.length===0)return x`
       <div class="page-header">
         <h1 class="page-header__title">Subscriptions</h1>
       </div>
       <div class="empty-state">Load a workbook to view decisions.</div>
-    `;let He=rt>0;return x`
+    `;let He=it>0;return x`
     <div class="decisions">
       ${l&&x`
         <${ha}
@@ -9923,7 +9923,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
           onInput=${I=>$(I.target.value)}
           aria-label="Search subscriptions"
         />
-        <select class="filter-bar__select" value=${m} onChange=${I=>d(I.target.value)}>
+        <select class="filter-bar__select" value=${b} onChange=${I=>d(I.target.value)}>
           <option value="">All categories</option>
           ${qs.map(I=>x`<option key=${I} value=${I}>${I}</option>`)}
         </select>
@@ -9931,7 +9931,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
           <option value="">All currencies</option>
           ${js.map(I=>x`<option key=${I} value=${I}>${I}</option>`)}
         </select>
-        <select class="filter-bar__select" value=${y} onChange=${I=>g(I.target.value)}>
+        <select class="filter-bar__select" value=${S} onChange=${I=>g(I.target.value)}>
           <option value="">All entities</option>
           ${Gs.map(I=>x`<option key=${I} value=${I}>${I}</option>`)}
         </select>
@@ -9959,19 +9959,19 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
           <span class="decisions__summary-label">
             Architecture saving (HubSpot negotiation)
             ${He&&x`
-              <${$a} classification=${st} />
+              <${$a} classification=${ot} />
               <button
                 class="decisions__classify-btn btn btn--sm btn--ghost"
                 onClick=${ss}
-                title=${st==="firm"?"Mark as indicative":"Mark as firm (confirmed quote or contract)"}
+                title=${ot==="firm"?"Mark as indicative":"Mark as firm (confirmed quote or contract)"}
               >
-                ${st==="firm"?"Mark indicative":"Mark as firm"}
+                ${ot==="firm"?"Mark indicative":"Mark as firm"}
               </button>
             `}
           </span>
           <span class="decisions__summary-value decisions__summary-saving">
             ${qt>0?`\u2212 ${A.aud(qt)}`:"\u2014"}
-            ${n&&He&&st!=="firm"?x`<span class="decisions__excluded-hint">(excluded)</span>`:""}
+            ${n&&He&&ot!=="firm"?x`<span class="decisions__excluded-hint">(excluded)</span>`:""}
           </span>
         </div>
         <div class="decisions__summary-row decisions__summary-row--saving">
@@ -9996,8 +9996,8 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
         assumptions=${e}
         scenario=${o}
         monthlyEntries=${r}
-        avgCohortSize=${w}
-        ieCount=${S}
+        avgCohortSize=${y}
+        ieCount=${w}
         onToggle=${jt}
         onRateChange=${ae}
         onEdit=${I=>{c(I),h(!0)}}
@@ -10005,14 +10005,14 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
       />
       <${ga}
         title="Bespoke subscriptions"
-        subs=${Rt}
+        subs=${Ot}
         groupTotal=${te}
         assumptions=${e}
         scenario=${o}
         monthlyEntries=${r}
         onToggle=${jt}
-        avgCohortSize=${w}
-        ieCount=${S}
+        avgCohortSize=${y}
+        ieCount=${w}
         onEdit=${I=>{c(I),h(!0)}}
         onArchive=${Ce}
       />
@@ -10024,8 +10024,8 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
         scenario=${o}
         monthlyEntries=${r}
         onToggle=${jt}
-        avgCohortSize=${w}
-        ieCount=${S}
+        avgCohortSize=${y}
+        ieCount=${w}
         onEdit=${I=>{c(I),h(!0)}}
         onArchive=${Ce}
       />
@@ -10034,7 +10034,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
       <hr class="section-divider" style=${{margin:"48px 0 24px",border:"none",borderTop:"1px solid var(--color-border)"}} />
       <${ie} />
     </div>
-  `}var{html:$e,useState:Sa}=window.__WWCT__;function wa(t){if(!t.effective_to)return!1;let a=new Date(t.effective_to)-new Date;return a>0&&a<30*24*60*60*1e3}function ao(t){return t.status===O.PROPOSED||t.status===O.UNDER_DISCUSSION||t.status===O.RESOLVED&&t.confidence===ot.PLACEHOLDER||wa(t)}function so(t){return t.status===O.PROPOSED?"Proposed":t.status===O.UNDER_DISCUSSION?"Under discussion":t.confidence===ot.PLACEHOLDER?"Placeholder confidence":wa(t)?"Expires within 30 days":""}function ka(){let{workbook:t}=T(),a=Object.values(t.assumptions||{}).filter(ao),[e,s]=Sa(null),[o,r]=Sa(!1);return a.length===0?null:$e`
+  `}var{html:$e,useState:Sa}=window.__WWCT__;function wa(t){if(!t.effective_to)return!1;let a=new Date(t.effective_to)-new Date;return a>0&&a<30*24*60*60*1e3}function ao(t){return t.status===O.PROPOSED||t.status===O.UNDER_DISCUSSION||t.status===O.RESOLVED&&t.confidence===nt.PLACEHOLDER||wa(t)}function so(t){return t.status===O.PROPOSED?"Proposed":t.status===O.UNDER_DISCUSSION?"Under discussion":t.confidence===nt.PLACEHOLDER?"Placeholder confidence":wa(t)?"Expires within 30 days":""}function ka(){let{workbook:t}=T(),a=Object.values(t.assumptions||{}).filter(ao),[e,s]=Sa(null),[o,r]=Sa(!1);return a.length===0?null:$e`
     <div class="needs-decision-tray" role="region" aria-label="Needs decision">
       ${e&&$e`
         <${At}
@@ -10063,7 +10063,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
         </div>
       `}
     </div>
-  `}var{html:oo,useEffect:no,useRef:ro}=window.__WWCT__;function Aa({assumptions:t,primaryAssumptionKey:a,currentValue:e,anchorX:s,anchorY:o,onEditAssumption:r,onOverride:n,onClose:p}){let l=ro(null),h=a?z(t,a):null;no(()=>{function _(m){l.current&&!l.current.contains(m.target)&&p()}function $(m){m.key==="Escape"&&p()}return window.addEventListener("mousedown",_),window.addEventListener("keydown",$),()=>{window.removeEventListener("mousedown",_),window.removeEventListener("keydown",$)}},[p]);let u=Math.min(s,window.innerWidth-300),c=Math.min(o+8,window.innerHeight-160);return oo`
+  `}var{html:oo,useEffect:no,useRef:ro}=window.__WWCT__;function Aa({assumptions:t,primaryAssumptionKey:a,currentValue:e,anchorX:s,anchorY:o,onEditAssumption:r,onOverride:n,onClose:p}){let l=ro(null),h=a?z(t,a):null;no(()=>{function _(b){l.current&&!l.current.contains(b.target)&&p()}function $(b){b.key==="Escape"&&p()}return window.addEventListener("mousedown",_),window.addEventListener("keydown",$),()=>{window.removeEventListener("mousedown",_),window.removeEventListener("keydown",$)}},[p]);let u=Math.min(s,window.innerWidth-300),c=Math.min(o+8,window.innerHeight-160);return oo`
     <div
       ref=${l}
       class="cell-action-picker"
@@ -10096,10 +10096,10 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
         </button>
       </div>
     </div>
-  `}var{html:Ht,useState:Qt,useMemo:io}=window.__WWCT__;function lo(t){return t.replace(/^sub-/,"").replace(/-/g,"_")}function co(t,a){return`subscription.${lo(t)}.monthly_override.${a.replace("-","_")}`}function Pe(t){let[a,e]=t.split("-").map(Number);return new Date(a,e-1,1).toLocaleDateString("en-AU",{month:"long",year:"numeric"})}function Ca({subscription:t,yearMonth:a,onClose:e}){let{workbook:s,dispatch:o}=T(),r=s.assumptions||{},n=s.scenarios?.[s.activeScenarioId]??null,p=t.id==="sub-hubspot",{currency:l="AUD",cohort_driven:h,unit_cost_assumption_key:u,attribution_assumption_key:c,seat_count_assumption_key:_}=t,{defaultUnitCost:$,defaultUnits:m}=io(()=>{if(p)return{defaultUnitCost:v(r,"subscription.hubspot.bundle_annual_aud",0)/12,defaultUnits:1};let W=v(r,u,0),dt;if(h){let ut=ce(a,n,r),Rt=ut.apac+ut.americas+ut.emea,kt=v(r,c,1);dt=Math.round(Rt*kt)}else dt=v(r,_,0);return{defaultUnitCost:W,defaultUnits:dt}},[t.id,a]),[d,f]=Qt($.toFixed(2)),[i,y]=Qt(String(m)),[g,k]=Qt(""),[E,S]=Qt(""),[b,w]=Qt({}),C=l!=="AUD"&&v(r,`scenario.fx_rate.aud_${l.toLowerCase()}`,1)||1,D=parseFloat(d)||0,R=p?1:parseInt(i,10)||0,P=D*R,L=l==="AUD"?P:P/C;function ht(W){W.preventDefault();let dt={};if((isNaN(D)||D<0)&&(dt.unitCost="Enter a valid amount"),!p&&(isNaN(R)||R<0)&&(dt.units="Enter a valid count"),g.trim()||(dt.rationale="Rationale is required"),Object.keys(dt).length){w(dt);return}let ut=co(t.id,a),Rt=p?`${t.vendor} ${t.product} \u2014 ${Pe(a)} monthly override`:`${t.vendor} ${t.product} \u2014 ${Pe(a)} override (${R} seats \xD7 ${l} ${D.toFixed(2)})`,kt=E.trim()||"Manual override",Ae=Q({key:ut,label:Rt,value:parseFloat(L.toFixed(2)),unit:"AUD/month",category:"Subscription cost",rationale:g.trim(),source:kt,confidence:"high",applies_to:[t.id]}),te=X(Ae,{rationale:g.trim(),source:kt}),ee=J(s.assumptions,te);o(ee?{type:"ASSUMPTION_SUPERSEDED",payload:ee}:{type:"ASSUMPTION_PROPOSED",payload:te});let jt=`${t.id}_${a}`,ae=s.monthlyEntries?.[jt];o({type:"MONTHLY_ENTRY_UPSERTED",payload:{id:ae?.id??`entry-${t.id}-${a}`,subscriptionId:t.id,yearMonth:a,isActual:!1,costAud:null,costNative:null,currency:"AUD",xeroId:ae?.xeroId??null,overrideAssumptionKey:ut}}),e()}function rt(W){W.target===W.currentTarget&&e()}let st=p?"Monthly cost (AUD)":`Unit cost (${l}/seat/month)`,qt=h?"Attributed seats":"Seat count";return Ht`
+  `}var{html:Ht,useState:Qt,useMemo:io}=window.__WWCT__;function lo(t){return t.replace(/^sub-/,"").replace(/-/g,"_")}function co(t,a){return`subscription.${lo(t)}.monthly_override.${a.replace("-","_")}`}function Pe(t){let[a,e]=t.split("-").map(Number);return new Date(a,e-1,1).toLocaleDateString("en-AU",{month:"long",year:"numeric"})}function Ca({subscription:t,yearMonth:a,onClose:e}){let{workbook:s,dispatch:o}=T(),r=s.assumptions||{},n=s.scenarios?.[s.activeScenarioId]??null,p=t.id==="sub-hubspot",{currency:l="AUD",cohort_driven:h,unit_cost_assumption_key:u,attribution_assumption_key:c,seat_count_assumption_key:_}=t,{defaultUnitCost:$,defaultUnits:b}=io(()=>{if(p)return{defaultUnitCost:v(r,"subscription.hubspot.bundle_annual_aud",0)/12,defaultUnits:1};let W=v(r,u,0),dt;if(h){let ut=ce(a,n,r),Ot=ut.apac+ut.americas+ut.emea,kt=v(r,c,1);dt=Math.round(Ot*kt)}else dt=v(r,_,0);return{defaultUnitCost:W,defaultUnits:dt}},[t.id,a]),[d,f]=Qt($.toFixed(2)),[i,S]=Qt(String(b)),[g,k]=Qt(""),[E,w]=Qt(""),[m,y]=Qt({}),C=l!=="AUD"&&v(r,`scenario.fx_rate.aud_${l.toLowerCase()}`,1)||1,D=parseFloat(d)||0,R=p?1:parseInt(i,10)||0,P=D*R,L=l==="AUD"?P:P/C;function ht(W){W.preventDefault();let dt={};if((isNaN(D)||D<0)&&(dt.unitCost="Enter a valid amount"),!p&&(isNaN(R)||R<0)&&(dt.units="Enter a valid count"),g.trim()||(dt.rationale="Rationale is required"),Object.keys(dt).length){y(dt);return}let ut=co(t.id,a),Ot=p?`${t.vendor} ${t.product} \u2014 ${Pe(a)} monthly override`:`${t.vendor} ${t.product} \u2014 ${Pe(a)} override (${R} seats \xD7 ${l} ${D.toFixed(2)})`,kt=E.trim()||"Manual override",Ae=Q({key:ut,label:Ot,value:parseFloat(L.toFixed(2)),unit:"AUD/month",category:"Subscription cost",rationale:g.trim(),source:kt,confidence:"high",applies_to:[t.id]}),te=X(Ae,{rationale:g.trim(),source:kt}),ee=J(s.assumptions,te);o(ee?{type:"ASSUMPTION_SUPERSEDED",payload:ee}:{type:"ASSUMPTION_PROPOSED",payload:te});let jt=`${t.id}_${a}`,ae=s.monthlyEntries?.[jt];o({type:"MONTHLY_ENTRY_UPSERTED",payload:{id:ae?.id??`entry-${t.id}-${a}`,subscriptionId:t.id,yearMonth:a,isActual:!1,costAud:null,costNative:null,currency:"AUD",xeroId:ae?.xeroId??null,overrideAssumptionKey:ut}}),e()}function it(W){W.target===W.currentTarget&&e()}let ot=p?"Monthly cost (AUD)":`Unit cost (${l}/seat/month)`,qt=h?"Attributed seats":"Seat count";return Ht`
     <div
       class="dialog-overlay"
-      onClick=${rt}
+      onClick=${it}
       onKeyDown=${W=>{W.key==="Escape"&&e()}}
     >
       <div class="dialog dialog--wide" role="dialog" aria-modal="true" aria-labelledby="override-title">
@@ -10112,7 +10112,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
           <div class="form-grid" style=${{marginBottom:"var(--space-3)"}}>
             <div class="field">
               <label class="field__label" for="override-unit-cost">
-                ${st} <span class="field__required">*</span>
+                ${ot} <span class="field__required">*</span>
               </label>
               <input
                 id="override-unit-cost"
@@ -10124,7 +10124,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
                 onInput=${W=>f(W.target.value)}
                 autoFocus
               />
-              ${b.unitCost&&Ht`<span class="field__error">${b.unitCost}</span>`}
+              ${m.unitCost&&Ht`<span class="field__error">${m.unitCost}</span>`}
             </div>
             ${!p&&Ht`
               <div class="field">
@@ -10138,9 +10138,9 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
                   min="0"
                   class="field__input"
                   value=${i}
-                  onInput=${W=>y(W.target.value)}
+                  onInput=${W=>S(W.target.value)}
                 />
-                ${b.units&&Ht`<span class="field__error">${b.units}</span>`}
+                ${m.units&&Ht`<span class="field__error">${m.units}</span>`}
               </div>
             `}
           </div>
@@ -10167,7 +10167,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
               value=${g}
               onInput=${W=>k(W.target.value)}
             ></textarea>
-            ${b.rationale&&Ht`<span class="field__error">${b.rationale}</span>`}
+            ${m.rationale&&Ht`<span class="field__error">${m.rationale}</span>`}
           </div>
           <div class="field" style=${{marginBottom:"var(--space-4)"}}>
             <label class="field__label" for="override-source">
@@ -10179,7 +10179,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
               class="field__input"
               placeholder="Optional — Xero INV-1234, vendor quote, email thread..."
               value=${E}
-              onInput=${W=>S(W.target.value)}
+              onInput=${W=>w(W.target.value)}
             />
           </div>
           <div class="dialog__actions">
@@ -10190,11 +10190,11 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
       </div>
     </div>
   `}var uo={contact:["contactname","contact","contact name","supplier","vendor","payee"],date:["invoicedate","invoice date","date","transactiondate","transaction date"],amount:["total","unitamount","unit amount","amount","lineamount","line amount","totalamount","netamount","gross"],currency:["currency","currencycode","currency code"],description:["description","itemdescription","item description","desc","details","particulars"],account:["accountcode","account code","account","accountname","account name"]},po={jan:"01",feb:"02",mar:"03",apr:"04",may:"05",jun:"06",jul:"07",aug:"08",sep:"09",oct:"10",nov:"11",dec:"12"};function _o(t){let a=t.trim(),e=a.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);if(e)return`${e[3]}-${e[2].padStart(2,"0")}-${e[1].padStart(2,"0")}`;if(/^\d{4}-\d{2}-\d{2}$/.test(a))return a;let s=a.match(/^(\d{1,2})[-\s]([A-Za-z]{3})[-\s](\d{4})$/);if(s){let o=po[s[2].toLowerCase()];if(o)return`${s[3]}-${o}-${s[1].padStart(2,"0")}`}return null}function Ea(t){let a=[],e="",s=!1;for(let o=0;o<t.length;o++){let r=t[o];r==='"'?s&&t[o+1]==='"'?(e+='"',o++):s=!s:r===","&&!s?(a.push(e),e=""):e+=r}return a.push(e),a}function ho(t,a){let e=t.findIndex(s=>a.includes(s.trim().toLowerCase()));return e>=0?e:-1}function Ia(t){let a=t.split(`
-`).map(r=>r.trimEnd()).filter((r,n)=>n===0||r.trim());if(a.length<2)return[];let e=Ea(a[0]),s={};for(let[r,n]of Object.entries(uo))s[r]=ho(e,n);let o=[];for(let r=1;r<a.length;r++){let n=a[r].trim();if(!n)continue;let p=Ea(n),l=s.contact>=0?(p[s.contact]??"").trim():"",h=s.date>=0?(p[s.date]??"").trim():"",u=s.amount>=0?(p[s.amount]??"").trim():"",c=s.currency>=0&&(p[s.currency]??"AUD").trim().toUpperCase()||"AUD",_=s.description>=0?(p[s.description]??"").trim():"",$=s.account>=0?(p[s.account]??"").trim():"";if(!l)continue;let m=_o(h),d=m?m.slice(0,7):null,f=parseFloat(u.replace(/[,$\s]/g,"")),i=isNaN(f)?0:Math.abs(f);o.push({contact:l,date:m,yearMonth:d,amount:i,currency:c,description:_,account:$,rowIndex:r})}return o}function xe(t){return t.toLowerCase().replace(/[^a-z0-9]/g,"")}function bo(t,a,e){return a==="AUD"?t:a==="USD"&&e?t/e:t}function mo(t){let a=new Map;for(let e of t){let s=`${xe(e.contact)}__${e.yearMonth??"unknown"}`;a.has(s)||a.set(s,{...e,amount:0}),a.get(s).amount+=e.amount}return Array.from(a.values())}function Da(t,a,e,s="2025-07",o="2027-06"){let r=m=>m.yearMonth&&m.yearMonth>=s&&m.yearMonth<=o,n=m=>{let d=parseInt(m.account,10);return isNaN(d)||d>=400},p=m=>r(m)&&n(m),l=t.filter(m=>m.yearMonth&&!p(m)).length,h=mo(t.filter(p)),u=t.filter(m=>!m.yearMonth&&n(m)),c=[],_=[],$=a.filter(m=>m.status!=="archived");for(let m of h){let d=xe(m.contact),f=$.find(i=>{let y=xe(i.vendor);return d.includes(y)||y.includes(d)});f?c.push({row:m,subscription:f,costAud:bo(m.amount,m.currency,e),confirmed:!0}):_.push({row:m,assignedSubscriptionId:null})}for(let m of u)_.push({row:m,assignedSubscriptionId:null});return{matched:c,unmatched:_,skipped:l}}var{html:nt,useState:ge,useRef:fo,useCallback:vo}=window.__WWCT__;function $o(t){if(!t)return"Unknown date";let[a,e]=t.split("-").map(Number);return new Date(a,e-1,1).toLocaleDateString("en-AU",{month:"short",year:"numeric"})}function Oa({onClose:t}){let{workbook:a,dispatch:e}=T(),s=fo(null),[o,r]=ge(null),[n,p]=ge(null),[l,h]=ge([]),[u,c]=ge([]),_=a.assumptions||{},$=Object.values(a.subscriptions||{}).filter(b=>b.status!=="archived"),m=v(_,"scenario.fx_rate.aud_usd"),d=vo(async b=>{let w=b.target.files?.[0];if(w){r(null);try{let C=await w.text(),D=Ia(C);if(D.length===0){r("No transactions found in this CSV. Check the file format.");return}let R=Da(D,$,m);p(R),h(R.matched.map(P=>({...P}))),c(R.unmatched.map(P=>({...P})))}catch(C){r("Failed to parse CSV: "+C.message)}s.current&&(s.current.value="")}},[$,m]);function f(b){h(w=>w.map((C,D)=>D===b?{...C,confirmed:!C.confirmed}:C))}function i(b,w){c(C=>C.map((D,R)=>R===b?{...D,assignedSubscriptionId:w}:D))}function y(){let b=[];for(let w of l){if(!w.confirmed)continue;let{subscription:C,row:D,costAud:R}=w,P=`${C.id}_${D.yearMonth}`,L=a.monthlyEntries?.[P];b.push({id:L?.id??`entry-${C.id}-${D.yearMonth}`,subscriptionId:C.id,yearMonth:D.yearMonth,isActual:!0,costAud:R,costNative:D.amount,currency:D.currency,xeroId:`xero-row-${D.rowIndex}`,overrideAssumptionKey:null})}for(let w of u){if(!w.assignedSubscriptionId||!w.row.yearMonth)continue;let C=$.find(L=>L.id===w.assignedSubscriptionId);if(!C)continue;let D=v(_,"scenario.fx_rate.aud_usd")&&w.row.currency==="USD"?w.row.amount/v(_,"scenario.fx_rate.aud_usd"):w.row.amount,R=`${C.id}_${w.row.yearMonth}`,P=a.monthlyEntries?.[R];b.push({id:P?.id??`entry-${C.id}-${w.row.yearMonth}`,subscriptionId:C.id,yearMonth:w.row.yearMonth,isActual:!0,costAud:D,costNative:w.row.amount,currency:w.row.currency,xeroId:`xero-row-${w.row.rowIndex}`,overrideAssumptionKey:null})}b.length>0&&e({type:"MONTHLY_ENTRIES_BATCH_UPDATED",payload:b}),t()}function g(b){b.target===b.currentTarget&&t()}let k=l.filter(b=>b.confirmed).length,E=u.filter(b=>b.assignedSubscriptionId&&b.row.yearMonth).length,S=k+E;return nt`
+`).map(r=>r.trimEnd()).filter((r,n)=>n===0||r.trim());if(a.length<2)return[];let e=Ea(a[0]),s={};for(let[r,n]of Object.entries(uo))s[r]=ho(e,n);let o=[];for(let r=1;r<a.length;r++){let n=a[r].trim();if(!n)continue;let p=Ea(n),l=s.contact>=0?(p[s.contact]??"").trim():"",h=s.date>=0?(p[s.date]??"").trim():"",u=s.amount>=0?(p[s.amount]??"").trim():"",c=s.currency>=0&&(p[s.currency]??"AUD").trim().toUpperCase()||"AUD",_=s.description>=0?(p[s.description]??"").trim():"",$=s.account>=0?(p[s.account]??"").trim():"";if(!l)continue;let b=_o(h),d=b?b.slice(0,7):null,f=parseFloat(u.replace(/[,$\s]/g,"")),i=isNaN(f)?0:Math.abs(f);o.push({contact:l,date:b,yearMonth:d,amount:i,currency:c,description:_,account:$,rowIndex:r})}return o}function xe(t){return t.toLowerCase().replace(/[^a-z0-9]/g,"")}function bo(t,a,e){return a==="AUD"?t:a==="USD"&&e?t/e:t}function mo(t){let a=new Map;for(let e of t){let s=`${xe(e.contact)}__${e.yearMonth??"unknown"}`;a.has(s)||a.set(s,{...e,amount:0}),a.get(s).amount+=e.amount}return Array.from(a.values())}function Da(t,a,e,s="2025-07",o="2027-06"){let r=b=>b.yearMonth&&b.yearMonth>=s&&b.yearMonth<=o,n=b=>{let d=parseInt(b.account,10);return isNaN(d)||d>=400},p=b=>r(b)&&n(b),l=t.filter(b=>b.yearMonth&&!p(b)).length,h=mo(t.filter(p)),u=t.filter(b=>!b.yearMonth&&n(b)),c=[],_=[],$=a.filter(b=>b.status!=="archived");for(let b of h){let d=xe(b.contact),f=$.find(i=>{let S=xe(i.vendor);return d.includes(S)||S.includes(d)});f?c.push({row:b,subscription:f,costAud:bo(b.amount,b.currency,e),confirmed:!0}):_.push({row:b,assignedSubscriptionId:null})}for(let b of u)_.push({row:b,assignedSubscriptionId:null});return{matched:c,unmatched:_,skipped:l}}var{html:rt,useState:ge,useRef:fo,useCallback:vo}=window.__WWCT__;function $o(t){if(!t)return"Unknown date";let[a,e]=t.split("-").map(Number);return new Date(a,e-1,1).toLocaleDateString("en-AU",{month:"short",year:"numeric"})}function Oa({onClose:t}){let{workbook:a,dispatch:e}=T(),s=fo(null),[o,r]=ge(null),[n,p]=ge(null),[l,h]=ge([]),[u,c]=ge([]),_=a.assumptions||{},$=Object.values(a.subscriptions||{}).filter(m=>m.status!=="archived"),b=v(_,"scenario.fx_rate.aud_usd"),d=vo(async m=>{let y=m.target.files?.[0];if(y){r(null);try{let C=await y.text(),D=Ia(C);if(D.length===0){r("No transactions found in this CSV. Check the file format.");return}let R=Da(D,$,b);p(R),h(R.matched.map(P=>({...P}))),c(R.unmatched.map(P=>({...P})))}catch(C){r("Failed to parse CSV: "+C.message)}s.current&&(s.current.value="")}},[$,b]);function f(m){h(y=>y.map((C,D)=>D===m?{...C,confirmed:!C.confirmed}:C))}function i(m,y){c(C=>C.map((D,R)=>R===m?{...D,assignedSubscriptionId:y}:D))}function S(){let m=[];for(let y of l){if(!y.confirmed)continue;let{subscription:C,row:D,costAud:R}=y,P=`${C.id}_${D.yearMonth}`,L=a.monthlyEntries?.[P];m.push({id:L?.id??`entry-${C.id}-${D.yearMonth}`,subscriptionId:C.id,yearMonth:D.yearMonth,isActual:!0,costAud:R,costNative:D.amount,currency:D.currency,xeroId:`xero-row-${D.rowIndex}`,overrideAssumptionKey:null})}for(let y of u){if(!y.assignedSubscriptionId||!y.row.yearMonth)continue;let C=$.find(L=>L.id===y.assignedSubscriptionId);if(!C)continue;let D=v(_,"scenario.fx_rate.aud_usd")&&y.row.currency==="USD"?y.row.amount/v(_,"scenario.fx_rate.aud_usd"):y.row.amount,R=`${C.id}_${y.row.yearMonth}`,P=a.monthlyEntries?.[R];m.push({id:P?.id??`entry-${C.id}-${y.row.yearMonth}`,subscriptionId:C.id,yearMonth:y.row.yearMonth,isActual:!0,costAud:D,costNative:y.row.amount,currency:y.row.currency,xeroId:`xero-row-${y.row.rowIndex}`,overrideAssumptionKey:null})}m.length>0&&e({type:"MONTHLY_ENTRIES_BATCH_UPDATED",payload:m}),t()}function g(m){m.target===m.currentTarget&&t()}let k=l.filter(m=>m.confirmed).length,E=u.filter(m=>m.assignedSubscriptionId&&m.row.yearMonth).length,w=k+E;return rt`
     <div
       class="dialog-overlay"
       onClick=${g}
-      onKeyDown=${b=>{b.key==="Escape"&&t()}}
+      onKeyDown=${m=>{m.key==="Escape"&&t()}}
     >
       <div class="dialog xero-import-dialog" role="dialog" aria-modal="true" aria-labelledby="xero-title">
         <div class="xero-import-dialog__header">
@@ -10202,7 +10202,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
           <button class="btn btn--ghost btn--sm" onClick=${t} aria-label="Close">✕</button>
         </div>
 
-        ${!n&&nt`
+        ${!n&&rt`
           <p class="dialog__body">
             Select a Xero sales or expense CSV export. The parser tolerates column reordering and multiple date formats.
           </p>
@@ -10217,24 +10217,24 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
             <button class="btn btn--primary" onClick=${()=>s.current?.click()}>
               Choose CSV file
             </button>
-            ${o&&nt`<p class="field__error" style=${{marginTop:"var(--space-2)"}}>${o}</p>`}
+            ${o&&rt`<p class="field__error" style=${{marginTop:"var(--space-2)"}}>${o}</p>`}
           </div>
         `}
 
-        ${n&&nt`
+        ${n&&rt`
           <div class="xero-import-dialog__results">
 
-            ${n.skipped>0&&nt`
+            ${n.skipped>0&&rt`
               <p class="dialog__body text-muted" style=${{fontSize:"var(--font-size-xs)"}}>
                 ${n.skipped} transaction${n.skipped!==1?"s":""} excluded — outside FY 25/26–FY 26/27 or non-expense account codes (revenue, income).
               </p>
             `}
 
-            ${l.length>0&&nt`
+            ${l.length>0&&rt`
               <section class="xero-import-dialog__section">
                 <h3 class="xero-import-dialog__section-title">
                   Matched transactions
-                  <span class="badge">${l.filter(b=>b.confirmed).length} / ${l.length} confirmed</span>
+                  <span class="badge">${l.filter(m=>m.confirmed).length} / ${l.length} confirmed</span>
                 </h3>
                 <table class="data-table xero-import-dialog__table">
                   <thead>
@@ -10247,20 +10247,20 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
                     </tr>
                   </thead>
                   <tbody>
-                    ${l.map((b,w)=>nt`
-                      <tr key=${w}>
+                    ${l.map((m,y)=>rt`
+                      <tr key=${y}>
                         <td>
                           <input
                             type="checkbox"
-                            checked=${b.confirmed}
-                            onChange=${()=>f(w)}
-                            aria-label=${"Confirm "+b.row.contact}
+                            checked=${m.confirmed}
+                            onChange=${()=>f(y)}
+                            aria-label=${"Confirm "+m.row.contact}
                           />
                         </td>
-                        <td>${b.row.contact}</td>
-                        <td>${b.subscription.vendor} — ${b.subscription.product}</td>
-                        <td>${$o(b.row.yearMonth)}</td>
-                        <td class="text-right">${A.aud(b.costAud)}</td>
+                        <td>${m.row.contact}</td>
+                        <td>${m.subscription.vendor} — ${m.subscription.product}</td>
+                        <td>${$o(m.row.yearMonth)}</td>
+                        <td class="text-right">${A.aud(m.costAud)}</td>
                       </tr>
                     `)}
                   </tbody>
@@ -10268,7 +10268,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
               </section>
             `}
 
-            ${u.length>0&&nt`
+            ${u.length>0&&rt`
               <section class="xero-import-dialog__section">
                 <h3 class="xero-import-dialog__section-title">
                   Unmatched transactions
@@ -10286,21 +10286,21 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
                     </tr>
                   </thead>
                   <tbody>
-                    ${u.map((b,w)=>nt`
-                      <tr key=${w}>
-                        <td>${b.row.contact}</td>
-                        <td>${b.row.date??"Unknown"}</td>
-                        <td class="text-right">${b.row.amount.toFixed(2)}</td>
-                        <td>${b.row.currency}</td>
-                        <td>${b.row.account||"\u2014"}</td>
+                    ${u.map((m,y)=>rt`
+                      <tr key=${y}>
+                        <td>${m.row.contact}</td>
+                        <td>${m.row.date??"Unknown"}</td>
+                        <td class="text-right">${m.row.amount.toFixed(2)}</td>
+                        <td>${m.row.currency}</td>
+                        <td>${m.row.account||"\u2014"}</td>
                         <td>
                           <select
                             class="filter-bar__select"
-                            value=${b.assignedSubscriptionId??""}
-                            onChange=${C=>i(w,C.target.value||null)}
+                            value=${m.assignedSubscriptionId??""}
+                            onChange=${C=>i(y,C.target.value||null)}
                           >
                             <option value="">-- Skip --</option>
-                            ${$.map(C=>nt`
+                            ${$.map(C=>rt`
                               <option key=${C.id} value=${C.id}>${C.vendor} — ${C.product}</option>
                             `)}
                           </select>
@@ -10312,7 +10312,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
               </section>
             `}
 
-            ${l.length===0&&u.length===0&&nt`
+            ${l.length===0&&u.length===0&&rt`
               <p class="empty-state">No transactions found after reconciliation.</p>
             `}
 
@@ -10320,20 +10320,20 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
         `}
 
         <div class="dialog__actions">
-          ${!n&&nt`
+          ${!n&&rt`
             <button class="btn btn--ghost" onClick=${t}>Cancel</button>
           `}
-          ${n&&nt`
+          ${n&&rt`
             <button class="btn btn--ghost" onClick=${t}>Cancel</button>
             <button class="btn btn--ghost btn--sm" onClick=${()=>{p(null),h([]),c([])}}>
               Load different file
             </button>
             <button
               class="btn btn--primary"
-              onClick=${y}
-              disabled=${S===0}
+              onClick=${S}
+              disabled=${w===0}
             >
-              Confirm and import ${S>0?`(${S})`:""}
+              Confirm and import ${w>0?`(${w})`:""}
             </button>
           `}
         </div>
@@ -10343,7 +10343,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
     <td class=${"text-right "+o}>
       ${e>=0?"+":""}${A.pct(e)}
     </td>
-  `}function Ta(){let{workbook:t}=T(),a=t.assumptions||{},e=t.monthlyEntries||{},s=t.scenarios?.[t.activeScenarioId]??null,o=it(t.ieRegister),r=Me(()=>Object.values(t.subscriptions||{}).filter(c=>c.status!=="archived"),[t.subscriptions]),n=Me(()=>r.map(c=>({sub:c,fy2526:Ra(c,ue,a,e,s,o),fy2627:Ra(c,q,a,e,s,o)})),[r,a,e,s,o]),p=Me(()=>{let c=new Map;for(let _ of n){let $=_.sub.category||"Other";c.has($)||c.set($,[]),c.get($).push(_)}return Array.from(c.entries()).map(([_,$])=>{let m=$.reduce((f,i)=>f+i.fy2526,0),d=$.reduce((f,i)=>f+i.fy2627,0);return{category:_,subRows:$,cat2526:m,cat2627:d}}).sort((_,$)=>$.cat2627-_.cat2627)},[n]),l=p.reduce((c,_)=>c+_.cat2526,0),h=p.reduce((c,_)=>c+_.cat2627,0),u=h-l;return r.length===0?Kt`<div class="empty-state">Load a workbook to view the YoY comparison.</div>`:Kt`
+  `}function Ta(){let{workbook:t}=T(),a=t.assumptions||{},e=t.monthlyEntries||{},s=t.scenarios?.[t.activeScenarioId]??null,o=at(t.ieRegister),r=Me(()=>Object.values(t.subscriptions||{}).filter(c=>c.status!=="archived"),[t.subscriptions]),n=Me(()=>r.map(c=>({sub:c,fy2526:Ra(c,ue,a,e,s,o),fy2627:Ra(c,q,a,e,s,o)})),[r,a,e,s,o]),p=Me(()=>{let c=new Map;for(let _ of n){let $=_.sub.category||"Other";c.has($)||c.set($,[]),c.get($).push(_)}return Array.from(c.entries()).map(([_,$])=>{let b=$.reduce((f,i)=>f+i.fy2526,0),d=$.reduce((f,i)=>f+i.fy2627,0);return{category:_,subRows:$,cat2526:b,cat2627:d}}).sort((_,$)=>$.cat2627-_.cat2627)},[n]),l=p.reduce((c,_)=>c+_.cat2526,0),h=p.reduce((c,_)=>c+_.cat2627,0),u=h-l;return r.length===0?Kt`<div class="empty-state">Load a workbook to view the YoY comparison.</div>`:Kt`
     <div class="table-wrapper">
       <table class="data-table yoy-table">
         <thead>
@@ -10356,11 +10356,11 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
           </tr>
         </thead>
         <tbody>
-          ${p.map(({category:c,subRows:_,cat2526:$,cat2627:m})=>Kt`
+          ${p.map(({category:c,subRows:_,cat2526:$,cat2627:b})=>Kt`
             <tr key=${c} class="yoy-table__category-row">
               <td colspan="5" class="yoy-table__category-label">${c}</td>
             </tr>
-            ${_.map(({sub:d,fy2526:f,fy2627:i})=>{let y=i-f;return Kt`
+            ${_.map(({sub:d,fy2526:f,fy2627:i})=>{let S=i-f;return Kt`
                 <tr key=${d.id} class="yoy-table__sub-row">
                   <td class="yoy-table__sub-name">
                     <span class="cost-register__vendor">${d.vendor}</span>
@@ -10368,20 +10368,20 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
                   </td>
                   <td class="text-right">${A.aud(f)}</td>
                   <td class="text-right">${A.aud(i)}</td>
-                  <td class=${"text-right "+(y>0?"yoy-delta--increase":y<0?"yoy-delta--decrease":"")}>
-                    ${y>=0?"+":""}${A.aud(y)}
+                  <td class=${"text-right "+(S>0?"yoy-delta--increase":S<0?"yoy-delta--decrease":"")}>
+                    ${S>=0?"+":""}${A.aud(S)}
                   </td>
-                  <${Ue} delta=${y} base=${f} />
+                  <${Ue} delta=${S} base=${f} />
                 </tr>
               `})}
             <tr key=${c+"-total"} class="yoy-table__cat-total-row">
               <td class="yoy-table__cat-total-label">${c} total</td>
               <td class="text-right">${A.aud($)}</td>
-              <td class="text-right">${A.aud(m)}</td>
-              <td class=${"text-right "+(m-$>0?"yoy-delta--increase":m-$<0?"yoy-delta--decrease":"")}>
-                ${m-$>=0?"+":""}${A.aud(m-$)}
+              <td class="text-right">${A.aud(b)}</td>
+              <td class=${"text-right "+(b-$>0?"yoy-delta--increase":b-$<0?"yoy-delta--decrease":"")}>
+                ${b-$>=0?"+":""}${A.aud(b-$)}
               </td>
-              <${Ue} delta=${m-$} base=${$} />
+              <${Ue} delta=${b-$} base=${$} />
             </tr>
           `)}
         </tbody>
@@ -10398,7 +10398,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
         </tfoot>
       </table>
     </div>
-  `}var{html:H,useMemo:Ne,useState:ft}=window.__WWCT__,yo=[{label:"CH17",key:"cohort.timing.ch17.start_month"},{label:"CH18",key:"cohort.timing.ch18.start_month"},{label:"CH19",key:"cohort.timing.ch19.start_month"},{label:"CH20",key:"cohort.timing.ch20.start_month"},{label:"CH21",key:"cohort.timing.ch21.start_month"},{label:"CH22",key:"cohort.timing.ch22.start_month"}];function Fe(t){return t.replace(/^sub-/,"").replace(/-/g,"_")}function So(t){let[a,e]=t.split("-").map(Number);return new Date(a,e-1,1).toLocaleDateString("en-AU",{month:"short",year:"2-digit"})}function wo(t,a,e,s){if(t.cohort_driven){let n=v(s,t.seat_count_assumption_key,0),p=Xt(a,e,s),l=v(s,t.attribution_assumption_key,1);return n+Math.round(p*l)}if(!t.seat_count_assumption_key)return null;let o=`licences.${Fe(t.id)}.headcount.${a.replace("-","_")}`,r=v(s,o,null);return r!==null?r:v(s,t.seat_count_assumption_key,0)}function ye(){let{workbook:t}=T(),a=t.assumptions||{},e=t.scenarios?.[t.activeScenarioId]??null,s=Ne(()=>Object.values(t.subscriptions||{}).filter(u=>u.status!=="archived"),[t.subscriptions]),[o,r]=ft(null),[n,p]=ft(null),l=Ne(()=>{let u={};for(let c of yo){let _=v(a,c.key,null);_&&(u[_]||(u[_]=[]),u[_].push(c))}return u},[a]),h=Ne(()=>s.map(u=>{let c=St.map(_=>{let $=wo(u,_,e,a),m=`licences.${Fe(u.id)}.headcount.${_.replace("-","_")}`,d=!u.cohort_driven&&!!z(a,m);return{yearMonth:_,count:$,isOverride:d}});return{sub:u,cells:c}}),[s,a,e]);return s.length===0?H`
+  `}var{html:H,useMemo:Ne,useState:ft}=window.__WWCT__,yo=[{label:"CH17",key:"cohort.timing.ch17.start_month"},{label:"CH18",key:"cohort.timing.ch18.start_month"},{label:"CH19",key:"cohort.timing.ch19.start_month"},{label:"CH20",key:"cohort.timing.ch20.start_month"},{label:"CH21",key:"cohort.timing.ch21.start_month"},{label:"CH22",key:"cohort.timing.ch22.start_month"}];function Fe(t){return t.replace(/^sub-/,"").replace(/-/g,"_")}function So(t){let[a,e]=t.split("-").map(Number);return new Date(a,e-1,1).toLocaleDateString("en-AU",{month:"short",year:"2-digit"})}function wo(t,a,e,s){if(t.cohort_driven){let n=v(s,t.seat_count_assumption_key,0),p=Xt(a,e,s),l=v(s,t.attribution_assumption_key,1);return n+Math.round(p*l)}if(!t.seat_count_assumption_key)return null;let o=`licences.${Fe(t.id)}.headcount.${a.replace("-","_")}`,r=v(s,o,null);return r!==null?r:v(s,t.seat_count_assumption_key,0)}function ye(){let{workbook:t}=T(),a=t.assumptions||{},e=t.scenarios?.[t.activeScenarioId]??null,s=Ne(()=>Object.values(t.subscriptions||{}).filter(u=>u.status!=="archived"),[t.subscriptions]),[o,r]=ft(null),[n,p]=ft(null),l=Ne(()=>{let u={};for(let c of yo){let _=v(a,c.key,null);_&&(u[_]||(u[_]=[]),u[_].push(c))}return u},[a]),h=Ne(()=>s.map(u=>{let c=St.map(_=>{let $=wo(u,_,e,a),b=`licences.${Fe(u.id)}.headcount.${_.replace("-","_")}`,d=!u.cohort_driven&&!!z(a,b);return{yearMonth:_,count:$,isOverride:d}});return{sub:u,cells:c}}),[s,a,e]);return s.length===0?H`
       <div class="page-header">
         <h1 class="page-header__title">Licence forecast</h1>
       </div>
@@ -10455,14 +10455,14 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
                     <span class="badge" style=${{marginTop:"2px",display:"inline-block"}}>Cohort</span>
                   `}
                 </td>
-                ${c.map((_,$)=>{let m=_.count===null,d=!u.cohort_driven&&!m;return H`
+                ${c.map((_,$)=>{let b=_.count===null,d=!u.cohort_driven&&!b;return H`
                     <td
                       key=${$}
                       class=${"licence-forecast__cell"+(u.cohort_driven?" licence-forecast__cell--cohort":"")+(_.isOverride?" licence-forecast__cell--override":"")+(d?" licence-forecast__cell--editable":"")}
                       onClick=${d?()=>p({sub:u,yearMonth:_.yearMonth}):void 0}
-                      title=${m?"Bundle \u2014 no per-seat count":u.cohort_driven?"Cohort-derived seat count":_.isOverride?"Manual override \u2014 click to edit":"Click to override"}
+                      title=${b?"Bundle \u2014 no per-seat count":u.cohort_driven?"Cohort-derived seat count":_.isOverride?"Manual override \u2014 click to edit":"Click to override"}
                     >
-                      ${m?H`<span class="text-muted">—</span>`:_.count}
+                      ${b?H`<span class="text-muted">—</span>`:_.count}
                     </td>
                   `})}
               </tr>
@@ -10484,8 +10484,8 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
         />
       `}
     </div>
-  `}function ko({cohortDef:t,onClose:a}){let{workbook:e,dispatch:s}=T(),o=e.assumptions||{},r=v(o,t.key,""),[n,p]=ft(r),[l,h]=ft(""),[u,c]=ft(""),[_,$]=ft({});function m(f){f.target===f.currentTarget&&a()}function d(f){f.preventDefault();let i={};if(n.match(/^\d{4}-\d{2}$/)||(i.newMonth="Enter a valid YYYY-MM date (e.g. 2026-09)"),l.trim()||(i.rationale="Rationale is required"),u.trim()||(i.source="Source is required"),Object.keys(i).length){$(i);return}let y=Q({key:t.key,label:`${t.label} cohort \u2014 billing start month`,value:n,unit:"YYYY-MM",category:"Scenario input",rationale:l.trim(),source:u.trim(),confidence:"medium"}),g=X(y,{rationale:l.trim(),source:u.trim()}),k=J(o,g);s(k?{type:"ASSUMPTION_SUPERSEDED",payload:k}:{type:"ASSUMPTION_PROPOSED",payload:g}),a()}return H`
-    <div class="dialog-overlay" onClick=${m}>
+  `}function ko({cohortDef:t,onClose:a}){let{workbook:e,dispatch:s}=T(),o=e.assumptions||{},r=v(o,t.key,""),[n,p]=ft(r),[l,h]=ft(""),[u,c]=ft(""),[_,$]=ft({});function b(f){f.target===f.currentTarget&&a()}function d(f){f.preventDefault();let i={};if(n.match(/^\d{4}-\d{2}$/)||(i.newMonth="Enter a valid YYYY-MM date (e.g. 2026-09)"),l.trim()||(i.rationale="Rationale is required"),u.trim()||(i.source="Source is required"),Object.keys(i).length){$(i);return}let S=Q({key:t.key,label:`${t.label} cohort \u2014 billing start month`,value:n,unit:"YYYY-MM",category:"Scenario input",rationale:l.trim(),source:u.trim(),confidence:"medium"}),g=X(S,{rationale:l.trim(),source:u.trim()}),k=J(o,g);s(k?{type:"ASSUMPTION_SUPERSEDED",payload:k}:{type:"ASSUMPTION_PROPOSED",payload:g}),a()}return H`
+    <div class="dialog-overlay" onClick=${b}>
       <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="cohort-edit-title">
         <h2 class="dialog__title" id="cohort-edit-title">Edit ${t.label} start month</h2>
         <p class="dialog__body">
@@ -10543,8 +10543,8 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
         </form>
       </div>
     </div>
-  `}function Ao({sub:t,yearMonth:a,onClose:e}){let{workbook:s,dispatch:o}=T(),r=s.assumptions||{},p=`licences.${Fe(t.id)}.headcount.${a.replace("-","_")}`,l=v(r,p,null)??v(r,t.seat_count_assumption_key,0),[h,u]=ft(String(l)),[c,_]=ft(""),[$,m]=ft(""),[d,f]=ft({}),i=(()=>{let[k,E]=a.split("-").map(Number);return new Date(k,E-1,1).toLocaleDateString("en-AU",{month:"long",year:"numeric"})})();function y(k){k.target===k.currentTarget&&e()}function g(k){k.preventDefault();let E=parseInt(h,10),S={};if((isNaN(E)||E<0)&&(S.count="Enter a valid seat count (0 or more)"),c.trim()||(S.rationale="Rationale is required"),$.trim()||(S.source="Source is required"),Object.keys(S).length){f(S);return}let b=Q({key:p,label:`${t.vendor} ${t.product} \u2014 licence count override for ${i}`,value:E,unit:"seats",category:"Licence count",rationale:c.trim(),source:$.trim(),confidence:"high",applies_to:[t.id]}),w=X(b,{rationale:c.trim(),source:$.trim()}),C=J(r,w);o(C?{type:"ASSUMPTION_SUPERSEDED",payload:C}:{type:"ASSUMPTION_PROPOSED",payload:w}),e()}return H`
-    <div class="dialog-overlay" onClick=${y}>
+  `}function Ao({sub:t,yearMonth:a,onClose:e}){let{workbook:s,dispatch:o}=T(),r=s.assumptions||{},p=`licences.${Fe(t.id)}.headcount.${a.replace("-","_")}`,l=v(r,p,null)??v(r,t.seat_count_assumption_key,0),[h,u]=ft(String(l)),[c,_]=ft(""),[$,b]=ft(""),[d,f]=ft({}),i=(()=>{let[k,E]=a.split("-").map(Number);return new Date(k,E-1,1).toLocaleDateString("en-AU",{month:"long",year:"numeric"})})();function S(k){k.target===k.currentTarget&&e()}function g(k){k.preventDefault();let E=parseInt(h,10),w={};if((isNaN(E)||E<0)&&(w.count="Enter a valid seat count (0 or more)"),c.trim()||(w.rationale="Rationale is required"),$.trim()||(w.source="Source is required"),Object.keys(w).length){f(w);return}let m=Q({key:p,label:`${t.vendor} ${t.product} \u2014 licence count override for ${i}`,value:E,unit:"seats",category:"Licence count",rationale:c.trim(),source:$.trim(),confidence:"high",applies_to:[t.id]}),y=X(m,{rationale:c.trim(),source:$.trim()}),C=J(r,y);o(C?{type:"ASSUMPTION_SUPERSEDED",payload:C}:{type:"ASSUMPTION_PROPOSED",payload:y}),e()}return H`
+    <div class="dialog-overlay" onClick=${S}>
       <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="licence-override-title">
         <h2 class="dialog__title" id="licence-override-title">Override licence count — ${i}</h2>
         <p class="dialog__body">
@@ -10591,7 +10591,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
               class="field__input"
               placeholder="e.g. Operations meeting 2026-05-13, vendor invoice"
               value=${$}
-              onInput=${k=>{m(k.target.value),f(E=>({...E,source:""}))}}
+              onInput=${k=>{b(k.target.value),f(E=>({...E,source:""}))}}
             />
             ${d.source&&H`<span class="field__error">${d.source}</span>`}
           </div>
@@ -10612,7 +10612,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
         onClick=${e}
         title="Overridden — click to re-override"
       >
-        ${t.assumptionKey?V`<${Nt} assumptionKey=${t.assumptionKey} passive=${!0}><span>${A.aud(t.value)}</span><//>`:V`<span>${A.aud(t.value??0)}</span>`}
+        ${t.assumptionKey?V`<${Ut} assumptionKey=${t.assumptionKey} passive=${!0}><span>${A.aud(t.value)}</span><//>`:V`<span>${A.aud(t.value??0)}</span>`}
       </td>
     `:V`
     <td
@@ -10620,9 +10620,9 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
       onClick=${e}
       title=${Eo(t)}
     >
-      ${t.assumptionKey?V`<${Nt} assumptionKey=${t.assumptionKey} passive=${!0}><span>${A.aud(t.value)}</span><//>`:V`<span>${A.aud(t.value??0)}</span>`}
+      ${t.assumptionKey?V`<${Ut} assumptionKey=${t.assumptionKey} passive=${!0}><span>${A.aud(t.value)}</span><//>`:V`<span>${A.aud(t.value??0)}</span>`}
     </td>
-  `}function Pa(){let{workbook:t}=T(),a=Le(()=>Object.values(t.subscriptions||{}).filter(g=>g.status!=="archived"),[t.subscriptions]),e=t.assumptions||{},s=t.monthlyEntries||{},[o,r]=Jt(null),[n,p]=Jt(null),[l,h]=Jt(null),[u,c]=Jt(!1),[_,$]=Jt("grid"),m=t.scenarios?.[t.activeScenarioId]??null,d=it(t.ieRegister),f=Le(()=>a.map(g=>{let k=St.map(S=>{let b=`${g.id}_${S}`,w=s[b];if(w?.isActual)return{isActual:!0,isOverride:!1,value:w.costAud,yearMonth:S};if(w?.overrideAssumptionKey){let L=v(e,w.overrideAssumptionKey);if(L!==null)return{isActual:!1,isOverride:!0,value:L,yearMonth:S,assumptionKey:w.overrideAssumptionKey}}let{value:C,nativeValue:D,nativeCurrency:R,primaryAssumptionKey:P}=Y(g,S,e,m,d);return{isActual:!1,isOverride:!1,value:C,yearMonth:S,assumptionKey:P,nativeValue:D,nativeCurrency:R}}),E=k.reduce((S,b)=>S+(b.value??0),0);return{sub:g,cells:k,total:E}}),[a,e,s,m,d]),i=Le(()=>St.map((g,k)=>f.reduce((E,S)=>E+(S.cells[k].value??0),0)),[f]),y=i.reduce((g,k)=>g+k,0);return a.length===0?V`
+  `}function Pa(){let{workbook:t}=T(),a=Le(()=>Object.values(t.subscriptions||{}).filter(g=>g.status!=="archived"),[t.subscriptions]),e=t.assumptions||{},s=t.monthlyEntries||{},[o,r]=Jt(null),[n,p]=Jt(null),[l,h]=Jt(null),[u,c]=Jt(!1),[_,$]=Jt("grid"),b=t.scenarios?.[t.activeScenarioId]??null,d=at(t.ieRegister),f=Le(()=>a.map(g=>{let k=St.map(w=>{let m=`${g.id}_${w}`,y=s[m];if(y?.isActual)return{isActual:!0,isOverride:!1,value:y.costAud,yearMonth:w};if(y?.overrideAssumptionKey){let L=v(e,y.overrideAssumptionKey);if(L!==null)return{isActual:!1,isOverride:!0,value:L,yearMonth:w,assumptionKey:y.overrideAssumptionKey}}let{value:C,nativeValue:D,nativeCurrency:R,primaryAssumptionKey:P}=Y(g,w,e,b,d);return{isActual:!1,isOverride:!1,value:C,yearMonth:w,assumptionKey:P,nativeValue:D,nativeCurrency:R}}),E=k.reduce((w,m)=>w+(m.value??0),0);return{sub:g,cells:k,total:E}}),[a,e,s,b,d]),i=Le(()=>St.map((g,k)=>f.reduce((E,w)=>E+(w.cells[k].value??0),0)),[f]),S=i.reduce((g,k)=>g+k,0);return a.length===0?V`
       <div class="page-header">
         <h1 class="page-header__title">Cost register</h1>
       </div>
@@ -10683,11 +10683,11 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
                   <div class="cost-register__vendor">${g.vendor}</div>
                   <div class="cost-register__product">${g.product}</div>
                 </td>
-                ${k.map((S,b)=>V`
+                ${k.map((w,m)=>V`
                   <${Io}
-                    key=${b}
-                    cell=${S}
-                    onOverrideClick=${(w,C)=>{S.isActual||p({sub:g,yearMonth:S.yearMonth,primaryAssumptionKey:S.assumptionKey??null,currentValue:S.value,anchorX:w,anchorY:C})}}
+                    key=${m}
+                    cell=${w}
+                    onOverrideClick=${(y,C)=>{w.isActual||p({sub:g,yearMonth:w.yearMonth,primaryAssumptionKey:w.assumptionKey??null,currentValue:w.value,anchorX:y,anchorY:C})}}
                   />
                 `)}
                 <td class="cost-register__cell cost-register__total-cell">${A.aud(E)}</td>
@@ -10700,7 +10700,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
               ${i.map((g,k)=>V`
                 <td key=${k} class="cost-register__cell cost-register__total-cell">${A.aud(g)}</td>
               `)}
-              <td class="cost-register__cell cost-register__total-cell">${A.aud(y)}</td>
+              <td class="cost-register__cell cost-register__total-cell">${A.aud(S)}</td>
             </tr>
           </tfoot>
         </table>
@@ -10984,7 +10984,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
         `)}
       </div>
     </section>
-  `}function Ua(){let{workbook:t,dispatch:a}=T(),e=t.assumptions||{},s=t.scenarios?.[t.activeScenarioId]?.label??"None",o=xa(()=>it(t.ieRegister),[t.ieRegister]),r=xa(()=>Yt(e,o),[e,o]);return K`
+  `}function Ua(){let{workbook:t,dispatch:a}=T(),e=t.assumptions||{},s=t.scenarios?.[t.activeScenarioId]?.label??"None",o=xa(()=>at(t.ieRegister),[t.ieRegister]),r=xa(()=>Wt(e,o),[e,o]);return K`
     <div class="scenarios-page">
       <div class="page-header">
         <h1 class="page-header__title">Recruitment</h1>
@@ -11036,7 +11036,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
         ${a?"Selected \u2713":"Select"}
       </button>
     </div>
-  `}function Na(){let{workbook:t,dispatch:a}=T(),e=t.assumptions||{},s=t.scenarios?.[t.activeScenarioId]??null,o=t.subscriptions||{},r=Math.round(v(e,"hubspot.discount_rate",.4)*100),[n,p]=No(r),l=v(e,"hubspot.selected_architecture","F"),h=Uo(()=>be(e,s,n/100),[e,s,n]);function u(c){let _=Fo(c);if(z(e,"hubspot.selected_architecture")){let m=J(e,_);a(m?{type:"ASSUMPTION_SUPERSEDED",payload:m}:{type:"ASSUMPTION_PROPOSED",payload:_})}else a({type:"ASSUMPTION_PROPOSED",payload:_})}return Object.keys(o).length===0?vt`
+  `}function Na(){let{workbook:t,dispatch:a}=T(),e=t.assumptions||{},s=t.scenarios?.[t.activeScenarioId]??null,o=t.subscriptions||{},r=Math.round(v(e,"hubspot.discount_rate",.4)*100),[n,p]=No(r),l=v(e,"hubspot.selected_architecture","F"),h=Uo(()=>be(e,s,n/100),[e,s,n]);function u(c){let _=Fo(c);if(z(e,"hubspot.selected_architecture")){let b=J(e,_);a(b?{type:"ASSUMPTION_SUPERSEDED",payload:b}:{type:"ASSUMPTION_PROPOSED",payload:_})}else a({type:"ASSUMPTION_PROPOSED",payload:_})}return Object.keys(o).length===0?vt`
       <div class="page-header">
         <h1 class="page-header__title">HubSpot architectures</h1>
       </div>
@@ -11135,8 +11135,8 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
           </select>
           ${a.statusLog?.length>0&&j`
             <div class="renewals__status-log">
-              ${a.statusLog.slice(-3).reverse().map(($,m)=>j`
-                <span key=${m} class="renewals__log-entry">
+              ${a.statusLog.slice(-3).reverse().map(($,b)=>j`
+                <span key=${b} class="renewals__log-entry">
                   → ${$.status} · ${A.date($.changedAt)} · ${$.author}
                 </span>
               `)}
@@ -11166,12 +11166,12 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
         <${Xo} onAdd=${o} />
       </div>
     </div>
-  `}function Qo({item:t,record:a,expanded:e,onToggle:s,onStatusChange:o,onNotesSave:r,onDocAdd:n,onDocRemove:p}){let{sub:l,days:h,annualCost:u,discount:c,expectedNewPricing:_,deadline:$,isHubSpot:m}=t,d=Fa(h),f=["renewals__row",d?`renewals__row--${d}`:"",m?"renewals__row--highlight":""].filter(Boolean).join(" ");return j`
+  `}function Qo({item:t,record:a,expanded:e,onToggle:s,onStatusChange:o,onNotesSave:r,onDocAdd:n,onDocRemove:p}){let{sub:l,days:h,annualCost:u,discount:c,expectedNewPricing:_,deadline:$,isHubSpot:b}=t,d=Fa(h),f=["renewals__row",d?`renewals__row--${d}`:"",b?"renewals__row--highlight":""].filter(Boolean).join(" ");return j`
     <tr class=${f}>
       <td class="renewals__sub-cell">
         <div class="renewals__vendor">${l.vendor}</div>
         <div class="renewals__product">${l.product}</div>
-        ${m&&j`<span class="renewals__material-badge">Key renewal</span>`}
+        ${b&&j`<span class="renewals__material-badge">Key renewal</span>`}
       </td>
       <td class="renewals__date-cell">
         ${A.date(l.renewal_date)}
@@ -11212,7 +11212,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
         </td>
       </tr>
     `}
-  `}function La(){let{workbook:t,dispatch:a}=T(),e=t.assumptions||{},s=t.scenarios?.[t.activeScenarioId]??null,o=t.renewals||{},r=it(t.ieRegister),[n,p]=Bt(null),l=Wo(()=>{let m=new Date;m.setHours(0,0,0,0);let d=m.toISOString().slice(0,10),f=new Date(m);f.setDate(f.getDate()+365);let i=f.toISOString().slice(0,10);return Object.values(t.subscriptions||{}).filter(y=>y.status!=="archived"&&y.renewal_date&&y.renewal_date>=d&&y.renewal_date<=i).map(y=>{let g=y.id==="sub-hubspot"||y.vendor==="HubSpot";return{sub:y,days:Yo(y.renewal_date),annualCost:Ho(y,e,s,r),discount:g?v(e,"hubspot.discount_rate",.4):null,expectedNewPricing:y.id==="sub-hubspot"?v(e,"subscription.hubspot.renewal_monthly_aud",1101.6)*12:null,deadline:Ko(y.renewal_date),isHubSpot:g}}).sort((y,g)=>y.sub.renewal_date.localeCompare(g.sub.renewal_date))},[t.subscriptions,e,s]);function h(m){return o[m]||Bo(m)}function u(m,d){let f=h(m),i={status:d,changedAt:new Date().toISOString(),author:M()||"Unknown"};a({type:"RENEWAL_UPSERTED",payload:{...f,status:d,statusLog:[...f.statusLog||[],i]}})}function c(m,d){let f=h(m);a({type:"RENEWAL_UPSERTED",payload:{...f,notes:d}})}function _(m,{label:d,url:f}){let i={id:crypto.randomUUID(),label:d,url:f,attached_at:new Date().toISOString(),attached_by:M()||"Unknown"};a({type:"RENEWAL_DOCUMENT_ADDED",payload:{subId:m,doc:i}})}function $(m,d){a({type:"RENEWAL_DOCUMENT_REMOVED",payload:{subId:m,docId:d}})}return Object.keys(t.subscriptions||{}).length===0?j`
+  `}function La(){let{workbook:t,dispatch:a}=T(),e=t.assumptions||{},s=t.scenarios?.[t.activeScenarioId]??null,o=t.renewals||{},r=at(t.ieRegister),[n,p]=Bt(null),l=Wo(()=>{let b=new Date;b.setHours(0,0,0,0);let d=b.toISOString().slice(0,10),f=new Date(b);f.setDate(f.getDate()+365);let i=f.toISOString().slice(0,10);return Object.values(t.subscriptions||{}).filter(S=>S.status!=="archived"&&S.renewal_date&&S.renewal_date>=d&&S.renewal_date<=i).map(S=>{let g=S.id==="sub-hubspot"||S.vendor==="HubSpot";return{sub:S,days:Yo(S.renewal_date),annualCost:Ho(S,e,s,r),discount:g?v(e,"hubspot.discount_rate",.4):null,expectedNewPricing:S.id==="sub-hubspot"?v(e,"subscription.hubspot.renewal_monthly_aud",1101.6)*12:null,deadline:Ko(S.renewal_date),isHubSpot:g}}).sort((S,g)=>S.sub.renewal_date.localeCompare(g.sub.renewal_date))},[t.subscriptions,e,s]);function h(b){return o[b]||Bo(b)}function u(b,d){let f=h(b),i={status:d,changedAt:new Date().toISOString(),author:M()||"Unknown"};a({type:"RENEWAL_UPSERTED",payload:{...f,status:d,statusLog:[...f.statusLog||[],i]}})}function c(b,d){let f=h(b);a({type:"RENEWAL_UPSERTED",payload:{...f,notes:d}})}function _(b,{label:d,url:f}){let i={id:crypto.randomUUID(),label:d,url:f,attached_at:new Date().toISOString(),attached_by:M()||"Unknown"};a({type:"RENEWAL_DOCUMENT_ADDED",payload:{subId:b,doc:i}})}function $(b,d){a({type:"RENEWAL_DOCUMENT_REMOVED",payload:{subId:b,docId:d}})}return Object.keys(t.subscriptions||{}).length===0?j`
       <div class="page-header">
         <h1 class="page-header__title">Renewals</h1>
       </div>
@@ -11245,23 +11245,23 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
           </tr>
         </thead>
         <tbody>
-          ${l.map(m=>j`
+          ${l.map(b=>j`
             <${Qo}
-              key=${m.sub.id}
-              item=${m}
-              record=${h(m.sub.id)}
-              expanded=${n===m.sub.id}
-              onToggle=${()=>p(d=>d===m.sub.id?null:m.sub.id)}
-              onStatusChange=${d=>u(m.sub.id,d)}
-              onNotesSave=${d=>c(m.sub.id,d)}
-              onDocAdd=${({label:d,url:f})=>_(m.sub.id,{label:d,url:f})}
-              onDocRemove=${d=>$(m.sub.id,d)}
+              key=${b.sub.id}
+              item=${b}
+              record=${h(b.sub.id)}
+              expanded=${n===b.sub.id}
+              onToggle=${()=>p(d=>d===b.sub.id?null:b.sub.id)}
+              onStatusChange=${d=>u(b.sub.id,d)}
+              onNotesSave=${d=>c(b.sub.id,d)}
+              onDocAdd=${({label:d,url:f})=>_(b.sub.id,{label:d,url:f})}
+              onDocRemove=${d=>$(b.sub.id,d)}
             />
           `)}
         </tbody>
       </table>
     </div>
-  `}var{html:U,useMemo:Ft,useState:Va,useEffect:Jo}=window.__WWCT__,Zo=["Sales & Marketing","Productivity & IT","Collaboration & Docs","Training & Development","Infrastructure"],Wa=[{id:"scenario-minimum-viable",label:"Minimum Viable",cls:"min"},{id:"scenario-primary-target",label:"Primary Target",cls:"primary"},{id:"scenario-optimal-maximum",label:"Optimal Maximum",cls:"max"}];function tn(t){let[a,e]=t.split("-").map(Number);return new Date(a,e-1,1).toLocaleDateString("en-AU",{month:"short",year:"2-digit"})}function en(t,a,e,s,o,r){let n=0;for(let p of a){let l=Et(r,p);for(let h of t){let u=e[`${h.id}_${p}`];u?.isActual&&u?.costAud!=null?n+=u.costAud:n+=Y(h,p,s,o,l).value??0}}return n}function an(t,a){return t.filter(e=>e.cohort_driven&&e.unit_cost_assumption_key&&e.attribution_assumption_key).reduce((e,s)=>{let o=v(a,s.unit_cost_assumption_key,0),r=v(a,s.attribution_assumption_key,0),n="scenario.fx_rate.aud_"+(s.currency||"aud").toLowerCase(),p=s.currency==="AUD"?1:v(a,n,1),l=s.currency==="AUD"?o:o/p;return e+l*r},0)}function sn(t,a,e,s,o){let r={};for(let p of t){let l=0;for(let u of q){let c=a[`${p.id}_${u}`];if(c?.isActual&&c?.costAud!=null)l+=c.costAud;else{let _=Et(o,u);l+=Y(p,u,e,s,_).value??0}}let h=p.category||"Other";r[h]||(r[h]={total:0,vendors:new Set}),r[h].total+=l,r[h].vendors.add(p.vendor)}let n=Object.values(r).reduce((p,l)=>p+l.total,0);return Zo.map(p=>{let l=r[p]||{total:0,vendors:new Set};return{category:p,vendors:[...l.vendors].sort(),total:l.total,pct:n>0?l.total/n*100:0}}).sort((p,l)=>l.pct-p.pct)}function on(t){let a=JSON.stringify(t),e=0;for(let s=0;s<a.length;s++)e=Math.imul(31,e)+a.charCodeAt(s)|0;return Math.abs(e).toString(16).padStart(8,"0").slice(0,8)}function nn({activeScenarioId:t,onSwitch:a}){return U`
+  `}var{html:U,useMemo:Nt,useState:Va,useEffect:Jo}=window.__WWCT__,Zo=["Sales & Marketing","Productivity & IT","Collaboration & Docs","Training & Development","Infrastructure"],Wa=[{id:"scenario-minimum-viable",label:"Minimum Viable",cls:"min"},{id:"scenario-primary-target",label:"Primary Target",cls:"primary"},{id:"scenario-optimal-maximum",label:"Optimal Maximum",cls:"max"}];function tn(t){let[a,e]=t.split("-").map(Number);return new Date(a,e-1,1).toLocaleDateString("en-AU",{month:"short",year:"2-digit"})}function en(t,a,e,s,o,r){let n=0;for(let p of a){let l=Mt(r,p);for(let h of t){let u=e[`${h.id}_${p}`];u?.isActual&&u?.costAud!=null?n+=u.costAud:n+=Y(h,p,s,o,l).value??0}}return n}function an(t,a){return t.filter(e=>e.cohort_driven&&e.unit_cost_assumption_key&&e.attribution_assumption_key).reduce((e,s)=>{let o=v(a,s.unit_cost_assumption_key,0),r=v(a,s.attribution_assumption_key,0),n="scenario.fx_rate.aud_"+(s.currency||"aud").toLowerCase(),p=s.currency==="AUD"?1:v(a,n,1),l=s.currency==="AUD"?o:o/p;return e+l*r},0)}function sn(t,a,e,s,o){let r={};for(let p of t){let l=0;for(let u of q){let c=a[`${p.id}_${u}`];if(c?.isActual&&c?.costAud!=null)l+=c.costAud;else{let _=Mt(o,u);l+=Y(p,u,e,s,_).value??0}}let h=p.category||"Other";r[h]||(r[h]={total:0,vendors:new Set}),r[h].total+=l,r[h].vendors.add(p.vendor)}let n=Object.values(r).reduce((p,l)=>p+l.total,0);return Zo.map(p=>{let l=r[p]||{total:0,vendors:new Set};return{category:p,vendors:[...l.vendors].sort(),total:l.total,pct:n>0?l.total/n*100:0}}).sort((p,l)=>l.pct-p.pct)}function on(t){let a=JSON.stringify(t),e=0;for(let s=0;s<a.length;s++)e=Math.imul(31,e)+a.charCodeAt(s)|0;return Math.abs(e).toString(16).padStart(8,"0").slice(0,8)}function nn({activeScenarioId:t,onSwitch:a}){return U`
     <div class="dashboard__scene-sel">
       <span class="dashboard__scene-sel-label">Scenario</span>
       <div class="dashboard__scene-sel-btns">
@@ -11300,7 +11300,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
         `}
       </div>
     </div>
-  `}function ln({subs:t,monthlyEntries:a,assumptions:e,scenario:s,target:o,ieRegister:r,intakeSchedule:n}){let p=Ft(()=>{let h=Object.keys(r).length>0,u=n&&n.length>0,c=v(e,"forecast.model.target.fy26",22),_=s?.id?.replace("scenario-","").replace(/-/g,"_")??"primary_target",$=v(e,`scenario.${_}.ies_per_cohort`,10),m=Xt("2026-06",s,e),d=Math.max(0,c-m),f=t.filter(y=>y.cohort_driven),i=t.filter(y=>!y.cohort_driven);return q.map(y=>{let g=Et(r,y),k=d+Xt(y,s,e),E=u?Ut(y,c,$,n):null,S=h?g??k:u?E:k,b=h?g:u?S:null,w=f.reduce((D,R)=>{let P=a[`${R.id}_${y}`];return P?.isActual&&P?.costAud!=null?D+P.costAud:D+(Y(R,y,e,s,b).value??0)},0),C=i.reduce((D,R)=>{let P=a[`${R.id}_${y}`];return P?.isActual&&P?.costAud!=null?D+P.costAud:D+(Y(R,y,e,s,null).value??0)},0);return{ym:y,ieCount:S,ieCost:w,platformCost:C,total:w+C}})},[t,a,e,s,o,r]),l=p.reduce((h,u)=>h+u.total,0);return U`
+  `}function ln({subs:t,monthlyEntries:a,assumptions:e,scenario:s,target:o,ieRegister:r,intakeSchedule:n}){let p=Nt(()=>{let h=Object.keys(r).length>0,u=n&&n.length>0,c=v(e,"forecast.model.target.fy26",22),_=s?.id?.replace("scenario-","").replace(/-/g,"_")??"primary_target",$=v(e,`scenario.${_}.ies_per_cohort`,10),b=Xt("2026-06",s,e),d=Math.max(0,c-b),f=t.filter(S=>S.cohort_driven),i=t.filter(S=>!S.cohort_driven);return q.map(S=>{let g=Mt(r,S),k=d+Xt(S,s,e),E=u?Yt(S,c,$,n):null,w=h?g??k:u?E:k,m=h?g:u?w:null,y=f.reduce((D,R)=>{let P=a[`${R.id}_${S}`];return P?.isActual&&P?.costAud!=null?D+P.costAud:D+(Y(R,S,e,s,m).value??0)},0),C=i.reduce((D,R)=>{let P=a[`${R.id}_${S}`];return P?.isActual&&P?.costAud!=null?D+P.costAud:D+(Y(R,S,e,s,null).value??0)},0);return{ym:S,ieCount:w,ieCost:y,platformCost:C,total:y+C}})},[t,a,e,s,o,r]),l=p.reduce((h,u)=>h+u.total,0);return U`
     <section class="panel dashboard__fy-table-panel">
       <div class="dashboard__fy-table-header">
         <h2 class="panel__title">FY 26/27 — Recruitment &amp; Cost</h2>
@@ -11362,7 +11362,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
         </table>
       </div>
     </section>
-  `}function Ya(){let{workbook:t,dispatch:a}=T(),e=t.assumptions||{},s=t.monthlyEntries||{},o=t.scenarios||{},r=t.activeScenarioId,n=o[r]??null,p=Ft(()=>Object.values(t.subscriptions||{}).filter(b=>b.status!=="archived"),[t.subscriptions]),l=t.ieRegister||{},h=t.intakeSchedule||[],u=Ft(()=>en(p,q,s,e,n,l),[p,s,e,n,l]),c=Ft(()=>an(p,e),[p,e]),_=v(e,"forecast.model.target.fy27",60),$=Wa.find(b=>b.id===r)?.label??"Primary Target",m=Ft(()=>Object.values(t.ieRegister||{}).filter(b=>b.active!==!1&&b.training).length,[t.ieRegister]),d=Ft(()=>sn(p,s,e,n,l),[p,s,e,n,l]),f=Ft(()=>Object.values(e).filter(b=>b.status==="Resolved").sort((b,w)=>(b.category||"").localeCompare(w.category||"")||(b.label||"").localeCompare(w.label||"")),[e]),[i,y]=Va("print-with-footnotes"),[g,k]=Va(null);Jo(()=>{let b=()=>{["print-numbers-only","print-with-footnotes","print-full-provenance"].forEach(w=>document.body.classList.remove(w))};return window.addEventListener("afterprint",b),()=>window.removeEventListener("afterprint",b)},[]);let E=()=>{let b=new Date().toISOString(),w=M()||"Unknown",C=t.activeScenarioId||"\u2014",D=on(t),R={id:crypto.randomUUID(),timestamp:b,user:w,mode:i,scenario_id:C};k({timestamp:b,user:w,scenarioId:C,versionHash:D,mode:i}),a({type:"EXPORT_LOG_APPENDED",payload:R}),requestAnimationFrame(()=>ia(i))},S=b=>a({type:"SCENARIO_SWITCHED",payload:b});return p.length===0?U`
+  `}function Ya(){let{workbook:t,dispatch:a}=T(),e=t.assumptions||{},s=t.monthlyEntries||{},o=t.scenarios||{},r=t.activeScenarioId,n=o[r]??null,p=Nt(()=>Object.values(t.subscriptions||{}).filter(m=>m.status!=="archived"),[t.subscriptions]),l=t.ieRegister||{},h=t.intakeSchedule||[],u=Nt(()=>en(p,q,s,e,n,l),[p,s,e,n,l]),c=Nt(()=>an(p,e),[p,e]),_=v(e,"forecast.model.target.fy27",60),$=Wa.find(m=>m.id===r)?.label??"Primary Target",b=Nt(()=>Object.values(t.ieRegister||{}).filter(m=>m.active!==!1&&m.training).length,[t.ieRegister]),d=Nt(()=>sn(p,s,e,n,l),[p,s,e,n,l]),f=Nt(()=>Object.values(e).filter(m=>m.status==="Resolved").sort((m,y)=>(m.category||"").localeCompare(y.category||"")||(m.label||"").localeCompare(y.label||"")),[e]),[i,S]=Va("print-with-footnotes"),[g,k]=Va(null);Jo(()=>{let m=()=>{["print-numbers-only","print-with-footnotes","print-full-provenance"].forEach(y=>document.body.classList.remove(y))};return window.addEventListener("afterprint",m),()=>window.removeEventListener("afterprint",m)},[]);let E=()=>{let m=new Date().toISOString(),y=M()||"Unknown",C=t.activeScenarioId||"\u2014",D=on(t),R={id:crypto.randomUUID(),timestamp:m,user:y,mode:i,scenario_id:C};k({timestamp:m,user:y,scenarioId:C,versionHash:D,mode:i}),a({type:"EXPORT_LOG_APPENDED",payload:R}),requestAnimationFrame(()=>ia(i))},w=m=>a({type:"SCENARIO_SWITCHED",payload:m});return p.length===0?U`
       <div class="page-header"><h1 class="page-header__title">Dashboard</h1></div>
       <div class="empty-state">Load a workbook to view the dashboard.</div>
     `:U`
@@ -11371,12 +11371,12 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
       <div class="dashboard__print-controls">
         <span class="dashboard__print-mode-label">Print mode</span>
         <div class="dashboard__print-mode-btns">
-          ${[{mode:"print-numbers-only",label:"Numbers only"},{mode:"print-with-footnotes",label:"With footnotes"},{mode:"print-full-provenance",label:"Full provenance"}].map(({mode:b,label:w})=>U`
+          ${[{mode:"print-numbers-only",label:"Numbers only"},{mode:"print-with-footnotes",label:"With footnotes"},{mode:"print-full-provenance",label:"Full provenance"}].map(({mode:m,label:y})=>U`
             <button
-              key=${b}
-              class=${"dashboard__print-mode-btn"+(i===b?" dashboard__print-mode-btn--active":"")}
-              onClick=${()=>y(b)}
-            >${w}</button>
+              key=${m}
+              class=${"dashboard__print-mode-btn"+(i===m?" dashboard__print-mode-btn--active":"")}
+              onClick=${()=>S(m)}
+            >${y}</button>
           `)}
         </div>
         <button class="btn btn--outline dashboard__print-btn" onClick=${E}>
@@ -11393,14 +11393,14 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
         <span class="dashboard__print-header-date">${new Date().toLocaleDateString("en-AU",{year:"numeric",month:"long",day:"numeric"})}</span>
       </div>
 
-      <${nn} activeScenarioId=${r} onSwitch=${S} />
+      <${nn} activeScenarioId=${r} onSwitch=${w} />
 
       <${rn}
         total=${u}
         scenarioLabel=${$}
         perIECost=${c}
         fy27Target=${_}
-        registeredActive=${m}
+        registeredActive=${b}
       />
 
       <${ln}
@@ -11416,14 +11416,14 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
       <div class="panel dashboard__category-panel">
         <h2 class="panel__title">Category Breakdown — FY 26/27</h2>
         <div class="dashboard__category-rows">
-          ${d.map(b=>{let w=b.vendors.length>0?`${b.category} (${b.vendors.join(", ")})`:b.category;return U`
-              <div key=${b.category} class=${"dashboard__category-row"+(b.total===0?" dashboard__category-row--empty":"")}>
-                <span class="dashboard__category-label" title=${w}>${w}</span>
+          ${d.map(m=>{let y=m.vendors.length>0?`${m.category} (${m.vendors.join(", ")})`:m.category;return U`
+              <div key=${m.category} class=${"dashboard__category-row"+(m.total===0?" dashboard__category-row--empty":"")}>
+                <span class="dashboard__category-label" title=${y}>${y}</span>
                 <span class="dashboard__category-bar-wrap">
-                  <span class="dashboard__category-bar" style=${{width:b.pct.toFixed(1)+"%"}}></span>
+                  <span class="dashboard__category-bar" style=${{width:m.pct.toFixed(1)+"%"}}></span>
                 </span>
-                <span class="dashboard__category-pct">${b.pct.toFixed(1)}%</span>
-                <span class="dashboard__category-amount">${A.aud(b.total)}</span>
+                <span class="dashboard__category-pct">${m.pct.toFixed(1)}%</span>
+                <span class="dashboard__category-amount">${A.aud(m.total)}</span>
               </div>
             `})}
         </div>
@@ -11441,18 +11441,18 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
                 <span class="dashboard__print-fn-cell">Decided</span>
                 <span class="dashboard__print-fn-cell dashboard__print-fn-cell--wide">Rationale</span>
               </div>
-              ${f.map((b,w)=>U`
-                <div key=${b.id} class="dashboard__print-fn-row">
-                  <span class="dashboard__print-fn-cell dashboard__print-fn-cell--num">${w+1}</span>
+              ${f.map((m,y)=>U`
+                <div key=${m.id} class="dashboard__print-fn-row">
+                  <span class="dashboard__print-fn-cell dashboard__print-fn-cell--num">${y+1}</span>
                   <span class="dashboard__print-fn-cell">
-                    <span class="dashboard__print-fn-label">${b.label}</span>
-                    ${b.category?U`<span class="dashboard__print-fn-cat">${b.category}</span>`:""}
+                    <span class="dashboard__print-fn-label">${m.label}</span>
+                    ${m.category?U`<span class="dashboard__print-fn-cat">${m.category}</span>`:""}
                   </span>
                   <span class="dashboard__print-fn-cell">
-                    ${b.value}${b.unit?U` <span class="dashboard__print-fn-unit">${b.unit}</span>`:""}
+                    ${m.value}${m.unit?U` <span class="dashboard__print-fn-unit">${m.unit}</span>`:""}
                   </span>
-                  <span class="dashboard__print-fn-cell">${A.date(b.decided_on)}</span>
-                  <span class="dashboard__print-fn-cell dashboard__print-fn-cell--wide">${b.rationale||"\u2014"}</span>
+                  <span class="dashboard__print-fn-cell">${A.date(m.decided_on)}</span>
+                  <span class="dashboard__print-fn-cell dashboard__print-fn-cell--wide">${m.rationale||"\u2014"}</span>
                 </div>
               `)}
             </div>
@@ -11461,25 +11461,25 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
 
       <div class="dashboard__print-appendix">
         <div class="dashboard__print-section-title">Assumption appendix — full provenance</div>
-        ${f.length===0?U`<p class="dashboard__print-empty">No resolved assumptions in this workbook.</p>`:f.map(b=>U`
-            <div key=${b.id} class="dashboard__print-appendix-entry">
+        ${f.length===0?U`<p class="dashboard__print-empty">No resolved assumptions in this workbook.</p>`:f.map(m=>U`
+            <div key=${m.id} class="dashboard__print-appendix-entry">
               <div class="dashboard__print-appendix-header">
-                <span class="dashboard__print-appendix-label">${b.label}</span>
-                <span class="dashboard__print-appendix-key">${b.key}</span>
+                <span class="dashboard__print-appendix-label">${m.label}</span>
+                <span class="dashboard__print-appendix-key">${m.key}</span>
               </div>
               <table class="dashboard__print-appendix-table">
                 <tbody>
-                  <tr><td>Value</td><td>${b.value}${b.unit?" "+b.unit:""}</td></tr>
-                  <tr><td>Category</td><td>${b.category||"\u2014"}</td></tr>
-                  <tr><td>Author</td><td>${b.author||"\u2014"}</td></tr>
-                  <tr><td>Decided on</td><td>${A.date(b.decided_on)}</td></tr>
-                  <tr><td>Source</td><td>${b.source||"\u2014"}</td></tr>
-                  <tr><td>Rationale</td><td>${b.rationale||"\u2014"}</td></tr>
-                  <tr><td>Confidence</td><td>${b.confidence||"\u2014"}</td></tr>
-                  <tr><td>Effective from</td><td>${b.effective_from||"\u2014"}</td></tr>
-                  <tr><td>Effective to</td><td>${b.effective_to||"\u2014"}</td></tr>
-                  <tr><td>Applies to</td><td>${Array.isArray(b.applies_to)&&b.applies_to.length?b.applies_to.join(", "):"\u2014"}</td></tr>
-                  ${b.supersedes?U`<tr><td>Supersedes</td><td>${b.supersedes}</td></tr>`:""}
+                  <tr><td>Value</td><td>${m.value}${m.unit?" "+m.unit:""}</td></tr>
+                  <tr><td>Category</td><td>${m.category||"\u2014"}</td></tr>
+                  <tr><td>Author</td><td>${m.author||"\u2014"}</td></tr>
+                  <tr><td>Decided on</td><td>${A.date(m.decided_on)}</td></tr>
+                  <tr><td>Source</td><td>${m.source||"\u2014"}</td></tr>
+                  <tr><td>Rationale</td><td>${m.rationale||"\u2014"}</td></tr>
+                  <tr><td>Confidence</td><td>${m.confidence||"\u2014"}</td></tr>
+                  <tr><td>Effective from</td><td>${m.effective_from||"\u2014"}</td></tr>
+                  <tr><td>Effective to</td><td>${m.effective_to||"\u2014"}</td></tr>
+                  <tr><td>Applies to</td><td>${Array.isArray(m.applies_to)&&m.applies_to.length?m.applies_to.join(", "):"\u2014"}</td></tr>
+                  ${m.supersedes?U`<tr><td>Supersedes</td><td>${m.supersedes}</td></tr>`:""}
                 </tbody>
               </table>
             </div>
@@ -11512,7 +11512,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
         ${r&&tt`<span class="ie-intake__field-unit">${r}</span>`}
       </div>
     </div>
-  `}var Ka=["2026-07","2026-08","2026-09","2026-10","2026-11","2026-12","2027-01","2027-02","2027-03","2027-04","2027-05","2027-06"],un=["Jul","Aug","Sep","Oct","Nov","Dec","Jan","Feb","Mar","Apr","May","Jun"],pn=["26","26","26","26","26","26","27","27","27","27","27","27"];function _n({schedule:t,baseline:a,iesPerCohort:e,target:s,dispatch:o}){function r(u){let c=t.includes(u)?t.filter(_=>_!==u):[...t,u].sort();o({type:"INTAKE_SCHEDULE_UPDATED",payload:c})}function n(){o({type:"INTAKE_SCHEDULE_UPDATED",payload:[]})}let p=Ka.map(u=>Ut(u,a,e,t)??a),l=p[11],h=s>0?Math.min(l/s*100,100):0;return tt`
+  `}var Ka=["2026-07","2026-08","2026-09","2026-10","2026-11","2026-12","2027-01","2027-02","2027-03","2027-04","2027-05","2027-06"],un=["Jul","Aug","Sep","Oct","Nov","Dec","Jan","Feb","Mar","Apr","May","Jun"],pn=["26","26","26","26","26","26","27","27","27","27","27","27"];function _n({schedule:t,baseline:a,iesPerCohort:e,target:s,dispatch:o}){function r(u){let c=t.includes(u)?t.filter(_=>_!==u):[...t,u].sort();o({type:"INTAKE_SCHEDULE_UPDATED",payload:c})}function n(){o({type:"INTAKE_SCHEDULE_UPDATED",payload:[]})}let p=Ka.map(u=>Yt(u,a,e,t)??a),l=p[11],h=s>0?Math.min(l/s*100,100):0;return tt`
     <section class="panel intake-cal__panel">
       <div class="intake-cal__header">
         <div>
@@ -11532,7 +11532,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
       </div>
 
       <div class="intake-cal__grid">
-        ${Ka.map((u,c)=>{let _=t.includes(u),$=p[c],m=t.includes(u)?e:0;return tt`
+        ${Ka.map((u,c)=>{let _=t.includes(u),$=p[c],b=t.includes(u)?e:0;return tt`
             <div key=${u} class="intake-cal__month-wrap">
               <button
                 class=${"intake-cal__month-btn"+(_?" intake-cal__month-btn--on":"")}
@@ -11702,7 +11702,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
           `})}
       </div>
     </section>
-  `}function Ba(){let{workbook:t,dispatch:a}=T(),e=t.assumptions||{},s=t.intakeSchedule||[],o=Ha(()=>it(t.ieRegister),[t.ieRegister]),r=Ha(()=>Yt(e,o),[e,o]),n=v(e,"forecast.model.target.fy27",60),p=o!==null?o:v(e,"forecast.model.target.fy26",22),l=(t.activeScenarioId||"scenario-primary-target").replace("scenario-","").replace(/-/g,"_"),h=v(e,`scenario.${l}.ies_per_cohort`,10),u=v(e,"forecast.model.region_weight.apac",.333),c=v(e,"forecast.model.region_weight.americas",.333),_=v(e,"forecast.model.region_weight.emea",.334),$=Math.round((u+c+_)*1e3)/10,m=Math.abs($-100)<.2;return tt`
+  `}function Ba(){let{workbook:t,dispatch:a}=T(),e=t.assumptions||{},s=t.intakeSchedule||[],o=Ha(()=>at(t.ieRegister),[t.ieRegister]),r=Ha(()=>Wt(e,o),[e,o]),n=v(e,"forecast.model.target.fy27",60),p=o!==null?o:v(e,"forecast.model.target.fy26",22),l=(t.activeScenarioId||"scenario-primary-target").replace("scenario-","").replace(/-/g,"_"),h=v(e,`scenario.${l}.ies_per_cohort`,10),u=v(e,"forecast.model.region_weight.apac",.333),c=v(e,"forecast.model.region_weight.americas",.333),_=v(e,"forecast.model.region_weight.emea",.334),$=Math.round((u+c+_)*1e3)/10,b=Math.abs($-100)<.2;return tt`
     <div class="ie-intake-page">
       <div class="page-header">
         <h1 class="page-header__title">IE Intake</h1>
@@ -11719,7 +11719,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
 
       <${hn} assumptions=${e} dispatch=${a} ieCount=${o} />
 
-      ${!m&&tt`
+      ${!b&&tt`
         <div class="banner banner--warn" role="alert">
           Regional weights sum to ${$}% — must equal 100%.
         </div>
@@ -11741,7 +11741,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
 
       <${fn} model=${r} />
     </div>
-  `}var{html:Cl,useMemo:El,useState:Il}=window.__WWCT__;var{html:N,useMemo:Se,useState:$t,useCallback:qa}=window.__WWCT__;function vn(t,a){let e=v(a,t.unit_cost_assumption_key,0);if(!t.currency||t.currency==="AUD")return e;let s="scenario.fx_rate.aud_"+t.currency.toLowerCase(),o=v(a,s,1);return o>0?e/o:e}function ja(t,a){let e=vn(t,a),s=v(a,t.attribution_assumption_key,0);return e*s}function we(t){return t?new Date(t).toLocaleDateString("en-AU",{day:"numeric",month:"short",year:"numeric"}):"\u2014"}function Ga(t){return t?t==="annual"?"Annual":"Monthly":"\u2014"}function $n(t,a){let e=Object.values(t).find(s=>s.key===a);return e?.status==="Pending"||e?.status==="pending"}function gn(){return"sub-"+Math.random().toString(36).slice(2,10)}function yn({sub:t,assumptions:a,dispatch:e,onClose:s}){let o=t.attribution_assumption_key,r=v(a,o,0),n=Math.round(r*1e3)/10,[p,l]=$t(String(n)),[h,u]=$t(""),[c,_]=$t(""),[$,m]=$t({});function d(i){i.target===i.currentTarget&&s()}function f(i){i.preventDefault();let y=parseFloat(p),g={};if((isNaN(y)||y<0||y>100)&&(g.pct="Enter a percentage between 0 and 100"),h.trim()||(g.rationale="Rationale is required"),c.trim()||(g.source="Source is required"),Object.keys(g).length){m(g);return}let k=y/100,E=Object.values(a).find(S=>S.key===o);if(E)e({type:"ASSUMPTION_UPDATED",payload:{...E,value:k,status:O.RESOLVED,rationale:h.trim(),source:c.trim(),decided_on:new Date().toISOString()}});else{let S=Q({key:o,label:`${t.vendor} ${t.product} \u2014 IE attribution rate`,value:k,unit:"proportion",category:"Subscription costing",rationale:h.trim(),source:c.trim(),confidence:"medium"});e({type:"ASSUMPTION_PROPOSED",payload:X(S,{rationale:h.trim(),source:c.trim()})})}s()}return N`
+  `}var{html:Cl,useMemo:El,useState:Il}=window.__WWCT__;var{html:N,useMemo:Se,useState:$t,useCallback:qa}=window.__WWCT__;function vn(t,a){let e=v(a,t.unit_cost_assumption_key,0);if(!t.currency||t.currency==="AUD")return e;let s="scenario.fx_rate.aud_"+t.currency.toLowerCase(),o=v(a,s,1);return o>0?e/o:e}function ja(t,a){let e=vn(t,a),s=v(a,t.attribution_assumption_key,0);return e*s}function we(t){return t?new Date(t).toLocaleDateString("en-AU",{day:"numeric",month:"short",year:"numeric"}):"\u2014"}function Ga(t){return t?t==="annual"?"Annual":"Monthly":"\u2014"}function $n(t,a){let e=Object.values(t).find(s=>s.key===a);return e?.status==="Pending"||e?.status==="pending"}function gn(){return"sub-"+Math.random().toString(36).slice(2,10)}function yn({sub:t,assumptions:a,dispatch:e,onClose:s}){let o=t.attribution_assumption_key,r=v(a,o,0),n=Math.round(r*1e3)/10,[p,l]=$t(String(n)),[h,u]=$t(""),[c,_]=$t(""),[$,b]=$t({});function d(i){i.target===i.currentTarget&&s()}function f(i){i.preventDefault();let S=parseFloat(p),g={};if((isNaN(S)||S<0||S>100)&&(g.pct="Enter a percentage between 0 and 100"),h.trim()||(g.rationale="Rationale is required"),c.trim()||(g.source="Source is required"),Object.keys(g).length){b(g);return}let k=S/100,E=Object.values(a).find(w=>w.key===o);if(E)e({type:"ASSUMPTION_UPDATED",payload:{...E,value:k,status:O.RESOLVED,rationale:h.trim(),source:c.trim(),decided_on:new Date().toISOString()}});else{let w=Q({key:o,label:`${t.vendor} ${t.product} \u2014 IE attribution rate`,value:k,unit:"proportion",category:"Subscription costing",rationale:h.trim(),source:c.trim(),confidence:"medium"});e({type:"ASSUMPTION_PROPOSED",payload:X(w,{rationale:h.trim(),source:c.trim()})})}s()}return N`
     <div class="dialog-overlay" onClick=${d}>
       <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="attr-edit-title">
         <h2 class="dialog__title" id="attr-edit-title">Edit attribution — ${t.vendor} ${t.product}</h2>
@@ -11750,19 +11750,19 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
           <div class="field" style=${{marginBottom:"var(--space-3)"}}>
             <label class="field__label" for="attr-pct">Attribution rate (%) <span class="field__required">*</span></label>
             <input id="attr-pct" type="number" min="0" max="100" step="0.1" class="field__input"
-              value=${p} onInput=${i=>{l(i.target.value),m(y=>({...y,pct:""}))}} autoFocus />
+              value=${p} onInput=${i=>{l(i.target.value),b(S=>({...S,pct:""}))}} autoFocus />
             ${$.pct&&N`<span class="field__error">${$.pct}</span>`}
           </div>
           <div class="field" style=${{marginBottom:"var(--space-3)"}}>
             <label class="field__label" for="attr-rationale">Rationale <span class="field__required">*</span></label>
             <textarea id="attr-rationale" class="field__input" rows="3" placeholder="Why is this the right attribution rate?"
-              value=${h} onInput=${i=>{u(i.target.value),m(y=>({...y,rationale:""}))}}></textarea>
+              value=${h} onInput=${i=>{u(i.target.value),b(S=>({...S,rationale:""}))}}></textarea>
             ${$.rationale&&N`<span class="field__error">${$.rationale}</span>`}
           </div>
           <div class="field" style=${{marginBottom:"var(--space-4)"}}>
             <label class="field__label" for="attr-source">Source <span class="field__required">*</span></label>
             <input id="attr-source" type="text" class="field__input" placeholder="e.g. Ops meeting 2026-05-20 (Niel Malan)"
-              value=${c} onInput=${i=>{_(i.target.value),m(y=>({...y,source:""}))}} />
+              value=${c} onInput=${i=>{_(i.target.value),b(S=>({...S,source:""}))}} />
             ${$.source&&N`<span class="field__error">${$.source}</span>`}
           </div>
           <div class="dialog__actions">
@@ -11772,7 +11772,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
         </form>
       </div>
     </div>
-  `}var Sn={vendor:"",product:"",category:"Productivity & IT",currency:"AUD",unit_cost:"",billing_cycle:"monthly",renewal_date:"",end_date:"",cohort_driven:!1,status:"active",attribution_pct:"0",attribution_rationale:"",attribution_source:""};function Xa({existing:t,defaultCohort:a,assumptions:e,dispatch:s,onClose:o}){let r=!t,[n,p]=$t(()=>r?{...Sn,cohort_driven:a}:{vendor:t.vendor||"",product:t.product||"",category:t.category||"Productivity & IT",currency:t.currency||"AUD",unit_cost:t.unit_cost_assumption_key?String(v(e,t.unit_cost_assumption_key,"")):"",billing_cycle:t.billing_cycle||"monthly",renewal_date:t.renewal_date||"",end_date:t.end_date||"",cohort_driven:!!t.cohort_driven,status:t.status||"active",attribution_pct:t.attribution_assumption_key?String(Math.round(v(e,t.attribution_assumption_key,0)*1e3)/10):"0",attribution_rationale:"",attribution_source:""}),[l,h]=$t({});function u(d,f){p(i=>({...i,[d]:f})),h(i=>({...i,[d]:""}))}function c(){let d={};n.vendor.trim()||(d.vendor="Required"),n.product.trim()||(d.product="Required");let f=parseFloat(n.unit_cost);if(n.unit_cost!==""&&(isNaN(f)||f<0)&&(d.unit_cost="Enter a valid number"),n.cohort_driven){let i=parseFloat(n.attribution_pct);(isNaN(i)||i<0||i>100)&&(d.attribution_pct="0\u2013100"),(r||n.attribution_pct!==String(Math.round(v(e,t?.attribution_assumption_key,0)*1e3)/10))&&(n.cohort_driven&&!n.attribution_rationale.trim()&&(d.attribution_rationale="Required"),n.cohort_driven&&!n.attribution_source.trim()&&(d.attribution_source="Required"))}return d}function _(d){d.preventDefault();let f=c();if(Object.keys(f).length){h(f);return}let i=t?.id||gn(),y=`subscription.${i.replace("sub-","")}.unit_cost`,g=`subscription.${i.replace("sub-","")}.attribution_rate`,k=n.unit_cost!==""?parseFloat(n.unit_cost):null,E={...t||{},id:i,vendor:n.vendor.trim(),product:n.product.trim(),category:n.category,currency:n.currency,cohort_driven:n.cohort_driven,billing_cycle:n.billing_cycle||null,renewal_date:n.renewal_date||null,end_date:n.end_date||null,status:n.status,unit_cost_assumption_key:k!==null?t?.unit_cost_assumption_key||y:t?.unit_cost_assumption_key||null,attribution_assumption_key:n.cohort_driven?t?.attribution_assumption_key||g:null},S=null;if(k!==null){let b=E.unit_cost_assumption_key,w=Object.values(e).find(C=>C.key===b);w?S={...w,value:k,status:O.RESOLVED,decided_on:new Date().toISOString()}:S={id:"a-"+i.replace("sub-","")+"-cost",key:b,label:`${n.vendor.trim()} ${n.product.trim()} \u2014 unit cost`,value:k,unit:n.currency+"/month",category:"Subscription costing",status:O.RESOLVED,author:"Angelus",decided_on:new Date().toISOString(),rationale:"Set on subscription creation",source:"Manual entry",confidence:"medium",supersedes:null,superseded_by:null}}if(s({type:"SUBSCRIPTION_SAVED",payload:{subscription:E,costAssumption:S}}),n.cohort_driven&&n.attribution_rationale.trim()){let b=E.attribution_assumption_key,w=parseFloat(n.attribution_pct)/100,C=Object.values(e).find(D=>D.key===b);if(C)s({type:"ASSUMPTION_UPDATED",payload:{...C,value:w,status:O.RESOLVED,rationale:n.attribution_rationale.trim(),source:n.attribution_source.trim(),decided_on:new Date().toISOString()}});else{let D=Q({key:b,label:`${n.vendor.trim()} ${n.product.trim()} \u2014 IE attribution rate`,value:w,unit:"proportion",category:"Subscription costing",rationale:n.attribution_rationale.trim(),source:n.attribution_source.trim(),confidence:"medium"});s({type:"ASSUMPTION_PROPOSED",payload:X(D,{rationale:n.attribution_rationale.trim(),source:n.attribution_source.trim()})})}}o()}function $(d){d.target===d.currentTarget&&o()}let m=n.cohort_driven;return N`
+  `}var Sn={vendor:"",product:"",category:"Productivity & IT",currency:"AUD",unit_cost:"",billing_cycle:"monthly",renewal_date:"",end_date:"",cohort_driven:!1,status:"active",attribution_pct:"0",attribution_rationale:"",attribution_source:""};function Xa({existing:t,defaultCohort:a,assumptions:e,dispatch:s,onClose:o}){let r=!t,[n,p]=$t(()=>r?{...Sn,cohort_driven:a}:{vendor:t.vendor||"",product:t.product||"",category:t.category||"Productivity & IT",currency:t.currency||"AUD",unit_cost:t.unit_cost_assumption_key?String(v(e,t.unit_cost_assumption_key,"")):"",billing_cycle:t.billing_cycle||"monthly",renewal_date:t.renewal_date||"",end_date:t.end_date||"",cohort_driven:!!t.cohort_driven,status:t.status||"active",attribution_pct:t.attribution_assumption_key?String(Math.round(v(e,t.attribution_assumption_key,0)*1e3)/10):"0",attribution_rationale:"",attribution_source:""}),[l,h]=$t({});function u(d,f){p(i=>({...i,[d]:f})),h(i=>({...i,[d]:""}))}function c(){let d={};n.vendor.trim()||(d.vendor="Required"),n.product.trim()||(d.product="Required");let f=parseFloat(n.unit_cost);if(n.unit_cost!==""&&(isNaN(f)||f<0)&&(d.unit_cost="Enter a valid number"),n.cohort_driven){let i=parseFloat(n.attribution_pct);(isNaN(i)||i<0||i>100)&&(d.attribution_pct="0\u2013100"),(r||n.attribution_pct!==String(Math.round(v(e,t?.attribution_assumption_key,0)*1e3)/10))&&(n.cohort_driven&&!n.attribution_rationale.trim()&&(d.attribution_rationale="Required"),n.cohort_driven&&!n.attribution_source.trim()&&(d.attribution_source="Required"))}return d}function _(d){d.preventDefault();let f=c();if(Object.keys(f).length){h(f);return}let i=t?.id||gn(),S=`subscription.${i.replace("sub-","")}.unit_cost`,g=`subscription.${i.replace("sub-","")}.attribution_rate`,k=n.unit_cost!==""?parseFloat(n.unit_cost):null,E={...t||{},id:i,vendor:n.vendor.trim(),product:n.product.trim(),category:n.category,currency:n.currency,cohort_driven:n.cohort_driven,billing_cycle:n.billing_cycle||null,renewal_date:n.renewal_date||null,end_date:n.end_date||null,status:n.status,unit_cost_assumption_key:k!==null?t?.unit_cost_assumption_key||S:t?.unit_cost_assumption_key||null,attribution_assumption_key:n.cohort_driven?t?.attribution_assumption_key||g:null},w=null;if(k!==null){let m=E.unit_cost_assumption_key,y=Object.values(e).find(C=>C.key===m);y?w={...y,value:k,status:O.RESOLVED,decided_on:new Date().toISOString()}:w={id:"a-"+i.replace("sub-","")+"-cost",key:m,label:`${n.vendor.trim()} ${n.product.trim()} \u2014 unit cost`,value:k,unit:n.currency+"/month",category:"Subscription costing",status:O.RESOLVED,author:"Angelus",decided_on:new Date().toISOString(),rationale:"Set on subscription creation",source:"Manual entry",confidence:"medium",supersedes:null,superseded_by:null}}if(s({type:"SUBSCRIPTION_SAVED",payload:{subscription:E,costAssumption:w}}),n.cohort_driven&&n.attribution_rationale.trim()){let m=E.attribution_assumption_key,y=parseFloat(n.attribution_pct)/100,C=Object.values(e).find(D=>D.key===m);if(C)s({type:"ASSUMPTION_UPDATED",payload:{...C,value:y,status:O.RESOLVED,rationale:n.attribution_rationale.trim(),source:n.attribution_source.trim(),decided_on:new Date().toISOString()}});else{let D=Q({key:m,label:`${n.vendor.trim()} ${n.product.trim()} \u2014 IE attribution rate`,value:y,unit:"proportion",category:"Subscription costing",rationale:n.attribution_rationale.trim(),source:n.attribution_source.trim(),confidence:"medium"});s({type:"ASSUMPTION_PROPOSED",payload:X(D,{rationale:n.attribution_rationale.trim(),source:n.attribution_source.trim()})})}}o()}function $(d){d.target===d.currentTarget&&o()}let b=n.cohort_driven;return N`
     <div class="dialog-overlay" onClick=${$}>
       <div class="dialog dialog--wide" role="dialog" aria-modal="true" aria-labelledby="sub-edit-title">
         <h2 class="dialog__title" id="sub-edit-title">${r?"Add subscription":"Edit subscription"}</h2>
@@ -11856,7 +11856,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
             </div>
           </div>
 
-          ${m&&N`
+          ${b&&N`
             <div class="sub-edit__attr-section">
               <div class="field">
                 <label class="field__label" for="se-attr-pct">Attribution rate (% of IEs)</label>
@@ -11908,7 +11908,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
         </div>
       </div>
     </div>
-  `}function Ve(){let{workbook:t,dispatch:a}=T(),e=t.assumptions||{},[s,o]=$t(null),[r,n]=$t(null),[p,l]=$t(null),[h,u]=$t(null),c=Se(()=>Object.values(t.subscriptions||{}).filter(i=>i.status!=="archived"),[t.subscriptions]),_=Se(()=>c.filter(i=>i.cohort_driven),[c]),$=Se(()=>c.filter(i=>!i.cohort_driven),[c]),m=Se(()=>_.reduce((i,y)=>i+ja(y,e),0),[_,e]),d=qa(i=>{a({type:"SUBSCRIPTION_SAVED",payload:{subscription:{...i,cohort_driven:!1}}})},[a]),f=qa(i=>{a({type:"SUBSCRIPTION_SAVED",payload:{subscription:{...i,cohort_driven:!0}}})},[a]);return c.length===0?N`
+  `}function Ve(){let{workbook:t,dispatch:a}=T(),e=t.assumptions||{},[s,o]=$t(null),[r,n]=$t(null),[p,l]=$t(null),[h,u]=$t(null),c=Se(()=>Object.values(t.subscriptions||{}).filter(i=>i.status!=="archived"),[t.subscriptions]),_=Se(()=>c.filter(i=>i.cohort_driven),[c]),$=Se(()=>c.filter(i=>!i.cohort_driven),[c]),b=Se(()=>_.reduce((i,S)=>i+ja(S,e),0),[_,e]),d=qa(i=>{a({type:"SUBSCRIPTION_SAVED",payload:{subscription:{...i,cohort_driven:!1}}})},[a]),f=qa(i=>{a({type:"SUBSCRIPTION_SAVED",payload:{subscription:{...i,cohort_driven:!0}}})},[a]);return c.length===0?N`
       <div class="page-header"><h1 class="page-header__title">Subscriptions</h1></div>
       <div class="empty-state">Load a workbook to view subscriptions.</div>
     `:N`
@@ -11942,7 +11942,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
               </tr>
             </thead>
             <tbody>
-              ${_.map(i=>{let y=v(e,i.attribution_assumption_key,0),g=Math.round(y*1e3)/10,k=ja(i,e),E=$n(e,i.attribution_assumption_key);return N`
+              ${_.map(i=>{let S=v(e,i.attribution_assumption_key,0),g=Math.round(S*1e3)/10,k=ja(i,e),E=$n(e,i.attribution_assumption_key);return N`
                   <tr key=${i.id} class="subscriptions__row">
                     <td class="subscriptions__vendor">${i.vendor}</td>
                     <td class="subscriptions__product">
@@ -11950,7 +11950,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
                       ${E&&N`<span class="badge badge--pending" style=${{marginLeft:"6px"}}>Pending</span>`}
                     </td>
                     <td>
-                      ${i.unit_cost_assumption_key?N`<${Nt} assumptionKey=${i.unit_cost_assumption_key}>
+                      ${i.unit_cost_assumption_key?N`<${Ut} assumptionKey=${i.unit_cost_assumption_key}>
                             <span>${v(e,i.unit_cost_assumption_key,"\u2014")}</span>
                           <//>`:"\u2014"}
                     </td>
@@ -11977,7 +11977,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
             <tfoot>
               <tr class="subscriptions__total-row">
                 <td colspan="8" class="subscriptions__total-label">Cost per additional IE / month</td>
-                <td class="subscriptions__total-value">${A.aud(m)}</td>
+                <td class="subscriptions__total-value">${A.aud(b)}</td>
                 <td></td>
               </tr>
             </tfoot>
@@ -12012,7 +12012,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
                   <td>${i.vendor}</td>
                   <td>${i.product}</td>
                   <td>
-                    ${i.unit_cost_assumption_key?N`<${Nt} assumptionKey=${i.unit_cost_assumption_key}>
+                    ${i.unit_cost_assumption_key?N`<${Ut} assumptionKey=${i.unit_cost_assumption_key}>
                           <span>${v(e,i.unit_cost_assumption_key,"\u2014")}</span>
                         <//>`:"\u2014"}
                   </td>
@@ -12046,7 +12046,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
         <${wn} sub=${h} dispatch=${a} onClose=${()=>u(null)} />
       `}
     </div>
-  `}var{html:at,useMemo:ke,useState:kn}=window.__WWCT__,za={basic:{id:"basic",label:"Basic",description:"M365 Basic only \u2014 no Copilot, no HubSpot cohort seat, no Miro",attrOverrides:{},includeSubs:["sub-m365-basic"]},standard:{id:"standard",label:"Standard",description:"M365 Standard + Copilot \xB7 HubSpot core seat (1 per IE) \xB7 Miro standard",attrOverrides:{"subscription.m365_standard_ie.attribution_rate":1,"subscription.copilot_ie.attribution_rate":1,"subscription.miro.attribution_rate":1,"subscription.hubspot_core.attribution_rate":1},includeSubs:["sub-m365-standard-cohort","sub-copilot-cohort","sub-miro","sub-hubspot-cohort"]}};function An(t,a){let e={...t};for(let[s,o]of Object.entries(a)){let r=Object.values(e).find(n=>n.key===s);if(r)e[r.id]={...r,value:o};else{let n="model-"+s.replace(/\./g,"-");e[n]={id:n,key:s,value:o}}}return e}function Cn(t){let[a,e]=t.split("-").map(Number);return new Date(a,e-1,1).toLocaleDateString("en-AU",{month:"short",year:"2-digit"})}function Qa(t){if(!t)return new Date().toISOString().slice(0,10);let a=new Date(t+"T00:00:00");return a.setMonth(a.getMonth()+1),a.setDate(1),a.toISOString().slice(0,10)}function En(t,a,e,s){return{id:crypto.randomUUID(),key:_t(t),label:`${a} \u2014 active status`,value:e,unit:"",category:"Governance",rationale:`${e==="not_active"?"Paused":"Reactivated"} via Forecast view.`,source:"Forecast view toggle",confidence:"high",status:O.RESOLVED,author:M()||"Unknown",decided_on:new Date().toISOString(),effective_from:s||new Date().toISOString().slice(0,10),effective_to:null,applies_to:[t],tags:["active-status"],supersedes:null,superseded_by:null}}function In({cohortSubs:t,monthlyEntries:a,assumptions:e,primaryScenario:s,ieRegister:o,intakeSchedule:r}){let[n,p]=kn("basic"),l=za[n],{rows:h,annual:u,subBreakdown:c}=ke(()=>{let _=An(e,l.attrOverrides),$=t.filter(S=>l.includeSubs.includes(S.id)&&S.status!=="archived"),m=v(e,"forecast.model.target.fy26",22),d=(s?.id||"scenario-primary-target").replace("scenario-","").replace(/-/g,"_"),f=v(e,`scenario.${d}.ies_per_cohort`,10),i=r&&r.length>0,y=null,g=q.map(S=>{let b=Et(o,S),w=i?Ut(S,m,f,r):null,C=b??w,D=r.includes(S)?f:null,R=$.reduce((L,ht)=>{let rt=a[`${ht.id}_${S}`];return rt?.isActual&&rt?.costAud!=null?L+rt.costAud:L+(Y(ht,S,_,s,C).value??0)},0),P=y!==null?R-y:null;return y=R,{ym:S,total:R,delta:P,ieCount:C,intakeDelta:D}}),k=g.reduce((S,b)=>S+b.total,0),E=$.map(S=>{let b=q.reduce((w,C)=>{let D=Et(o,C),R=i?Ut(C,m,f,r):null,P=D??R,L=a[`${S.id}_${C}`];return L?.isActual&&L?.costAud!=null?w+L.costAud:w+(Y(S,C,_,s,P).value??0)},0);return{id:S.id,label:`${S.vendor} \u2014 ${S.product}`,annual:b}}).filter(S=>S.annual>0).sort((S,b)=>b.annual-S.annual);return{rows:g,annual:k,subBreakdown:E}},[t,a,e,s,l,o,r]);return at`
+  `}var{html:st,useMemo:ke,useState:kn}=window.__WWCT__,za={basic:{id:"basic",label:"Basic",description:"M365 Basic only \u2014 no Copilot, no HubSpot cohort seat, no Miro",attrOverrides:{},includeSubs:["sub-m365-basic"]},standard:{id:"standard",label:"Standard",description:"M365 Standard + Copilot \xB7 HubSpot core seat (1 per IE) \xB7 Miro standard",attrOverrides:{"subscription.m365_standard_ie.attribution_rate":1,"subscription.copilot_ie.attribution_rate":1,"subscription.miro.attribution_rate":1,"subscription.hubspot_core.attribution_rate":1},includeSubs:["sub-m365-standard-cohort","sub-copilot-cohort","sub-miro","sub-hubspot-cohort"]}};function An(t,a){let e={...t};for(let[s,o]of Object.entries(a)){let r=Object.values(e).find(n=>n.key===s);if(r)e[r.id]={...r,value:o};else{let n="model-"+s.replace(/\./g,"-");e[n]={id:n,key:s,value:o}}}return e}function Cn(t){let[a,e]=t.split("-").map(Number);return new Date(a,e-1,1).toLocaleDateString("en-AU",{month:"short",year:"2-digit"})}function Qa(t){if(!t)return new Date().toISOString().slice(0,10);let a=new Date(t+"T00:00:00");return a.setMonth(a.getMonth()+1),a.setDate(1),a.toISOString().slice(0,10)}function En(t,a,e,s){return{id:crypto.randomUUID(),key:_t(t),label:`${a} \u2014 active status`,value:e,unit:"",category:"Governance",rationale:`${e==="not_active"?"Paused":"Reactivated"} via Forecast view.`,source:"Forecast view toggle",confidence:"high",status:O.RESOLVED,author:M()||"Unknown",decided_on:new Date().toISOString(),effective_from:s||new Date().toISOString().slice(0,10),effective_to:null,applies_to:[t],tags:["active-status"],supersedes:null,superseded_by:null}}function In({cohortSubs:t,monthlyEntries:a,assumptions:e,primaryScenario:s,ieRegister:o,intakeSchedule:r}){let[n,p]=kn("basic"),l=za[n],{rows:h,annual:u,subBreakdown:c}=ke(()=>{let _=An(e,l.attrOverrides),$=t.filter(y=>l.includeSubs.includes(y.id)&&y.status!=="archived"),b=at(o),d=b!==null?b:v(e,"forecast.model.target.fy26",22),f=(s?.id||"scenario-primary-target").replace("scenario-","").replace(/-/g,"_"),i=v(e,`scenario.${f}.ies_per_cohort`,10),S=r&&r.length>0;function g(y){return S?Yt(y,d,i,r):Mt(o,y)}let k=null,E=q.map(y=>{let C=g(y),D=r.includes(y)?i:null,R=$.reduce((L,ht)=>{let it=a[`${ht.id}_${y}`];return it?.isActual&&it?.costAud!=null?L+it.costAud:L+(Y(ht,y,_,s,C).value??0)},0),P=k!==null?R-k:null;return k=R,{ym:y,total:R,delta:P,ieCount:C,intakeDelta:D}}),w=E.reduce((y,C)=>y+C.total,0),m=$.map(y=>{let C=q.reduce((D,R)=>{let P=g(R),L=a[`${y.id}_${R}`];return L?.isActual&&L?.costAud!=null?D+L.costAud:D+(Y(y,R,_,s,P).value??0)},0);return{id:y.id,label:`${y.vendor} \u2014 ${y.product}`,annual:C}}).filter(y=>y.annual>0).sort((y,C)=>C.annual-y.annual);return{rows:E,annual:w,subBreakdown:m}},[t,a,e,s,l,o,r]);return st`
     <section class="panel forecast__per-ie-panel">
       <div class="forecast__per-ie-header">
         <div>
@@ -12054,7 +12054,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
           <p class="text-muted forecast__model-desc">${l.description}</p>
         </div>
         <div class="forecast__model-toggle">
-          ${Object.values(za).map(_=>at`
+          ${Object.values(za).map(_=>st`
             <button
               key=${_.id}
               class=${"btn btn--sm "+(n===_.id?"btn--primary":"btn--ghost")}
@@ -12077,7 +12077,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
               </tr>
             </thead>
             <tbody>
-              ${h.map(({ym:_,total:$,delta:m,ieCount:d,intakeDelta:f})=>at`
+              ${h.map(({ym:_,total:$,delta:b,ieCount:d,intakeDelta:f})=>st`
                 <tr key=${_}>
                   <td class="forecast__month-cell">${Cn(_)}</td>
                   <td class="forecast__ie-cell">${d!==null?d:"\u2014"}</td>
@@ -12085,8 +12085,8 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
                     ${f?"+"+f:"\u2014"}
                   </td>
                   <td class="forecast__cost-cell forecast__cost-cell--primary">${A.aud($)}</td>
-                  <td class=${"forecast__delta-cell"+(m===null?"":m>0?" forecast__delta--up":m<0?" forecast__delta--down":"")}>
-                    ${m===null||m===0?"\u2014":(m>0?"+":"")+A.aud(m)}
+                  <td class=${"forecast__delta-cell"+(b===null?"":b>0?" forecast__delta--up":b<0?" forecast__delta--down":"")}>
+                    ${b===null||b===0?"\u2014":(b>0?"+":"")+A.aud(b)}
                   </td>
                 </tr>
               `)}
@@ -12102,10 +12102,10 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
           </table>
         </div>
 
-        ${c.length>0&&at`
+        ${c.length>0&&st`
           <div class="forecast__sub-breakdown">
             <div class="forecast__sub-breakdown-title">Included in this model</div>
-            ${c.map(_=>at`
+            ${c.map(_=>st`
               <div key=${_.id} class="forecast__sub-breakdown-row">
                 <span class="forecast__sub-breakdown-label">${_.label}</span>
                 <span class="forecast__sub-breakdown-value">${A.aud(_.annual)} / yr</span>
@@ -12115,13 +12115,13 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
         `}
       </div>
     </section>
-  `}var Dn=(()=>{let t=new Date;return`${t.getFullYear()}-${String(t.getMonth()+1).padStart(2,"0")}`})();function On(t,a){let e=z(a,_t(t.id));if(!e||e.value!=="not_active")return{state:"active",pauseFromYM:null};let s=e.effective_from?e.effective_from.slice(0,7):null;return s&&s>Dn?{state:"scheduled",pauseFromYM:s}:{state:"paused",pauseFromYM:s}}function We(t){if(!t)return"";let[a,e]=t.split("-").map(Number);return new Date(a,e-1,1).toLocaleDateString("en-AU",{month:"short",year:"2-digit"})}function Rn({platformSubs:t,monthlyEntries:a,assumptions:e,dispatch:s,ieRegister:o}){let r=ke(()=>t.map(c=>{let{state:_,pauseFromYM:$}=On(c,e),m=q.reduce((d,f)=>{let i=a[`${c.id}_${f}`];if(i?.isActual&&i?.costAud!=null)return d+i.costAud;let y=Et(o,f);return d+(Y(c,f,e,null,y).value??0)},0);return{sub:c,state:_,pauseFromYM:$,annual:m}}).sort((c,_)=>_.annual-c.annual),[t,a,e,o]),n=r.reduce((c,_)=>c+_.annual,0),p=r.filter(c=>c.state==="paused").reduce((c,_)=>c+_.annual,0);function l(c,_,$){let m=En(c.id,`${c.vendor} ${c.product}`,_,$);if(z(e,m.key)){let f=J(e,m);s(f?{type:"ASSUMPTION_SUPERSEDED",payload:f}:{type:"ASSUMPTION_PROPOSED",payload:m})}else s({type:"ASSUMPTION_PROPOSED",payload:m})}function h(c){let _=Qa(c.renewal_date);l(c,"not_active",_)}function u(c){l(c,"active",new Date().toISOString().slice(0,10))}return at`
+  `}var Dn=(()=>{let t=new Date;return`${t.getFullYear()}-${String(t.getMonth()+1).padStart(2,"0")}`})();function On(t,a){let e=z(a,_t(t.id));if(!e||e.value!=="not_active")return{state:"active",pauseFromYM:null};let s=e.effective_from?e.effective_from.slice(0,7):null;return s&&s>Dn?{state:"scheduled",pauseFromYM:s}:{state:"paused",pauseFromYM:s}}function We(t){if(!t)return"";let[a,e]=t.split("-").map(Number);return new Date(a,e-1,1).toLocaleDateString("en-AU",{month:"short",year:"2-digit"})}function Rn({platformSubs:t,monthlyEntries:a,assumptions:e,dispatch:s,ieRegister:o}){let r=ke(()=>t.map(c=>{let{state:_,pauseFromYM:$}=On(c,e),b=q.reduce((d,f)=>{let i=a[`${c.id}_${f}`];if(i?.isActual&&i?.costAud!=null)return d+i.costAud;let S=Mt(o,f);return d+(Y(c,f,e,null,S).value??0)},0);return{sub:c,state:_,pauseFromYM:$,annual:b}}).sort((c,_)=>_.annual-c.annual),[t,a,e,o]),n=r.reduce((c,_)=>c+_.annual,0),p=r.filter(c=>c.state==="paused").reduce((c,_)=>c+_.annual,0);function l(c,_,$){let b=En(c.id,`${c.vendor} ${c.product}`,_,$);if(z(e,b.key)){let f=J(e,b);s(f?{type:"ASSUMPTION_SUPERSEDED",payload:f}:{type:"ASSUMPTION_PROPOSED",payload:b})}else s({type:"ASSUMPTION_PROPOSED",payload:b})}function h(c){let _=Qa(c.renewal_date);l(c,"not_active",_)}function u(c){l(c,"active",new Date().toISOString().slice(0,10))}return st`
     <section class="panel forecast__platform-panel">
       <div class="forecast__platform-header">
         <h2 class="panel__title">Platform subscriptions — FY 26/27 impact</h2>
         <div class="forecast__platform-totals">
           <span>Total: <strong>${A.aud(n)}</strong></span>
-          ${p>0&&at`
+          ${p>0&&st`
             <span class="forecast__platform-paused-total">Paused: <strong>${A.aud(p)}</strong></span>
           `}
         </div>
@@ -12138,17 +12138,17 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
             </tr>
           </thead>
           <tbody>
-            ${r.map(({sub:c,state:_,pauseFromYM:$,annual:m})=>at`
+            ${r.map(({sub:c,state:_,pauseFromYM:$,annual:b})=>st`
               <tr key=${c.id} class=${_==="paused"?"forecast__platform-row--paused":""}>
                 <td>
                   <span class="forecast__platform-vendor">${c.vendor}</span>
                   <span class="forecast__platform-product"> — ${c.product}</span>
-                  ${_==="scheduled"&&at`
+                  ${_==="scheduled"&&st`
                     <span class="forecast__platform-badge forecast__platform-badge--scheduled">
                       Cancels ${We($)}
                     </span>
                   `}
-                  ${_==="paused"&&at`
+                  ${_==="paused"&&st`
                     <span class="forecast__platform-badge forecast__platform-badge--paused">Paused</span>
                   `}
                 </td>
@@ -12156,21 +12156,21 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
                 <td class="ta-right text-muted forecast__platform-renewal">
                   ${c.renewal_date?We(c.renewal_date.slice(0,7)):"\u2014"}
                 </td>
-                <td class=${"ta-right"+(_==="paused"?" text-muted":"")}>${A.aud(m)}</td>
+                <td class=${"ta-right"+(_==="paused"?" text-muted":"")}>${A.aud(b)}</td>
                 <td class="ta-right">
-                  ${_==="active"&&at`
+                  ${_==="active"&&st`
                     <button
                       class="btn btn--sm btn--ghost forecast__platform-toggle"
                       onClick=${()=>h(c)}
                     >${c.renewal_date?`Pause from ${We(Qa(c.renewal_date).slice(0,7))}`:"Pause"}</button>
                   `}
-                  ${_==="scheduled"&&at`
+                  ${_==="scheduled"&&st`
                     <button
                       class="btn btn--sm btn--ghost forecast__platform-toggle forecast__platform-toggle--undo"
                       onClick=${()=>u(c)}
                     >Undo</button>
                   `}
-                  ${_==="paused"&&at`
+                  ${_==="paused"&&st`
                     <button
                       class="btn btn--sm btn--ghost forecast__platform-toggle forecast__platform-toggle--activate"
                       onClick=${()=>u(c)}
@@ -12183,7 +12183,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
         </table>
       </div>
     </section>
-  `}function Ja(){let{workbook:t,dispatch:a}=T(),e=t.assumptions||{},s=t.monthlyEntries||{},o=t.ieRegister||{},r=t.intakeSchedule||[],n=t.scenarios?.["scenario-primary-target"]??null,{cohortSubs:p,platformSubs:l}=ke(()=>{let u=Object.values(t.subscriptions||{}).filter(c=>c.status!=="archived");return{cohortSubs:u.filter(c=>c.cohort_driven),platformSubs:u.filter(c=>!c.cohort_driven)}},[t.subscriptions]),h=ke(()=>Object.values(o).filter(u=>u.active!==!1&&u.training).length,[o]);return at`
+  `}function Ja(){let{workbook:t,dispatch:a}=T(),e=t.assumptions||{},s=t.monthlyEntries||{},o=t.ieRegister||{},r=t.intakeSchedule||[],n=t.scenarios?.["scenario-primary-target"]??null,{cohortSubs:p,platformSubs:l}=ke(()=>{let u=Object.values(t.subscriptions||{}).filter(c=>c.status!=="archived");return{cohortSubs:u.filter(c=>c.cohort_driven),platformSubs:u.filter(c=>!c.cohort_driven)}},[t.subscriptions]),h=ke(()=>Object.values(o).filter(u=>u.active!==!1&&u.training).length,[o]);return st`
     <div class="forecast-page">
       <div class="page-header">
         <h1 class="page-header__title">Forecast</h1>
@@ -12205,7 +12205,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
         ieRegister=${o}
       />
     </div>
-  `}var{html:F,useState:Ot,useMemo:Ye,useRef:Tn,useEffect:Pn}=window.__WWCT__,xn=[{key:"nda",label:"NDA"},{key:"contract",label:"Contract"},{key:"training",label:"Training"}],ts=[{key:"m365_basic",label:"M365 Basic",short:"M365-B"},{key:"m365_standard",label:"M365 Standard",short:"M365-S"},{key:"copilot",label:"Copilot",short:"Copilot"},{key:"hubspot",label:"HubSpot",short:"HubSpot"},{key:"miro",label:"Miro",short:"Miro"}];function Mn(t){return t.active?t.training?{label:"Active",cls:"active"}:t.contract?{label:"Contracted",cls:"contracted"}:t.nda?{label:"NDA signed",cls:"nda"}:{label:"Pending",cls:"pending"}:{label:"Inactive",cls:"inactive"}}var Un=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],Nn=[2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030],Fn=[{value:"ch14",label:"CH14"},{value:"ch15",label:"CH15"},{value:"ch16",label:"CH16"},{value:"ch17",label:"CH17"},{value:"ch18",label:"CH18"},{value:"ch19",label:"CH19"},{value:"ch20",label:"CH20"},{value:"ch21",label:"CH21"},{value:"ch22",label:"CH22"},{value:"ch23",label:"CH23"}],Ln=[{value:"apac",label:"APAC"},{value:"americas",label:"Americas"},{value:"emea",label:"EMEA"}];function Za({value:t,options:a,onChange:e,placeholder:s="\u2014",cls:o}){return F`
+  `}var{html:F,useState:Dt,useMemo:Ye,useRef:Tn,useEffect:Pn}=window.__WWCT__,xn=[{key:"nda",label:"NDA"},{key:"contract",label:"Contract"},{key:"training",label:"Training"}],ts=[{key:"m365_basic",label:"M365 Basic",short:"M365-B"},{key:"m365_standard",label:"M365 Standard",short:"M365-S"},{key:"copilot",label:"Copilot",short:"Copilot"},{key:"hubspot",label:"HubSpot",short:"HubSpot"},{key:"miro",label:"Miro",short:"Miro"}];function Mn(t){return t.active?t.training?{label:"Active",cls:"active"}:t.contract?{label:"Contracted",cls:"contracted"}:t.nda?{label:"NDA signed",cls:"nda"}:{label:"Pending",cls:"pending"}:{label:"Inactive",cls:"inactive"}}var Un=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],Nn=[2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030],Fn=[{value:"ch14",label:"CH14"},{value:"ch15",label:"CH15"},{value:"ch16",label:"CH16"},{value:"ch17",label:"CH17"},{value:"ch18",label:"CH18"},{value:"ch19",label:"CH19"},{value:"ch20",label:"CH20"},{value:"ch21",label:"CH21"},{value:"ch22",label:"CH22"},{value:"ch23",label:"CH23"}],Ln=[{value:"apac",label:"APAC"},{value:"americas",label:"Americas"},{value:"emea",label:"EMEA"}];function Za({value:t,options:a,onChange:e,placeholder:s="\u2014",cls:o}){return F`
     <select
       class=${"ie-register__tag-select"+(t?` ie-register__tag-select--${t}`:" ie-register__tag-select--empty")+(o?" "+o:"")}
       value=${t||""}
@@ -12231,7 +12231,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
         ${Nn.map(n=>F`<option key=${n} value=${n}>${n}</option>`)}
       </select>
     </span>
-  `}function Vn({onAdd:t,onCancel:a}){let[e,s]=Ot(""),[o,r]=Ot("2026-07");function n(p){p.preventDefault();let l=e.trim();l&&(t({name:l,startMonth:o}),s(""))}return F`
+  `}function Vn({onAdd:t,onCancel:a}){let[e,s]=Dt(""),[o,r]=Dt("2026-07");function n(p){p.preventDefault();let l=e.trim();l&&(t({name:l,startMonth:o}),s(""))}return F`
     <form class="ie-register__add-form" onSubmit=${n}>
       <input
         class="ie-register__add-name"
@@ -12247,18 +12247,18 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
       <button class="btn btn--primary btn--sm" type="submit">Add</button>
       <button class="btn btn--ghost btn--sm" type="button" onClick=${a}>Cancel</button>
     </form>
-  `}function Wn({ie:t,onSave:a,onDeactivate:e,onReactivate:s,onDelete:o,onToggleFlag:r,onToggleSub:n,onTagChange:p}){let[l,h]=Ot(!1),[u,c]=Ot(t.name),[_,$]=Ot(t.startMonth||""),m=Tn(null);Pn(()=>{l&&m.current&&m.current.focus()},[l]);function d(){c(t.name),$(t.startMonth||""),h(!0)}function f(){let S=u.trim();S&&(a({...t,name:S,startMonth:_}),h(!1))}function i(){h(!1)}function y(S){S.key==="Enter"&&(S.preventDefault(),f()),S.key==="Escape"&&i()}let g=t.active===!1,{label:k,cls:E}=Mn(t);return F`
+  `}function Wn({ie:t,onSave:a,onDeactivate:e,onReactivate:s,onDelete:o,onToggleFlag:r,onToggleSub:n,onTagChange:p}){let[l,h]=Dt(!1),[u,c]=Dt(t.name),[_,$]=Dt(t.startMonth||""),b=Tn(null);Pn(()=>{l&&b.current&&b.current.focus()},[l]);function d(){c(t.name),$(t.startMonth||""),h(!0)}function f(){let w=u.trim();w&&(a({...t,name:w,startMonth:_}),h(!1))}function i(){h(!1)}function S(w){w.key==="Enter"&&(w.preventDefault(),f()),w.key==="Escape"&&i()}let g=t.active===!1,{label:k,cls:E}=Mn(t);return F`
     <tr class=${"ie-register__row"+(g?" ie-register__row--inactive":t.training?" ie-register__row--active":"")+(l?" ie-register__row--editing":"")}>
 
       <!-- Name -->
       <td class="ie-register__col-name">
         ${l?F`<input
-              ref=${m}
+              ref=${b}
               class="ie-register__inline-input"
               type="text"
               value=${u}
-              onInput=${S=>c(S.target.value)}
-              onKeyDown=${y}
+              onInput=${w=>c(w.target.value)}
+              onKeyDown=${S}
               required
             />`:t.name}
       </td>
@@ -12269,15 +12269,15 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
       </td>
 
       <!-- Onboarding checkboxes -->
-      ${xn.map(S=>F`
-        <td key=${S.key} class="ie-register__col-flag">
+      ${xn.map(w=>F`
+        <td key=${w.key} class="ie-register__col-flag">
           <input
             type="checkbox"
             class="ie-register__check"
-            checked=${!!t[S.key]}
+            checked=${!!t[w.key]}
             disabled=${g||l}
-            onChange=${()=>r(t,S.key)}
-            aria-label=${S.label+" for "+t.name}
+            onChange=${()=>r(t,w.key)}
+            aria-label=${w.label+" for "+t.name}
           />
         </td>
       `)}
@@ -12285,15 +12285,15 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
       <td class="ie-register__col-divider"></td>
 
       <!-- Subscription checkboxes -->
-      ${ts.map(S=>F`
-        <td key=${S.key} class="ie-register__col-sub">
+      ${ts.map(w=>F`
+        <td key=${w.key} class="ie-register__col-sub">
           <input
             type="checkbox"
             class="ie-register__check"
-            checked=${!!t.subscriptions?.[S.key]}
+            checked=${!!t.subscriptions?.[w.key]}
             disabled=${g||l}
-            onChange=${()=>n(t,S.key)}
-            aria-label=${S.label+" for "+t.name}
+            onChange=${()=>n(t,w.key)}
+            aria-label=${w.label+" for "+t.name}
           />
         </td>
       `)}
@@ -12303,7 +12303,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
         <${Za}
           value=${t.cohort||null}
           options=${Fn}
-          onChange=${S=>p(t,"cohort",S)}
+          onChange=${w=>p(t,"cohort",w)}
           placeholder="—"
         />
       </td>
@@ -12313,7 +12313,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
         <${Za}
           value=${t.region||null}
           options=${Ln}
-          onChange=${S=>p(t,"region",S)}
+          onChange=${w=>p(t,"region",w)}
           placeholder="—"
         />
       </td>
@@ -12347,7 +12347,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
           `}
       </td>
     </tr>
-  `}var Yn=[{key:"start",label:"Start date"},{key:"name",label:"Name"},{key:"cohort",label:"Cohort"}];function Hn(t,a){let e=[...t];return a==="name"?e.sort((s,o)=>s.name.localeCompare(o.name)):a==="cohort"?e.sort((s,o)=>(s.cohort||"zzz").localeCompare(o.cohort||"zzz")||(s.startMonth||"").localeCompare(o.startMonth||"")||s.name.localeCompare(o.name)):e.sort((s,o)=>(s.startMonth||"").localeCompare(o.startMonth||"")||s.name.localeCompare(o.name)),e}function as(){let{workbook:t,dispatch:a}=T(),[e,s]=Ot(!1),[o,r]=Ot(!1),[n,p]=Ot("start"),l=Ye(()=>Hn(Object.values(t.ieRegister||{}),n),[t.ieRegister,n]),h=Ye(()=>{let g=Object.values(t.ieRegister||{}),k=g.filter(E=>E.active!==!1);return{total:g.length,nda:k.filter(E=>E.nda).length,contracted:k.filter(E=>E.contract).length,onboarded:k.filter(E=>E.training).length,inactive:g.filter(E=>E.active===!1).length}},[t.ieRegister]),u=Ye(()=>o?l:l.filter(g=>g.active!==!1),[l,o]);function c({name:g,startMonth:k}){a({type:"IE_SAVED",payload:{id:crypto.randomUUID(),name:g,startMonth:k,active:!0,nda:!1,contract:!1,training:!1,subscriptions:{m365_basic:!1,m365_standard:!1,copilot:!1,hubspot:!1,miro:!1}}}),s(!1)}let _=g=>a({type:"IE_SAVED",payload:g}),$=(g,k)=>a({type:"IE_SAVED",payload:{...g,[k]:!g[k]}}),m=(g,k)=>a({type:"IE_SAVED",payload:{...g,subscriptions:{...g.subscriptions,[k]:!g.subscriptions?.[k]}}}),d=(g,k,E)=>a({type:"IE_SAVED",payload:{...g,[k]:E}}),f=g=>a({type:"IE_DEACTIVATED",payload:g.id}),i=g=>a({type:"IE_REACTIVATED",payload:g.id}),y=g=>a({type:"IE_DELETED",payload:g.id});return F`
+  `}var Yn=[{key:"start",label:"Start date"},{key:"name",label:"Name"},{key:"cohort",label:"Cohort"}];function Hn(t,a){let e=[...t];return a==="name"?e.sort((s,o)=>s.name.localeCompare(o.name)):a==="cohort"?e.sort((s,o)=>(s.cohort||"zzz").localeCompare(o.cohort||"zzz")||(s.startMonth||"").localeCompare(o.startMonth||"")||s.name.localeCompare(o.name)):e.sort((s,o)=>(s.startMonth||"").localeCompare(o.startMonth||"")||s.name.localeCompare(o.name)),e}function as(){let{workbook:t,dispatch:a}=T(),[e,s]=Dt(!1),[o,r]=Dt(!1),[n,p]=Dt("start"),l=Ye(()=>Hn(Object.values(t.ieRegister||{}),n),[t.ieRegister,n]),h=Ye(()=>{let g=Object.values(t.ieRegister||{}),k=g.filter(E=>E.active!==!1);return{total:g.length,nda:k.filter(E=>E.nda).length,contracted:k.filter(E=>E.contract).length,onboarded:k.filter(E=>E.training).length,inactive:g.filter(E=>E.active===!1).length}},[t.ieRegister]),u=Ye(()=>o?l:l.filter(g=>g.active!==!1),[l,o]);function c({name:g,startMonth:k}){a({type:"IE_SAVED",payload:{id:crypto.randomUUID(),name:g,startMonth:k,active:!0,nda:!1,contract:!1,training:!1,subscriptions:{m365_basic:!1,m365_standard:!1,copilot:!1,hubspot:!1,miro:!1}}}),s(!1)}let _=g=>a({type:"IE_SAVED",payload:g}),$=(g,k)=>a({type:"IE_SAVED",payload:{...g,[k]:!g[k]}}),b=(g,k)=>a({type:"IE_SAVED",payload:{...g,subscriptions:{...g.subscriptions,[k]:!g.subscriptions?.[k]}}}),d=(g,k,E)=>a({type:"IE_SAVED",payload:{...g,[k]:E}}),f=g=>a({type:"IE_DEACTIVATED",payload:g.id}),i=g=>a({type:"IE_REACTIVATED",payload:g.id}),S=g=>a({type:"IE_DELETED",payload:g.id});return F`
     <div class="page-header">
       <h1 class="page-header__title">IE Register</h1>
       <div style=${{display:"flex",gap:"var(--space-3)",alignItems:"center"}}>
@@ -12427,11 +12427,11 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
                     ie=${g}
                     onSave=${_}
                     onToggleFlag=${$}
-                    onToggleSub=${m}
+                    onToggleSub=${b}
                     onTagChange=${d}
                     onDeactivate=${f}
                     onReactivate=${i}
-                    onDelete=${y}
+                    onDelete=${S}
                   />
                 `)}
               </tbody>
@@ -12444,20 +12444,20 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
       <div class="page-placeholder__label">${t}</div>
       <p>Coming soon</p>
     </div>
-  `}function qn({path:t}){switch(t){case"/dashboard":return B`<${Ya} />`;case"/ie-intake":return B`<${Ba} />`;case"/ie-register":return B`<${as} />`;case"/subscriptions":return B`<${Ve} />`;case"/per-ie-costs":return B`<${Ve} />`;case"/forecast":return B`<${Ja} />`;case"/decisions":return B`<${ya} />`;case"/decision-log":return B`<${ie} />`;case"/cost-register":return B`<${Pa} />`;case"/scenarios":return B`<${Ua} />`;case"/licence-forecast":return B`<${ye} />`;case"/hubspot":return B`<${Na} />`;case"/savings":return B`<${fe} />`;case"/renewals":return B`<${La} />`;default:return B`<${Bn} name=${t} />`}}function jn(t){let a=t.replace(/^#/,"")||"/dashboard";return{path:a,label:{"/dashboard":"Dashboard","/ie-intake":"IE Intake","/ie-register":"IE Register","/subscriptions":"Subscriptions","/per-ie-costs":"Subscriptions","/forecast":"Forecast","/cost-register":"Cost register","/scenarios":"Recruitment","/licence-forecast":"Licence forecast","/hubspot":"HubSpot","/renewals":"Renewals","/decisions":"Subscriptions","/decision-log":"Decision log","/savings":"Savings register"}[a]||"Dashboard"}}function Gn(){let{workbook:t,dispatch:a,saveState:e,markSaved:s}=T(),[o,r]=Zt(window.location.hash||"#/dashboard"),[n,p]=Zt(M()),[l,h]=Zt(!ze()),[u,c]=Zt(null),[_,$]=Zt(null);Kn(()=>{let S=()=>r(window.location.hash||"#/dashboard");return window.addEventListener("hashchange",S),()=>window.removeEventListener("hashchange",S)},[]);let{path:m,label:d}=jn(o),f=!n;function i(S){S&&p(S),(S||!f)&&h(!1)}async function y(){try{$(null);let{workbook:S,filename:b}=await na();a({type:"WORKBOOK_LOADED",payload:S}),c(b),s()}catch(S){S.message!=="File selection cancelled."&&$(S.message)}}function g(){ra(t,u||"WWRI Cost Tracker.json"),s()}function k(S){a({type:"SCENARIO_SWITCHED",payload:S})}let E=Object.values(t.scenarios||{});return B`
+  `}function qn({path:t}){switch(t){case"/dashboard":return B`<${Ya} />`;case"/ie-intake":return B`<${Ba} />`;case"/ie-register":return B`<${as} />`;case"/subscriptions":return B`<${Ve} />`;case"/per-ie-costs":return B`<${Ve} />`;case"/forecast":return B`<${Ja} />`;case"/decisions":return B`<${ya} />`;case"/decision-log":return B`<${ie} />`;case"/cost-register":return B`<${Pa} />`;case"/scenarios":return B`<${Ua} />`;case"/licence-forecast":return B`<${ye} />`;case"/hubspot":return B`<${Na} />`;case"/savings":return B`<${fe} />`;case"/renewals":return B`<${La} />`;default:return B`<${Bn} name=${t} />`}}function jn(t){let a=t.replace(/^#/,"")||"/dashboard";return{path:a,label:{"/dashboard":"Dashboard","/ie-intake":"IE Intake","/ie-register":"IE Register","/subscriptions":"Subscriptions","/per-ie-costs":"Subscriptions","/forecast":"Forecast","/cost-register":"Cost register","/scenarios":"Recruitment","/licence-forecast":"Licence forecast","/hubspot":"HubSpot","/renewals":"Renewals","/decisions":"Subscriptions","/decision-log":"Decision log","/savings":"Savings register"}[a]||"Dashboard"}}function Gn(){let{workbook:t,dispatch:a,saveState:e,markSaved:s}=T(),[o,r]=Zt(window.location.hash||"#/dashboard"),[n,p]=Zt(M()),[l,h]=Zt(!ze()),[u,c]=Zt(null),[_,$]=Zt(null);Kn(()=>{let w=()=>r(window.location.hash||"#/dashboard");return window.addEventListener("hashchange",w),()=>window.removeEventListener("hashchange",w)},[]);let{path:b,label:d}=jn(o),f=!n;function i(w){w&&p(w),(w||!f)&&h(!1)}async function S(){try{$(null);let{workbook:w,filename:m}=await na();a({type:"WORKBOOK_LOADED",payload:w}),c(m),s()}catch(w){w.message!=="File selection cancelled."&&$(w.message)}}function g(){ra(t,u||"WWRI Cost Tracker.json"),s()}function k(w){a({type:"SCENARIO_SWITCHED",payload:w})}let E=Object.values(t.scenarios||{});return B`
     <div id="app">
       <${je}
-        route=${m}
+        route=${b}
         saveState=${e}
         authorName=${n}
         scenarios=${E}
         activeScenarioId=${t.activeScenarioId}
         onScenarioChange=${k}
-        onLoad=${y}
+        onLoad=${S}
         onSave=${g}
         onSettings=${()=>h(!0)}
       />
-      <main class=${"app-content"+(m==="/ie-register"?" app-content--wide":"")}>
+      <main class=${"app-content"+(b==="/ie-register"?" app-content--wide":"")}>
         ${_&&B`
           <div class="banner banner--error" role="alert">
             <strong>Could not load workbook:</strong> ${_}
@@ -12465,7 +12465,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
           </div>
         `}
         <${ka} />
-        <${qn} path=${m} />
+        <${qn} path=${b} />
       </main>
       ${l&&B`
         <${Je}
