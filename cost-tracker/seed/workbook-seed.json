@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "workbookId": "wwct-seed-v1-2026-05-13",
   "createdAt": "2026-05-13T00:00:00Z",
-  "updatedAt": "2026-05-13T00:00:00Z",
+  "updatedAt": "2026-05-28T00:00:00Z",
   "activeScenarioId": "scenario-primary-target",
   "scenarios": {
     "scenario-minimum-viable": {
@@ -33,7 +33,7 @@
       "author": "Angelus",
       "decided_on": "2026-05-13T00:00:00Z",
       "rationale": "All-time count of IEs who have ever signed with Whitewater Reinventions. Used for insurance and compliance reporting, not subscription billing.",
-      "source": "WWRI Subscription Cost Matrix Excel, May 2026 — tab Summary, cell IE Total",
+      "source": "WWRI Subscription Cost Matrix Excel, May 2026 â€” tab Summary, cell IE Total",
       "confidence": "high",
       "effective_from": "2026-05-13",
       "effective_to": null,
@@ -50,14 +50,14 @@
     "a-headcount-board": {
       "id": "a-headcount-board",
       "key": "org.ie.headcount.board_view",
-      "label": "IE headcount — board view",
+      "label": "IE headcount â€” board view",
       "value": 60,
       "unit": "IEs",
       "category": "Headcount",
       "status": "Resolved",
       "author": "Angelus",
       "decided_on": "2026-05-13T00:00:00Z",
-      "rationale": "The board-facing IE headcount figure. Agreed in operations meeting for board pack presentation. Excludes IEs on hold, inactive, or pre-contract. This is not the billing number — see org.ie.headcount.active_billing.",
+      "rationale": "The board-facing IE headcount figure. Agreed in operations meeting for board pack presentation. Excludes IEs on hold, inactive, or pre-contract. This is not the billing number â€” see org.ie.headcount.active_billing.",
       "source": "Operations meeting May 2026, confirmed by Niel Malan",
       "confidence": "high",
       "effective_from": "2026-05-13",
@@ -75,7 +75,7 @@
     "a-headcount-billing": {
       "id": "a-headcount-billing",
       "key": "org.ie.headcount.active_billing",
-      "label": "IE headcount — active billing",
+      "label": "IE headcount â€” active billing",
       "value": 86,
       "unit": "IEs",
       "category": "Headcount",
@@ -83,7 +83,7 @@
       "author": "Angelus",
       "decided_on": "2026-05-13T00:00:00Z",
       "rationale": "IEs currently on active subscription billing. Used for M365, HubSpot Core, and Miro seat attribution calculations. Differs from board view (60) and total ever signed (106).",
-      "source": "WWRI Subscription Cost Matrix Excel, May 2026 — active licence count reconciled against Xero April 2026",
+      "source": "WWRI Subscription Cost Matrix Excel, May 2026 â€” active licence count reconciled against Xero April 2026",
       "confidence": "high",
       "effective_from": "2026-05-13",
       "effective_to": null,
@@ -102,7 +102,7 @@
     "a-m365-basic-unit-cost": {
       "id": "a-m365-basic-unit-cost",
       "key": "subscription.m365_basic.unit_cost",
-      "label": "M365 Business Basic — unit cost per seat per month",
+      "label": "M365 Business Basic â€” unit cost per seat per month",
       "value": 10.1,
       "unit": "AUD/seat/month",
       "category": "Subscription cost",
@@ -127,7 +127,7 @@
     "a-m365-standard-unit-cost": {
       "id": "a-m365-standard-unit-cost",
       "key": "subscription.m365_standard.unit_cost",
-      "label": "M365 Business Standard — unit cost per seat per month",
+      "label": "M365 Business Standard â€” unit cost per seat per month",
       "value": 21.1,
       "unit": "AUD/seat/month",
       "category": "Subscription cost",
@@ -152,7 +152,7 @@
     "a-m365-attribution": {
       "id": "a-m365-attribution",
       "key": "subscription.m365_basic.attribution_rate",
-      "label": "M365 Basic — attribution rate per cohort IE",
+      "label": "M365 Basic â€” attribution rate per cohort IE",
       "value": 1,
       "unit": "fraction",
       "category": "Attribution rate",
@@ -160,7 +160,7 @@
       "author": "Angelus",
       "decided_on": "2026-05-13T00:00:00Z",
       "rationale": "100% of IEs receive a Business Basic seat. Baseline scenario. IEs with elevated access (managers, internal staff) are on Business Standard and counted separately.",
-      "source": "Operations meeting May 2026 — confirmed by Niel",
+      "source": "Operations meeting May 2026 â€” confirmed by Niel",
       "confidence": "high",
       "effective_from": "2026-05-13",
       "effective_to": null,
@@ -177,15 +177,15 @@
     "a-hubspot-bundle-cost": {
       "id": "a-hubspot-bundle-cost",
       "key": "subscription.hubspot.bundle_annual_aud",
-      "label": "HubSpot bundle — current annual cost (AUD)",
+      "label": "HubSpot bundle â€” current annual cost (AUD)",
       "value": 11016,
       "unit": "AUD/year",
       "category": "Subscription cost",
       "status": "Resolved",
       "author": "Angelus",
       "decided_on": "2026-05-13T00:00:00Z",
-      "rationale": "HubSpot billed directly in AUD — no USD/FX conversion. Current bundle includes Sales Hub Pro seats plus Core add-on seats. Confirmed against Xero April 2026 entry of AUD 918/month (AUD 11,016 annualised).",
-      "source": "Xero April 2026 — HubSpot entry AUD 918; WWRI Cost Matrix Excel tab HubSpot",
+      "rationale": "HubSpot billed directly in AUD â€” no USD/FX conversion. Current bundle includes Sales Hub Pro seats plus Core add-on seats. Confirmed against Xero April 2026 entry of AUD 918/month (AUD 11,016 annualised).",
+      "source": "Xero April 2026 â€” HubSpot entry AUD 918; WWRI Cost Matrix Excel tab HubSpot",
       "confidence": "high",
       "effective_from": "2026-05-13",
       "effective_to": null,
@@ -202,7 +202,7 @@
     "a-hubspot-bundle-monthly": {
       "id": "a-hubspot-bundle-monthly",
       "key": "subscription.hubspot.bundle_monthly_aud",
-      "label": "HubSpot bundle — current monthly cost (AUD)",
+      "label": "HubSpot bundle â€” current monthly cost (AUD)",
       "value": 918,
       "unit": "AUD/month",
       "category": "Subscription cost",
@@ -210,7 +210,7 @@
       "author": "Angelus",
       "decided_on": "2026-05-13T00:00:00Z",
       "rationale": "Current 50% discounted bundle rate, locked through 31 October 2026. Confirmed against Xero April 2026 entry. Comprises 5 Hub seats + 7 standalone Core Seats (12 total) at 50% off list price of AUD 1,836/mo.",
-      "source": "Xero April 2026 — AUD 918 HubSpot entry; HubSpot AUD-localised quote May 2026",
+      "source": "Xero April 2026 â€” AUD 918 HubSpot entry; HubSpot AUD-localised quote May 2026",
       "confidence": "high",
       "effective_from": "2025-07-01",
       "effective_to": "2026-10-31",
@@ -226,7 +226,7 @@
     "a-hubspot-renewal-start": {
       "id": "a-hubspot-renewal-start",
       "key": "subscription.hubspot.renewal_start_month",
-      "label": "HubSpot bundle — renewal start month",
+      "label": "HubSpot bundle â€” renewal start month",
       "value": "2026-11",
       "unit": "YYYY-MM",
       "category": "HubSpot",
@@ -234,7 +234,7 @@
       "author": "Angelus",
       "decided_on": "2026-05-13T00:00:00Z",
       "rationale": "Current contract expires 31 October 2026. Renewal pricing applies from November 2026. Subject to renegotiation in October 2026.",
-      "source": "HubSpot contract renewal date — confirmed with Niel May 2026",
+      "source": "HubSpot contract renewal date â€” confirmed with Niel May 2026",
       "confidence": "high",
       "effective_from": "2026-05-13",
       "effective_to": null,
@@ -251,15 +251,15 @@
     "a-hubspot-renewal-monthly": {
       "id": "a-hubspot-renewal-monthly",
       "key": "subscription.hubspot.renewal_monthly_aud",
-      "label": "HubSpot bundle — renewal monthly cost at Architecture F (AUD)",
+      "label": "HubSpot bundle â€” renewal monthly cost at Architecture F (AUD)",
       "value": 1101.6,
       "unit": "AUD/month",
       "category": "HubSpot",
       "status": "Resolved",
       "author": "Angelus",
       "decided_on": "2026-05-13T00:00:00Z",
-      "rationale": "Architecture F (status quo bundle) at 40% renewal discount from November 2026. List price AUD 1,836/mo × 0.60 = AUD 1,101.60. Subject to renegotiation — Architectures 1/2/3 modelled in Epic 4.",
-      "source": "HubSpot AUD-localised renewal quote May 2026; WWRI HubSpot Subscription Model spec §2",
+      "rationale": "Architecture F (status quo bundle) at 40% renewal discount from November 2026. List price AUD 1,836/mo Ã— 0.60 = AUD 1,101.60. Subject to renegotiation â€” Architectures 1/2/3 modelled in Epic 4.",
+      "source": "HubSpot AUD-localised renewal quote May 2026; WWRI HubSpot Subscription Model spec Â§2",
       "confidence": "medium",
       "effective_from": "2026-11-01",
       "effective_to": null,
@@ -276,7 +276,7 @@
     "a-hubspot-cohort-addition-start": {
       "id": "a-hubspot-cohort-addition-start",
       "key": "subscription.hubspot.cohort_addition_start_month",
-      "label": "HubSpot cohort seats — first addition month",
+      "label": "HubSpot cohort seats â€” first addition month",
       "value": "2026-12",
       "unit": "YYYY-MM",
       "category": "HubSpot",
@@ -284,7 +284,7 @@
       "author": "Angelus",
       "decided_on": "2026-05-13T00:00:00Z",
       "rationale": "HubSpot adoption lags M365 by approximately 3 months. CH18 joins M365 in Sep 2026 but doesn't require HubSpot until Dec 2026 once actively engaged with clients.",
-      "source": "WWRI HubSpot Subscription Model spec §3; agreed with Niel 11 May 2026",
+      "source": "WWRI HubSpot Subscription Model spec Â§3; agreed with Niel 11 May 2026",
       "confidence": "medium",
       "effective_from": "2026-05-13",
       "effective_to": null,
@@ -301,15 +301,15 @@
     "a-hubspot-per-seat-rate": {
       "id": "a-hubspot-per-seat-rate",
       "key": "subscription.hubspot.per_seat_rate_aud_discounted",
-      "label": "HubSpot Core Seat — per-seat rate after renewal discount (AUD/mo)",
+      "label": "HubSpot Core Seat â€” per-seat rate after renewal discount (AUD/mo)",
       "value": 48,
       "unit": "AUD/seat/month",
       "category": "HubSpot",
       "status": "Resolved",
       "author": "Angelus",
       "decided_on": "2026-05-13T00:00:00Z",
-      "rationale": "Architecture F: Professional Core Seat list price AUD 80/mo × 0.60 (40% renewal discount) = AUD 48/seat/month. Applies to cohort additions from December 2026.",
-      "source": "HubSpot AUD-localised renewal quote May 2026; WWRI HubSpot Subscription Model spec §4",
+      "rationale": "Architecture F: Professional Core Seat list price AUD 80/mo Ã— 0.60 (40% renewal discount) = AUD 48/seat/month. Applies to cohort additions from December 2026.",
+      "source": "HubSpot AUD-localised renewal quote May 2026; WWRI HubSpot Subscription Model spec Â§4",
       "confidence": "medium",
       "effective_from": "2026-11-01",
       "effective_to": null,
@@ -326,7 +326,7 @@
     "a-hubspot-base-seats": {
       "id": "a-hubspot-base-seats",
       "key": "subscription.hubspot.base_seats",
-      "label": "HubSpot bundle — base Core Seat count",
+      "label": "HubSpot bundle â€” base Core Seat count",
       "value": 12,
       "unit": "seats",
       "category": "HubSpot",
@@ -334,7 +334,7 @@
       "author": "Angelus",
       "decided_on": "2026-05-13T00:00:00Z",
       "rationale": "Bundle includes 5 embedded seats (one per Hub: Marketing, Sales, Service, Content, Data) plus 7 standalone Core Seat add-ons = 12 total. Used for Licence Forecast view display.",
-      "source": "WWRI HubSpot Subscription Model spec §1; HubSpot AUD-localised account view May 2026",
+      "source": "WWRI HubSpot Subscription Model spec Â§1; HubSpot AUD-localised account view May 2026",
       "confidence": "high",
       "effective_from": "2026-05-13",
       "effective_to": null,
@@ -350,7 +350,7 @@
     "a-hs-cohort-timing-ch18": {
       "id": "a-hs-cohort-timing-ch18",
       "key": "cohort.timing.hubspot.ch18.start_month",
-      "label": "HubSpot CH18 — seat activation month",
+      "label": "HubSpot CH18 â€” seat activation month",
       "value": "2026-12",
       "unit": "YYYY-MM",
       "category": "HubSpot",
@@ -358,7 +358,7 @@
       "author": "Angelus",
       "decided_on": "2026-05-13T00:00:00Z",
       "rationale": "CH18 graduates M365 in Sep 2026. HubSpot adoption lags ~3 months; seats activated Dec 2026 once IEs are actively engaging clients.",
-      "source": "WWRI HubSpot Subscription Model spec §3.1; agreed with Niel 11 May 2026",
+      "source": "WWRI HubSpot Subscription Model spec Â§3.1; agreed with Niel 11 May 2026",
       "confidence": "medium",
       "effective_from": "2026-05-13",
       "effective_to": null,
@@ -376,7 +376,7 @@
     "a-hs-cohort-timing-ch19": {
       "id": "a-hs-cohort-timing-ch19",
       "key": "cohort.timing.hubspot.ch19.start_month",
-      "label": "HubSpot CH19 — seat activation month",
+      "label": "HubSpot CH19 â€” seat activation month",
       "value": "2027-01",
       "unit": "YYYY-MM",
       "category": "HubSpot",
@@ -384,7 +384,7 @@
       "author": "Angelus",
       "decided_on": "2026-05-13T00:00:00Z",
       "rationale": "CH19 graduates M365 in Oct 2026. HubSpot seats activated Jan 2027 (~3 month lag).",
-      "source": "WWRI HubSpot Subscription Model spec §3.1; agreed with Niel 11 May 2026",
+      "source": "WWRI HubSpot Subscription Model spec Â§3.1; agreed with Niel 11 May 2026",
       "confidence": "medium",
       "effective_from": "2026-05-13",
       "effective_to": null,
@@ -402,7 +402,7 @@
     "a-hs-cohort-timing-ch20": {
       "id": "a-hs-cohort-timing-ch20",
       "key": "cohort.timing.hubspot.ch20.start_month",
-      "label": "HubSpot CH20 — seat activation month",
+      "label": "HubSpot CH20 â€” seat activation month",
       "value": "2027-05",
       "unit": "YYYY-MM",
       "category": "HubSpot",
@@ -410,7 +410,7 @@
       "author": "Angelus",
       "decided_on": "2026-05-13T00:00:00Z",
       "rationale": "CH20 graduates M365 in Feb 2027. HubSpot seats activated May 2027 (~3 month lag). CH21 and CH22 fall outside the FY 26/27 modelling window.",
-      "source": "WWRI HubSpot Subscription Model spec §3.1; agreed with Niel 11 May 2026",
+      "source": "WWRI HubSpot Subscription Model spec Â§3.1; agreed with Niel 11 May 2026",
       "confidence": "low",
       "effective_from": "2026-05-13",
       "effective_to": null,
@@ -428,7 +428,7 @@
     "a-hs-seats-primary-target": {
       "id": "a-hs-seats-primary-target",
       "key": "scenario.primary_target.hubspot_seats_per_cohort",
-      "label": "Primary target — HubSpot seats per cohort",
+      "label": "Primary target â€” HubSpot seats per cohort",
       "value": 5,
       "unit": "seats",
       "category": "HubSpot",
@@ -436,7 +436,7 @@
       "author": "Angelus",
       "decided_on": "2026-05-13T00:00:00Z",
       "rationale": "Approximately 50% of each 12-IE cohort actively uses HubSpot at steady state (~6 IEs, rounded to 5 for conservative seat allocation). Reflects seat reallocation as inactive IEs free up seats for new ones.",
-      "source": "Agreed between Angelus and Niel, 11 May 2026; WWRI HubSpot Subscription Model spec §3.2",
+      "source": "Agreed between Angelus and Niel, 11 May 2026; WWRI HubSpot Subscription Model spec Â§3.2",
       "confidence": "medium",
       "effective_from": "2026-05-13",
       "effective_to": null,
@@ -453,15 +453,15 @@
     "a-hs-seats-minimum-viable": {
       "id": "a-hs-seats-minimum-viable",
       "key": "scenario.minimum_viable.hubspot_seats_per_cohort",
-      "label": "Minimum viable — HubSpot seats per cohort",
+      "label": "Minimum viable â€” HubSpot seats per cohort",
       "value": 3,
       "unit": "seats",
       "category": "HubSpot",
       "status": "Resolved",
       "author": "Angelus",
       "decided_on": "2026-05-13T00:00:00Z",
-      "rationale": "Conservative allocation for minimum viable scenario — 3 seats per cohort assuming lower HubSpot adoption rate in a smaller intake cohort.",
-      "source": "WWRI HubSpot Subscription Model spec §3.2",
+      "rationale": "Conservative allocation for minimum viable scenario â€” 3 seats per cohort assuming lower HubSpot adoption rate in a smaller intake cohort.",
+      "source": "WWRI HubSpot Subscription Model spec Â§3.2",
       "confidence": "low",
       "effective_from": "2026-05-13",
       "effective_to": null,
@@ -478,15 +478,15 @@
     "a-hs-seats-optimal-maximum": {
       "id": "a-hs-seats-optimal-maximum",
       "key": "scenario.optimal_maximum.hubspot_seats_per_cohort",
-      "label": "Optimal maximum — HubSpot seats per cohort",
+      "label": "Optimal maximum â€” HubSpot seats per cohort",
       "value": 8,
       "unit": "seats",
       "category": "HubSpot",
       "status": "Resolved",
       "author": "Angelus",
       "decided_on": "2026-05-13T00:00:00Z",
-      "rationale": "Upside allocation for optimal maximum scenario — 8 seats per cohort assuming higher HubSpot adoption in a larger, more client-active intake cohort.",
-      "source": "WWRI HubSpot Subscription Model spec §3.2",
+      "rationale": "Upside allocation for optimal maximum scenario â€” 8 seats per cohort assuming higher HubSpot adoption in a larger, more client-active intake cohort.",
+      "source": "WWRI HubSpot Subscription Model spec Â§3.2",
       "confidence": "low",
       "effective_from": "2026-05-13",
       "effective_to": null,
@@ -503,7 +503,7 @@
     "a-hubspot-core-attribution": {
       "id": "a-hubspot-core-attribution",
       "key": "subscription.hubspot_core.attribution_rate",
-      "label": "HubSpot Core seats — attribution rate per active billing IE",
+      "label": "HubSpot Core seats â€” attribution rate per active billing IE",
       "value": 0.5,
       "unit": "fraction",
       "category": "Attribution rate",
@@ -511,7 +511,7 @@
       "author": "Angelus",
       "decided_on": "2026-05-13T00:00:00Z",
       "rationale": "Approximately 50% of active billing IEs use a HubSpot Core seat for client-facing CRM activities. Remaining IEs do not require CRM access. Used as the primary target attribution rate.",
-      "source": "Operations meeting May 2026 — Niel estimate, confirmed as primary target",
+      "source": "Operations meeting May 2026 â€” Niel estimate, confirmed as primary target",
       "confidence": "medium",
       "effective_from": "2026-05-13",
       "effective_to": null,
@@ -528,7 +528,7 @@
     "a-miro-unit-cost": {
       "id": "a-miro-unit-cost",
       "key": "subscription.miro.unit_cost",
-      "label": "Miro Business Plan — unit cost per seat per month",
+      "label": "Miro Business Plan â€” unit cost per seat per month",
       "value": 16,
       "unit": "USD/seat/month",
       "category": "Subscription cost",
@@ -552,14 +552,14 @@
     "a-miro-attribution": {
       "id": "a-miro-attribution",
       "key": "subscription.miro.attribution_rate",
-      "label": "Miro — attribution rate per active billing IE",
+      "label": "Miro â€” attribution rate per active billing IE",
       "value": 1,
       "unit": "fraction",
       "category": "Attribution rate",
       "status": "Resolved",
       "author": "Angelus",
       "decided_on": "2026-05-20T00:00:00Z",
-      "rationale": "Operations meeting 2026-05-20 — Niel confirmed all new IEs should have Miro access (100% attribution)",
+      "rationale": "Operations meeting 2026-05-20 â€” Niel confirmed all new IEs should have Miro access (100% attribution)",
       "source": "Ops meeting 2026-05-20 (Niel Malan)",
       "confidence": "medium",
       "effective_from": "2026-05-13",
@@ -577,7 +577,7 @@
     "a-fx-aud-usd": {
       "id": "a-fx-aud-usd",
       "key": "scenario.fx_rate.aud_usd",
-      "label": "FX rate — AUD/USD",
+      "label": "FX rate â€” AUD/USD",
       "value": 0.645,
       "unit": "AUD per USD",
       "category": "FX rate",
@@ -604,15 +604,15 @@
     "a-fx-aud-eur": {
       "id": "a-fx-aud-eur",
       "key": "scenario.fx_rate.aud_eur",
-      "label": "FX rate — AUD/EUR",
+      "label": "FX rate â€” AUD/EUR",
       "value": 0.58,
       "unit": "EUR per AUD",
       "category": "FX rate",
       "status": "Resolved",
       "author": "Angelus",
       "decided_on": "2026-05-13T00:00:00Z",
-      "rationale": "Working exchange rate for EUR-billed subscriptions. Indicative placeholder — no EUR-billed subscriptions currently in inventory. Updated manually each quarter from RBA average when needed.",
-      "source": "RBA exchange rate data, May 2026 — indicative",
+      "rationale": "Working exchange rate for EUR-billed subscriptions. Indicative placeholder â€” no EUR-billed subscriptions currently in inventory. Updated manually each quarter from RBA average when needed.",
+      "source": "RBA exchange rate data, May 2026 â€” indicative",
       "confidence": "low",
       "effective_from": "2026-05-13",
       "effective_to": null,
@@ -626,15 +626,15 @@
     "a-fx-aud-gbp": {
       "id": "a-fx-aud-gbp",
       "key": "scenario.fx_rate.aud_gbp",
-      "label": "FX rate — AUD/GBP",
+      "label": "FX rate â€” AUD/GBP",
       "value": 0.5,
       "unit": "GBP per AUD",
       "category": "FX rate",
       "status": "Resolved",
       "author": "Angelus",
       "decided_on": "2026-05-13T00:00:00Z",
-      "rationale": "Working exchange rate for GBP-billed subscriptions. Indicative placeholder — no GBP-billed subscriptions currently in inventory. Updated manually each quarter from RBA average when needed.",
-      "source": "RBA exchange rate data, May 2026 — indicative",
+      "rationale": "Working exchange rate for GBP-billed subscriptions. Indicative placeholder â€” no GBP-billed subscriptions currently in inventory. Updated manually each quarter from RBA average when needed.",
+      "source": "RBA exchange rate data, May 2026 â€” indicative",
       "confidence": "low",
       "effective_from": "2026-05-13",
       "effective_to": null,
@@ -648,7 +648,7 @@
     "a-scenario-pt-ies-per-cohort": {
       "id": "a-scenario-pt-ies-per-cohort",
       "key": "scenario.primary_target.ies_per_cohort",
-      "label": "Primary target — IEs per cohort",
+      "label": "Primary target â€” IEs per cohort",
       "value": 10,
       "unit": "IEs",
       "category": "Scenario input",
@@ -673,7 +673,7 @@
     "a-m365-basic-baseline-seats": {
       "id": "a-m365-basic-baseline-seats",
       "key": "subscription.m365_basic.baseline_seats",
-      "label": "M365 Business Basic — current baseline seat count (pre-cohort)",
+      "label": "M365 Business Basic â€” current baseline seat count (pre-cohort)",
       "value": 42,
       "unit": "seats",
       "category": "Licence count",
@@ -699,14 +699,14 @@
     "a-miro-baseline-seats": {
       "id": "a-miro-baseline-seats",
       "key": "subscription.miro.baseline_seats",
-      "label": "Miro — current baseline seat count (pre-cohort)",
+      "label": "Miro â€” current baseline seat count (pre-cohort)",
       "value": 22,
       "unit": "seats",
       "category": "Licence count",
       "status": "Resolved",
       "author": "Angelus",
       "decided_on": "2026-05-15T00:00:00Z",
-      "rationale": "Current Miro licences as of May 2026 — 22 seats. Low IE utilisation noted in subscription alignment meeting. Cohort intake from CH17 onwards is added on top of this baseline at the Miro attribution rate.",
+      "rationale": "Current Miro licences as of May 2026 â€” 22 seats. Low IE utilisation noted in subscription alignment meeting. Cohort intake from CH17 onwards is added on top of this baseline at the Miro attribution rate.",
       "source": "Subscription alignment meeting, 8 May 2026 (transcript section 6)",
       "confidence": "high",
       "effective_from": "2026-05-15",
@@ -724,7 +724,7 @@
     "a-m365-standard-seats": {
       "id": "a-m365-standard-seats",
       "key": "subscription.m365_standard.seat_count",
-      "label": "M365 Business Standard — fixed seat count",
+      "label": "M365 Business Standard â€” fixed seat count",
       "value": 5,
       "unit": "seats",
       "category": "Licence count",
@@ -732,7 +732,7 @@
       "author": "Angelus",
       "decided_on": "2026-05-13T00:00:00Z",
       "rationale": "Five named users on Business Standard: Angelus Morningstar, Niel Malan, Kane Bhana, Bernard Leung, and one finance reviewer. These are internal admin and leadership roles requiring the full suite (Teams, OneDrive 1TB, Bookings). All other IEs are on Business Basic.",
-      "source": "WWRI Subscription Cost Matrix Excel, May 2026 — Microsoft licence tab",
+      "source": "WWRI Subscription Cost Matrix Excel, May 2026 â€” Microsoft licence tab",
       "confidence": "high",
       "effective_from": "2026-05-13",
       "effective_to": null,
@@ -749,7 +749,7 @@
     "a-cohort-timing-ch17": {
       "id": "a-cohort-timing-ch17",
       "key": "cohort.timing.ch17.start_month",
-      "label": "CH17 cohort — billing start month",
+      "label": "CH17 cohort â€” billing start month",
       "value": "2026-06",
       "unit": "YYYY-MM",
       "category": "Scenario input",
@@ -776,14 +776,14 @@
     "a-cohort-timing-ch18": {
       "id": "a-cohort-timing-ch18",
       "key": "cohort.timing.ch18.start_month",
-      "label": "CH18 cohort — billing start month",
+      "label": "CH18 cohort â€” billing start month",
       "value": "2026-09",
       "unit": "YYYY-MM",
       "category": "Scenario input",
       "status": "Resolved",
       "author": "Angelus",
       "decided_on": "2026-05-13T00:00:00Z",
-      "rationale": "Cohort 18 commences September 2026 — first cohort of FY 26/27.",
+      "rationale": "Cohort 18 commences September 2026 â€” first cohort of FY 26/27.",
       "source": "WWRI recruitment calendar, May 2026 planning session",
       "confidence": "medium",
       "effective_from": "2026-05-13",
@@ -803,7 +803,7 @@
     "a-cohort-timing-ch19": {
       "id": "a-cohort-timing-ch19",
       "key": "cohort.timing.ch19.start_month",
-      "label": "CH19 cohort — billing start month",
+      "label": "CH19 cohort â€” billing start month",
       "value": "2026-10",
       "unit": "YYYY-MM",
       "category": "Scenario input",
@@ -830,7 +830,7 @@
     "a-cohort-timing-ch20": {
       "id": "a-cohort-timing-ch20",
       "key": "cohort.timing.ch20.start_month",
-      "label": "CH20 cohort — billing start month",
+      "label": "CH20 cohort â€” billing start month",
       "value": "2027-02",
       "unit": "YYYY-MM",
       "category": "Scenario input",
@@ -857,7 +857,7 @@
     "a-cohort-timing-ch21": {
       "id": "a-cohort-timing-ch21",
       "key": "cohort.timing.ch21.start_month",
-      "label": "CH21 cohort — billing start month",
+      "label": "CH21 cohort â€” billing start month",
       "value": "2027-04",
       "unit": "YYYY-MM",
       "category": "Scenario input",
@@ -884,14 +884,14 @@
     "a-cohort-timing-ch22": {
       "id": "a-cohort-timing-ch22",
       "key": "cohort.timing.ch22.start_month",
-      "label": "CH22 cohort — billing start month",
+      "label": "CH22 cohort â€” billing start month",
       "value": "2027-06",
       "unit": "YYYY-MM",
       "category": "Scenario input",
       "status": "Resolved",
       "author": "Angelus",
       "decided_on": "2026-05-13T00:00:00Z",
-      "rationale": "Cohort 22 commences June 2027 — final cohort of FY 26/27.",
+      "rationale": "Cohort 22 commences June 2027 â€” final cohort of FY 26/27.",
       "source": "WWRI recruitment calendar, May 2026 planning session",
       "confidence": "low",
       "effective_from": "2026-05-13",
@@ -911,7 +911,7 @@
     "a-scenario-mv-ies-per-cohort": {
       "id": "a-scenario-mv-ies-per-cohort",
       "key": "scenario.minimum_viable.ies_per_cohort",
-      "label": "Minimum viable — IEs per cohort",
+      "label": "Minimum viable â€” IEs per cohort",
       "value": 5,
       "unit": "IEs",
       "category": "Scenario input",
@@ -936,7 +936,7 @@
     "a-scenario-om-ies-per-cohort": {
       "id": "a-scenario-om-ies-per-cohort",
       "key": "scenario.optimal_maximum.ies_per_cohort",
-      "label": "Optimal maximum — IEs per cohort",
+      "label": "Optimal maximum â€” IEs per cohort",
       "value": 15,
       "unit": "IEs",
       "category": "Scenario input",
@@ -961,15 +961,15 @@
     "a-scenario-mv-num-cohorts": {
       "id": "a-scenario-mv-num-cohorts",
       "key": "scenario.minimum_viable.num_cohorts_fy2627",
-      "label": "Minimum viable — cohorts in FY 26/27",
+      "label": "Minimum viable â€” cohorts in FY 26/27",
       "value": 4,
       "unit": "cohorts",
       "category": "Scenario input",
       "status": "Resolved",
       "author": "Angelus",
       "decided_on": "2026-05-13T00:00:00Z",
-      "rationale": "Minimum viable scenario assumes 4 cohort intakes in FY 26/27 (CH18–CH21), reflecting a conservative recruitment pace. CH22 (Jun 2027) is deferred in this scenario.",
-      "source": "WWRI Subscription Cost Matrix Excel, May 2026 — scenario planning tab",
+      "rationale": "Minimum viable scenario assumes 4 cohort intakes in FY 26/27 (CH18â€“CH21), reflecting a conservative recruitment pace. CH22 (Jun 2027) is deferred in this scenario.",
+      "source": "WWRI Subscription Cost Matrix Excel, May 2026 â€” scenario planning tab",
       "confidence": "medium",
       "effective_from": "2026-05-13",
       "effective_to": null,
@@ -986,14 +986,14 @@
     "a-scenario-pt-num-cohorts": {
       "id": "a-scenario-pt-num-cohorts",
       "key": "scenario.primary_target.num_cohorts_fy2627",
-      "label": "Primary target — cohorts in FY 26/27",
+      "label": "Primary target â€” cohorts in FY 26/27",
       "value": 5,
       "unit": "cohorts",
       "category": "Scenario input",
       "status": "Resolved",
       "author": "Angelus",
       "decided_on": "2026-05-13T00:00:00Z",
-      "rationale": "Primary target assumes all 5 planned cohort intakes in FY 26/27 proceed on schedule (CH18–CH22). Agreed as baseline for board reporting.",
+      "rationale": "Primary target assumes all 5 planned cohort intakes in FY 26/27 proceed on schedule (CH18â€“CH22). Agreed as baseline for board reporting.",
       "source": "Operations meeting May 2026",
       "confidence": "high",
       "effective_from": "2026-05-13",
@@ -1011,14 +1011,14 @@
     "a-scenario-om-num-cohorts": {
       "id": "a-scenario-om-num-cohorts",
       "key": "scenario.optimal_maximum.num_cohorts_fy2627",
-      "label": "Optimal maximum — cohorts in FY 26/27",
+      "label": "Optimal maximum â€” cohorts in FY 26/27",
       "value": 5,
       "unit": "cohorts",
       "category": "Scenario input",
       "status": "Resolved",
       "author": "Angelus",
       "decided_on": "2026-05-13T00:00:00Z",
-      "rationale": "Optimal maximum also uses 5 cohort intakes in FY 26/27 — the lever for this scenario is IEs per cohort (16), not cohort frequency.",
+      "rationale": "Optimal maximum also uses 5 cohort intakes in FY 26/27 â€” the lever for this scenario is IEs per cohort (16), not cohort frequency.",
       "source": "WWRI Subscription Cost Matrix Excel, May 2026",
       "confidence": "medium",
       "effective_from": "2026-05-13",
@@ -1044,7 +1044,7 @@
       "author": "Angelus",
       "decided_on": "2026-05-13T00:00:00Z",
       "rationale": "40% renewal discount is the default negotiation baseline for the October 2026 HubSpot renewal. Architecture F renewal monthly (AUD 1,101.60) was calculated at this rate from list AUD 1,836. Adjust in the HubSpot architecture view during negotiation modelling.",
-      "source": "HubSpot AUD-localised renewal quote May 2026; WWRI HubSpot Subscription Model spec §2",
+      "source": "HubSpot AUD-localised renewal quote May 2026; WWRI HubSpot Subscription Model spec Â§2",
       "confidence": "medium",
       "effective_from": "2026-05-13",
       "effective_to": null,
@@ -1061,7 +1061,7 @@
     "a-hs-arch-f-bundle-list-monthly": {
       "id": "a-hs-arch-f-bundle-list-monthly",
       "key": "hubspot.arch.f.bundle_list_monthly_aud",
-      "label": "HubSpot Arch F — bundle list price (AUD/mo, before discount)",
+      "label": "HubSpot Arch F â€” bundle list price (AUD/mo, before discount)",
       "value": 1836,
       "unit": "AUD/month",
       "category": "HubSpot",
@@ -1069,7 +1069,7 @@
       "author": "Angelus",
       "decided_on": "2026-05-13T00:00:00Z",
       "rationale": "Architecture F (status quo bundle) full list price before any renewal discount. 5 Hub embedded seats + 7 Pro Core Seats. Current monthly (AUD 918) is at 50% off this list; renewal at 40% off gives AUD 1,101.60.",
-      "source": "HubSpot AUD-localised account view and quote May 2026; WWRI HubSpot Subscription Model spec §1",
+      "source": "HubSpot AUD-localised account view and quote May 2026; WWRI HubSpot Subscription Model spec Â§1",
       "confidence": "high",
       "effective_from": "2026-05-13",
       "effective_to": null,
@@ -1086,7 +1086,7 @@
     "a-hs-arch-f-core-seat-list": {
       "id": "a-hs-arch-f-core-seat-list",
       "key": "hubspot.arch.f.core_seat_list_price_aud",
-      "label": "HubSpot Arch F — Pro Core Seat list price (AUD/seat/mo)",
+      "label": "HubSpot Arch F â€” Pro Core Seat list price (AUD/seat/mo)",
       "value": 80,
       "unit": "AUD/seat/month",
       "category": "HubSpot",
@@ -1094,7 +1094,7 @@
       "author": "Angelus",
       "decided_on": "2026-05-13T00:00:00Z",
       "rationale": "Pro Core Seat list price at AUD 80/seat/mo. Applies to cohort additions under Architecture F. Renewal discount reduces this to AUD 48/seat/mo at 40%.",
-      "source": "HubSpot AUD-localised renewal quote May 2026; WWRI HubSpot Subscription Model spec §4",
+      "source": "HubSpot AUD-localised renewal quote May 2026; WWRI HubSpot Subscription Model spec Â§4",
       "confidence": "high",
       "effective_from": "2026-05-13",
       "effective_to": null,
@@ -1111,7 +1111,7 @@
     "a-hs-arch-f-base-seat-count": {
       "id": "a-hs-arch-f-base-seat-count",
       "key": "hubspot.arch.f.base_seat_count",
-      "label": "HubSpot Arch F — total base seat count",
+      "label": "HubSpot Arch F â€” total base seat count",
       "value": 12,
       "unit": "seats",
       "category": "HubSpot",
@@ -1119,7 +1119,7 @@
       "author": "Angelus",
       "decided_on": "2026-05-13T00:00:00Z",
       "rationale": "Architecture F bundle: 5 embedded Hub seats (one per Hub product) plus 7 standalone Pro Core Seat add-ons = 12 total. Mirrors existing subscription.hubspot.base_seats assumption.",
-      "source": "HubSpot AUD-localised account view May 2026; WWRI HubSpot Subscription Model spec §1",
+      "source": "HubSpot AUD-localised account view May 2026; WWRI HubSpot Subscription Model spec Â§1",
       "confidence": "high",
       "effective_from": "2026-05-13",
       "effective_to": null,
@@ -1135,15 +1135,15 @@
     "a-hs-arch-1-seat-list": {
       "id": "a-hs-arch-1-seat-list",
       "key": "hubspot.arch.1.seat_list_price_aud",
-      "label": "HubSpot Arch 1 — Sales Hub Starter Core Seat list price (AUD/seat/mo)",
+      "label": "HubSpot Arch 1 â€” Sales Hub Starter Core Seat list price (AUD/seat/mo)",
       "value": 20,
       "unit": "AUD/seat/month",
       "category": "HubSpot",
       "status": "Resolved",
       "author": "Angelus",
       "decided_on": "2026-05-13T00:00:00Z",
-      "rationale": "Architecture 1 (Sales Hub Starter only): seven Sales Hub Starter Core Seats at AUD 20/seat/mo list price. Starter tier gives basic CRM, contacts, deals, and email tools — sufficient for field IEs not running complex pipeline analytics.",
-      "source": "HubSpot AUD-localised pricing page May 2026; WWRI HubSpot Subscription Model spec §2",
+      "rationale": "Architecture 1 (Sales Hub Starter only): seven Sales Hub Starter Core Seats at AUD 20/seat/mo list price. Starter tier gives basic CRM, contacts, deals, and email tools â€” sufficient for field IEs not running complex pipeline analytics.",
+      "source": "HubSpot AUD-localised pricing page May 2026; WWRI HubSpot Subscription Model spec Â§2",
       "confidence": "medium",
       "effective_from": "2026-05-13",
       "effective_to": null,
@@ -1160,7 +1160,7 @@
     "a-hs-arch-1-base-seat-count": {
       "id": "a-hs-arch-1-base-seat-count",
       "key": "hubspot.arch.1.base_seat_count",
-      "label": "HubSpot Arch 1 — base Sales Hub Starter seat count",
+      "label": "HubSpot Arch 1 â€” base Sales Hub Starter seat count",
       "value": 7,
       "unit": "seats",
       "category": "HubSpot",
@@ -1168,7 +1168,7 @@
       "author": "Angelus",
       "decided_on": "2026-05-13T00:00:00Z",
       "rationale": "Architecture 1 base bundle: 7 Sales Hub Starter Core Seats, matching the 7 standalone seats in Architecture F. Cohort additions are added on top of this base.",
-      "source": "WWRI HubSpot Subscription Model spec §2",
+      "source": "WWRI HubSpot Subscription Model spec Â§2",
       "confidence": "medium",
       "effective_from": "2026-05-13",
       "effective_to": null,
@@ -1185,7 +1185,7 @@
     "a-hs-arch-2-pro-seat-list": {
       "id": "a-hs-arch-2-pro-seat-list",
       "key": "hubspot.arch.2.pro_seat_list_price_aud",
-      "label": "HubSpot Arch 2 — Sales Pro Seat list price (AUD/seat/mo)",
+      "label": "HubSpot Arch 2 â€” Sales Pro Seat list price (AUD/seat/mo)",
       "value": 100,
       "unit": "AUD/seat/month",
       "category": "HubSpot",
@@ -1193,7 +1193,7 @@
       "author": "Angelus",
       "decided_on": "2026-05-13T00:00:00Z",
       "rationale": "Architecture 2 (Mixed Pro and Core): 1 Sales Pro Seat at AUD 100/seat/mo list. This is the premium analytics/reporting seat for the account owner. Renewal discount applies.",
-      "source": "HubSpot AUD-localised pricing page May 2026; WWRI HubSpot Subscription Model spec §2",
+      "source": "HubSpot AUD-localised pricing page May 2026; WWRI HubSpot Subscription Model spec Â§2",
       "confidence": "medium",
       "effective_from": "2026-05-13",
       "effective_to": null,
@@ -1210,7 +1210,7 @@
     "a-hs-arch-2-core-seat-list": {
       "id": "a-hs-arch-2-core-seat-list",
       "key": "hubspot.arch.2.core_seat_list_price_aud",
-      "label": "HubSpot Arch 2 — Pro Core Seat list price (AUD/seat/mo)",
+      "label": "HubSpot Arch 2 â€” Pro Core Seat list price (AUD/seat/mo)",
       "value": 50,
       "unit": "AUD/seat/month",
       "category": "HubSpot",
@@ -1218,7 +1218,7 @@
       "author": "Angelus",
       "decided_on": "2026-05-13T00:00:00Z",
       "rationale": "Architecture 2 (Mixed Pro and Core): 6 Pro Core Seats at AUD 50/seat/mo list. Pro Core Seats give access to Pro features without the full Sales Pro analytics suite. Renewal discount applies.",
-      "source": "HubSpot AUD-localised pricing page May 2026; WWRI HubSpot Subscription Model spec §2",
+      "source": "HubSpot AUD-localised pricing page May 2026; WWRI HubSpot Subscription Model spec Â§2",
       "confidence": "medium",
       "effective_from": "2026-05-13",
       "effective_to": null,
@@ -1235,7 +1235,7 @@
     "a-hs-arch-2-pro-seat-count": {
       "id": "a-hs-arch-2-pro-seat-count",
       "key": "hubspot.arch.2.pro_seat_count",
-      "label": "HubSpot Arch 2 — Sales Pro Seat count",
+      "label": "HubSpot Arch 2 â€” Sales Pro Seat count",
       "value": 1,
       "unit": "seats",
       "category": "HubSpot",
@@ -1243,7 +1243,7 @@
       "author": "Angelus",
       "decided_on": "2026-05-13T00:00:00Z",
       "rationale": "Architecture 2 base: 1 Sales Pro Seat for the account owner/analytics user (Angelus or designated manager). Cohort additions use Pro Core Seats at AUD 50/seat/mo.",
-      "source": "WWRI HubSpot Subscription Model spec §2",
+      "source": "WWRI HubSpot Subscription Model spec Â§2",
       "confidence": "medium",
       "effective_from": "2026-05-13",
       "effective_to": null,
@@ -1260,7 +1260,7 @@
     "a-hs-arch-2-core-seat-count": {
       "id": "a-hs-arch-2-core-seat-count",
       "key": "hubspot.arch.2.core_seat_count",
-      "label": "HubSpot Arch 2 — Pro Core Seat count",
+      "label": "HubSpot Arch 2 â€” Pro Core Seat count",
       "value": 6,
       "unit": "seats",
       "category": "HubSpot",
@@ -1268,7 +1268,7 @@
       "author": "Angelus",
       "decided_on": "2026-05-13T00:00:00Z",
       "rationale": "Architecture 2 base: 6 Pro Core Seats for active IEs requiring CRM access beyond the account owner. Together with 1 Pro Seat = 7 total seats, matching Architecture F's 7 standalone seats.",
-      "source": "WWRI HubSpot Subscription Model spec §2",
+      "source": "WWRI HubSpot Subscription Model spec Â§2",
       "confidence": "medium",
       "effective_from": "2026-05-13",
       "effective_to": null,
@@ -1285,15 +1285,15 @@
     "a-hs-arch-3-pro-seat-list": {
       "id": "a-hs-arch-3-pro-seat-list",
       "key": "hubspot.arch.3.pro_seat_list_price_aud",
-      "label": "HubSpot Arch 3 — Sales Pro Seat list price (AUD/seat/mo)",
+      "label": "HubSpot Arch 3 â€” Sales Pro Seat list price (AUD/seat/mo)",
       "value": 100,
       "unit": "AUD/seat/month",
       "category": "HubSpot",
       "status": "Resolved",
       "author": "Angelus",
       "decided_on": "2026-05-13T00:00:00Z",
-      "rationale": "Architecture 3 (Full Sales Hub Pro): all seats are Sales Pro at AUD 100/seat/mo list. Maximum capability tier — full analytics, sequences, forecasting, and pipeline reporting for all users. Renewal discount applies.",
-      "source": "HubSpot AUD-localised pricing page May 2026; WWRI HubSpot Subscription Model spec §2",
+      "rationale": "Architecture 3 (Full Sales Hub Pro): all seats are Sales Pro at AUD 100/seat/mo list. Maximum capability tier â€” full analytics, sequences, forecasting, and pipeline reporting for all users. Renewal discount applies.",
+      "source": "HubSpot AUD-localised pricing page May 2026; WWRI HubSpot Subscription Model spec Â§2",
       "confidence": "medium",
       "effective_from": "2026-05-13",
       "effective_to": null,
@@ -1310,7 +1310,7 @@
     "a-hs-arch-3-pro-seat-count": {
       "id": "a-hs-arch-3-pro-seat-count",
       "key": "hubspot.arch.3.pro_seat_count",
-      "label": "HubSpot Arch 3 — Sales Pro Seat count",
+      "label": "HubSpot Arch 3 â€” Sales Pro Seat count",
       "value": 7,
       "unit": "seats",
       "category": "HubSpot",
@@ -1318,7 +1318,7 @@
       "author": "Angelus",
       "decided_on": "2026-05-13T00:00:00Z",
       "rationale": "Architecture 3 base: 7 Sales Pro Seats, matching Architecture F's 7 standalone seat count. All seats at full Pro tier. Cohort additions also at Sales Pro rate.",
-      "source": "WWRI HubSpot Subscription Model spec §2",
+      "source": "WWRI HubSpot Subscription Model spec Â§2",
       "confidence": "medium",
       "effective_from": "2026-05-13",
       "effective_to": null,
@@ -1335,15 +1335,15 @@
     "a-hs-arch-onboarding-fee": {
       "id": "a-hs-arch-onboarding-fee",
       "key": "hubspot.arch.onboarding_fee_aud",
-      "label": "HubSpot Sales Hub Pro — one-off onboarding fee (AUD)",
+      "label": "HubSpot Sales Hub Pro â€” one-off onboarding fee (AUD)",
       "value": 1500,
       "unit": "AUD",
       "category": "HubSpot",
       "status": "Resolved",
       "author": "Angelus",
       "decided_on": "2026-05-13T00:00:00Z",
-      "rationale": "Architectures 2 and 3 (both involving Sales Hub Pro seats) attract a one-off Sales Hub Pro onboarding fee of AUD 1,500 in Year 1. Architectures F and 1 do not incur this fee. May be waived in negotiation — track against rationale if waived.",
-      "source": "HubSpot AUD-localised renewal quote May 2026; WWRI HubSpot Subscription Model spec §2",
+      "rationale": "Architectures 2 and 3 (both involving Sales Hub Pro seats) attract a one-off Sales Hub Pro onboarding fee of AUD 1,500 in Year 1. Architectures F and 1 do not incur this fee. May be waived in negotiation â€” track against rationale if waived.",
+      "source": "HubSpot AUD-localised renewal quote May 2026; WWRI HubSpot Subscription Model spec Â§2",
       "confidence": "medium",
       "effective_from": "2026-05-13",
       "effective_to": null,
@@ -1360,14 +1360,14 @@
     "a-forecast-target-fy26": {
       "id": "a-forecast-target-fy26",
       "key": "forecast.model.target.fy26",
-      "label": "Recruitment forecast — FY26 active IEs (actual baseline)",
+      "label": "Recruitment forecast â€” FY26 active IEs (actual baseline)",
       "value": 22,
       "unit": "IEs",
       "category": "Forecast model",
       "status": "Resolved",
       "author": "Angelus",
       "decided_on": "2026-05-14T00:00:00Z",
-      "rationale": "IE Recruitment Forecast v002, May 2026. FY26 actuals — 22 active IEs at FY-end. Read-only baseline; not subject to variance.",
+      "rationale": "IE Recruitment Forecast v002, May 2026. FY26 actuals â€” 22 active IEs at FY-end. Read-only baseline; not subject to variance.",
       "source": "IE_Recruitment_Forecast_1 (v002).xlsx",
       "confidence": "high",
       "effective_from": "2026-05-14",
@@ -1385,14 +1385,14 @@
     "a-forecast-target-fy27": {
       "id": "a-forecast-target-fy27",
       "key": "forecast.model.target.fy27",
-      "label": "Recruitment forecast — FY27 active IEs target",
+      "label": "Recruitment forecast â€” FY27 active IEs target",
       "value": 60,
       "unit": "IEs",
       "category": "Forecast model",
       "status": "Resolved",
       "author": "Angelus",
       "decided_on": "2026-05-14T00:00:00Z",
-      "rationale": "IE Recruitment Forecast v002, May 2026. FY27 (Jul 26 – Jun 27) target: 60 active IEs at FY-end.",
+      "rationale": "IE Recruitment Forecast v002, May 2026. FY27 (Jul 26 â€“ Jun 27) target: 60 active IEs at FY-end.",
       "source": "IE_Recruitment_Forecast_1 (v002).xlsx",
       "confidence": "high",
       "effective_from": "2026-05-14",
@@ -1410,14 +1410,14 @@
     "a-forecast-target-fy28": {
       "id": "a-forecast-target-fy28",
       "key": "forecast.model.target.fy28",
-      "label": "Recruitment forecast — FY28 active IEs target",
+      "label": "Recruitment forecast â€” FY28 active IEs target",
       "value": 99,
       "unit": "IEs",
       "category": "Forecast model",
       "status": "Resolved",
       "author": "Angelus",
       "decided_on": "2026-05-14T00:00:00Z",
-      "rationale": "IE Recruitment Forecast v002, May 2026. FY28 (Jul 27 – Jun 28) target: 99 active IEs at FY-end.",
+      "rationale": "IE Recruitment Forecast v002, May 2026. FY28 (Jul 27 â€“ Jun 28) target: 99 active IEs at FY-end.",
       "source": "IE_Recruitment_Forecast_1 (v002).xlsx",
       "confidence": "medium",
       "effective_from": "2026-05-14",
@@ -1435,14 +1435,14 @@
     "a-forecast-target-fy29": {
       "id": "a-forecast-target-fy29",
       "key": "forecast.model.target.fy29",
-      "label": "Recruitment forecast — FY29 active IEs target",
+      "label": "Recruitment forecast â€” FY29 active IEs target",
       "value": 150,
       "unit": "IEs",
       "category": "Forecast model",
       "status": "Resolved",
       "author": "Angelus",
       "decided_on": "2026-05-14T00:00:00Z",
-      "rationale": "IE Recruitment Forecast v002, May 2026. FY29 (Jul 28 – Jun 29) target: 150 active IEs at FY-end.",
+      "rationale": "IE Recruitment Forecast v002, May 2026. FY29 (Jul 28 â€“ Jun 29) target: 150 active IEs at FY-end.",
       "source": "IE_Recruitment_Forecast_1 (v002).xlsx",
       "confidence": "low",
       "effective_from": "2026-05-14",
@@ -1460,7 +1460,7 @@
     "a-forecast-weight-apac": {
       "id": "a-forecast-weight-apac",
       "key": "forecast.model.region_weight.apac",
-      "label": "Recruitment forecast — APAC regional weight",
+      "label": "Recruitment forecast â€” APAC regional weight",
       "value": 0.333,
       "unit": "fraction",
       "category": "Forecast model",
@@ -1485,7 +1485,7 @@
     "a-forecast-weight-americas": {
       "id": "a-forecast-weight-americas",
       "key": "forecast.model.region_weight.americas",
-      "label": "Recruitment forecast — Americas regional weight",
+      "label": "Recruitment forecast â€” Americas regional weight",
       "value": 0.333,
       "unit": "fraction",
       "category": "Forecast model",
@@ -1510,7 +1510,7 @@
     "a-forecast-weight-emea": {
       "id": "a-forecast-weight-emea",
       "key": "forecast.model.region_weight.emea",
-      "label": "Recruitment forecast — EMEA regional weight",
+      "label": "Recruitment forecast â€” EMEA regional weight",
       "value": 0.334,
       "unit": "fraction",
       "category": "Forecast model",
@@ -1535,7 +1535,7 @@
     "a-forecast-attrition-apac": {
       "id": "a-forecast-attrition-apac",
       "key": "forecast.model.attrition_rate.apac",
-      "label": "Recruitment forecast — APAC annual attrition rate",
+      "label": "Recruitment forecast â€” APAC annual attrition rate",
       "value": 0.1,
       "unit": "fraction",
       "category": "Forecast model",
@@ -1560,7 +1560,7 @@
     "a-forecast-attrition-americas": {
       "id": "a-forecast-attrition-americas",
       "key": "forecast.model.attrition_rate.americas",
-      "label": "Recruitment forecast — Americas annual attrition rate",
+      "label": "Recruitment forecast â€” Americas annual attrition rate",
       "value": 0.1,
       "unit": "fraction",
       "category": "Forecast model",
@@ -1585,7 +1585,7 @@
     "a-forecast-attrition-emea": {
       "id": "a-forecast-attrition-emea",
       "key": "forecast.model.attrition_rate.emea",
-      "label": "Recruitment forecast — EMEA annual attrition rate",
+      "label": "Recruitment forecast â€” EMEA annual attrition rate",
       "value": 0.1,
       "unit": "fraction",
       "category": "Forecast model",
@@ -1610,7 +1610,7 @@
     "a-forecast-vet-to-short": {
       "id": "a-forecast-vet-to-short",
       "key": "forecast.model.vet_to_short_rate",
-      "label": "Recruitment forecast — Vetted to Shortlist conversion rate",
+      "label": "Recruitment forecast â€” Vetted to Shortlist conversion rate",
       "value": 0.4,
       "unit": "fraction",
       "category": "Forecast model",
@@ -1635,7 +1635,7 @@
     "a-forecast-short-to-onboard": {
       "id": "a-forecast-short-to-onboard",
       "key": "forecast.model.short_to_onboard_rate",
-      "label": "Recruitment forecast — Shortlist to Onboarded conversion rate",
+      "label": "Recruitment forecast â€” Shortlist to Onboarded conversion rate",
       "value": 0.5,
       "unit": "fraction",
       "category": "Forecast model",
@@ -1660,14 +1660,14 @@
     "a-forecast-cohorts-per-year": {
       "id": "a-forecast-cohorts-per-year",
       "key": "forecast.model.cohorts_per_year",
-      "label": "Recruitment forecast — cohort intakes per financial year",
+      "label": "Recruitment forecast â€” cohort intakes per financial year",
       "value": 5,
       "unit": "cohorts",
       "category": "Forecast model",
       "status": "Resolved",
       "author": "Angelus",
       "decided_on": "2026-05-14T00:00:00Z",
-      "rationale": "IE Recruitment Forecast v002, May 2026. 5 cohort intakes per FY. Used for sanity check (avg onboards per cohort target band: 10–15).",
+      "rationale": "IE Recruitment Forecast v002, May 2026. 5 cohort intakes per FY. Used for sanity check (avg onboards per cohort target band: 10â€“15).",
       "source": "IE_Recruitment_Forecast_1 (v002).xlsx",
       "confidence": "high",
       "effective_from": "2026-05-14",
@@ -1685,14 +1685,14 @@
     "a-forecast-variance-min": {
       "id": "a-forecast-variance-min",
       "key": "forecast.model.variance.min",
-      "label": "Recruitment forecast — minimum viable variance factor",
+      "label": "Recruitment forecast â€” minimum viable variance factor",
       "value": 0.8,
       "unit": "fraction",
       "category": "Forecast model",
       "status": "Resolved",
       "author": "Angelus",
       "decided_on": "2026-05-14T00:00:00Z",
-      "rationale": "IE Recruitment Forecast v002, May 2026. −20% variance applied to base forecast for the Minimum Viable scenario.",
+      "rationale": "IE Recruitment Forecast v002, May 2026. âˆ’20% variance applied to base forecast for the Minimum Viable scenario.",
       "source": "IE_Recruitment_Forecast_1 (v002).xlsx",
       "confidence": "high",
       "effective_from": "2026-05-14",
@@ -1710,7 +1710,7 @@
     "a-forecast-variance-max": {
       "id": "a-forecast-variance-max",
       "key": "forecast.model.variance.max",
-      "label": "Recruitment forecast — optimal maximum variance factor",
+      "label": "Recruitment forecast â€” optimal maximum variance factor",
       "value": 1.2,
       "unit": "fraction",
       "category": "Forecast model",
@@ -1735,7 +1735,7 @@
     "a-linkedin-recruiter-unit-cost": {
       "id": "a-linkedin-recruiter-unit-cost",
       "key": "subscription.linkedin_recruiter.unit_cost",
-      "label": "LinkedIn Recruiter Lite — monthly cost",
+      "label": "LinkedIn Recruiter Lite â€” monthly cost",
       "value": 170,
       "unit": "USD/month",
       "category": "Subscription cost",
@@ -1760,7 +1760,7 @@
     "a-claude-max-unit-cost": {
       "id": "a-claude-max-unit-cost",
       "key": "subscription.claude_max.unit_cost",
-      "label": "Claude Max 20x Plan — monthly cost",
+      "label": "Claude Max 20x Plan â€” monthly cost",
       "value": 200,
       "unit": "USD/month",
       "category": "Subscription cost",
@@ -1785,7 +1785,7 @@
     "a-chatgpt-kane-unit-cost": {
       "id": "a-chatgpt-kane-unit-cost",
       "key": "subscription.chatgpt_kane.unit_cost",
-      "label": "ChatGPT (Kane Salzer) — monthly cost",
+      "label": "ChatGPT (Kane Salzer) â€” monthly cost",
       "value": 18.28,
       "unit": "GBP/month",
       "category": "Subscription cost",
@@ -1810,7 +1810,7 @@
     "a-adobe-cc-unit-cost": {
       "id": "a-adobe-cc-unit-cost",
       "key": "subscription.adobe_cc.unit_cost",
-      "label": "Adobe Creative Cloud — monthly cost",
+      "label": "Adobe Creative Cloud â€” monthly cost",
       "value": 47.99,
       "unit": "GBP/month",
       "category": "Subscription cost",
@@ -1835,7 +1835,7 @@
     "a-adams-phone-unit-cost": {
       "id": "a-adams-phone-unit-cost",
       "key": "subscription.adams_phone.unit_cost",
-      "label": "Adam's phone (Telecoms) — monthly cost",
+      "label": "Adam's phone (Telecoms) â€” monthly cost",
       "value": 23.18,
       "unit": "GBP/month",
       "category": "Subscription cost",
@@ -1859,7 +1859,7 @@
     "a-claude-pro-bernard-unit-cost": {
       "id": "a-claude-pro-bernard-unit-cost",
       "key": "subscription.claude_pro_bernard.unit_cost",
-      "label": "Claude.ai Pro (Bernard) — monthly cost",
+      "label": "Claude.ai Pro (Bernard) â€” monthly cost",
       "value": 22,
       "unit": "USD/month",
       "category": "Subscription cost",
@@ -1884,7 +1884,7 @@
     "a-google-workspace-bernard-unit-cost": {
       "id": "a-google-workspace-bernard-unit-cost",
       "key": "subscription.google_workspace_bernard.unit_cost",
-      "label": "Google Workspace/One (Bernard) — monthly cost",
+      "label": "Google Workspace/One (Bernard) â€” monthly cost",
       "value": 29.99,
       "unit": "AUD/month",
       "category": "Subscription cost",
@@ -1909,7 +1909,7 @@
     "a-ms-consumer-unit-cost": {
       "id": "a-ms-consumer-unit-cost",
       "key": "subscription.ms_consumer.unit_cost",
-      "label": "Microsoft consumer subscription — monthly cost",
+      "label": "Microsoft consumer subscription â€” monthly cost",
       "value": 11.03,
       "unit": "AUD/month",
       "category": "Subscription cost",
@@ -1933,14 +1933,14 @@
     "a-business-insider-unit-cost": {
       "id": "a-business-insider-unit-cost",
       "key": "subscription.business_insider.unit_cost",
-      "label": "Business Insider — monthly cost equivalent",
+      "label": "Business Insider â€” monthly cost equivalent",
       "value": 6.58,
       "unit": "USD/month",
       "category": "Subscription cost",
       "status": "Resolved",
       "author": "Angelus",
       "decided_on": "2026-05-14T00:00:00Z",
-      "rationale": "Business Insider annual subscription USD 79/yr, expressed as monthly equivalent (79 ÷ 12 = 6.58). Billed annually on Bernard Leung's card.",
+      "rationale": "Business Insider annual subscription USD 79/yr, expressed as monthly equivalent (79 Ã· 12 = 6.58). Billed annually on Bernard Leung's card.",
       "source": "WWRI Subscription Cost Matrix Excel, May 2026",
       "confidence": "high",
       "effective_from": "2026-05-14",
@@ -1957,14 +1957,14 @@
     "a-gnowbe-unit-cost": {
       "id": "a-gnowbe-unit-cost",
       "key": "subscription.gnowbe.unit_cost",
-      "label": "Gnowbe Annual 100-user pack — monthly cost equivalent",
+      "label": "Gnowbe Annual 100-user pack â€” monthly cost equivalent",
       "value": 208.33,
       "unit": "USD/month",
       "category": "Subscription cost",
       "status": "Resolved",
       "author": "Angelus",
       "decided_on": "2026-05-14T00:00:00Z",
-      "rationale": "Gnowbe 100-user annual pack USD 2,500/yr, expressed as monthly equivalent (2500 ÷ 12 = 208.33). Billed annually on Niel's card.",
+      "rationale": "Gnowbe 100-user annual pack USD 2,500/yr, expressed as monthly equivalent (2500 Ã· 12 = 208.33). Billed annually on Niel's card.",
       "source": "WWRI Subscription Cost Matrix Excel, May 2026",
       "confidence": "high",
       "effective_from": "2026-05-14",
@@ -1982,7 +1982,7 @@
     "a-godaddy-unit-cost": {
       "id": "a-godaddy-unit-cost",
       "key": "subscription.godaddy.unit_cost",
-      "label": "GoDaddy domains/hosting — monthly cost average",
+      "label": "GoDaddy domains/hosting â€” monthly cost average",
       "value": 33,
       "unit": "AUD/month",
       "category": "Subscription cost",
@@ -2007,14 +2007,14 @@
     "a-docusign-unit-cost": {
       "id": "a-docusign-unit-cost",
       "key": "subscription.docusign.unit_cost",
-      "label": "Docusign — monthly cost equivalent",
+      "label": "Docusign â€” monthly cost equivalent",
       "value": 20,
       "unit": "GBP/month",
       "category": "Subscription cost",
       "status": "Resolved",
       "author": "Angelus",
       "decided_on": "2026-05-14T00:00:00Z",
-      "rationale": "Docusign annual subscription GBP 240/yr, expressed as monthly equivalent (240 ÷ 12 = 20). Cardholder unknown.",
+      "rationale": "Docusign annual subscription GBP 240/yr, expressed as monthly equivalent (240 Ã· 12 = 20). Cardholder unknown.",
       "source": "WWRI Subscription Cost Matrix Excel, May 2026",
       "confidence": "medium",
       "effective_from": "2026-05-14",
@@ -2032,7 +2032,7 @@
     "a-xero-unit-cost": {
       "id": "a-xero-unit-cost",
       "key": "subscription.xero.unit_cost",
-      "label": "Xero accounting — monthly cost",
+      "label": "Xero accounting â€” monthly cost",
       "value": 122.73,
       "unit": "AUD/month",
       "category": "Subscription cost",
@@ -2057,7 +2057,7 @@
     "a-supabase-unit-cost": {
       "id": "a-supabase-unit-cost",
       "key": "subscription.supabase.unit_cost",
-      "label": "Supabase — monthly cost",
+      "label": "Supabase â€” monthly cost",
       "value": 25,
       "unit": "USD/month",
       "category": "Subscription cost",
@@ -2082,7 +2082,7 @@
     "a-amazon-prime-unit-cost": {
       "id": "a-amazon-prime-unit-cost",
       "key": "subscription.amazon_prime.unit_cost",
-      "label": "Amazon Prime — monthly cost",
+      "label": "Amazon Prime â€” monthly cost",
       "value": 9.27,
       "unit": "AUD/month",
       "category": "Subscription cost",
@@ -2106,12 +2106,12 @@
     "a-claude-cohort-attribution": {
       "id": "a-claude-cohort-attribution",
       "key": "subscription.claude_cohort.attribution_rate",
-      "label": "Claude.ai Pro — IE attribution rate",
+      "label": "Claude.ai Pro â€” IE attribution rate",
       "value": 0,
       "unit": "proportion",
       "category": "Subscription costing",
       "status": "Pending",
-      "rationale": "Not yet agreed — placeholder. Premium IEs (revenue-generating) only. Decision deferred.",
+      "rationale": "Not yet agreed â€” placeholder. Premium IEs (revenue-generating) only. Decision deferred.",
       "source": "Ops meeting 2026-05-20",
       "confidence": "low",
       "decided_on": null
@@ -2119,7 +2119,7 @@
     "a-claude-cohort-unit-cost": {
       "id": "a-claude-cohort-unit-cost",
       "key": "subscription.claude_cohort.unit_cost",
-      "label": "Claude.ai Pro — unit cost per seat",
+      "label": "Claude.ai Pro â€” unit cost per seat",
       "value": 20,
       "unit": "USD/month",
       "category": "Subscription costing",
@@ -2132,12 +2132,12 @@
     "a-claude-cohort-baseline-seats": {
       "id": "a-claude-cohort-baseline-seats",
       "key": "subscription.claude_cohort.baseline_seats",
-      "label": "Claude.ai Pro — baseline seats",
+      "label": "Claude.ai Pro â€” baseline seats",
       "value": 0,
       "unit": "seats",
       "category": "Subscription costing",
       "status": "Resolved",
-      "rationale": "No baseline seats — cohort additions only.",
+      "rationale": "No baseline seats â€” cohort additions only.",
       "source": "Ops meeting 2026-05-20",
       "confidence": "high",
       "decided_on": "2026-05-20T00:00:00Z"
@@ -2145,12 +2145,12 @@
     "a-m365-standard-ie-attribution": {
       "id": "a-m365-standard-ie-attribution",
       "key": "subscription.m365_standard_ie.attribution_rate",
-      "label": "M365 Business Standard — IE attribution rate",
+      "label": "M365 Business Standard â€” IE attribution rate",
       "value": 0,
       "unit": "proportion",
       "category": "Subscription costing",
       "status": "Pending",
-      "rationale": "Not yet agreed — what fraction of IEs need Standard over Basic? Pending ops meeting decision.",
+      "rationale": "Not yet agreed â€” what fraction of IEs need Standard over Basic? Pending ops meeting decision.",
       "source": "",
       "confidence": "low",
       "decided_on": null
@@ -2158,12 +2158,12 @@
     "a-m365-standard-ie-baseline": {
       "id": "a-m365-standard-ie-baseline",
       "key": "subscription.m365_standard_ie.baseline_seats",
-      "label": "M365 Business Standard — IE cohort baseline seats",
+      "label": "M365 Business Standard â€” IE cohort baseline seats",
       "value": 0,
       "unit": "seats",
       "category": "Subscription costing",
       "status": "Resolved",
-      "rationale": "No baseline IE seats on Standard — IE cohort additions only.",
+      "rationale": "No baseline IE seats on Standard â€” IE cohort additions only.",
       "source": "Ops meeting 2026-05-20",
       "confidence": "high",
       "decided_on": "2026-05-20T00:00:00.000Z"
@@ -2171,7 +2171,7 @@
     "a-copilot-ie-unit-cost": {
       "id": "a-copilot-ie-unit-cost",
       "key": "subscription.copilot_ie.unit_cost",
-      "label": "Microsoft 365 Copilot — unit cost per seat per month (AUD)",
+      "label": "Microsoft 365 Copilot â€” unit cost per seat per month (AUD)",
       "value": 55,
       "unit": "AUD/month",
       "category": "Subscription costing",
@@ -2184,12 +2184,12 @@
     "a-copilot-ie-attribution": {
       "id": "a-copilot-ie-attribution",
       "key": "subscription.copilot_ie.attribution_rate",
-      "label": "Microsoft 365 Copilot — IE attribution rate",
+      "label": "Microsoft 365 Copilot â€” IE attribution rate",
       "value": 0,
       "unit": "proportion",
       "category": "Subscription costing",
       "status": "Pending",
-      "rationale": "Not yet agreed — which IEs will have Copilot? Pending ops meeting decision.",
+      "rationale": "Not yet agreed â€” which IEs will have Copilot? Pending ops meeting decision.",
       "source": "",
       "confidence": "low",
       "decided_on": null
@@ -2197,12 +2197,12 @@
     "a-copilot-ie-baseline": {
       "id": "a-copilot-ie-baseline",
       "key": "subscription.copilot_ie.baseline_seats",
-      "label": "Microsoft 365 Copilot — IE cohort baseline seats",
+      "label": "Microsoft 365 Copilot â€” IE cohort baseline seats",
       "value": 0,
       "unit": "seats",
       "category": "Subscription costing",
       "status": "Resolved",
-      "rationale": "No baseline Copilot IE seats — cohort additions only.",
+      "rationale": "No baseline Copilot IE seats â€” cohort additions only.",
       "source": "Ops meeting 2026-05-20",
       "confidence": "high",
       "decided_on": "2026-05-20T00:00:00.000Z"
@@ -2268,7 +2268,7 @@
     "sub-hubspot-bundle": {
       "id": "sub-hubspot-bundle",
       "vendor": "HubSpot",
-      "product": "HubSpot Sales Hub — Bundle",
+      "product": "HubSpot Sales Hub â€” Bundle",
       "subscription_type": "company",
       "cohort_driven": false,
       "category": "Sales & Marketing",
@@ -2278,7 +2278,7 @@
       "tier": "Sales Hub Pro + Core Bundle",
       "renewal_date": "2026-10-21",
       "status": "active",
-      "note": "Fixed bundle cost. Phase 1 (Jul–Oct 2026): AUD 918/mo. Phase 2 (Nov 2026+): AUD 1,101.60/mo. No cohort component.",
+      "note": "Fixed bundle cost. Phase 1 (Julâ€“Oct 2026): AUD 918/mo. Phase 2 (Nov 2026+): AUD 1,101.60/mo. No cohort component.",
       "billing_cycle": "monthly",
       "end_date": null
     },
@@ -2559,7 +2559,7 @@
     "sub-claude-cohort": {
       "id": "sub-claude-cohort",
       "vendor": "Anthropic",
-      "product": "Claude.ai Pro — IE cohort",
+      "product": "Claude.ai Pro â€” IE cohort",
       "category": "Productivity & IT",
       "currency": "USD",
       "cohort_driven": true,
@@ -2572,7 +2572,7 @@
       "tier": "Pro",
       "renewal_date": null,
       "status": "active",
-      "note": "Premium IE cohort subscription. Attribution currently 0% — not yet agreed. Placeholder for future decision.",
+      "note": "Premium IE cohort subscription. Attribution currently 0% â€” not yet agreed. Placeholder for future decision.",
       "billing_cycle": "monthly",
       "end_date": null
     },
@@ -2592,7 +2592,7 @@
       "tier": "Business Standard",
       "renewal_date": null,
       "status": "active",
-      "note": "IE cohort Standard tier. Attribution Pending — set to fraction of IEs who need full suite over Basic.",
+      "note": "IE cohort Standard tier. Attribution Pending â€” set to fraction of IEs who need full suite over Basic.",
       "billing_cycle": "annual",
       "end_date": null
     },
@@ -2612,7 +2612,7 @@
       "tier": "Copilot",
       "renewal_date": null,
       "status": "active",
-      "note": "IE cohort Copilot add-on. Attribution Pending — not yet agreed.",
+      "note": "IE cohort Copilot add-on. Attribution Pending â€” not yet agreed.",
       "billing_cycle": null,
       "end_date": null
     }
@@ -2664,691 +2664,1961 @@
     }
   },
   "exportLog": [],
-  "ieRegister": {
-    "ie-adam-salzer": {
-      "subscriptions": {
-        "miro": false,
-        "hubspot": false,
-        "m365_basic": false,
-        "m365_standard": false,
-        "copilot": false
-      },
+  "rpRegister": {
+    "rp-adam-salzer": {
+      "id": "rp-adam-salzer",
       "name": "Adam Salzer",
       "nda": false,
-      "id": "ie-adam-salzer",
-      "training": false,
-      "startMonth": "2026-07",
       "contract": false,
-      "active": true
-    },
-    "ie-niel-malan": {
+      "training": false,
+      "active": true,
+      "startMonth": "2026-07",
+      "cohort": null,
+      "region": null,
       "subscriptions": {
-        "miro": false,
-        "hubspot": false,
-        "m365_basic": false,
-        "m365_standard": false,
+        "m365": "standard",
+        "hubspot": "core",
+        "miro": null,
         "copilot": false
-      },
+      }
+    },
+    "rp-niel-malan": {
+      "id": "rp-niel-malan",
       "name": "Niel Malan",
       "nda": false,
-      "id": "ie-niel-malan",
-      "training": false,
-      "startMonth": "2026-07",
       "contract": false,
-      "active": true
-    },
-    "ie-anouk-de-blieck": {
+      "training": false,
+      "active": true,
+      "startMonth": "2026-07",
+      "cohort": null,
+      "region": null,
       "subscriptions": {
-        "miro": false,
-        "hubspot": false,
-        "m365_basic": false,
-        "m365_standard": false,
+        "m365": "standard",
+        "hubspot": "core",
+        "miro": "paid",
         "copilot": false
-      },
+      }
+    },
+    "rp-anouk-de-blieck": {
+      "id": "rp-anouk-de-blieck",
       "name": "Anouk de Blieck",
       "nda": false,
-      "id": "ie-anouk-de-blieck",
-      "training": false,
-      "startMonth": "2026-07",
       "contract": false,
-      "active": true
-    },
-    "ie-ilonka-malan": {
+      "training": false,
+      "active": true,
+      "startMonth": "2026-07",
+      "cohort": null,
+      "region": "emea",
       "subscriptions": {
-        "miro": false,
-        "hubspot": false,
-        "m365_basic": false,
-        "m365_standard": false,
+        "m365": "basic",
+        "hubspot": null,
+        "miro": "free",
         "copilot": false
-      },
+      }
+    },
+    "rp-ilonka-malan": {
+      "id": "rp-ilonka-malan",
       "name": "Ilonka Malan",
       "nda": false,
-      "id": "ie-ilonka-malan",
-      "training": false,
-      "startMonth": "2026-07",
       "contract": false,
-      "active": true
-    },
-    "ie-winfried-schultz": {
+      "training": false,
+      "active": true,
+      "startMonth": "2026-07",
+      "cohort": null,
+      "region": null,
       "subscriptions": {
-        "miro": false,
-        "hubspot": false,
-        "m365_basic": false,
-        "m365_standard": false,
+        "m365": "basic",
+        "hubspot": null,
+        "miro": "free",
         "copilot": false
-      },
+      }
+    },
+    "rp-winfried-schultz": {
+      "id": "rp-winfried-schultz",
       "name": "Winfried Schultz",
       "nda": false,
-      "id": "ie-winfried-schultz",
-      "training": false,
-      "startMonth": "2026-07",
       "contract": false,
-      "active": true
-    },
-    "ie-marc-gauci": {
+      "training": false,
+      "active": true,
+      "startMonth": "2026-07",
+      "cohort": null,
+      "region": null,
       "subscriptions": {
-        "miro": false,
-        "hubspot": false,
-        "m365_basic": false,
-        "m365_standard": false,
+        "m365": "basic",
+        "hubspot": "free",
+        "miro": "paid",
         "copilot": false
-      },
+      }
+    },
+    "rp-marc-gauci": {
+      "id": "rp-marc-gauci",
       "name": "Marc Gauci",
-      "nda": false,
-      "id": "ie-marc-gauci",
-      "training": false,
+      "nda": true,
+      "contract": true,
+      "training": true,
+      "active": true,
       "startMonth": "2026-07",
-      "contract": false,
-      "active": true
-    },
-    "ie-jaqui-lane": {
+      "cohort": null,
+      "region": null,
       "subscriptions": {
-        "miro": false,
-        "hubspot": false,
-        "m365_basic": false,
-        "m365_standard": false,
+        "m365": "basic",
+        "hubspot": null,
+        "miro": "free",
         "copilot": false
-      },
+      }
+    },
+    "rp-jaqui-lane": {
+      "id": "rp-jaqui-lane",
       "name": "Jaqui Lane",
       "nda": false,
-      "id": "ie-jaqui-lane",
-      "training": false,
-      "startMonth": "2026-07",
       "contract": false,
-      "active": true
-    },
-    "ie-joe-zhou": {
+      "training": false,
+      "active": true,
+      "startMonth": "2026-07",
+      "cohort": null,
+      "region": null,
       "subscriptions": {
-        "miro": false,
-        "hubspot": false,
-        "m365_basic": false,
-        "m365_standard": false,
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
         "copilot": false
-      },
+      }
+    },
+    "rp-joe-zhou": {
+      "id": "rp-joe-zhou",
       "name": "Joe Zhou",
       "nda": false,
-      "id": "ie-joe-zhou",
-      "training": false,
-      "startMonth": "2026-07",
       "contract": false,
-      "active": true
-    },
-    "ie-winter-wall": {
       "training": false,
+      "active": true,
+      "startMonth": "2026-07",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": "basic",
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-winter-wall": {
+      "id": "rp-winter-wall",
       "name": "Winter Wall",
-      "id": "ie-winter-wall",
-      "contract": false,
-      "startMonth": "2026-07",
-      "nda": false,
+      "nda": true,
+      "contract": true,
+      "training": true,
+      "active": true,
+      "startMonth": "2026-02",
+      "cohort": "ch15",
+      "region": "americas",
       "subscriptions": {
-        "m365_standard": false,
-        "hubspot": false,
-        "miro": false,
-        "m365_basic": false,
+        "m365": "basic",
+        "hubspot": "core",
+        "miro": null,
         "copilot": false
-      },
-      "active": true
+      }
     },
-    "ie-grace-mckanna": {
-      "training": false,
+    "rp-grace-mckanna": {
+      "id": "rp-grace-mckanna",
       "name": "Grace McKanna",
-      "id": "ie-grace-mckanna",
-      "contract": false,
-      "startMonth": "2026-07",
       "nda": false,
-      "subscriptions": {
-        "m365_standard": false,
-        "hubspot": false,
-        "miro": false,
-        "m365_basic": false,
-        "copilot": false
-      },
-      "active": true
-    },
-    "ie-sarah-dunn": {
+      "contract": false,
       "training": false,
+      "active": true,
+      "startMonth": "2026-07",
+      "cohort": "ch13",
+      "region": "apac",
+      "subscriptions": {
+        "m365": "basic",
+        "hubspot": null,
+        "miro": "paid",
+        "copilot": false
+      }
+    },
+    "rp-sarah-dunn": {
+      "id": "rp-sarah-dunn",
       "name": "Sarah Dunn",
-      "id": "ie-sarah-dunn",
-      "contract": false,
-      "startMonth": "2026-07",
       "nda": false,
-      "subscriptions": {
-        "m365_standard": false,
-        "hubspot": false,
-        "miro": false,
-        "m365_basic": false,
-        "copilot": false
-      },
-      "active": true
-    },
-    "ie-eduard-van-zyl": {
+      "contract": false,
       "training": false,
+      "active": true,
+      "startMonth": "2026-07",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-eduard-van-zyl": {
+      "id": "rp-eduard-van-zyl",
       "name": "Eduard van Zyl",
-      "id": "ie-eduard-van-zyl",
-      "contract": false,
+      "nda": true,
+      "contract": true,
+      "training": true,
+      "active": true,
       "startMonth": "2026-07",
-      "nda": false,
+      "cohort": "ch11",
+      "region": "emea",
       "subscriptions": {
-        "m365_standard": false,
-        "hubspot": false,
-        "miro": false,
-        "m365_basic": false,
+        "m365": "basic",
+        "hubspot": null,
+        "miro": "paid",
         "copilot": false
-      },
-      "active": true
+      }
     },
-    "ie-derk-jan-koole": {
-      "training": false,
+    "rp-derk-jan-koole": {
+      "id": "rp-derk-jan-koole",
       "name": "Derk Jan Koole",
-      "id": "ie-derk-jan-koole",
-      "contract": false,
-      "startMonth": "2026-07",
-      "nda": false,
+      "nda": true,
+      "contract": true,
+      "training": true,
+      "active": true,
+      "startMonth": "2026-02",
+      "cohort": "ch15",
+      "region": "emea",
       "subscriptions": {
-        "m365_standard": false,
-        "hubspot": false,
-        "miro": false,
-        "m365_basic": false,
+        "m365": "basic",
+        "hubspot": null,
+        "miro": "free",
         "copilot": false
-      },
-      "active": true
+      }
     },
-    "ie-mark-beliczky": {
-      "training": false,
+    "rp-mark-beliczky": {
+      "id": "rp-mark-beliczky",
       "name": "Mark Beliczky",
-      "id": "ie-mark-beliczky",
-      "contract": false,
-      "startMonth": "2026-07",
-      "nda": false,
+      "nda": true,
+      "contract": true,
+      "training": true,
+      "active": true,
+      "startMonth": "2026-02",
+      "cohort": "ch15",
+      "region": "americas",
       "subscriptions": {
-        "m365_standard": false,
-        "hubspot": false,
-        "miro": false,
-        "m365_basic": false,
+        "m365": "basic",
+        "hubspot": "core",
+        "miro": null,
         "copilot": false
-      },
-      "active": true
+      }
     },
-    "ie-eric-van-antwerpen": {
-      "training": false,
+    "rp-eric-van-antwerpen": {
+      "id": "rp-eric-van-antwerpen",
       "name": "Eric van Antwerpen",
-      "id": "ie-eric-van-antwerpen",
-      "contract": false,
-      "startMonth": "2026-07",
-      "nda": false,
+      "nda": true,
+      "contract": true,
+      "training": true,
+      "active": true,
+      "startMonth": "2026-02",
+      "cohort": "ch15",
+      "region": "emea",
       "subscriptions": {
-        "m365_standard": false,
-        "hubspot": false,
-        "miro": false,
-        "m365_basic": false,
+        "m365": "basic",
+        "hubspot": "core",
+        "miro": null,
         "copilot": false
-      },
-      "active": true
+      }
     },
-    "ie-kathleen-mcgovern": {
-      "training": false,
+    "rp-kathleen-mcgovern": {
+      "id": "rp-kathleen-mcgovern",
       "name": "Kathleen McGovern",
-      "id": "ie-kathleen-mcgovern",
-      "contract": false,
-      "startMonth": "2026-07",
-      "nda": false,
+      "nda": true,
+      "contract": true,
+      "training": true,
+      "active": true,
+      "startMonth": "2026-01",
+      "cohort": "ch14",
+      "region": "apac",
       "subscriptions": {
-        "m365_standard": false,
-        "hubspot": false,
-        "miro": false,
-        "m365_basic": false,
+        "m365": "basic",
+        "hubspot": "free",
+        "miro": "paid",
         "copilot": false
-      },
-      "active": true
+      }
     },
-    "ie-laurel-marshall": {
-      "training": false,
+    "rp-laurel-marshall": {
+      "id": "rp-laurel-marshall",
       "name": "Laurel Marshall",
-      "id": "ie-laurel-marshall",
-      "contract": false,
-      "startMonth": "2026-07",
-      "nda": false,
-      "subscriptions": {
-        "m365_standard": false,
-        "hubspot": false,
-        "miro": false,
-        "m365_basic": false,
-        "copilot": false
-      },
-      "active": true
-    },
-    "ie-zuzana-bato": {
+      "nda": true,
+      "contract": true,
       "training": false,
+      "active": true,
+      "startMonth": "2026-04",
+      "cohort": "ch16",
+      "region": "americas",
+      "subscriptions": {
+        "m365": "basic",
+        "hubspot": null,
+        "miro": "paid",
+        "copilot": false
+      }
+    },
+    "rp-zuzana-bato": {
+      "id": "rp-zuzana-bato",
       "name": "Zuzana Bato",
-      "id": "ie-zuzana-bato",
+      "nda": true,
       "contract": false,
+      "training": true,
+      "active": true,
       "startMonth": "2026-07",
-      "nda": false,
+      "cohort": "ch10",
+      "region": "emea",
       "subscriptions": {
-        "m365_standard": false,
-        "hubspot": false,
-        "miro": false,
-        "m365_basic": false,
+        "m365": "basic",
+        "hubspot": null,
+        "miro": null,
         "copilot": false
-      },
-      "active": true
+      }
     },
-    "ie-simran-gambhir": {
-      "training": false,
+    "rp-simran-gambhir": {
+      "id": "rp-simran-gambhir",
       "name": "Simran Gambhir",
-      "id": "ie-simran-gambhir",
+      "nda": true,
       "contract": false,
-      "startMonth": "2026-07",
-      "nda": false,
-      "subscriptions": {
-        "m365_standard": false,
-        "hubspot": false,
-        "miro": false,
-        "m365_basic": false,
-        "copilot": false
-      },
-      "active": true
-    },
-    "ie-tom-pedersen": {
       "training": false,
+      "active": true,
+      "startMonth": "2026-07",
+      "cohort": "ch12",
+      "region": null,
+      "subscriptions": {
+        "m365": "basic",
+        "hubspot": null,
+        "miro": "paid",
+        "copilot": false
+      }
+    },
+    "rp-tom-pedersen": {
+      "id": "rp-tom-pedersen",
       "name": "Tom Pedersen",
-      "id": "ie-tom-pedersen",
-      "contract": false,
-      "startMonth": "2026-07",
-      "nda": false,
+      "nda": true,
+      "contract": true,
+      "training": true,
+      "active": true,
+      "startMonth": "2026-01",
+      "cohort": "ch14",
+      "region": "apac",
       "subscriptions": {
-        "m365_standard": false,
-        "hubspot": false,
-        "miro": false,
-        "m365_basic": false,
+        "m365": "basic",
+        "hubspot": "core",
+        "miro": "paid",
         "copilot": false
-      },
-      "active": true
+      }
     },
-    "ie-ginger-griggs": {
-      "training": false,
+    "rp-ginger-griggs": {
+      "id": "rp-ginger-griggs",
       "name": "Ginger Griggs",
-      "id": "ie-ginger-griggs",
-      "contract": false,
-      "startMonth": "2026-07",
-      "nda": false,
-      "subscriptions": {
-        "m365_standard": false,
-        "hubspot": false,
-        "miro": false,
-        "m365_basic": false,
-        "copilot": false
-      },
-      "active": true
-    },
-    "ie-jan-sorcek": {
+      "nda": true,
+      "contract": true,
       "training": false,
+      "active": true,
+      "startMonth": "2026-04",
+      "cohort": "ch16",
+      "region": "apac",
+      "subscriptions": {
+        "m365": "basic",
+        "hubspot": "free",
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-jan-sorcek": {
+      "id": "rp-jan-sorcek",
       "name": "Jan Sorcek",
-      "id": "ie-jan-sorcek",
-      "contract": false,
-      "startMonth": "2026-07",
       "nda": false,
-      "subscriptions": {
-        "m365_standard": false,
-        "hubspot": false,
-        "miro": false,
-        "m365_basic": false,
-        "copilot": false
-      },
-      "active": true
-    },
-    "ie-zubin-gandevia": {
+      "contract": false,
       "training": false,
+      "active": true,
+      "startMonth": "2026-06",
+      "cohort": "ch17",
+      "region": "emea",
+      "subscriptions": {
+        "m365": "basic",
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-zubin-gandevia": {
+      "id": "rp-zubin-gandevia",
       "name": "Zubin Gandevia",
-      "id": "ie-zubin-gandevia",
-      "contract": false,
-      "startMonth": "2026-07",
       "nda": false,
-      "subscriptions": {
-        "m365_standard": false,
-        "hubspot": false,
-        "miro": false,
-        "m365_basic": false,
-        "copilot": false
-      },
-      "active": true
-    },
-    "ie-henri-snijders": {
+      "contract": false,
       "training": false,
+      "active": true,
+      "startMonth": "2026-07",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-henri-snijders": {
+      "id": "rp-henri-snijders",
       "name": "Henri Snijders",
-      "id": "ie-henri-snijders",
+      "nda": true,
       "contract": false,
-      "startMonth": "2026-07",
-      "nda": false,
-      "subscriptions": {
-        "m365_standard": false,
-        "hubspot": false,
-        "miro": false,
-        "m365_basic": false,
-        "copilot": false
-      },
-      "active": true
-    },
-    "ie-nicolette-grams": {
       "training": false,
+      "active": true,
+      "startMonth": "2026-07",
+      "cohort": "ch13",
+      "region": "emea",
+      "subscriptions": {
+        "m365": "basic",
+        "hubspot": "core",
+        "miro": "paid",
+        "copilot": false
+      }
+    },
+    "rp-nicolette-grams": {
+      "id": "rp-nicolette-grams",
       "name": "Nicolette Grams",
-      "id": "ie-nicolette-grams",
-      "contract": false,
-      "startMonth": "2026-07",
       "nda": false,
-      "subscriptions": {
-        "m365_standard": false,
-        "hubspot": false,
-        "miro": false,
-        "m365_basic": false,
-        "copilot": false
-      },
-      "active": true
-    },
-    "ie-jack-garzella": {
+      "contract": false,
       "training": false,
+      "active": true,
+      "startMonth": "2026-07",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": "standard",
+        "hubspot": "core",
+        "miro": "paid",
+        "copilot": false
+      }
+    },
+    "rp-jack-garzella": {
+      "id": "rp-jack-garzella",
       "name": "Jack Garzella",
-      "id": "ie-jack-garzella",
-      "contract": false,
+      "nda": true,
+      "contract": true,
+      "training": true,
+      "active": true,
       "startMonth": "2026-07",
-      "nda": false,
+      "cohort": "ch10",
+      "region": "americas",
       "subscriptions": {
-        "m365_standard": false,
-        "hubspot": false,
-        "miro": false,
-        "m365_basic": false,
+        "m365": "basic",
+        "hubspot": null,
+        "miro": "paid",
         "copilot": false
-      },
-      "active": true
+      }
     },
-    "ie-peter-thommen": {
-      "training": false,
+    "rp-peter-thommen": {
+      "id": "rp-peter-thommen",
       "name": "Peter Thommen",
-      "id": "ie-peter-thommen",
-      "contract": false,
-      "startMonth": "2026-07",
       "nda": false,
-      "subscriptions": {
-        "m365_standard": false,
-        "hubspot": false,
-        "miro": false,
-        "m365_basic": false,
-        "copilot": false
-      },
-      "active": true
-    },
-    "ie-peter-novak": {
+      "contract": false,
       "training": false,
+      "active": true,
+      "startMonth": "2026-07",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": "basic",
+        "hubspot": null,
+        "miro": "paid",
+        "copilot": false
+      }
+    },
+    "rp-peter-novak": {
+      "id": "rp-peter-novak",
       "name": "Peter Novak",
-      "id": "ie-peter-novak",
-      "contract": false,
-      "startMonth": "2026-07",
-      "nda": false,
+      "nda": true,
+      "contract": true,
+      "training": true,
+      "active": true,
+      "startMonth": "2026-01",
+      "cohort": "ch14",
+      "region": "americas",
       "subscriptions": {
-        "m365_standard": false,
-        "hubspot": false,
-        "miro": false,
-        "m365_basic": false,
+        "m365": "basic",
+        "hubspot": "core",
+        "miro": "free",
         "copilot": false
-      },
-      "active": true
+      }
     },
-    "ie-dieter-haberl": {
-      "training": false,
+    "rp-dieter-haberl": {
+      "id": "rp-dieter-haberl",
       "name": "Dieter Haberl",
-      "id": "ie-dieter-haberl",
+      "nda": true,
       "contract": false,
+      "training": true,
+      "active": true,
       "startMonth": "2026-07",
-      "nda": false,
+      "cohort": "ch10",
+      "region": "apac",
       "subscriptions": {
-        "m365_standard": false,
-        "hubspot": false,
-        "miro": false,
-        "m365_basic": false,
+        "m365": "basic",
+        "hubspot": null,
+        "miro": null,
         "copilot": false
-      },
-      "active": true
+      }
     },
-    "ie-steve-monaghan": {
-      "id": "ie-steve-monaghan",
-      "contract": false,
-      "training": false,
+    "rp-steve-monaghan": {
+      "id": "rp-steve-monaghan",
       "name": "Steve Monaghan",
-      "startMonth": "2026-06",
       "nda": false,
-      "active": true,
-      "subscriptions": {
-        "m365_basic": false,
-        "copilot": false,
-        "hubspot": false,
-        "m365_standard": false,
-        "miro": false
-      },
-      "cohort": "ch17"
-    },
-    "ie-takehiko-aoki": {
-      "id": "ie-takehiko-aoki",
       "contract": false,
       "training": false,
+      "active": true,
+      "startMonth": "2026-06",
+      "cohort": "ch17",
+      "region": "apac",
+      "subscriptions": {
+        "m365": "basic",
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-takehiko-aoki": {
+      "id": "rp-takehiko-aoki",
       "name": "Takehiko Aoki",
-      "startMonth": "2026-06",
       "nda": false,
-      "active": true,
-      "subscriptions": {
-        "m365_basic": false,
-        "copilot": false,
-        "hubspot": false,
-        "m365_standard": false,
-        "miro": false
-      },
-      "cohort": "ch17"
-    },
-    "ie-hoi-tran": {
-      "id": "ie-hoi-tran",
       "contract": false,
       "training": false,
+      "active": true,
+      "startMonth": "2026-06",
+      "cohort": "ch17",
+      "region": "apac",
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-hoi-tran": {
+      "id": "rp-hoi-tran",
       "name": "Hoi Tran",
-      "startMonth": "2026-06",
-      "nda": false,
-      "active": true,
-      "subscriptions": {
-        "m365_basic": false,
-        "copilot": false,
-        "hubspot": false,
-        "m365_standard": false,
-        "miro": false
-      },
-      "cohort": "ch17"
-    },
-    "ie-thomas-mccabe": {
-      "id": "ie-thomas-mccabe",
-      "contract": false,
+      "nda": true,
+      "contract": true,
       "training": false,
+      "active": true,
+      "startMonth": "2026-04",
+      "cohort": "ch16",
+      "region": "emea",
+      "subscriptions": {
+        "m365": "basic",
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-thomas-mccabe": {
+      "id": "rp-thomas-mccabe",
       "name": "Thomas McCabe",
-      "startMonth": "2026-06",
       "nda": false,
-      "active": true,
-      "subscriptions": {
-        "m365_basic": false,
-        "copilot": false,
-        "hubspot": false,
-        "m365_standard": false,
-        "miro": false
-      },
-      "cohort": "ch17"
-    },
-    "ie-eddie-ahmed": {
-      "id": "ie-eddie-ahmed",
       "contract": false,
       "training": false,
+      "active": true,
+      "startMonth": "2026-06",
+      "cohort": "ch17",
+      "region": "americas",
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-eddie-ahmed": {
+      "id": "rp-eddie-ahmed",
       "name": "Eddie Ahmed",
-      "startMonth": "2026-06",
       "nda": false,
-      "active": true,
-      "subscriptions": {
-        "m365_basic": false,
-        "copilot": false,
-        "hubspot": false,
-        "m365_standard": false,
-        "miro": false
-      },
-      "cohort": "ch17"
-    },
-    "ie-darryl-wee": {
-      "id": "ie-darryl-wee",
       "contract": false,
       "training": false,
+      "active": true,
+      "startMonth": "2026-06",
+      "cohort": "ch17",
+      "region": "apac",
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-darryl-wee": {
+      "id": "rp-darryl-wee",
       "name": "Darryl Wee",
-      "startMonth": "2026-06",
       "nda": false,
-      "active": true,
-      "subscriptions": {
-        "m365_basic": false,
-        "copilot": false,
-        "hubspot": false,
-        "m365_standard": false,
-        "miro": false
-      },
-      "cohort": "ch17"
-    },
-    "ie-ryan-dancey": {
-      "id": "ie-ryan-dancey",
       "contract": false,
       "training": false,
+      "active": true,
+      "startMonth": "2026-06",
+      "cohort": "ch17",
+      "region": "apac",
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-ryan-dancey": {
+      "id": "rp-ryan-dancey",
       "name": "Ryan Dancey",
-      "startMonth": "2026-06",
-      "nda": false,
-      "active": true,
-      "subscriptions": {
-        "m365_basic": false,
-        "copilot": false,
-        "hubspot": false,
-        "m365_standard": false,
-        "miro": false
-      },
-      "cohort": "ch17"
-    },
-    "ie-alice-lopin": {
-      "id": "ie-alice-lopin",
+      "nda": true,
       "contract": false,
       "training": false,
+      "active": true,
+      "startMonth": "2026-04",
+      "cohort": "ch16",
+      "region": "americas",
+      "subscriptions": {
+        "m365": "basic",
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-alice-lopin": {
+      "id": "rp-alice-lopin",
       "name": "Alice Lopin",
-      "startMonth": "2026-06",
       "nda": false,
-      "active": true,
-      "subscriptions": {
-        "m365_basic": false,
-        "copilot": false,
-        "hubspot": false,
-        "m365_standard": false,
-        "miro": false
-      },
-      "cohort": "ch17"
-    },
-    "ie-sietske-rozie": {
-      "id": "ie-sietske-rozie",
       "contract": false,
       "training": false,
+      "active": true,
+      "startMonth": "2026-06",
+      "cohort": "ch17",
+      "region": "apac",
+      "subscriptions": {
+        "m365": "standard",
+        "hubspot": "free",
+        "miro": "free",
+        "copilot": false
+      }
+    },
+    "rp-sietske-rozie": {
+      "id": "rp-sietske-rozie",
       "name": "Sietske Rozie",
-      "startMonth": "2026-06",
       "nda": false,
-      "active": true,
-      "subscriptions": {
-        "m365_basic": false,
-        "copilot": false,
-        "hubspot": false,
-        "m365_standard": false,
-        "miro": false
-      },
-      "cohort": "ch17"
-    },
-    "ie-nataliya-bauhuber": {
-      "id": "ie-nataliya-bauhuber",
       "contract": false,
       "training": false,
+      "active": true,
+      "startMonth": "2026-06",
+      "cohort": "ch17",
+      "region": "emea",
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-nataliya-bauhuber": {
+      "id": "rp-nataliya-bauhuber",
       "name": "Nataliya Bauhuber",
-      "startMonth": "2026-06",
       "nda": false,
-      "active": true,
-      "subscriptions": {
-        "m365_basic": false,
-        "copilot": false,
-        "hubspot": false,
-        "m365_standard": false,
-        "miro": false
-      },
-      "cohort": "ch17"
-    },
-    "ie-bernard-tan": {
-      "id": "ie-bernard-tan",
       "contract": false,
       "training": false,
+      "active": true,
+      "startMonth": "2026-06",
+      "cohort": "ch17",
+      "region": "emea",
+      "subscriptions": {
+        "m365": "basic",
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-bernard-tan": {
+      "id": "rp-bernard-tan",
       "name": "Bernard Tan",
-      "startMonth": "2026-06",
       "nda": false,
-      "active": true,
-      "subscriptions": {
-        "m365_basic": false,
-        "copilot": false,
-        "hubspot": false,
-        "m365_standard": false,
-        "miro": false
-      },
-      "cohort": "ch17"
-    },
-    "ie-sim-lim": {
-      "id": "ie-sim-lim",
       "contract": false,
       "training": false,
+      "active": true,
+      "startMonth": "2026-06",
+      "cohort": "ch17",
+      "region": "apac",
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-sim-lim": {
+      "id": "rp-sim-lim",
       "name": "Sim Lim",
-      "startMonth": "2026-06",
       "nda": false,
-      "active": true,
-      "subscriptions": {
-        "m365_basic": false,
-        "copilot": false,
-        "hubspot": false,
-        "m365_standard": false,
-        "miro": false
-      },
-      "cohort": "ch17"
-    },
-    "ie-jan-soucek": {
-      "id": "ie-jan-soucek",
       "contract": false,
       "training": false,
-      "name": "Jan Soucek",
-      "startMonth": "2026-06",
-      "nda": false,
       "active": true,
+      "startMonth": "2026-06",
+      "cohort": "ch17",
+      "region": "apac",
       "subscriptions": {
-        "m365_basic": false,
-        "copilot": false,
-        "hubspot": false,
-        "m365_standard": false,
-        "miro": false
-      },
-      "cohort": "ch17"
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-jan-soucek": {
+      "id": "rp-jan-soucek",
+      "name": "Jan Soucek",
+      "nda": false,
+      "contract": false,
+      "training": false,
+      "active": true,
+      "startMonth": "2026-06",
+      "cohort": "ch17",
+      "region": "emea",
+      "subscriptions": {
+        "m365": "basic",
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-abhi-ingle": {
+      "id": "rp-abhi-ingle",
+      "name": "Abhi Ingle",
+      "nda": true,
+      "contract": false,
+      "training": false,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-alain-crozier": {
+      "id": "rp-alain-crozier",
+      "name": "Alain Crozier",
+      "nda": true,
+      "contract": true,
+      "training": true,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": "basic",
+        "hubspot": null,
+        "miro": "free",
+        "copilot": false
+      }
+    },
+    "rp-allard-nooy": {
+      "id": "rp-allard-nooy",
+      "name": "Allard Nooy",
+      "nda": false,
+      "contract": false,
+      "training": false,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-angelus-morningstar": {
+      "id": "rp-angelus-morningstar",
+      "name": "Angelus Morningstar",
+      "nda": true,
+      "contract": true,
+      "training": true,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": "standard",
+        "hubspot": "core",
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-anthony-sive": {
+      "id": "rp-anthony-sive",
+      "name": "Anthony Sive",
+      "nda": true,
+      "contract": false,
+      "training": false,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-antoine-hauguel": {
+      "id": "rp-antoine-hauguel",
+      "name": "Antoine Hauguel",
+      "nda": true,
+      "contract": false,
+      "training": false,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-ben-de-haldervang": {
+      "id": "rp-ben-de-haldervang",
+      "name": "Ben de Haldervang",
+      "nda": true,
+      "contract": true,
+      "training": true,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-bernard-leung": {
+      "id": "rp-bernard-leung",
+      "name": "Bernard Leung",
+      "nda": true,
+      "contract": false,
+      "training": true,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": "standard",
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-bernie-kelly": {
+      "id": "rp-bernie-kelly",
+      "name": "Bernie Kelly",
+      "nda": true,
+      "contract": false,
+      "training": false,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-bert-wegner": {
+      "id": "rp-bert-wegner",
+      "name": "Bert Wegner",
+      "nda": true,
+      "contract": true,
+      "training": false,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-bill-brooks": {
+      "id": "rp-bill-brooks",
+      "name": "Bill Brooks",
+      "nda": false,
+      "contract": true,
+      "training": false,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-bjorn-vik": {
+      "id": "rp-bjorn-vik",
+      "name": "Bjorn Vik",
+      "nda": true,
+      "contract": true,
+      "training": true,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-claire-thomas": {
+      "id": "rp-claire-thomas",
+      "name": "Claire Thomas",
+      "nda": true,
+      "contract": false,
+      "training": true,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-craig-fuller": {
+      "id": "rp-craig-fuller",
+      "name": "Craig Fuller",
+      "nda": true,
+      "contract": true,
+      "training": false,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-daniel-vermaas": {
+      "id": "rp-daniel-vermaas",
+      "name": "Daniel Vermaas",
+      "nda": true,
+      "contract": true,
+      "training": true,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": "basic",
+        "hubspot": "free",
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-dario-marchetti": {
+      "id": "rp-dario-marchetti",
+      "name": "Dario Marchetti",
+      "nda": true,
+      "contract": false,
+      "training": true,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": "basic",
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-david-riegel": {
+      "id": "rp-david-riegel",
+      "name": "David Riegel",
+      "nda": false,
+      "contract": false,
+      "training": true,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-dennis-sorenson": {
+      "id": "rp-dennis-sorenson",
+      "name": "Dennis Sorenson",
+      "nda": true,
+      "contract": false,
+      "training": true,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-emir-adiguzel": {
+      "id": "rp-emir-adiguzel",
+      "name": "Emir Adiguzel",
+      "nda": true,
+      "contract": false,
+      "training": false,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-enrico-baldassarri": {
+      "id": "rp-enrico-baldassarri",
+      "name": "Enrico Baldassarri",
+      "nda": true,
+      "contract": true,
+      "training": true,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-erling-haslerud": {
+      "id": "rp-erling-haslerud",
+      "name": "Erling Haslerud",
+      "nda": true,
+      "contract": true,
+      "training": true,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-fiona-da-silva": {
+      "id": "rp-fiona-da-silva",
+      "name": "Fiona Da Silva",
+      "nda": true,
+      "contract": true,
+      "training": false,
+      "active": true,
+      "startMonth": "",
+      "cohort": "ch11",
+      "region": "apac",
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-friska-wirya": {
+      "id": "rp-friska-wirya",
+      "name": "Friska Wirya",
+      "nda": true,
+      "contract": true,
+      "training": true,
+      "active": false,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-glen-casey": {
+      "id": "rp-glen-casey",
+      "name": "Glen Casey",
+      "nda": false,
+      "contract": true,
+      "training": false,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": "basic",
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-gustavo-hildenbrand": {
+      "id": "rp-gustavo-hildenbrand",
+      "name": "Gustavo Hildenbrand",
+      "nda": true,
+      "contract": true,
+      "training": true,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-guy-chambers": {
+      "id": "rp-guy-chambers",
+      "name": "Guy Chambers",
+      "nda": true,
+      "contract": true,
+      "training": true,
+      "active": false,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-hamish-taylor": {
+      "id": "rp-hamish-taylor",
+      "name": "Hamish Taylor",
+      "nda": true,
+      "contract": false,
+      "training": false,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-harvey-kalman": {
+      "id": "rp-harvey-kalman",
+      "name": "Harvey Kalman",
+      "nda": true,
+      "contract": false,
+      "training": false,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-herve-richert": {
+      "id": "rp-herve-richert",
+      "name": "Herve Richert",
+      "nda": true,
+      "contract": false,
+      "training": true,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": "basic",
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-howard-jiang": {
+      "id": "rp-howard-jiang",
+      "name": "Howard Jiang",
+      "nda": false,
+      "contract": false,
+      "training": true,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-ian-riley": {
+      "id": "rp-ian-riley",
+      "name": "Ian Riley",
+      "nda": false,
+      "contract": true,
+      "training": true,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": "basic",
+        "hubspot": null,
+        "miro": "paid",
+        "copilot": false
+      }
+    },
+    "rp-jacqui-lane": {
+      "id": "rp-jacqui-lane",
+      "name": "Jacqui Lane",
+      "nda": true,
+      "contract": false,
+      "training": true,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-jan-uriga": {
+      "id": "rp-jan-uriga",
+      "name": "Jan Uriga",
+      "nda": false,
+      "contract": true,
+      "training": false,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-jess-tayel": {
+      "id": "rp-jess-tayel",
+      "name": "Jess Tayel",
+      "nda": true,
+      "contract": false,
+      "training": false,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-john-hanna": {
+      "id": "rp-john-hanna",
+      "name": "John Hanna",
+      "nda": false,
+      "contract": true,
+      "training": false,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-john-hellinikakis": {
+      "id": "rp-john-hellinikakis",
+      "name": "John Hellinikakis",
+      "nda": true,
+      "contract": false,
+      "training": false,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-kai-hughes": {
+      "id": "rp-kai-hughes",
+      "name": "Kai Hughes",
+      "nda": true,
+      "contract": false,
+      "training": false,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-kane-salzer": {
+      "id": "rp-kane-salzer",
+      "name": "Kane Salzer",
+      "nda": true,
+      "contract": true,
+      "training": true,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": "standard",
+        "hubspot": "free",
+        "miro": "paid",
+        "copilot": false
+      }
+    },
+    "rp-keith-williams": {
+      "id": "rp-keith-williams",
+      "name": "Keith Williams",
+      "nda": true,
+      "contract": false,
+      "training": true,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-kip-frame": {
+      "id": "rp-kip-frame",
+      "name": "Kip Frame",
+      "nda": true,
+      "contract": false,
+      "training": false,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-kirstin-marcon": {
+      "id": "rp-kirstin-marcon",
+      "name": "Kirstin Marcon",
+      "nda": true,
+      "contract": false,
+      "training": true,
+      "active": false,
+      "startMonth": "",
+      "cohort": "ch10",
+      "region": "apac",
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-koen-de-staerck": {
+      "id": "rp-koen-de-staerck",
+      "name": "Koen de Staerck",
+      "nda": false,
+      "contract": true,
+      "training": false,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-larry-frum": {
+      "id": "rp-larry-frum",
+      "name": "Larry Frum",
+      "nda": true,
+      "contract": false,
+      "training": false,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-lee-paries": {
+      "id": "rp-lee-paries",
+      "name": "Lee Paries",
+      "nda": true,
+      "contract": false,
+      "training": true,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-libor-stodola": {
+      "id": "rp-libor-stodola",
+      "name": "Libor Stodola",
+      "nda": true,
+      "contract": true,
+      "training": true,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-luc-de-baets": {
+      "id": "rp-luc-de-baets",
+      "name": "Luc De Baets",
+      "nda": true,
+      "contract": false,
+      "training": false,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-luis-maia": {
+      "id": "rp-luis-maia",
+      "name": "Luis Maia",
+      "nda": true,
+      "contract": false,
+      "training": true,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": "basic",
+        "hubspot": null,
+        "miro": "paid",
+        "copilot": false
+      }
+    },
+    "rp-mark-leahy": {
+      "id": "rp-mark-leahy",
+      "name": "Mark Leahy",
+      "nda": false,
+      "contract": true,
+      "training": false,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-maria-wu": {
+      "id": "rp-maria-wu",
+      "name": "Maria Wu",
+      "nda": true,
+      "contract": true,
+      "training": true,
+      "active": false,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-michelle-booysen": {
+      "id": "rp-michelle-booysen",
+      "name": "Michelle Booysen",
+      "nda": true,
+      "contract": false,
+      "training": false,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-michelle-guthrie": {
+      "id": "rp-michelle-guthrie",
+      "name": "Michelle Guthrie",
+      "nda": false,
+      "contract": true,
+      "training": false,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-miriam-de-baets": {
+      "id": "rp-miriam-de-baets",
+      "name": "Miriam de Baets",
+      "nda": true,
+      "contract": false,
+      "training": false,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-mishtu-tiwary": {
+      "id": "rp-mishtu-tiwary",
+      "name": "Mishtu Tiwary",
+      "nda": true,
+      "contract": false,
+      "training": false,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-nigel-adams": {
+      "id": "rp-nigel-adams",
+      "name": "Nigel Adams",
+      "nda": true,
+      "contract": false,
+      "training": true,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-ole-christiansen": {
+      "id": "rp-ole-christiansen",
+      "name": "Ole Christiansen",
+      "nda": true,
+      "contract": true,
+      "training": true,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-pascal-nyckees": {
+      "id": "rp-pascal-nyckees",
+      "name": "Pascal Nyckees",
+      "nda": true,
+      "contract": true,
+      "training": true,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": "basic",
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-paul-jarrah": {
+      "id": "rp-paul-jarrah",
+      "name": "Paul Jarrah",
+      "nda": true,
+      "contract": false,
+      "training": false,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-peter-chrenko": {
+      "id": "rp-peter-chrenko",
+      "name": "Peter Chrenko",
+      "nda": true,
+      "contract": true,
+      "training": true,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": "basic",
+        "hubspot": "free",
+        "miro": "free",
+        "copilot": false
+      }
+    },
+    "rp-richard-collis": {
+      "id": "rp-richard-collis",
+      "name": "Richard Collis",
+      "nda": false,
+      "contract": false,
+      "training": false,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-robert-bruce": {
+      "id": "rp-robert-bruce",
+      "name": "Robert Bruce",
+      "nda": true,
+      "contract": false,
+      "training": true,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": "basic",
+        "hubspot": null,
+        "miro": "paid",
+        "copilot": false
+      }
+    },
+    "rp-rodrigo-chaimovich": {
+      "id": "rp-rodrigo-chaimovich",
+      "name": "Rodrigo Chaimovich",
+      "nda": true,
+      "contract": false,
+      "training": true,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-salman-bokhari": {
+      "id": "rp-salman-bokhari",
+      "name": "Salman Bokhari",
+      "nda": false,
+      "contract": true,
+      "training": false,
+      "active": false,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-seamus-power": {
+      "id": "rp-seamus-power",
+      "name": "Seamus Power",
+      "nda": true,
+      "contract": true,
+      "training": true,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": "basic",
+        "hubspot": null,
+        "miro": "paid",
+        "copilot": false
+      }
+    },
+    "rp-serge-dumont": {
+      "id": "rp-serge-dumont",
+      "name": "Serge Dumont",
+      "nda": false,
+      "contract": false,
+      "training": true,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-serge-scotto": {
+      "id": "rp-serge-scotto",
+      "name": "Serge Scotto",
+      "nda": true,
+      "contract": false,
+      "training": false,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-sharon-fernandez": {
+      "id": "rp-sharon-fernandez",
+      "name": "Sharon Fernandez",
+      "nda": false,
+      "contract": false,
+      "training": true,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-steve-adams": {
+      "id": "rp-steve-adams",
+      "name": "Steve Adams",
+      "nda": true,
+      "contract": false,
+      "training": true,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-stuart-allinson": {
+      "id": "rp-stuart-allinson",
+      "name": "Stuart Allinson",
+      "nda": true,
+      "contract": true,
+      "training": false,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-susan-krumdieck": {
+      "id": "rp-susan-krumdieck",
+      "name": "Susan Krumdieck",
+      "nda": true,
+      "contract": false,
+      "training": false,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-tim-pizer": {
+      "id": "rp-tim-pizer",
+      "name": "Tim Pizer",
+      "nda": true,
+      "contract": true,
+      "training": false,
+      "active": false,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-tom-wallis": {
+      "id": "rp-tom-wallis",
+      "name": "Tom Wallis",
+      "nda": true,
+      "contract": false,
+      "training": false,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-tony-surtees": {
+      "id": "rp-tony-surtees",
+      "name": "Tony Surtees",
+      "nda": false,
+      "contract": false,
+      "training": false,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
+    },
+    "rp-zhou-zhiyong": {
+      "id": "rp-zhou-zhiyong",
+      "name": "Zhou Zhiyong",
+      "nda": true,
+      "contract": true,
+      "training": true,
+      "active": true,
+      "startMonth": "",
+      "cohort": null,
+      "region": null,
+      "subscriptions": {
+        "m365": null,
+        "hubspot": null,
+        "miro": null,
+        "copilot": false
+      }
     }
   }
 }
