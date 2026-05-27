@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Case Study Library — WWRI</title>
+  <link rel="stylesheet" href="./css/theme.css">
+  <link rel="stylesheet" media="print" href="./css/print-cs.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --space-5: 20px; --space-7: 28px; }
+
+    body {
+      font-family: var(--font-ui);
+      background: var(--color-bg-page);
+      color: var(--color-text-primary);
+      min-height: 100vh;
+    }
+
+    /* ── App header (always visible) ── */
+    .app-header {
+      background: var(--color-bg-surface);
+      border-bottom: 1px solid var(--color-border);
+      padding: var(--space-4) var(--space-8);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .app-header__brand {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+    }
+    .app-header__wordmark {
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-bold);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-primary);
+    }
+    .app-header__sep { width: 1px; height: 18px; background: var(--color-border); }
+    .app-header__title {
+      font-size: var(--font-size-base);
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-primary);
+    }
+    .audience-toggle {
+      display: flex;
+      gap: 2px;
+      background: var(--color-bg-alt);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 3px;
+    }
+    .audience-toggle__btn {
+      font-family: var(--font-ui);
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-medium);
+      padding: var(--space-2) var(--space-4);
+      border: none;
+      border-radius: calc(var(--radius-md) - 2px);
+      cursor: pointer;
+      background: transparent;
+      color: var(--color-text-secondary);
+      transition: all var(--transition-fast);
+    }
+    .audience-toggle__btn--active {
+      background: var(--color-bg-surface);
+      color: var(--color-text-primary);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      font-weight: var(--font-weight-semibold);
+    }
+
+    /* ── Card grid view ── */
+    .main {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: var(--space-8);
+    }
+    .filter-bar {
+      background: var(--color-bg-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-6);
+      margin-bottom: var(--space-6);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+    .filter-bar__row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+    }
+    .filter-bar__label {
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-semibold);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      min-width: 72px;
+      flex-shrink: 0;
+    }
+    #category-filters, #tag-filters { flex: 1; min-width: 0; }
+    .pill {
+      font-family: var(--font-ui);
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-medium);
+      padding: var(--space-1) var(--space-3);
+      border: 1px solid var(--color-border);
+      border-radius: 999px;
+      cursor: pointer;
+      background: transparent;
+      color: var(--color-text-secondary);
+      transition: all var(--transition-fast);
+    }
+    .pill:hover { border-color: var(--color-primary); color: var(--color-primary); }
+    .pill--active { background: var(--color-primary); border-color: var(--color-primary); color: #fff; }
+    .filter-bar__search {
+      flex: 1;
+      min-width: 200px;
+      font-family: var(--font-ui);
+      font-size: var(--font-size-sm);
+      padding: var(--space-2) var(--space-4);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      background: var(--color-bg-alt);
+      color: var(--color-text-primary);
+      outline: none;
+      transition: border-color var(--transition-fast);
+    }
+    .filter-bar__search:focus { border-color: var(--color-primary); background: var(--color-bg-surface); }
+    .filter-bar__search::placeholder { color: var(--color-text-muted); }
+    .filter-bar__clear {
+      font-family: var(--font-ui);
+      font-size: var(--font-size-sm);
+      color: var(--color-text-muted);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: var(--space-1) var(--space-2);
+      border-radius: var(--radius-sm);
+      transition: color var(--transition-fast);
+    }
+    .filter-bar__clear:hover { color: var(--color-primary); }
+    .results-meta { margin-bottom: var(--space-5); }
+    .results-count { font-size: var(--font-size-sm); color: var(--color-text-muted); }
+    .results-count strong { color: var(--color-text-primary); }
+
+    /* ── Cards ── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: var(--space-5);
+    }
+    .cs-card {
+      background: var(--color-bg-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      transition: box-shadow var(--transition-fast), transform var(--transition-fast), border-color var(--transition-fast);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      text-decoration: none;
+    }
+    .cs-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.13); transform: translateY(-2px); }
+    .cs-card--consulting:hover { border-color: var(--color-primary); }
+    .cs-card--search:hover { border-color: var(--color-accent-amber); }
+    .cs-card__header {
+      background: #1E2228;
+      padding: var(--space-4) var(--space-5) var(--space-5);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      border-bottom: 2px solid var(--color-primary);
+    }
+    .cs-card--search .cs-card__header { border-bottom-color: var(--color-accent-amber); }
+    .cs-card__eyebrow { display: flex; align-items: center; gap: var(--space-2); }
+    .cs-card__doc-label {
+      font-size: 10px;
+      font-weight: var(--font-weight-bold);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+    }
+    .cs-card__eyebrow-sep { color: rgba(255,255,255,0.2); font-size: 10px; }
+    .cs-card__category {
+      font-size: 10px;
+      font-weight: var(--font-weight-bold);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-primary);
+    }
+    .cs-card--search .cs-card__category { color: var(--color-accent-amber); }
+    .cs-card__title {
+      font-size: var(--font-size-base);
+      font-weight: var(--font-weight-bold);
+      line-height: var(--line-height-tight);
+      color: #fff;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .cs-card__body {
+      padding: var(--space-4) var(--space-5);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      flex: 1;
+    }
+    .tag-row { display: flex; flex-wrap: wrap; gap: var(--space-1); }
+    .tag {
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-medium);
+      padding: 2px var(--space-2);
+      border-radius: 999px;
+      background: var(--color-bg-alt);
+      border: 1px solid var(--color-border);
+      color: var(--color-text-secondary);
+    }
+    .cs-card__desc {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      line-height: var(--line-height-normal);
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      flex: 1;
+    }
+    .cs-card__footer {
+      padding: var(--space-3) var(--space-5);
+      border-top: 1px solid var(--color-border);
+      background: var(--color-bg-alt);
+      display: flex;
+      gap: var(--space-5);
+      align-items: center;
+    }
+    .cs-card__stat { display: flex; flex-direction: column; gap: 2px; }
+    .cs-card__stat-label {
+      font-size: 10px;
+      font-weight: var(--font-weight-semibold);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+    }
+    .cs-card__stat-value {
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-text-primary);
+    }
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: var(--space-12);
+      color: var(--color-text-muted);
+    }
+    .empty-state p:first-child { font-size: var(--font-size-lg); font-weight: var(--font-weight-semibold); margin-bottom: var(--space-2); }
+
+    /* ═══════════════════════════════════════════
+       DOCUMENT VIEW — full-page case study layout
+       ═══════════════════════════════════════════ */
+
+    .doc-view {
+      min-height: calc(100vh - 57px);
+      background: white;
+    }
+
+    /* Document header — dark band, matches one-pager */
+    .doc-header {
+      background: #1E2228;
+      border-bottom: 3px solid var(--color-primary);
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .doc-header--search { border-bottom-color: var(--color-accent-amber); }
+    .doc-header__inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 40px 40px 36px;
+    }
+    .doc-header__eyebrow {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      margin-bottom: var(--space-3);
+    }
+    .doc-header__cs-label {
+      font-size: 10px;
+      font-weight: var(--font-weight-bold);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+    }
+    .doc-header__sep { color: rgba(255,255,255,0.2); font-size: 10px; }
+    .doc-header__category {
+      font-size: 10px;
+      font-weight: var(--font-weight-bold);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-primary);
+    }
+    .doc-header--search .doc-header__category { color: var(--color-accent-amber); }
+    .doc-header__title {
+      font-size: 2rem;
+      font-weight: var(--font-weight-bold);
+      line-height: 1.15;
+      color: #fff;
+      margin-bottom: var(--space-5);
+    }
+    .doc-header .tag {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.6);
+    }
+
+    /* Document body */
+    .doc-body {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 40px 80px;
+    }
+
+    /* Nav bar */
+    .doc-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-4) 0 var(--space-6);
+    }
+    .doc-back {
+      font-family: var(--font-ui);
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-medium);
+      color: var(--color-text-muted);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: var(--space-1) 0;
+      transition: color var(--transition-fast);
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+    .doc-back:hover { color: var(--color-primary); }
+    .doc-back__arrow { font-size: 1rem; }
+    .btn-export {
+      font-family: var(--font-ui);
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-semibold);
+      padding: var(--space-2) var(--space-6);
+      background: var(--color-primary);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: background var(--transition-fast);
+    }
+    .btn-export:hover { background: var(--color-primary-hover); }
+
+    /* Two-column document layout */
+    .doc-layout {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 0;
+      align-items: start;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+
+    /* Left: narrative */
+    .doc-main {
+      display: flex;
+      flex-direction: column;
+      padding: 36px 40px;
+      border-right: 1px solid var(--color-border);
+      gap: 32px;
+    }
+
+    /* Section headings — bold document-style, not web-UI tabs */
+    .doc-section__heading {
+      font-size: var(--font-size-base);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-text-primary);
+      margin-bottom: var(--space-3);
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+    .doc-section__heading::before {
+      content: '';
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--color-primary);
+      flex-shrink: 0;
+    }
+    /* Results heading gets amber bullet to match PPT */
+    #doc-benefits-section .doc-section__heading::before {
+      background: var(--color-accent-amber);
+    }
+    .doc-section__text {
+      font-size: var(--font-size-sm);
+      line-height: var(--line-height-relaxed);
+      color: var(--color-text-secondary);
+    }
+    .doc-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+    .doc-list li {
+      font-size: var(--font-size-sm);
+      line-height: var(--line-height-relaxed);
+      color: var(--color-text-secondary);
+      padding-left: var(--space-5);
+      position: relative;
+    }
+    .doc-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.62em;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--color-primary);
+    }
+    /* Results list bullets in amber */
+    #doc-benefits li::before { background: var(--color-accent-amber); }
+
+    /* Stat callouts — dramatic large numbers, PPT style */
+    .doc-stats {
+      display: flex;
+      gap: var(--space-4);
+      flex-wrap: wrap;
+      margin-bottom: var(--space-5);
+    }
+    .doc-stat {
+      flex: 1;
+      min-width: 140px;
+      background: #1E2228;
+      border-radius: var(--radius-md);
+      padding: var(--space-5) var(--space-6);
+      text-align: center;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .doc-stat__value {
+      font-size: 2.25rem;
+      font-weight: var(--font-weight-bold);
+      color: #fff;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .doc-stat__label {
+      font-size: 10px;
+      font-weight: var(--font-weight-semibold);
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+    }
+
+    /* Right: client facts sidebar — dark, matching the PPT */
+    .doc-sidebar {
+      position: sticky;
+      top: 72px;
+      align-self: start;
+    }
+    .doc-client-box {
+      background: #1E2228;
+      overflow: hidden;
+      height: 100%;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .doc-client-box__heading {
+      font-size: var(--font-size-base);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-accent-amber);
+      padding: 20px 20px 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .doc-client-row {
+      padding: 11px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: grid;
+      grid-template-columns: 72px 1fr;
+      gap: var(--space-3);
+      align-items: baseline;
+    }
+    .doc-client-row:last-child { border-bottom: none; }
+    .doc-client-key {
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-normal);
+      color: rgba(255,255,255,0.4);
+    }
+    .doc-client-value {
+      font-size: var(--font-size-sm);
+      color: rgba(255,255,255,0.88);
+      font-weight: var(--font-weight-medium);
+    }
+    .doc-client-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+    .doc-client-tags .tag {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.65);
+    }
+
+    /* ── Audience suppression ── */
+    .internal-only { /* visible by default */ }
+    body.audience-client .internal-only { display: none !important; }
+
+    /* ── Client-facing only (inverse) ── */
+    .client-only { display: none !important; }
+    body.audience-client .client-only { display: inline-block !important; }
+
+    /* ── Print footer (screen: hidden) ── */
+    .doc-print-footer { display: none; }
+  </style>
+</head>
+<body>
+
+<!-- Always-visible app header -->
+<header class="app-header">
+  <div class="app-header__brand">
+    <span class="app-header__wordmark">Whitewater Reinventions</span>
+    <div class="app-header__sep"></div>
+    <span class="app-header__title">Case Study Library</span>
+  </div>
+  <div class="audience-toggle" role="radiogroup" aria-label="Audience mode">
+    <button class="audience-toggle__btn audience-toggle__btn--active" data-audience="internal" type="button">Internal</button>
+    <button class="audience-toggle__btn" data-audience="client" type="button">Client-Facing</button>
+  </div>
+</header>
+
+<!-- ── Card grid view ── -->
+<main class="main" id="grid-view">
+  <div class="filter-bar">
+    <div class="filter-bar__row">
+      <span class="filter-bar__label">Category</span>
+      <div id="category-filters"></div>
+    </div>
+    <div class="filter-bar__row">
+      <span class="filter-bar__label">Service</span>
+      <div id="tag-filters" style="display:flex;flex-wrap:wrap;gap:var(--space-2)"></div>
+    </div>
+    <div class="filter-bar__row">
+      <span class="filter-bar__label">Search</span>
+      <input class="filter-bar__search" id="search-input" type="search" placeholder="Search by keyword…" autocomplete="off">
+      <button class="filter-bar__clear" id="clear-btn" type="button">Clear all</button>
+    </div>
+  </div>
+  <div class="results-meta">
+    <p class="results-count" id="results-count"></p>
+  </div>
+  <div class="card-grid" id="card-grid"></div>
+</main>
+
+<!-- ── Full-page document view ── -->
+<div class="doc-view" id="doc-view" hidden>
+
+  <div class="doc-header" id="doc-header">
+    <div class="doc-header__inner">
+      <div class="doc-header__eyebrow">
+        <span class="doc-header__cs-label">Case Study</span>
+        <span class="doc-header__sep">·</span>
+        <span class="doc-header__category" id="doc-category"></span>
+      </div>
+      <h1 class="doc-header__title" id="doc-title"></h1>
+      <div class="tag-row" id="doc-tags"></div>
+    </div>
+  </div>
+
+  <div class="doc-body">
+    <div class="doc-nav">
+      <button class="doc-back" id="doc-back">
+        <span class="doc-back__arrow">←</span>
+        Back to Library
+      </button>
+      <button class="btn-export" onclick="window.print()">Export PDF</button>
+    </div>
+
+    <div class="doc-layout">
+
+      <!-- Left: narrative -->
+      <div class="doc-main">
+
+        <div id="doc-description-section">
+          <p class="doc-section__heading">Overview</p>
+          <p class="doc-section__text" id="doc-description"></p>
+        </div>
+
+        <div id="doc-activities-section">
+          <p class="doc-section__heading">Solutions Applied</p>
+          <ul class="doc-list" id="doc-activities"></ul>
+        </div>
+
+        <div id="doc-benefits-section">
+          <p class="doc-section__heading">Results</p>
+          <div class="doc-stats internal-only" id="doc-stats"></div>
+          <ul class="doc-list" id="doc-benefits"></ul>
+        </div>
+
+      </div>
+
+      <!-- Right: client sidebar -->
+      <aside class="doc-sidebar">
+        <div class="doc-client-box" id="doc-client-box">
+          <div class="doc-client-box__heading">The client fast facts</div>
+          <div id="doc-client-rows"></div>
+        </div>
+      </aside>
+
+    </div>
+
+    <!-- Print footer — audience badge + WWRI branding -->
+    <div class="doc-print-footer">
+      <span class="doc-print-footer__brand">Whitewater Reinventions</span>
+      <div>
+        <span class="doc-print-footer__badge doc-print-footer__badge--internal internal-only">Confidential — Internal Use Only</span>
+        <span class="doc-print-footer__badge doc-print-footer__badge--client client-only">Client Presentation — Confidential</span>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+  let allCases = [];
+  let activeCategories = new Set();
+  let activeTags = new Set();
+  let searchQuery = '';
+  let audienceMode = 'internal';
+
+  // ── Load data ──
+  fetch('./case-studies.json')
+    .then(r => r.json())
+    .then(data => {
+      allCases = data;
+      buildFilters();
+      handleRoute();
+    })
+    .catch(() => {
+      document.getElementById('card-grid').innerHTML =
+        '<div class="empty-state"><p>Unable to load case studies</p><p>Make sure case-studies.json is in the same folder as this file.</p></div>';
+    });
+
+  // ── Routing via URL hash ──
+  window.addEventListener('hashchange', handleRoute);
+
+  function handleRoute() {
+    const id = decodeURIComponent(location.hash.slice(1));
+    const cs = allCases.find(c => c.id === id);
+    if (cs) {
+      showDocument(cs);
+    } else {
+      showGrid();
+    }
+  }
+
+  function showDocument(cs) {
+    document.getElementById('grid-view').hidden = true;
+    document.getElementById('doc-view').hidden = false;
+    window.scrollTo({ top: 0, behavior: 'instant' });
+
+    const isSearch = cs.category.toLowerCase().includes('search');
+    const headerEl = document.getElementById('doc-header');
+    headerEl.className = isSearch ? 'doc-header doc-header--search' : 'doc-header';
+
+    document.getElementById('doc-category').textContent = cs.category;
+    document.getElementById('doc-title').textContent = cs.title;
+    document.getElementById('doc-tags').innerHTML = cs.tags.map(t => `<span class="tag">${esc(t)}</span>`).join('');
+
+    // Client sidebar rows
+    let rows = clientRow('Category', cs.category);
+    if (cs.client_name && cs.client_name !== 'Confidential') {
+      rows += clientRow('Client', cs.client_name);
+    }
+    if (cs.tags.length) {
+      rows += `<div class="doc-client-row">
+        <span class="doc-client-key">Focus</span>
+        <div class="doc-client-tags">${cs.tags.map(t => `<span class="tag">${esc(t)}</span>`).join('')}</div>
+      </div>`;
+    }
+    document.getElementById('doc-client-rows').innerHTML = rows;
+
+    // Stat callouts (internal-only)
+    const statsEl = document.getElementById('doc-stats');
+    statsEl.innerHTML = '';
+    if (cs.revenue) {
+      statsEl.innerHTML += `<div class="doc-stat">
+        <div class="doc-stat__value">${esc(cs.revenue)}</div>
+        <div class="doc-stat__label">Revenue</div>
+      </div>`;
+    }
+    if (cs.headcount) {
+      statsEl.innerHTML += `<div class="doc-stat">
+        <div class="doc-stat__value">${esc(cs.headcount)}</div>
+        <div class="doc-stat__label">Headcount</div>
+      </div>`;
+    }
+    statsEl.style.display = (cs.revenue || cs.headcount) ? '' : 'none';
+
+    // Narrative
+    const desc = document.getElementById('doc-description');
+    desc.textContent = cs.description || '';
+    document.getElementById('doc-description-section').style.display = cs.description ? '' : 'none';
+
+    document.getElementById('doc-activities').innerHTML = cs.activities.map(a => `<li>${esc(a)}</li>`).join('');
+    document.getElementById('doc-activities-section').style.display = cs.activities.length ? '' : 'none';
+
+    document.getElementById('doc-benefits').innerHTML = cs.benefits.map(b => `<li>${esc(b)}</li>`).join('');
+    document.getElementById('doc-benefits-section').style.display = cs.benefits.length ? '' : 'none';
+  }
+
+  function showGrid() {
+    document.getElementById('doc-view').hidden = true;
+    document.getElementById('grid-view').hidden = false;
+    renderCards();
+  }
+
+  function clientRow(key, value) {
+    return `<div class="doc-client-row">
+      <span class="doc-client-key">${esc(key)}</span>
+      <span class="doc-client-value">${esc(value)}</span>
+    </div>`;
+  }
+
+  document.getElementById('doc-back').addEventListener('click', () => {
+    history.back();
+  });
+
+  // ── Build filter pills ──
+  function buildFilters() {
+    const categories = [...new Set(allCases.map(c => c.category))].sort();
+    const tags = [...new Set(allCases.flatMap(c => c.tags))].sort();
+
+    const catEl = document.getElementById('category-filters');
+    catEl.style.cssText = 'display:flex;flex-wrap:wrap;gap:var(--space-2)';
+    categories.forEach(cat => {
+      const btn = document.createElement('button');
+      btn.className = 'pill';
+      btn.textContent = cat;
+      btn.addEventListener('click', () => toggleCategory(cat, btn));
+      catEl.appendChild(btn);
+    });
+
+    const tagEl = document.getElementById('tag-filters');
+    tags.forEach(tag => {
+      const btn = document.createElement('button');
+      btn.className = 'pill';
+      btn.textContent = tag;
+      btn.addEventListener('click', () => toggleTag(tag, btn));
+      tagEl.appendChild(btn);
+    });
+  }
+
+  function toggleCategory(cat, btn) {
+    if (activeCategories.has(cat)) { activeCategories.delete(cat); btn.classList.remove('pill--active'); }
+    else { activeCategories.add(cat); btn.classList.add('pill--active'); }
+    renderCards();
+  }
+  function toggleTag(tag, btn) {
+    if (activeTags.has(tag)) { activeTags.delete(tag); btn.classList.remove('pill--active'); }
+    else { activeTags.add(tag); btn.classList.add('pill--active'); }
+    renderCards();
+  }
+
+  document.getElementById('search-input').addEventListener('input', e => {
+    searchQuery = e.target.value.toLowerCase().trim();
+    renderCards();
+  });
+
+  document.getElementById('clear-btn').addEventListener('click', () => {
+    activeCategories.clear();
+    activeTags.clear();
+    searchQuery = '';
+    document.getElementById('search-input').value = '';
+    document.querySelectorAll('.pill--active').forEach(p => p.classList.remove('pill--active'));
+    renderCards();
+  });
+
+  // ── Audience toggle ──
+  document.querySelectorAll('.audience-toggle__btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.audience-toggle__btn').forEach(b => b.classList.remove('audience-toggle__btn--active'));
+      btn.classList.add('audience-toggle__btn--active');
+      audienceMode = btn.dataset.audience;
+      document.body.classList.toggle('audience-client', audienceMode === 'client');
+      renderCards();
+    });
+  });
+
+  // ── Filter engine ──
+  function getFiltered() {
+    return allCases.filter(c => {
+      if (activeCategories.size && !activeCategories.has(c.category)) return false;
+      if (activeTags.size && !c.tags.some(t => activeTags.has(t))) return false;
+      if (searchQuery) {
+        const haystack = [c.title, c.description, c.category, ...c.tags, ...c.activities, ...c.benefits].join(' ').toLowerCase();
+        if (!haystack.includes(searchQuery)) return false;
+      }
+      return true;
+    });
+  }
+
+  function renderCards() {
+    const filtered = getFiltered();
+    const grid = document.getElementById('card-grid');
+    const countEl = document.getElementById('results-count');
+
+    countEl.innerHTML = `Showing <strong>${filtered.length}</strong> of <strong>${allCases.length}</strong> case studies`;
+
+    if (!filtered.length) {
+      grid.innerHTML = '<div class="empty-state"><p>No case studies match</p><p>Try adjusting your filters or clearing the search.</p></div>';
+      return;
+    }
+
+    grid.innerHTML = filtered.map(c => {
+      const isSearch = c.category.toLowerCase().includes('search');
+      const catClass = isSearch ? 'cs-card--search' : 'cs-card--consulting';
+
+      const footer = (c.revenue || c.headcount)
+        ? `<div class="cs-card__footer internal-only">
+            ${c.revenue ? `<div class="cs-card__stat"><span class="cs-card__stat-label">Revenue</span><span class="cs-card__stat-value">${esc(c.revenue)}</span></div>` : ''}
+            ${c.headcount ? `<div class="cs-card__stat"><span class="cs-card__stat-label">Headcount</span><span class="cs-card__stat-value">${esc(c.headcount)}</span></div>` : ''}
+          </div>`
+        : (c.activities.length || c.benefits.length
+          ? `<div class="cs-card__footer">
+              ${c.activities.length ? `<span class="cs-card__stat-label">${c.activities.length} activities</span>` : ''}
+              ${c.benefits.length ? `<span class="cs-card__stat-label">${c.benefits.length} outcomes</span>` : ''}
+            </div>`
+          : '');
+
+      return `
+        <article class="cs-card ${catClass}" data-id="${esc(c.id)}" tabindex="0" role="button" aria-label="View ${esc(c.title)}">
+          <div class="cs-card__header">
+            <div class="cs-card__eyebrow">
+              <span class="cs-card__doc-label">Case Study</span>
+              <span class="cs-card__eyebrow-sep">·</span>
+              <span class="cs-card__category">${esc(c.category)}</span>
+            </div>
+            <h3 class="cs-card__title">${esc(c.title)}</h3>
+          </div>
+          <div class="cs-card__body">
+            ${c.tags.length ? `<div class="tag-row">${c.tags.map(t => `<span class="tag">${esc(t)}</span>`).join('')}</div>` : ''}
+            <p class="cs-card__desc">${esc(c.description || 'Click to view full case study.')}</p>
+          </div>
+          ${footer}
+        </article>`;
+    }).join('');
+
+    grid.querySelectorAll('.cs-card').forEach(card => {
+      card.addEventListener('click', () => {
+        location.hash = encodeURIComponent(card.dataset.id);
+      });
+      card.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') location.hash = encodeURIComponent(card.dataset.id);
+      });
+    });
+
+    document.body.classList.toggle('audience-client', audienceMode === 'client');
+  }
+
+  // ── Utility ──
+  function esc(str) {
+    return String(str ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+</script>
+</body>
+</html>

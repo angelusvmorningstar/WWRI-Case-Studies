@@ -1,0 +1,182 @@
+@media print {
+  @page { margin: 14mm 18mm; size: A4 portrait; }
+
+  /* ── Clean slate ── */
+  body, .doc-view { background: #fff !important; }
+
+  /* Hide screen-only elements */
+  .app-header,
+  .main,
+  .doc-nav { display: none !important; }
+
+  .doc-view { display: block !important; }
+
+  /* ── Document header — force dark background ── */
+  .doc-header {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    background: #1E2228 !important;
+    border-bottom: 3px solid #009898 !important;
+  }
+  .doc-header--search { border-bottom-color: #C07A00 !important; }
+  .doc-header__inner { padding: 22px 28px 18px; }
+  .doc-header__cs-label { color: rgba(255,255,255,0.35) !important; font-size: 8px; }
+  .doc-header__eyebrow { margin-bottom: 8px; }
+  .doc-header__category { color: #009898 !important; font-size: 8px; }
+  .doc-header--search .doc-header__category { color: #C07A00 !important; }
+  .doc-header__title { font-size: 18px !important; line-height: 1.2 !important; margin-bottom: 10px !important; color: #fff !important; }
+  .doc-header .tag {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    background: rgba(255,255,255,0.1) !important;
+    border-color: rgba(255,255,255,0.2) !important;
+    color: rgba(255,255,255,0.65) !important;
+    font-size: 8px;
+    padding: 1px 6px;
+  }
+
+  /* ── Body layout ── */
+  .doc-body { padding: 16px 28px 0; }
+
+  .doc-nav { display: none !important; }
+
+  .doc-layout {
+    display: grid !important;
+    grid-template-columns: 1fr 200px !important;
+    gap: 0 !important;
+    border: 1px solid #DDDBD6 !important;
+    border-radius: 5px !important;
+    overflow: hidden !important;
+  }
+
+  .doc-main {
+    padding: 18px 22px !important;
+    border-right: 1px solid #DDDBD6 !important;
+    gap: 18px !important;
+  }
+  .doc-sidebar { position: static !important; }
+
+  /* ── Section headings ── */
+  .doc-section__heading {
+    font-size: 9px !important;
+    margin-bottom: 7px !important;
+    gap: 6px !important;
+  }
+  .doc-section__heading::before {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    width: 7px !important;
+    height: 7px !important;
+    background: #009898 !important;
+  }
+  #doc-benefits-section .doc-section__heading::before {
+    background: #C07A00 !important;
+  }
+
+  /* ── Body text ── */
+  .doc-section__text { font-size: 8px !important; line-height: 1.55 !important; }
+
+  /* ── Lists ── */
+  .doc-list { gap: 5px !important; }
+  .doc-list li {
+    font-size: 8px !important;
+    line-height: 1.5 !important;
+    break-inside: avoid;
+    padding-left: 13px !important;
+  }
+  .doc-list li::before {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    background: #009898 !important;
+    width: 5px !important;
+    height: 5px !important;
+    top: 0.52em !important;
+  }
+  #doc-benefits li::before { background: #C07A00 !important; }
+
+  /* ── Stat callouts — keep dark treatment from screen ── */
+  .doc-stats { gap: 8px !important; margin-bottom: 12px !important; }
+  .doc-stat {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    background: #1E2228 !important;
+    border-radius: 4px !important;
+    padding: 10px 14px !important;
+    border: none !important;
+  }
+  .doc-stat__value { font-size: 20px !important; color: #fff !important; line-height: 1 !important; }
+  .doc-stat__label { font-size: 7px !important; color: rgba(255,255,255,0.5) !important; }
+
+  /* ── Client sidebar — dark ── */
+  .doc-client-box {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    background: #1E2228 !important;
+    height: 100% !important;
+  }
+  .doc-client-box__heading {
+    font-size: 10px !important;
+    padding: 12px 16px 10px !important;
+    color: #C07A00 !important;
+    border-bottom: 1px solid rgba(255,255,255,0.1) !important;
+  }
+  .doc-client-row {
+    padding: 8px 16px !important;
+    grid-template-columns: 54px 1fr !important;
+    gap: 8px !important;
+    border-bottom: 1px solid rgba(255,255,255,0.06) !important;
+  }
+  .doc-client-key { font-size: 7px !important; color: rgba(255,255,255,0.4) !important; }
+  .doc-client-value { font-size: 8px !important; color: rgba(255,255,255,0.9) !important; }
+  .doc-client-tags .tag {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    font-size: 7px !important;
+    padding: 1px 5px !important;
+    background: rgba(255,255,255,0.1) !important;
+    border-color: rgba(255,255,255,0.15) !important;
+    color: rgba(255,255,255,0.65) !important;
+  }
+
+  /* ── Print footer — audience badge ── */
+  .doc-print-footer {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 14px;
+    padding: 8px 0 0;
+    border-top: 1px solid #DDDBD6;
+  }
+  .doc-print-footer__brand {
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #009898;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .doc-print-footer__badge {
+    font-size: 7px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 3px;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .doc-print-footer__badge--internal {
+    background: #1E2228 !important;
+    color: #C07A00 !important;
+  }
+  .doc-print-footer__badge--client {
+    background: #009898 !important;
+    color: #fff !important;
+  }
+
+  /* ── Client-only badge must appear in client mode ── */
+  body.audience-client .client-only {
+    display: inline-block !important;
+  }
+}

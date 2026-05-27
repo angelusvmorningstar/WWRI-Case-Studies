@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Case Study Template — Whitewater Reinventions</title>
+  <style>
+    /* ── Reset & base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:   #F5F4F0;
+      --sur:  #FFFFFF;
+      --elv:  #F0EFEC;
+      --brd:  #DDDBD6;
+      --mut:  #888884;
+      --sub:  #555550;
+      --txt:  #1A1A1A;
+      --tel:  #009898;
+      --tel-h:#007A7A;
+      --amb:  #C07A00;
+      --grn:  #1E8C4A;
+      --dark: #1E2228;
+      --font: 'Calibri', 'Segoe UI', system-ui, sans-serif;
+      --r-sm: 4px;
+      --r-md: 6px;
+      --r-lg: 10px;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--txt);
+      min-height: 100vh;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    /* ── App header ── */
+    .app-header {
+      background: var(--sur);
+      border-bottom: 1px solid var(--brd);
+      padding: 12px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      gap: 16px;
+    }
+    .app-header__brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .app-header__wordmark {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--tel);
+    }
+    .app-header__sep { width: 1px; height: 16px; background: var(--brd); }
+    .app-header__title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--txt);
+    }
+    .header-controls { display: flex; align-items: center; gap: 12px; }
+
+    /* Audience toggle */
+    .audience-toggle {
+      display: flex;
+      gap: 2px;
+      background: var(--elv);
+      border: 1px solid var(--brd);
+      border-radius: var(--r-md);
+      padding: 3px;
+    }
+    .audience-toggle__btn {
+      font-family: var(--font);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 5px 14px;
+      border: none;
+      border-radius: calc(var(--r-md) - 2px);
+      cursor: pointer;
+      background: transparent;
+      color: var(--mut);
+      transition: all 0.1s;
+    }
+    .audience-toggle__btn--active {
+      background: var(--sur);
+      color: var(--txt);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      font-weight: 600;
+    }
+
+    /* Explainer toggle button */
+    .btn-explainer {
+      font-family: var(--font);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 7px 16px;
+      background: transparent;
+      color: var(--amb);
+      border: 1.5px solid var(--amb);
+      border-radius: var(--r-md);
+      cursor: pointer;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .btn-explainer:hover { background: #FFF8EE; }
+    .btn-explainer--active { background: var(--amb); color: #fff; }
+    .btn-explainer--active:hover { background: #A06800; border-color: #A06800; }
+
+    /* ── Explainer banner ── */
+    .explainer-banner {
+      background: #FFF8EE;
+      border-bottom: 2px solid var(--amb);
+      padding: 10px 32px;
+      font-size: 13px;
+      color: var(--amb);
+      font-weight: 500;
+      display: none;
+    }
+    body.show-explainers .explainer-banner { display: block; }
+
+    /* ── Document ── */
+    .doc-view { background: white; }
+
+    /* Document header — dark band */
+    .doc-header {
+      background: var(--dark);
+      border-bottom: 3px solid var(--amb); /* amber = Executive Search */
+    }
+    .doc-header__inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 40px 40px 36px;
+    }
+    .doc-header__eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .doc-header__cs-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+    }
+    .doc-header__sep { color: rgba(255,255,255,0.2); font-size: 10px; }
+    .doc-header__category {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--amb);
+    }
+    .doc-header__title {
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1.18;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+    .tag-row { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tag {
+      font-size: 11px;
+      font-weight: 500;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.14);
+      color: rgba(255,255,255,0.6);
+    }
+
+    /* ── Explainer annotations on header ── */
+    .doc-header__explainer {
+      margin-top: 20px;
+      padding: 14px 16px;
+      background: rgba(192,122,0,0.12);
+      border: 1.5px dashed var(--amb);
+      border-radius: var(--r-md);
+      display: none;
+    }
+    body.show-explainers .doc-header__explainer { display: block; }
+    .expl-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--amb);
+      margin-bottom: 8px;
+    }
+    .expl-field { margin-bottom: 8px; }
+    .expl-field:last-child { margin-bottom: 0; }
+    .expl-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.7);
+      display: inline;
+    }
+    .expl-desc {
+      font-size: 12px;
+      color: rgba(255,255,255,0.55);
+      margin-top: 2px;
+    }
+
+    /* ── Document body ── */
+    .doc-body {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 40px 80px;
+    }
+
+    .doc-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 0 24px;
+    }
+    .doc-template-badge {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--mut);
+      background: var(--elv);
+      border: 1px solid var(--brd);
+      border-radius: 999px;
+      padding: 4px 12px;
+    }
+    .btn-export {
+      font-family: var(--font);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 8px 20px;
+      background: var(--tel);
+      color: #fff;
+      border: none;
+      border-radius: var(--r-md);
+      cursor: pointer;
+      transition: background 0.1s;
+    }
+    .btn-export:hover { background: var(--tel-h); }
+
+    /* Two-column layout */
+    .doc-layout {
+      display: grid;
+      grid-template-columns: 1fr 288px;
+      align-items: start;
+      border: 1px solid var(--brd);
+      border-radius: var(--r-lg);
+      overflow: hidden;
+    }
+
+    /* Left: narrative */
+    .doc-main {
+      display: flex;
+      flex-direction: column;
+      padding: 36px 40px;
+      border-right: 1px solid var(--brd);
+      gap: 32px;
+    }
+
+    /* Section block with optional explainer */
+    .doc-section { position: relative; }
+    .doc-section__heading {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--txt);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .doc-section__heading::before {
+      content: '';
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--tel);
+      flex-shrink: 0;
+    }
+    .doc-section--results .doc-section__heading::before { background: var(--amb); }
+
+    .doc-section__text {
+      font-size: 14px;
+      line-height: 1.65;
+      color: var(--sub);
+    }
+    .doc-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .doc-list li {
+      font-size: 14px;
+      line-height: 1.65;
+      color: var(--sub);
+      padding-left: 20px;
+      position: relative;
+    }
+    .doc-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.62em;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--tel);
+    }
+    .doc-section--results .doc-list li::before { background: var(--amb); }
+
+    /* Stat callouts */
+    .doc-stats {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .doc-stat {
+      flex: 1;
+      min-width: 140px;
+      background: var(--dark);
+      border-radius: var(--r-md);
+      padding: 18px 22px;
+      text-align: center;
+    }
+    .doc-stat__value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1;
+      margin-bottom: 5px;
+    }
+    .doc-stat__label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+    }
+
+    /* Explainer callout for sections */
+    .section-explainer {
+      margin-top: 14px;
+      padding: 14px 16px;
+      background: #FFFBF0;
+      border: 1.5px dashed var(--amb);
+      border-radius: var(--r-md);
+      display: none;
+    }
+    body.show-explainers .section-explainer { display: block; }
+    .section-explainer__title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--amb);
+      margin-bottom: 8px;
+    }
+    .section-explainer p {
+      font-size: 13px;
+      color: var(--sub);
+      line-height: 1.55;
+      margin-bottom: 6px;
+    }
+    .section-explainer p:last-child { margin-bottom: 0; }
+    .section-explainer strong { color: var(--txt); font-weight: 600; }
+
+    /* Sidebar explainer */
+    .sidebar-explainer {
+      background: var(--dark);
+      border-top: 2px dashed var(--amb);
+      padding: 14px 16px;
+      display: none;
+    }
+    body.show-explainers .sidebar-explainer { display: block; }
+    .sidebar-explainer__title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--amb);
+      margin-bottom: 10px;
+    }
+    .sidebar-expl-row { margin-bottom: 10px; }
+    .sidebar-expl-row:last-child { margin-bottom: 0; }
+    .sidebar-expl-key {
+      font-size: 11px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.65);
+      margin-bottom: 2px;
+    }
+    .sidebar-expl-val {
+      font-size: 12px;
+      color: rgba(255,255,255,0.42);
+      line-height: 1.5;
+    }
+
+    /* Right: client facts sidebar */
+    .doc-sidebar {
+      position: sticky;
+      top: 57px;
+      align-self: start;
+    }
+    .doc-client-box {
+      background: var(--dark);
+      overflow: hidden;
+      height: 100%;
+    }
+    .doc-client-box__heading {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--amb);
+      padding: 20px 20px 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .doc-client-row {
+      padding: 11px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: grid;
+      grid-template-columns: 72px 1fr;
+      gap: 10px;
+      align-items: baseline;
+    }
+    .doc-client-row:last-child { border-bottom: none; }
+    .doc-client-key {
+      font-size: 12px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.4);
+    }
+    .doc-client-value {
+      font-size: 13px;
+      color: rgba(255,255,255,0.88);
+      font-weight: 500;
+    }
+    .doc-client-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+    .doc-client-tag {
+      font-size: 11px;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.65);
+    }
+
+    /* Audience suppression */
+    .internal-only { /* visible by default */ }
+    body.audience-client .internal-only { display: none !important; }
+
+    /* ── Audience explainer block ── */
+    .audience-explainer {
+      background: #FFFBF0;
+      border: 1.5px dashed var(--amb);
+      border-radius: var(--r-md);
+      padding: 16px 20px;
+      margin: 24px 0 0;
+      display: none;
+    }
+    body.show-explainers .audience-explainer { display: block; }
+    .audience-explainer__title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--amb);
+      margin-bottom: 8px;
+    }
+    .audience-explainer p {
+      font-size: 13px;
+      color: var(--sub);
+      line-height: 1.55;
+      margin-bottom: 5px;
+    }
+    .audience-explainer p:last-child { margin-bottom: 0; }
+    .audience-explainer strong { color: var(--txt); font-weight: 600; }
+
+    /* ── Print footer ── */
+    .doc-print-footer { display: none; }
+
+    /* ── Print styles ── */
+    @media print {
+      .app-header, .doc-nav, .audience-explainer,
+      .section-explainer, .sidebar-explainer,
+      .doc-header__explainer, .explainer-banner { display: none !important; }
+
+      body { background: white; }
+      .doc-header, .doc-client-box, .doc-stat {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      .doc-layout { border: none; }
+      .doc-print-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 40px;
+        padding-top: 12px;
+        border-top: 1px solid var(--brd);
+        font-size: 11px;
+        color: var(--mut);
+      }
+      .doc-print-footer__brand { font-weight: 700; letter-spacing: 0.06em; }
+      .doc-print-footer__badge {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 3px 10px;
+        border-radius: 999px;
+      }
+      .doc-print-footer__badge--internal {
+        background: var(--dark);
+        color: var(--amb);
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      .doc-print-footer__badge--client {
+        background: var(--tel);
+        color: #fff;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── App header ── -->
+<header class="app-header">
+  <div class="app-header__brand">
+    <span class="app-header__wordmark">Whitewater Reinventions</span>
+    <div class="app-header__sep"></div>
+    <span class="app-header__title">Case Study Library — Template Preview</span>
+  </div>
+  <div class="header-controls">
+    <button class="btn-explainer" id="explainer-btn" type="button">
+      Show Explainers
+    </button>
+    <div class="audience-toggle" role="radiogroup" aria-label="Audience mode">
+      <button class="audience-toggle__btn audience-toggle__btn--active" data-audience="internal" type="button">Internal</button>
+      <button class="audience-toggle__btn" data-audience="client" type="button">Client-Facing</button>
+    </div>
+  </div>
+</header>
+
+<!-- ── Explainer banner ── -->
+<div class="explainer-banner">
+  ✦ Explainer mode is on — amber dashed boxes on each section describe what to write and why it matters.
+  Toggle between <strong>Internal</strong> and <strong>Client-Facing</strong> in the top right to see which fields are hidden from clients.
+</div>
+
+<!-- ── Document view ── -->
+<div class="doc-view">
+
+  <!-- Dark header band -->
+  <div class="doc-header">
+    <div class="doc-header__inner">
+      <div class="doc-header__eyebrow">
+        <span class="doc-header__cs-label">Case Study</span>
+        <span class="doc-header__sep">·</span>
+        <span class="doc-header__category">Executive Search</span>
+      </div>
+      <h1 class="doc-header__title">
+        Chief Human Resources Officer Search for a Major Regional Bank in Southeast Asia
+      </h1>
+      <div class="tag-row">
+        <span class="tag">Financial Services</span>
+        <span class="tag">Banking</span>
+        <span class="tag">C-Suite</span>
+        <span class="tag">Southeast Asia</span>
+      </div>
+
+      <!-- Header explainer -->
+      <div class="doc-header__explainer">
+        <div class="expl-title">✦ Header fields — what to fill in</div>
+        <div class="expl-field">
+          <span class="expl-label">Category:</span>
+          <p class="expl-desc">Either <strong style="color:rgba(255,255,255,0.75)">Consulting</strong> (teal accent) or <strong style="color:rgba(255,255,255,0.75)">Executive Search</strong> (amber accent). Determines the colour theme of the whole card and document.</p>
+        </div>
+        <div class="expl-field">
+          <span class="expl-label">Title:</span>
+          <p class="expl-desc">Write as "[Type of work] for [type of client] in [location]." Descriptive but not client-identifying. Aim for 12–18 words.</p>
+        </div>
+        <div class="expl-field">
+          <span class="expl-label">Tags:</span>
+          <p class="expl-desc">Industry sector and geography first, then role type or focus area. 2–4 tags max. Used for filtering in the library. Examples: Financial Services · Manufacturing · FMCG · C-Suite · Southeast Asia · China · HK.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Document body -->
+  <div class="doc-body">
+    <div class="doc-nav">
+      <span class="doc-template-badge">Template Preview — Sample Case Study</span>
+      <button class="btn-export" onclick="window.print()">Export PDF</button>
+    </div>
+
+    <div class="doc-layout">
+
+      <!-- Left: narrative -->
+      <div class="doc-main">
+
+        <!-- Overview -->
+        <div class="doc-section">
+          <p class="doc-section__heading">Overview</p>
+          <p class="doc-section__text">
+            Our client is one of Southeast Asia's leading universal banks, operating across eight markets
+            with over 12,000 employees and a strong presence in retail, commercial and private banking.
+            Following a group-wide transformation programme, the incumbent CHRO retired, and the Board
+            required a successor who could sustain cultural change momentum while managing a demanding
+            regulatory environment and an increasingly distributed workforce.
+          </p>
+          <div class="section-explainer">
+            <div class="section-explainer__title">✦ Overview — what to write</div>
+            <p>Describe <strong>who the client is</strong> and <strong>what the challenge or situation was</strong> that led them to engage Whitewater. Write in the third person. Keep it to 3–6 sentences.</p>
+            <p>Include: type of organisation, scale (geography, headcount, sector), and the business context that drove the mandate. Do not name the client.</p>
+            <p>Avoid vague openers like "Our client needed help with…" — be specific about the situation.</p>
+          </div>
+        </div>
+
+        <!-- Solutions Applied -->
+        <div class="doc-section">
+          <p class="doc-section__heading">Solutions Applied</p>
+          <ul class="doc-list">
+            <li>Conducted a detailed role specification process with the Board and Group CEO, identifying both technical requirements and cultural fit criteria aligned to the transformation agenda</li>
+            <li>Developed a long-list of 40 candidates across Southeast Asia, Greater China and Australia through direct research and proprietary network activation</li>
+            <li>Delivered structured behavioural competency assessments for six short-listed candidates, with individual written profiles provided to the selection panel</li>
+            <li>Facilitated a two-stage panel interview process, including a board presentation exercise on 100-day strategic priorities</li>
+            <li>Managed offer negotiation and candidate communication through to acceptance and onboarding</li>
+          </ul>
+          <div class="section-explainer">
+            <div class="section-explainer__title">✦ Solutions Applied — what to write</div>
+            <p>List the <strong>specific activities and methods Whitewater used</strong> to address the client's challenge. Write as action bullets starting with a verb (Conducted, Developed, Facilitated, Designed, etc.).</p>
+            <p>Aim for 4–6 bullets. Be concrete — "Developed a long-list of 40 candidates" is better than "Identified candidates." Avoid generic consulting language like "Leveraged best-practice frameworks."</p>
+            <p>For Consulting mandates: describe what was analysed, designed, facilitated or delivered. For Executive Search: describe the process stages (scoping, research, assessment, placement).</p>
+          </div>
+        </div>
+
+        <!-- Results -->
+        <div class="doc-section doc-section--results">
+          <p class="doc-section__heading">Results</p>
+
+          <!-- Stat callouts — internal only -->
+          <div class="doc-stats internal-only">
+            <div class="doc-stat">
+              <div class="doc-stat__value">USD 8.4B</div>
+              <div class="doc-stat__label">Client Revenue</div>
+            </div>
+            <div class="doc-stat">
+              <div class="doc-stat__value">12,500</div>
+              <div class="doc-stat__label">Employees</div>
+            </div>
+          </div>
+
+          <ul class="doc-list">
+            <li>Appointment made within 14 weeks of mandate commencement — two weeks ahead of the Board's target timeline</li>
+            <li>Successful candidate brings 20+ years of HR leadership across banking and financial services in Asia, with direct experience of post-merger integration</li>
+            <li>All six short-listed candidates remained engaged through the full process with no withdrawals — a result attributed to the quality of candidate communication and briefing</li>
+            <li>The appointed CHRO has since anchored a revised people strategy presented at the Group's annual investor day</li>
+          </ul>
+
+          <div class="section-explainer">
+            <div class="section-explainer__title">✦ Results — what to write</div>
+            <p>Describe <strong>what actually happened as a result</strong> of Whitewater's involvement. Bullet form, 3–5 points. Lead with the most concrete outcome.</p>
+            <p>Include: timelines met or exceeded, quality of outcomes, downstream impact where you know it. For search: appointment date, candidate quality, process quality.</p>
+            <p><strong>Stat callouts</strong> (the dark boxes with large numbers) show the client's revenue and headcount — these are <strong>internal only</strong> and hidden in client-facing mode. Fill them in when you have this data — they help IEs contextualise the mandate's scale.</p>
+            <p>Avoid self-congratulatory language like "Whitewater delivered exceptional results." Let the specifics speak.</p>
+          </div>
+        </div>
+
+        <!-- Audience explainer -->
+        <div class="audience-explainer">
+          <div class="audience-explainer__title">✦ Audience Toggle — Internal vs Client-Facing</div>
+          <p>The toggle in the top-right corner switches between two modes:</p>
+          <p><strong>Internal:</strong> Shows all fields including client revenue, headcount, and any commercially sensitive context. This is the default view for IEs and Whitewater staff.</p>
+          <p><strong>Client-Facing:</strong> Hides the dark stat callout boxes (revenue and headcount). Safe to share with prospects and clients as a leave-behind. The Export PDF button respects whichever mode is active when you print.</p>
+          <p>The audience badge in the PDF footer tells the reader which mode was used when the document was printed.</p>
+        </div>
+
+      </div>
+
+      <!-- Right: client sidebar -->
+      <aside class="doc-sidebar">
+        <div class="doc-client-box">
+          <div class="doc-client-box__heading">The client fast facts</div>
+
+          <div class="doc-client-row">
+            <span class="doc-client-key">Category</span>
+            <span class="doc-client-value">Executive Search</span>
+          </div>
+          <div class="doc-client-row">
+            <span class="doc-client-key">Client</span>
+            <span class="doc-client-value">Confidential</span>
+          </div>
+          <div class="doc-client-row">
+            <span class="doc-client-key">Geography</span>
+            <span class="doc-client-value">Southeast Asia (HQ Singapore)</span>
+          </div>
+          <div class="doc-client-row">
+            <span class="doc-client-key">Focus</span>
+            <div class="doc-client-tags">
+              <span class="doc-client-tag">Financial Services</span>
+              <span class="doc-client-tag">Banking</span>
+              <span class="doc-client-tag">C-Suite</span>
+              <span class="doc-client-tag">Southeast Asia</span>
+            </div>
+          </div>
+          <div class="doc-client-row internal-only">
+            <span class="doc-client-key">Revenue</span>
+            <span class="doc-client-value">USD 8.4B</span>
+          </div>
+          <div class="doc-client-row internal-only">
+            <span class="doc-client-key">Headcount</span>
+            <span class="doc-client-value">12,500 employees</span>
+          </div>
+          <div class="doc-client-row">
+            <span class="doc-client-key">IE</span>
+            <span class="doc-client-value">Adam Grams</span>
+          </div>
+
+          <!-- Sidebar explainer -->
+          <div class="sidebar-explainer">
+            <div class="sidebar-explainer__title">✦ Client Fast Facts — what to fill in</div>
+            <div class="sidebar-expl-row">
+              <div class="sidebar-expl-key">Category</div>
+              <div class="sidebar-expl-val">Consulting or Executive Search. Always required.</div>
+            </div>
+            <div class="sidebar-expl-row">
+              <div class="sidebar-expl-key">Client</div>
+              <div class="sidebar-expl-val">If the client has consented to being named, put their name. Otherwise leave as "Confidential."</div>
+            </div>
+            <div class="sidebar-expl-row">
+              <div class="sidebar-expl-key">Geography</div>
+              <div class="sidebar-expl-val">Country or region where the engagement took place. Used for search and matching.</div>
+            </div>
+            <div class="sidebar-expl-row">
+              <div class="sidebar-expl-key">Focus / Tags</div>
+              <div class="sidebar-expl-val">Industry sector and role type. These drive the filter pills in the library. Keep to 2–4 tags.</div>
+            </div>
+            <div class="sidebar-expl-row">
+              <div class="sidebar-expl-key">Revenue &amp; Headcount</div>
+              <div class="sidebar-expl-val">Client's scale — internal use only, hidden from clients. Fill in where known. Helps IEs assess mandate credibility when pitching similar clients.</div>
+            </div>
+            <div class="sidebar-expl-row">
+              <div class="sidebar-expl-key">IE</div>
+              <div class="sidebar-expl-val">The IE who led or was responsible for this mandate. Required for provenance — allows Whitewater to reference the right person in BD conversations.</div>
+            </div>
+          </div>
+
+        </div>
+      </aside>
+
+    </div>
+
+    <!-- Print footer -->
+    <div class="doc-print-footer">
+      <span class="doc-print-footer__brand">Whitewater Reinventions</span>
+      <div>
+        <span class="doc-print-footer__badge doc-print-footer__badge--internal internal-only">Confidential — Internal Use Only</span>
+        <span class="doc-print-footer__badge doc-print-footer__badge--client" id="client-badge" style="display:none">Client Presentation — Confidential</span>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+  /* Audience toggle */
+  document.querySelectorAll('.audience-toggle__btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.audience-toggle__btn').forEach(b => b.classList.remove('audience-toggle__btn--active'));
+      btn.classList.add('audience-toggle__btn--active');
+      const mode = btn.dataset.audience;
+      document.body.classList.toggle('audience-client', mode === 'client');
+      document.getElementById('client-badge').style.display = mode === 'client' ? 'inline-block' : 'none';
+    });
+  });
+
+  /* Explainer toggle */
+  const explBtn = document.getElementById('explainer-btn');
+  explBtn.addEventListener('click', () => {
+    const on = document.body.classList.toggle('show-explainers');
+    explBtn.textContent = on ? 'Hide Explainers' : 'Show Explainers';
+    explBtn.classList.toggle('btn-explainer--active', on);
+  });
+</script>
+
+</body>
+</html>
