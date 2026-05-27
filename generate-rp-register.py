@@ -16,15 +16,20 @@ EXCEL_FILE   = r"D:\WWRI Development\IE Intake Master CONTROL SHEET 2025.xlsx"
 SEED_FILE    = r"D:\WWRI Development\cost-tracker\seed\workbook-seed.json"
 
 # ── Cohort metadata ───────────────────────────────────────────────────────────
+# old_format: cohorts 7-9 split name across "1st Name" + "Surname" columns,
+# no NDA/contract columns — only region and training status can be extracted.
 COHORT_META = {
-    10: {"key": "ch10", "startMonth": None,      "completed": True},
-    11: {"key": "ch11", "startMonth": None,      "completed": True},
-    12: {"key": "ch12", "startMonth": None,      "completed": True},
-    13: {"key": "ch13", "startMonth": None,      "completed": True},
-    14: {"key": "ch14", "startMonth": "2026-01", "completed": True},
-    15: {"key": "ch15", "startMonth": "2026-02", "completed": True},
-    16: {"key": "ch16", "startMonth": "2026-04", "completed": False},
-    17: {"key": "ch17", "startMonth": "2026-06", "completed": False},
+    7:  {"key": "ch7",  "startMonth": None,      "completed": True,  "old_format": True},
+    8:  {"key": "ch8",  "startMonth": None,      "completed": True,  "old_format": True},
+    9:  {"key": "ch9",  "startMonth": None,      "completed": True,  "old_format": True},
+    10: {"key": "ch10", "startMonth": None,      "completed": True,  "old_format": False},
+    11: {"key": "ch11", "startMonth": None,      "completed": True,  "old_format": False},
+    12: {"key": "ch12", "startMonth": None,      "completed": True,  "old_format": False},
+    13: {"key": "ch13", "startMonth": None,      "completed": True,  "old_format": False},
+    14: {"key": "ch14", "startMonth": "2026-01", "completed": True,  "old_format": False},
+    15: {"key": "ch15", "startMonth": "2026-02", "completed": True,  "old_format": False},
+    16: {"key": "ch16", "startMonth": "2026-04", "completed": False, "old_format": False},
+    17: {"key": "ch17", "startMonth": "2026-06", "completed": False, "old_format": False},
 }
 
 # ── Region normalisation ──────────────────────────────────────────────────────
@@ -304,12 +309,59 @@ with open(REGISTER_CSV, newline="", encoding="utf-8") as f:
             },
         }
 
+# ── Validate seed before writing ─────────────────────────────────────────────
+import re as _re, datetime as _dt
+
+def _validate_seed(seed):
+    YYYY_MM = _re.compile(r"^\d{4}-(0[1-9]|1[0-2])$")
+    RP_ID   = _re.compile(r"^rp-[a-z0-9-]+$")
+
+    def err(path, msg):
+        raise ValueError(f"[Schema] {path}: {msg}")
+
+    def one_of(val, allowed, path):
+        if val not in allowed:
+            err(path, f"must be one of {allowed}, got {val!r}")
+
+    def nullable_one_of(val, allowed, path):
+        if val is not None and val not in allowed:
+            err(path, f"must be one of {allowed} or None, got {val!r}")
+
+    if seed.get("schemaVersion") != 1:
+        err("schemaVersion", f"expected 1, got {seed.get('schemaVersion')}")
+
+    for key, rp in seed.get("rpRegister", {}).items():
+        p = f"rpRegister.{key}"
+        if not RP_ID.match(rp.get("id", "")):
+            err(f"{p}.id", f"must match rp-[a-z0-9-]+, got {rp.get('id')!r}")
+        if not rp.get("name", "").strip():
+            err(f"{p}.name", "must be a non-empty string")
+        for bfield in ("nda", "contract", "training", "active"):
+            if not isinstance(rp.get(bfield), bool):
+                err(f"{p}.{bfield}", f"must be bool, got {type(rp.get(bfield)).__name__}")
+        sm = rp.get("startMonth", "")
+        if sm and not YYYY_MM.match(sm):
+            err(f"{p}.startMonth", f"must be YYYY-MM or empty, got {sm!r}")
+        nullable_one_of(rp.get("region"), ["apac", "emea", "americas"], f"{p}.region")
+        subs = rp.get("subscriptions", {})
+        nullable_one_of(subs.get("m365"),    ["basic", "standard"],  f"{p}.subscriptions.m365")
+        nullable_one_of(subs.get("hubspot"), ["core", "free"],       f"{p}.subscriptions.hubspot")
+        nullable_one_of(subs.get("miro"),    ["paid", "free"],       f"{p}.subscriptions.miro")
+        if not isinstance(subs.get("copilot"), bool):
+            err(f"{p}.subscriptions.copilot", "must be bool")
+
+    print(f"Schema validation passed ({len(seed.get('rpRegister', {}))} RPs)")
+
+_validate_seed({**{}, "schemaVersion": 1, "rpRegister": register})  # validate register slice first
+
 # ── Patch seed ───────────────────────────────────────────────────────────────
 with open(SEED_FILE, "r", encoding="utf-8") as f:
     seed = json.load(f)
 
 seed["rpRegister"] = register
 seed["updatedAt"]  = "2026-05-28T00:00:00Z"
+
+_validate_seed(seed)  # validate full seed before writing
 
 with open(SEED_FILE, "w", encoding="utf-8") as f:
     json.dump(seed, f, indent=2, ensure_ascii=False)
