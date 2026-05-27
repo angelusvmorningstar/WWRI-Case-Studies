@@ -2,7 +2,7 @@ const { html, useMemo, useState, useEffect } = window.__WWCT__;
 import { useWorkbook } from '../../state/store.js';
 import { computeForecast, FY_2526_MONTHS, FY_2627_MONTHS, registeredActiveAtMonth, registeredActiveCurrent } from '../../state/compute.js';
 import { lookupValue } from '../../state/assumptions.js';
-import { runForecastModel, activeCohortIEs } from '../../state/cohort.js';
+import { runForecastModel, activeCohortIEs, intakeIEsAtMonth } from '../../state/cohort.js';
 import { fmt } from '../../shared/format.js';
 import { exportPrintView } from '../../state/file-io.js';
 import { getAuthor } from '../../state/identity.js';
@@ -146,26 +146,38 @@ function HeroStat({ total, scenarioLabel, perIECost, fy27Target, registeredActiv
 
 // ── FY Cost Table (horizontal: months as columns, 4 data rows) ───────────────
 
-function FYCostTable({ subs, monthlyEntries, assumptions, scenario, target, ieRegister }) {
+function FYCostTable({ subs, monthlyEntries, assumptions, scenario, target, ieRegister, intakeSchedule }) {
   const cols = useMemo(() => {
-    const hasRegister = Object.keys(ieRegister).length > 0;
-    const fy26Total     = lookupValue(assumptions, 'forecast.model.target.fy26', 22);
-    const ch17Contrib   = activeCohortIEs('2026-06', scenario, assumptions);
-    const preExisting   = Math.max(0, fy26Total - ch17Contrib);
+    const hasRegister    = Object.keys(ieRegister).length > 0;
+    const hasSchedule    = intakeSchedule && intakeSchedule.length > 0;
+    const fy26Baseline   = lookupValue(assumptions, 'forecast.model.target.fy26', 22);
+    const root           = scenario?.id?.replace('scenario-', '').replace(/-/g, '_') ?? 'primary_target';
+    const iesPerCohort   = lookupValue(assumptions, `scenario.${root}.ies_per_cohort`, 10);
 
-    const cohortSubs  = subs.filter(s => s.cohort_driven);
+    // Fallback cohort model (when no register AND no schedule)
+    const ch17Contrib  = activeCohortIEs('2026-06', scenario, assumptions);
+    const preExisting  = Math.max(0, fy26Baseline - ch17Contrib);
+
+    const cohortSubs   = subs.filter(s => s.cohort_driven);
     const platformSubs = subs.filter(s => !s.cohort_driven);
 
     return FY_2627_MONTHS.map(ym => {
-      const regCount   = registeredActiveAtMonth(ieRegister, ym);
-      const modelCount = preExisting + activeCohortIEs(ym, scenario, assumptions);
-      const ieCount    = hasRegister ? (regCount ?? modelCount) : modelCount;
+      const regCount    = registeredActiveAtMonth(ieRegister, ym);
+      const modelCount  = preExisting + activeCohortIEs(ym, scenario, assumptions);
+      const schedCount  = hasSchedule ? intakeIEsAtMonth(ym, fy26Baseline, iesPerCohort, intakeSchedule) : null;
+
+      // Priority: 1. IE register  2. Intake schedule  3. Cohort model
+      const ieCount = hasRegister ? (regCount ?? modelCount)
+                    : hasSchedule ? schedCount
+                    : modelCount;
 
       // IE-linked costs: cohort_driven subs scaled by IE count
+      // Use ieCount as totalIEOverride so intake schedule drives costs (not FY-flat model)
+      const ieOverride = hasRegister ? regCount : (hasSchedule ? ieCount : null);
       const ieCost = cohortSubs.reduce((sum, s) => {
         const entry = monthlyEntries[`${s.id}_${ym}`];
         if (entry?.isActual && entry?.costAud != null) return sum + entry.costAud;
-        return sum + (computeForecast(s, ym, assumptions, scenario, regCount).value ?? 0);
+        return sum + (computeForecast(s, ym, assumptions, scenario, ieOverride).value ?? 0);
       }, 0);
 
       // Platform costs: fixed non-cohort_driven subs
@@ -264,7 +276,8 @@ export function DashboardView() {
     [workbook.subscriptions],
   );
 
-  const ieRegister = workbook.ieRegister || {};
+  const ieRegister     = workbook.ieRegister || {};
+  const intakeSchedule = workbook.intakeSchedule || [];
 
   const activeTotal = useMemo(
     () => computeFYTotal(subs, FY_2627_MONTHS, monthlyEntries, assumptions, activeScenario, ieRegister),
@@ -382,6 +395,7 @@ export function DashboardView() {
         scenario=${activeScenario}
         target=${fy27Target}
         ieRegister=${ieRegister}
+        intakeSchedule=${intakeSchedule}
       />
 
       <div class="panel dashboard__category-panel">

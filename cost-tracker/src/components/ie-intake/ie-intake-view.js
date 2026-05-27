@@ -1,7 +1,7 @@
 const { html, useMemo } = window.__WWCT__;
 import { useWorkbook } from '../../state/store.js';
 import { lookupValue, createAssumption, resolveAssumption, STATUS } from '../../state/assumptions.js';
-import { runForecastModel } from '../../state/cohort.js';
+import { runForecastModel, intakeIEsAtMonth } from '../../state/cohort.js';
 import { registeredActiveCurrent } from '../../state/compute.js';
 
 const REGIONS = [
@@ -66,6 +66,91 @@ function ParamInput({ label, assumptionKey, rawValue, isPercent, readOnly, suffi
         ${suffix && html`<span class="ie-intake__field-unit">${suffix}</span>`}
       </div>
     </div>
+  `;
+}
+
+// ── Intake Calendar ───────────────────────────────────────────────────────────
+
+const FY_MONTHS = [
+  '2026-07','2026-08','2026-09','2026-10','2026-11','2026-12',
+  '2027-01','2027-02','2027-03','2027-04','2027-05','2027-06',
+];
+
+const MONTH_LABELS = ['Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr','May','Jun'];
+const YEAR_LABELS  = ['26',  '26', '26',  '26',  '26',  '26', '27', '27', '27',  '27',  '27', '27'];
+
+function IntakeCalendar({ schedule, baseline, iesPerCohort, target, dispatch }) {
+  function toggle(ym) {
+    const next = schedule.includes(ym)
+      ? schedule.filter(m => m !== ym)
+      : [...schedule, ym].sort();
+    dispatch({ type: 'INTAKE_SCHEDULE_UPDATED', payload: next });
+  }
+
+  function clearAll() {
+    dispatch({ type: 'INTAKE_SCHEDULE_UPDATED', payload: [] });
+  }
+
+  // Build running IE total at each month for the progress track
+  const runningCounts = FY_MONTHS.map(ym => intakeIEsAtMonth(ym, baseline, iesPerCohort, schedule) ?? baseline);
+  const finalCount    = runningCounts[11];
+  const pctOfTarget   = target > 0 ? Math.min(finalCount / target * 100, 100) : 0;
+
+  return html`
+    <section class="panel intake-cal__panel">
+      <div class="intake-cal__header">
+        <div>
+          <h2 class="panel__title">FY 26/27 Intake Schedule</h2>
+          <p class="intake-cal__subtitle text-muted">
+            Click a month to schedule a cohort intake of <strong>+${iesPerCohort} IEs</strong>.
+            Multiple clicks on the same month toggles it off.
+          </p>
+        </div>
+        <div class="intake-cal__summary">
+          <span class="intake-cal__summary-count">${finalCount}</span>
+          <span class="intake-cal__summary-label">projected IEs by Jun 27 · target ${target}</span>
+          ${schedule.length > 0 && html`
+            <button class="btn btn--xs btn--ghost intake-cal__clear" onClick=${clearAll}>Clear all</button>
+          `}
+        </div>
+      </div>
+
+      <div class="intake-cal__grid">
+        ${FY_MONTHS.map((ym, i) => {
+          const selected   = schedule.includes(ym);
+          const runningIEs = runningCounts[i];
+          const delta      = schedule.includes(ym) ? iesPerCohort : 0;
+          return html`
+            <div key=${ym} class="intake-cal__month-wrap">
+              <button
+                class=${'intake-cal__month-btn' + (selected ? ' intake-cal__month-btn--on' : '')}
+                onClick=${() => toggle(ym)}
+                title=${selected ? `Remove intake: −${iesPerCohort} IEs` : `Add intake: +${iesPerCohort} IEs`}
+              >
+                <span class="intake-cal__month-name">${MONTH_LABELS[i]}</span>
+                <span class="intake-cal__month-year">${YEAR_LABELS[i]}</span>
+                ${selected && html`<span class="intake-cal__month-delta">+${iesPerCohort}</span>`}
+              </button>
+              <div class="intake-cal__month-total ${selected ? 'intake-cal__month-total--step' : ''}">${runningIEs}</div>
+            </div>
+          `;
+        })}
+      </div>
+
+      <div class="intake-cal__track">
+        <div class="intake-cal__track-bar-wrap">
+          <div class="intake-cal__track-bar" style=${{ width: pctOfTarget.toFixed(1) + '%' }}></div>
+        </div>
+        <span class="intake-cal__track-label">${pctOfTarget.toFixed(0)}% of target</span>
+      </div>
+
+      ${schedule.length === 0 && html`
+        <p class="intake-cal__empty-hint text-muted">
+          No intake months selected — costs use the FY-level forecast model.
+          Select months above to project month-by-month IE growth.
+        </p>
+      `}
+    </section>
   `;
 }
 
@@ -254,10 +339,16 @@ function SanityCheck({ model }) {
 
 export function IEIntakeView() {
   const { workbook, dispatch } = useWorkbook();
-  const assumptions = workbook.assumptions || {};
-  const ieCount = useMemo(() => registeredActiveCurrent(workbook.ieRegister), [workbook.ieRegister]);
+  const assumptions    = workbook.assumptions || {};
+  const intakeSchedule = workbook.intakeSchedule || [];
+  const ieCount        = useMemo(() => registeredActiveCurrent(workbook.ieRegister), [workbook.ieRegister]);
 
   const model = useMemo(() => runForecastModel(assumptions, ieCount), [assumptions, ieCount]);
+
+  const fy27Target   = lookupValue(assumptions, 'forecast.model.target.fy27', 60);
+  const fy26Baseline = ieCount !== null ? ieCount : lookupValue(assumptions, 'forecast.model.target.fy26', 22);
+  const root         = (workbook.activeScenarioId || 'scenario-primary-target').replace('scenario-', '').replace(/-/g, '_');
+  const iesPerCohort = lookupValue(assumptions, `scenario.${root}.ies_per_cohort`, 10);
 
   const wApac     = lookupValue(assumptions, 'forecast.model.region_weight.apac',     0.333);
   const wAmericas = lookupValue(assumptions, 'forecast.model.region_weight.americas', 0.333);
@@ -269,8 +360,16 @@ export function IEIntakeView() {
     <div class="ie-intake-page">
       <div class="page-header">
         <h1 class="page-header__title">IE Intake</h1>
-        <span class="page-header__count">FY27 target: ${lookupValue(assumptions, 'forecast.model.target.fy27', 60)} active IEs</span>
+        <span class="page-header__count">FY27 target: ${fy27Target} active IEs</span>
       </div>
+
+      <${IntakeCalendar}
+        schedule=${intakeSchedule}
+        baseline=${fy26Baseline}
+        iesPerCohort=${iesPerCohort}
+        target=${fy27Target}
+        dispatch=${dispatch}
+      />
 
       <${GlobalParamsPanel} assumptions=${assumptions} dispatch=${dispatch} ieCount=${ieCount} />
 

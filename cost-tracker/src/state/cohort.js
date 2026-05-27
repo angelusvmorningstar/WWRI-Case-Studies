@@ -109,6 +109,16 @@ export function runForecastModel(assumptions, registeredCount = null) {
   };
 }
 
+// ── Intake-schedule-driven IE count ──────────────────────────────────────────
+// Returns cumulative active IE count at yearMonth, given a user-defined intake
+// schedule (array of "YYYY-MM" strings). Each scheduled month adds iesPerCohort
+// IEs to the baseline (FY26 registered or assumed count).
+export function intakeIEsAtMonth(yearMonth, baseline, iesPerCohort, schedule) {
+  if (!schedule || schedule.length === 0) return null;
+  const count = schedule.filter(m => m <= yearMonth).length;
+  return baseline + count * iesPerCohort;
+}
+
 // Phase 2 implementation.
 // Signature (yearMonth, scenario, assumptions) → { apac, americas, emea } is stable.
 export function monthlyHeadcountByRegion(yearMonth, scenario, assumptions) {

@@ -23,6 +23,7 @@ export function emptyWorkbook() {
     renewals: {},
     exportLog: [],
     ieRegister: {},
+    intakeSchedule: [],   // ["YYYY-MM", ...] — months with a planned IE cohort intake
   };
 }
 
@@ -123,6 +124,9 @@ function workbookReducer(state, action) {
 
     case 'SCENARIO_SWITCHED':
       return { ...state, activeScenarioId: action.payload, updatedAt: new Date().toISOString() };
+
+    case 'INTAKE_SCHEDULE_UPDATED':
+      return { ...state, intakeSchedule: action.payload, updatedAt: new Date().toISOString() };
 
     case 'SUBSCRIPTION_ARCHIVED': {
       const id = action.payload;

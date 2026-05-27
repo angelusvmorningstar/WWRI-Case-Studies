@@ -3641,6 +3641,175 @@ html, body {
   visibility: hidden;
 }
 
+/* ── Intake Calendar ──────────────────────────────────────────────────────── */
+
+.intake-cal__panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.intake-cal__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.intake-cal__header .panel__title { margin: 0; }
+
+.intake-cal__subtitle {
+  margin: var(--space-1) 0 0;
+  font-size: var(--font-size-sm);
+}
+
+.intake-cal__summary {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+
+.intake-cal__summary-count {
+  font-size: var(--font-size-xl, 1.5rem);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.intake-cal__summary-label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.intake-cal__clear {
+  margin-left: var(--space-2);
+}
+
+/* 12-month grid */
+.intake-cal__grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--space-2);
+}
+
+@media (max-width: 800px) {
+  .intake-cal__grid { grid-template-columns: repeat(6, 1fr); }
+}
+
+.intake-cal__month-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.intake-cal__month-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  min-width: 48px;
+  min-height: 52px;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg);
+  cursor: pointer;
+  transition: border-color var(--transition-fast), background var(--transition-fast), transform var(--transition-fast);
+  gap: 2px;
+  padding: var(--space-1);
+}
+
+.intake-cal__month-btn:hover {
+  border-color: var(--color-primary);
+  background: rgba(0,152,152,0.05);
+  transform: translateY(-1px);
+}
+
+.intake-cal__month-btn--on {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.intake-cal__month-btn--on:hover {
+  background: #007a7a;
+  border-color: #007a7a;
+}
+
+.intake-cal__month-name {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1;
+}
+
+.intake-cal__month-year {
+  font-size: 10px;
+  opacity: 0.7;
+  line-height: 1;
+}
+
+.intake-cal__month-delta {
+  font-size: 10px;
+  font-weight: var(--font-weight-semibold);
+  background: rgba(255,255,255,0.25);
+  border-radius: 3px;
+  padding: 0 3px;
+  line-height: 1.4;
+}
+
+/* Running total below each month */
+.intake-cal__month-total {
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-muted);
+  font-weight: var(--font-weight-medium);
+}
+
+.intake-cal__month-total--step {
+  color: var(--color-primary);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* Progress track */
+.intake-cal__track {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-1);
+}
+
+.intake-cal__track-bar-wrap {
+  flex: 1;
+  height: 8px;
+  background: var(--color-bg-alt);
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+}
+
+.intake-cal__track-bar {
+  height: 100%;
+  background: var(--color-primary);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.intake-cal__track-label {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.intake-cal__empty-hint {
+  font-size: var(--font-size-sm);
+  font-style: italic;
+  margin: 0;
+}
+
 /* ── IE Intake view ───────────────────────────────────────────────────────── */
 
 .ie-intake-page {
