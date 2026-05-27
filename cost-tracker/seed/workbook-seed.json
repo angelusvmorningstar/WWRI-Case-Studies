@@ -2257,7 +2257,7 @@
       "unit_cost_assumption_key": "subscription.miro.unit_cost",
       "attribution_assumption_key": "subscription.miro.attribution_rate",
       "seat_count_assumption_key": "subscription.miro.baseline_seats",
-      "renewal_date": "2026-11-30",
+      "renewal_date": "2026-08-17",
       "billing_entity": "AU",
       "cardholder": "Angelus Morningstar",
       "tier": "Business",
@@ -2276,10 +2276,10 @@
       "billing_entity": "AU",
       "cardholder": "Angelus Morningstar",
       "tier": "Sales Hub Pro + Core Bundle",
-      "renewal_date": "2026-10-31",
+      "renewal_date": "2026-10-21",
       "status": "active",
       "note": "Fixed bundle cost. Phase 1 (Jul–Oct 2026): AUD 918/mo. Phase 2 (Nov 2026+): AUD 1,101.60/mo. No cohort component.",
-      "billing_cycle": "annual",
+      "billing_cycle": "monthly",
       "end_date": null
     },
     "sub-hubspot-cohort": {
@@ -2293,7 +2293,7 @@
       "billing_entity": "AU",
       "cardholder": "Angelus Morningstar",
       "tier": "Sales Hub Core per seat",
-      "renewal_date": "2026-10-31",
+      "renewal_date": null,
       "status": "active",
       "attribution_assumption_key": "subscription.hubspot_core.attribution_rate",
       "note": "Per-seat cohort additions only. Starts Dec 2026. Cost = perSeatRate x cohortCount x seatsPerCohort. Handled as special case in compute.js.",
@@ -2310,7 +2310,7 @@
       "billing_entity": "AU",
       "cardholder": "Kane Salzer",
       "tier": "Recruiter Lite",
-      "renewal_date": null,
+      "renewal_date": "2027-04-23",
       "status": "active",
       "cohort_driven": false,
       "subscription_type": "bespoke",
@@ -2332,7 +2332,7 @@
       "cohort_driven": false,
       "subscription_type": "bespoke",
       "unit_cost_assumption_key": "subscription.claude_max.unit_cost",
-      "billing_cycle": null,
+      "billing_cycle": "monthly",
       "end_date": null
     },
     "sub-chatgpt-kane": {
@@ -2349,7 +2349,7 @@
       "cohort_driven": false,
       "subscription_type": "bespoke",
       "unit_cost_assumption_key": "subscription.chatgpt_kane.unit_cost",
-      "billing_cycle": null,
+      "billing_cycle": "monthly",
       "end_date": null
     },
     "sub-adobe-creative-cloud": {
@@ -2361,12 +2361,12 @@
       "billing_entity": "AU",
       "cardholder": "Kane Salzer",
       "tier": "All Apps",
-      "renewal_date": null,
+      "renewal_date": "2026-05-26",
       "status": "active",
       "cohort_driven": false,
       "subscription_type": "bespoke",
       "unit_cost_assumption_key": "subscription.adobe_cc.unit_cost",
-      "billing_cycle": null,
+      "billing_cycle": "monthly",
       "end_date": null
     },
     "sub-adams-phone": {
@@ -2383,7 +2383,7 @@
       "cohort_driven": false,
       "subscription_type": "bespoke",
       "unit_cost_assumption_key": "subscription.adams_phone.unit_cost",
-      "billing_cycle": null,
+      "billing_cycle": "monthly",
       "end_date": null
     },
     "sub-claude-pro-bernard": {
@@ -2400,7 +2400,7 @@
       "cohort_driven": false,
       "subscription_type": "bespoke",
       "unit_cost_assumption_key": "subscription.claude_pro_bernard.unit_cost",
-      "billing_cycle": null,
+      "billing_cycle": "monthly",
       "end_date": null
     },
     "sub-google-workspace-bernard": {
@@ -2417,7 +2417,7 @@
       "cohort_driven": false,
       "subscription_type": "bespoke",
       "unit_cost_assumption_key": "subscription.google_workspace_bernard.unit_cost",
-      "billing_cycle": null,
+      "billing_cycle": "monthly",
       "end_date": null
     },
     "sub-ms-consumer": {
@@ -2434,7 +2434,7 @@
       "cohort_driven": false,
       "subscription_type": "bespoke",
       "unit_cost_assumption_key": "subscription.ms_consumer.unit_cost",
-      "billing_cycle": null,
+      "billing_cycle": "monthly",
       "end_date": null
     },
     "sub-business-insider": {
@@ -2446,12 +2446,12 @@
       "billing_entity": "AU",
       "cardholder": "Bernard Leung",
       "tier": "Annual",
-      "renewal_date": null,
+      "renewal_date": "2026-08-01",
       "status": "active",
       "cohort_driven": false,
       "subscription_type": "bespoke",
       "unit_cost_assumption_key": "subscription.business_insider.unit_cost",
-      "billing_cycle": null,
+      "billing_cycle": "annual",
       "end_date": null
     },
     "sub-gnowbe": {
@@ -2463,7 +2463,7 @@
       "billing_entity": "AU",
       "cardholder": "Niel",
       "tier": "100-user Annual",
-      "renewal_date": null,
+      "renewal_date": "2027-02-01",
       "status": "active",
       "cohort_driven": false,
       "subscription_type": "company",
@@ -2497,7 +2497,7 @@
       "billing_entity": "AU",
       "cardholder": "unknown",
       "tier": "Annual",
-      "renewal_date": null,
+      "renewal_date": "2027-02-01",
       "status": "active",
       "cohort_driven": false,
       "subscription_type": "company",
@@ -2553,7 +2553,7 @@
       "cohort_driven": false,
       "subscription_type": "company",
       "unit_cost_assumption_key": "subscription.amazon_prime.unit_cost",
-      "billing_cycle": null,
+      "billing_cycle": "monthly",
       "end_date": null
     },
     "sub-claude-cohort": {
@@ -2573,7 +2573,7 @@
       "renewal_date": null,
       "status": "active",
       "note": "Premium IE cohort subscription. Attribution currently 0% — not yet agreed. Placeholder for future decision.",
-      "billing_cycle": null,
+      "billing_cycle": "monthly",
       "end_date": null
     },
     "sub-m365-standard-cohort": {
@@ -2613,7 +2613,7 @@
       "renewal_date": null,
       "status": "active",
       "note": "IE cohort Copilot add-on. Attribution Pending — not yet agreed.",
-      "billing_cycle": "annual",
+      "billing_cycle": null,
       "end_date": null
     }
   },
