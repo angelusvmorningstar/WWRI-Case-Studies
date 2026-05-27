@@ -4624,14 +4624,20 @@ html, body {
   border-top: 2px solid var(--color-border);
   background: var(--color-bg-alt);
   font-weight: var(--font-weight-semibold);
-  padding-top: var(--space-3);
-  padding-bottom: var(--space-3);
+  /* Match tbody cell padding so columns align exactly */
+  padding: var(--space-3) var(--space-4);
 }
 
 .forecast__total-label {
   color: var(--color-text-secondary);
   font-size: var(--font-size-sm);
   vertical-align: middle;
+  text-align: left;
+}
+
+/* Right-align flush with Total Cost column */
+.forecast__monthly-total .forecast__cost-cell {
+  text-align: right;
 }
 
 .forecast__sub-breakdown {
