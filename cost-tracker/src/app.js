@@ -17,6 +17,7 @@ import { RenewalsView } from './components/renewals/renewals-view.js';
 import { DashboardView } from './components/dashboard/dashboard-view.js';
 import { IEIntakeView } from './components/ie-intake/ie-intake-view.js';
 import { PerIECostsView } from './components/per-ie-costs/per-ie-costs-view.js';
+import { SubscriptionsView } from './components/subscriptions/subscriptions-view.js';
 import { ForecastView } from './components/forecast/forecast-view.js';
 import { IERegisterView } from './components/ie-register/ie-register-view.js';
 
@@ -34,7 +35,8 @@ function RouteContent({ path }) {
     case '/dashboard':        return html`<${DashboardView} />`;
     case '/ie-intake':        return html`<${IEIntakeView} />`;
     case '/ie-register':      return html`<${IERegisterView} />`;
-    case '/per-ie-costs':     return html`<${PerIECostsView} />`;
+    case '/subscriptions':    return html`<${SubscriptionsView} />`;
+    case '/per-ie-costs':     return html`<${SubscriptionsView} />`; // legacy alias
     case '/forecast':         return html`<${ForecastView} />`;
     // Legacy routes — not in nav but accessible via deep link
     case '/decisions':        return html`<${DecisionsView} />`;
@@ -56,7 +58,8 @@ function resolveRoute(hash) {
     '/dashboard':        'Dashboard',
     '/ie-intake':        'IE Intake',
     '/ie-register':      'IE Register',
-    '/per-ie-costs':     'Per-IE Costs',
+    '/subscriptions':    'Subscriptions',
+    '/per-ie-costs':     'Subscriptions',  // legacy alias
     '/forecast':         'Forecast',
     // Legacy
     '/cost-register':    'Cost register',

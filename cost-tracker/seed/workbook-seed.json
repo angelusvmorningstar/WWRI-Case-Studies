@@ -153,7 +153,7 @@
       "id": "a-m365-attribution",
       "key": "subscription.m365_basic.attribution_rate",
       "label": "M365 Basic — attribution rate per cohort IE",
-      "value": 1.0,
+      "value": 1,
       "unit": "fraction",
       "category": "Attribution rate",
       "status": "Resolved",
@@ -529,7 +529,7 @@
       "id": "a-miro-unit-cost",
       "key": "subscription.miro.unit_cost",
       "label": "Miro Business Plan — unit cost per seat per month",
-      "value": 16.0,
+      "value": 16,
       "unit": "USD/seat/month",
       "category": "Subscription cost",
       "status": "Resolved",
@@ -2224,7 +2224,9 @@
       "billing_entity": "AU",
       "cardholder": "Bernard Leung",
       "tier": "Business Basic",
-      "status": "active"
+      "status": "active",
+      "billing_cycle": "annual",
+      "end_date": null
     },
     "sub-m365-standard": {
       "id": "sub-m365-standard",
@@ -2240,7 +2242,9 @@
       "billing_entity": "AU",
       "cardholder": "Angelus Morningstar",
       "tier": "Business Standard",
-      "status": "active"
+      "status": "active",
+      "billing_cycle": "annual",
+      "end_date": null
     },
     "sub-miro": {
       "id": "sub-miro",
@@ -2257,7 +2261,9 @@
       "billing_entity": "AU",
       "cardholder": "Angelus Morningstar",
       "tier": "Business",
-      "status": "active"
+      "status": "active",
+      "billing_cycle": "annual",
+      "end_date": null
     },
     "sub-hubspot-bundle": {
       "id": "sub-hubspot-bundle",
@@ -2272,12 +2278,14 @@
       "tier": "Sales Hub Pro + Core Bundle",
       "renewal_date": "2026-10-31",
       "status": "active",
-      "note": "Fixed bundle cost. Phase 1 (Jul–Oct 2026): AUD 918/mo. Phase 2 (Nov 2026+): AUD 1,101.60/mo. No cohort component."
+      "note": "Fixed bundle cost. Phase 1 (Jul–Oct 2026): AUD 918/mo. Phase 2 (Nov 2026+): AUD 1,101.60/mo. No cohort component.",
+      "billing_cycle": "annual",
+      "end_date": null
     },
     "sub-hubspot-cohort": {
       "id": "sub-hubspot-cohort",
       "vendor": "HubSpot",
-      "product": "HubSpot Sales Hub — Cohort Seats",
+      "product": "HubSpot Core Seat",
       "subscription_type": "cohort",
       "cohort_driven": true,
       "category": "Sales & Marketing",
@@ -2289,7 +2297,9 @@
       "status": "active",
       "attribution_assumption_key": "subscription.hubspot_core.attribution_rate",
       "note": "Per-seat cohort additions only. Starts Dec 2026. Cost = perSeatRate x cohortCount x seatsPerCohort. Handled as special case in compute.js.",
-      "unit_cost_assumption_key": "subscription.hubspot.per_seat_rate_aud_discounted"
+      "unit_cost_assumption_key": "subscription.hubspot.per_seat_rate_aud_discounted",
+      "billing_cycle": "monthly",
+      "end_date": null
     },
     "sub-linkedin-recruiter-lite": {
       "id": "sub-linkedin-recruiter-lite",
@@ -2304,7 +2314,9 @@
       "status": "active",
       "cohort_driven": false,
       "subscription_type": "bespoke",
-      "unit_cost_assumption_key": "subscription.linkedin_recruiter.unit_cost"
+      "unit_cost_assumption_key": "subscription.linkedin_recruiter.unit_cost",
+      "billing_cycle": "monthly",
+      "end_date": null
     },
     "sub-claude-max": {
       "id": "sub-claude-max",
@@ -2319,7 +2331,9 @@
       "status": "active",
       "cohort_driven": false,
       "subscription_type": "bespoke",
-      "unit_cost_assumption_key": "subscription.claude_max.unit_cost"
+      "unit_cost_assumption_key": "subscription.claude_max.unit_cost",
+      "billing_cycle": null,
+      "end_date": null
     },
     "sub-chatgpt-kane": {
       "id": "sub-chatgpt-kane",
@@ -2334,7 +2348,9 @@
       "status": "active",
       "cohort_driven": false,
       "subscription_type": "bespoke",
-      "unit_cost_assumption_key": "subscription.chatgpt_kane.unit_cost"
+      "unit_cost_assumption_key": "subscription.chatgpt_kane.unit_cost",
+      "billing_cycle": null,
+      "end_date": null
     },
     "sub-adobe-creative-cloud": {
       "id": "sub-adobe-creative-cloud",
@@ -2349,7 +2365,9 @@
       "status": "active",
       "cohort_driven": false,
       "subscription_type": "bespoke",
-      "unit_cost_assumption_key": "subscription.adobe_cc.unit_cost"
+      "unit_cost_assumption_key": "subscription.adobe_cc.unit_cost",
+      "billing_cycle": null,
+      "end_date": null
     },
     "sub-adams-phone": {
       "id": "sub-adams-phone",
@@ -2364,7 +2382,9 @@
       "status": "active",
       "cohort_driven": false,
       "subscription_type": "bespoke",
-      "unit_cost_assumption_key": "subscription.adams_phone.unit_cost"
+      "unit_cost_assumption_key": "subscription.adams_phone.unit_cost",
+      "billing_cycle": null,
+      "end_date": null
     },
     "sub-claude-pro-bernard": {
       "id": "sub-claude-pro-bernard",
@@ -2379,7 +2399,9 @@
       "status": "active",
       "cohort_driven": false,
       "subscription_type": "bespoke",
-      "unit_cost_assumption_key": "subscription.claude_pro_bernard.unit_cost"
+      "unit_cost_assumption_key": "subscription.claude_pro_bernard.unit_cost",
+      "billing_cycle": null,
+      "end_date": null
     },
     "sub-google-workspace-bernard": {
       "id": "sub-google-workspace-bernard",
@@ -2394,7 +2416,9 @@
       "status": "active",
       "cohort_driven": false,
       "subscription_type": "bespoke",
-      "unit_cost_assumption_key": "subscription.google_workspace_bernard.unit_cost"
+      "unit_cost_assumption_key": "subscription.google_workspace_bernard.unit_cost",
+      "billing_cycle": null,
+      "end_date": null
     },
     "sub-ms-consumer": {
       "id": "sub-ms-consumer",
@@ -2409,7 +2433,9 @@
       "status": "active",
       "cohort_driven": false,
       "subscription_type": "bespoke",
-      "unit_cost_assumption_key": "subscription.ms_consumer.unit_cost"
+      "unit_cost_assumption_key": "subscription.ms_consumer.unit_cost",
+      "billing_cycle": null,
+      "end_date": null
     },
     "sub-business-insider": {
       "id": "sub-business-insider",
@@ -2424,7 +2450,9 @@
       "status": "active",
       "cohort_driven": false,
       "subscription_type": "bespoke",
-      "unit_cost_assumption_key": "subscription.business_insider.unit_cost"
+      "unit_cost_assumption_key": "subscription.business_insider.unit_cost",
+      "billing_cycle": null,
+      "end_date": null
     },
     "sub-gnowbe": {
       "id": "sub-gnowbe",
@@ -2439,7 +2467,9 @@
       "status": "active",
       "cohort_driven": false,
       "subscription_type": "company",
-      "unit_cost_assumption_key": "subscription.gnowbe.unit_cost"
+      "unit_cost_assumption_key": "subscription.gnowbe.unit_cost",
+      "billing_cycle": "annual",
+      "end_date": null
     },
     "sub-godaddy": {
       "id": "sub-godaddy",
@@ -2454,7 +2484,9 @@
       "status": "active",
       "cohort_driven": false,
       "subscription_type": "company",
-      "unit_cost_assumption_key": "subscription.godaddy.unit_cost"
+      "unit_cost_assumption_key": "subscription.godaddy.unit_cost",
+      "billing_cycle": "annual",
+      "end_date": null
     },
     "sub-docusign": {
       "id": "sub-docusign",
@@ -2469,7 +2501,9 @@
       "status": "active",
       "cohort_driven": false,
       "subscription_type": "company",
-      "unit_cost_assumption_key": "subscription.docusign.unit_cost"
+      "unit_cost_assumption_key": "subscription.docusign.unit_cost",
+      "billing_cycle": "annual",
+      "end_date": null
     },
     "sub-xero": {
       "id": "sub-xero",
@@ -2484,7 +2518,9 @@
       "status": "active",
       "cohort_driven": false,
       "subscription_type": "company",
-      "unit_cost_assumption_key": "subscription.xero.unit_cost"
+      "unit_cost_assumption_key": "subscription.xero.unit_cost",
+      "billing_cycle": "monthly",
+      "end_date": null
     },
     "sub-supabase": {
       "id": "sub-supabase",
@@ -2499,7 +2535,9 @@
       "status": "active",
       "cohort_driven": false,
       "subscription_type": "company",
-      "unit_cost_assumption_key": "subscription.supabase.unit_cost"
+      "unit_cost_assumption_key": "subscription.supabase.unit_cost",
+      "billing_cycle": "monthly",
+      "end_date": null
     },
     "sub-amazon-prime": {
       "id": "sub-amazon-prime",
@@ -2514,7 +2552,9 @@
       "status": "active",
       "cohort_driven": false,
       "subscription_type": "company",
-      "unit_cost_assumption_key": "subscription.amazon_prime.unit_cost"
+      "unit_cost_assumption_key": "subscription.amazon_prime.unit_cost",
+      "billing_cycle": null,
+      "end_date": null
     },
     "sub-claude-cohort": {
       "id": "sub-claude-cohort",
@@ -2532,12 +2572,14 @@
       "tier": "Pro",
       "renewal_date": null,
       "status": "active",
-      "note": "Premium IE cohort subscription. Attribution currently 0% — not yet agreed. Placeholder for future decision."
+      "note": "Premium IE cohort subscription. Attribution currently 0% — not yet agreed. Placeholder for future decision.",
+      "billing_cycle": null,
+      "end_date": null
     },
     "sub-m365-standard-cohort": {
       "id": "sub-m365-standard-cohort",
       "vendor": "Microsoft",
-      "product": "Microsoft 365 Business Standard — IE cohort",
+      "product": "Microsoft 365 Business Standard",
       "category": "Productivity & IT",
       "currency": "AUD",
       "cohort_driven": true,
@@ -2550,12 +2592,14 @@
       "tier": "Business Standard",
       "renewal_date": null,
       "status": "active",
-      "note": "IE cohort Standard tier. Attribution Pending — set to fraction of IEs who need full suite over Basic."
+      "note": "IE cohort Standard tier. Attribution Pending — set to fraction of IEs who need full suite over Basic.",
+      "billing_cycle": "annual",
+      "end_date": null
     },
     "sub-copilot-cohort": {
       "id": "sub-copilot-cohort",
       "vendor": "Microsoft",
-      "product": "Microsoft 365 Copilot — IE cohort",
+      "product": "Microsoft Copilot",
       "category": "Productivity & IT",
       "currency": "AUD",
       "cohort_driven": true,
@@ -2568,7 +2612,9 @@
       "tier": "Copilot",
       "renewal_date": null,
       "status": "active",
-      "note": "IE cohort Copilot add-on. Attribution Pending — not yet agreed."
+      "note": "IE cohort Copilot add-on. Attribution Pending — not yet agreed.",
+      "billing_cycle": "annual",
+      "end_date": null
     }
   },
   "monthlyEntries": {
@@ -2600,7 +2646,7 @@
       "yearMonth": "2026-04",
       "isActual": true,
       "costAud": 719.38,
-      "costNative": 464.0,
+      "costNative": 464,
       "currency": "USD",
       "xeroId": "xero-miro-apr26",
       "overrideAssumptionKey": null
@@ -2610,8 +2656,8 @@
       "subscriptionId": "sub-hubspot-bundle",
       "yearMonth": "2026-04",
       "isActual": true,
-      "costAud": 918.0,
-      "costNative": 918.0,
+      "costAud": 918,
+      "costNative": 918,
       "currency": "AUD",
       "xeroId": "xero-hubspot-apr26",
       "overrideAssumptionKey": null

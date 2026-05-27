@@ -5,7 +5,7 @@ const NAV_LINKS = [
   { href: '#/dashboard',    label: 'Dashboard'   },
   { href: '#/ie-intake',    label: 'IE Intake'   },
   { href: '#/ie-register',  label: 'IE Register' },
-  { href: '#/per-ie-costs', label: 'Per-IE Costs' },
+  { href: '#/subscriptions', label: 'Subscriptions' },
   { href: '#/forecast',     label: 'Forecast'    },
 ];
 
