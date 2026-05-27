@@ -148,36 +148,36 @@ function HeroStat({ total, scenarioLabel, perIECost, fy27Target, registeredActiv
 
 function FYCostTable({ subs, monthlyEntries, assumptions, scenario, target, ieRegister, intakeSchedule }) {
   const cols = useMemo(() => {
-    const hasRegister    = Object.keys(ieRegister).length > 0;
     const hasSchedule    = intakeSchedule && intakeSchedule.length > 0;
-    const fy26Baseline   = lookupValue(assumptions, 'forecast.model.target.fy26', 22);
+    const regCurrent     = registeredActiveCurrent(ieRegister);
+    const fy26Baseline   = regCurrent !== null
+      ? regCurrent
+      : lookupValue(assumptions, 'forecast.model.target.fy26', 22);
     const root           = scenario?.id?.replace('scenario-', '').replace(/-/g, '_') ?? 'primary_target';
     const iesPerCohort   = lookupValue(assumptions, `scenario.${root}.ies_per_cohort`, 10);
 
-    // Fallback cohort model (when no register AND no schedule)
+    // Fallback cohort model (no register AND no schedule)
     const ch17Contrib  = activeCohortIEs('2026-06', scenario, assumptions);
     const preExisting  = Math.max(0, fy26Baseline - ch17Contrib);
 
     const cohortSubs   = subs.filter(s => s.cohort_driven);
     const platformSubs = subs.filter(s => !s.cohort_driven);
 
+    // IE count for a month: schedule projects from baseline; register snapshot if no schedule; cohort model as last resort
+    function ieCountAt(ym) {
+      if (hasSchedule) return intakeIEsAtMonth(ym, fy26Baseline, iesPerCohort, intakeSchedule);
+      if (regCurrent !== null) return registeredActiveAtMonth(ieRegister, ym) ?? (preExisting + activeCohortIEs(ym, scenario, assumptions));
+      return preExisting + activeCohortIEs(ym, scenario, assumptions);
+    }
+
     return FY_2627_MONTHS.map(ym => {
-      const regCount    = registeredActiveAtMonth(ieRegister, ym);
-      const modelCount  = preExisting + activeCohortIEs(ym, scenario, assumptions);
-      const schedCount  = hasSchedule ? intakeIEsAtMonth(ym, fy26Baseline, iesPerCohort, intakeSchedule) : null;
+      const ieCount = ieCountAt(ym);
 
-      // Priority: 1. IE register  2. Intake schedule  3. Cohort model
-      const ieCount = hasRegister ? (regCount ?? modelCount)
-                    : hasSchedule ? schedCount
-                    : modelCount;
-
-      // IE-linked costs: cohort_driven subs scaled by IE count
-      // Use ieCount as totalIEOverride so intake schedule drives costs (not FY-flat model)
-      const ieOverride = hasRegister ? regCount : (hasSchedule ? ieCount : null);
+      // IE-linked costs use the projected count as totalIEOverride
       const ieCost = cohortSubs.reduce((sum, s) => {
         const entry = monthlyEntries[`${s.id}_${ym}`];
         if (entry?.isActual && entry?.costAud != null) return sum + entry.costAud;
-        return sum + (computeForecast(s, ym, assumptions, scenario, ieOverride).value ?? 0);
+        return sum + (computeForecast(s, ym, assumptions, scenario, ieCount).value ?? 0);
       }, 0);
 
       // Platform costs: fixed non-cohort_driven subs
@@ -189,7 +189,7 @@ function FYCostTable({ subs, monthlyEntries, assumptions, scenario, target, ieRe
 
       return { ym, ieCount, ieCost, platformCost, total: ieCost + platformCost };
     });
-  }, [subs, monthlyEntries, assumptions, scenario, target, ieRegister]);
+  }, [subs, monthlyEntries, assumptions, scenario, target, ieRegister, intakeSchedule]);
 
   const fyTotal = cols.reduce((s, c) => s + c.total, 0);
 
