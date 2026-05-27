@@ -2,6 +2,7 @@ const { html, useMemo, useState } = window.__WWCT__;
 import { useWorkbook } from '../../state/store.js';
 import { computeForecast, activeStatusKey, FY_2627_MONTHS, registeredActiveAtMonth } from '../../state/compute.js';
 import { lookupValue, lookupAssumption, buildSupersessionPayload, STATUS } from '../../state/assumptions.js';
+import { intakeIEsAtMonth } from '../../state/cohort.js';
 import { fmt } from '../../shared/format.js';
 import { getAuthor } from '../../state/identity.js';
 
@@ -91,7 +92,7 @@ function makeActiveStatusAssumption(subId, subLabel, value, effectiveFrom) {
 
 // ── Section 1: Per-IE model forecast ─────────────────────────────────────────
 
-function PerIEForecast({ cohortSubs, monthlyEntries, assumptions, primaryScenario, ieRegister }) {
+function PerIEForecast({ cohortSubs, monthlyEntries, assumptions, primaryScenario, ieRegister, intakeSchedule }) {
   const [modelId, setModelId] = useState('basic');
   const model = MODELS[modelId];
 
@@ -99,9 +100,17 @@ function PerIEForecast({ cohortSubs, monthlyEntries, assumptions, primaryScenari
     const modelAss  = buildModelAssumptions(assumptions, model.attrOverrides);
     const activeSubs = cohortSubs.filter(s => !model.excludeSubs.includes(s.id) && s.status !== 'archived');
 
+    const fy26Baseline = lookupValue(assumptions, 'forecast.model.target.fy26', 22);
+    const root = (primaryScenario?.id || 'scenario-primary-target').replace('scenario-', '').replace(/-/g, '_');
+    const iesPerCohort = lookupValue(assumptions, `scenario.${root}.ies_per_cohort`, 10);
+    const hasSchedule  = intakeSchedule && intakeSchedule.length > 0;
+
     let prev = null;
     const rows = FY_2627_MONTHS.map(ym => {
-      const ieCount = registeredActiveAtMonth(ieRegister, ym);
+      const regCount   = registeredActiveAtMonth(ieRegister, ym);
+      const schedCount = hasSchedule ? intakeIEsAtMonth(ym, fy26Baseline, iesPerCohort, intakeSchedule) : null;
+      const ieCount    = regCount ?? schedCount;
+      const intakeDelta = intakeSchedule.includes(ym) ? iesPerCohort : null;
       const total = activeSubs.reduce((sum, s) => {
         const entry = monthlyEntries[`${s.id}_${ym}`];
         if (entry?.isActual && entry?.costAud != null) return sum + entry.costAud;
@@ -109,14 +118,16 @@ function PerIEForecast({ cohortSubs, monthlyEntries, assumptions, primaryScenari
       }, 0);
       const delta = prev !== null ? total - prev : null;
       prev = total;
-      return { ym, total, delta, ieCount };
+      return { ym, total, delta, ieCount, intakeDelta };
     });
 
     const annual = rows.reduce((s, r) => s + r.total, 0);
 
     const subBreakdown = activeSubs.map(s => {
       const ann = FY_2627_MONTHS.reduce((sum, ym) => {
-        const ieCount = registeredActiveAtMonth(ieRegister, ym);
+        const regCount   = registeredActiveAtMonth(ieRegister, ym);
+        const schedCount = hasSchedule ? intakeIEsAtMonth(ym, fy26Baseline, iesPerCohort, intakeSchedule) : null;
+        const ieCount    = regCount ?? schedCount;
         const entry = monthlyEntries[`${s.id}_${ym}`];
         if (entry?.isActual && entry?.costAud != null) return sum + entry.costAud;
         return sum + (computeForecast(s, ym, modelAss, primaryScenario, ieCount).value ?? 0);
@@ -125,7 +136,7 @@ function PerIEForecast({ cohortSubs, monthlyEntries, assumptions, primaryScenari
     }).filter(r => r.annual > 0).sort((a, b) => b.annual - a.annual);
 
     return { rows, annual, subBreakdown };
-  }, [cohortSubs, monthlyEntries, assumptions, primaryScenario, model, ieRegister]);
+  }, [cohortSubs, monthlyEntries, assumptions, primaryScenario, model, ieRegister, intakeSchedule]);
 
   return html`
     <section class="panel forecast__per-ie-panel">
@@ -152,15 +163,19 @@ function PerIEForecast({ cohortSubs, monthlyEntries, assumptions, primaryScenari
               <tr>
                 <th class="forecast__month-col">Month</th>
                 <th class="forecast__ie-col">IEs</th>
+                <th class="forecast__intake-col">Intake</th>
                 <th class="forecast__cost-col forecast__cost-col--primary">Total cost</th>
                 <th class="forecast__delta-col">Δ MoM</th>
               </tr>
             </thead>
             <tbody>
-              ${rows.map(({ ym, total, delta, ieCount }) => html`
+              ${rows.map(({ ym, total, delta, ieCount, intakeDelta }) => html`
                 <tr key=${ym}>
                   <td class="forecast__month-cell">${monthLabel(ym)}</td>
                   <td class="forecast__ie-cell">${ieCount !== null ? ieCount : '—'}</td>
+                  <td class=${'forecast__intake-cell' + (intakeDelta ? ' forecast__intake-cell--active' : '')}>
+                    ${intakeDelta ? '+' + intakeDelta : '—'}
+                  </td>
                   <td class="forecast__cost-cell forecast__cost-cell--primary">${fmt.aud(total)}</td>
                   <td class=${'forecast__delta-cell' + (delta === null ? '' : delta > 0 ? ' forecast__delta--up' : delta < 0 ? ' forecast__delta--down' : '')}>
                     ${delta === null || delta === 0 ? '—' : (delta > 0 ? '+' : '') + fmt.aud(delta)}
@@ -336,6 +351,7 @@ export function ForecastView() {
   const assumptions    = workbook.assumptions    || {};
   const monthlyEntries = workbook.monthlyEntries || {};
   const ieRegister     = workbook.ieRegister     || {};
+  const intakeSchedule = workbook.intakeSchedule || [];
   const primaryScenario = workbook.scenarios?.['scenario-primary-target'] ?? null;
 
   const { cohortSubs, platformSubs } = useMemo(() => {
@@ -363,6 +379,7 @@ export function ForecastView() {
         assumptions=${assumptions}
         primaryScenario=${primaryScenario}
         ieRegister=${ieRegister}
+        intakeSchedule=${intakeSchedule}
       />
       <${PlatformDecisions}
         platformSubs=${platformSubs}
