@@ -3161,16 +3161,83 @@ html, body {
   font-variant-numeric: tabular-nums;
 }
 
-/* ── Dashboard — controls row (scenario + model selectors) ───────────────── */
+/* ── Pill switcher ───────────────────────────────────────────────────────── */
 
-.dashboard__controls-row {
+.pill-switcher {
   display: flex;
   align-items: center;
-  gap: var(--space-6);
-  flex-wrap: wrap;
+  gap: var(--space-2);
 }
 
-/* ── Dashboard — scenario / model selector ───────────────────────────────── */
+.pill-switcher__label {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  min-width: 4.5rem;
+}
+
+.pill-switcher__pills {
+  display: flex;
+  gap: var(--space-1);
+}
+
+.pill-switcher__pill {
+  padding: 3px var(--space-3);
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: transparent;
+  font-family: var(--font-ui);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+}
+
+.pill-switcher__pill:hover {
+  background: var(--color-bg-alt);
+  border-color: var(--color-teal, #0d9488);
+  color: var(--color-text-primary);
+}
+
+.pill-switcher__pill--active {
+  background: var(--color-teal, #0d9488);
+  border-color: var(--color-teal, #0d9488);
+  color: #fff;
+  font-weight: var(--font-weight-semibold);
+}
+
+.pill-switcher__pill--active:hover {
+  background: var(--color-teal-dark, #0f766e);
+  border-color: var(--color-teal-dark, #0f766e);
+  color: #fff;
+}
+
+/* ── Dashboard — page header layout ─────────────────────────────────────── */
+
+.dashboard__page-header {
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-6);
+}
+
+.dashboard__header-left {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.dashboard__header-switchers {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+/* ── Dashboard — scenario / model selector (legacy, kept for reference) ──── */
 
 .dashboard__scene-sel {
   display: flex;

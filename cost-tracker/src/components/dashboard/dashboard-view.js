@@ -94,39 +94,20 @@ function computeVersionHash(workbook) {
   return Math.abs(h).toString(16).padStart(8, '0').slice(0, 8);
 }
 
-// ── Scenario selector ─────────────────────────────────────────────────────────
+// ── Pill switcher (shared for Scenario + Model) ───────────────────────────────
 
-function ScenarioSelector({ activeScenarioId, onSwitch }) {
+function PillSwitcher({ label, options, activeId, onSwitch }) {
   return html`
-    <div class="dashboard__scene-sel">
-      <span class="dashboard__scene-sel-label">Scenario</span>
-      <div class="dashboard__scene-sel-btns">
-        ${SCENARIO_DEFS.map(def => html`
+    <div class="pill-switcher">
+      <span class="pill-switcher__label">${label}</span>
+      <div class="pill-switcher__pills">
+        ${options.map(opt => html`
           <button
-            key=${def.id}
-            class=${'dashboard__scene-btn' + (activeScenarioId === def.id ? ' dashboard__scene-btn--active' : '')}
-            onClick=${() => onSwitch(def.id)}
-          >${def.label}</button>
-        `)}
-      </div>
-    </div>
-  `;
-}
-
-// ── Model selector ────────────────────────────────────────────────────────────
-
-function ModelSelector({ modelId, onSwitch }) {
-  return html`
-    <div class="dashboard__scene-sel">
-      <span class="dashboard__scene-sel-label">Model</span>
-      <div class="dashboard__scene-sel-btns">
-        ${Object.values(SUBSCRIPTION_MODELS).map(m => html`
-          <button
-            key=${m.id}
-            class=${'dashboard__scene-btn' + (modelId === m.id ? ' dashboard__scene-btn--active' : '')}
-            onClick=${() => onSwitch(m.id)}
-            title=${m.description}
-          >${m.label}</button>
+            key=${opt.id}
+            class=${'pill-switcher__pill' + (activeId === opt.id ? ' pill-switcher__pill--active' : '')}
+            onClick=${() => onSwitch(opt.id)}
+            title=${opt.description || opt.label}
+          >${opt.label}</button>
         `)}
       </div>
     </div>
@@ -375,8 +356,24 @@ export function DashboardView() {
   }
 
   return html`
-    <div class="page-header">
-      <h1 class="page-header__title">Dashboard</h1>
+    <div class="page-header dashboard__page-header">
+      <div class="dashboard__header-left">
+        <h1 class="page-header__title">Dashboard</h1>
+        <div class="dashboard__header-switchers">
+          <${PillSwitcher}
+            label="Scenario"
+            options=${SCENARIO_DEFS.map(d => ({ id: d.id, label: d.label }))}
+            activeId=${activeScenarioId}
+            onSwitch=${handleScenarioSwitch}
+          />
+          <${PillSwitcher}
+            label="Model"
+            options=${Object.values(SUBSCRIPTION_MODELS).map(m => ({ id: m.id, label: m.label, description: m.description }))}
+            activeId=${modelId}
+            onSwitch=${setModelId}
+          />
+        </div>
+      </div>
       <div class="dashboard__print-controls">
         <span class="dashboard__print-mode-label">Print mode</span>
         <div class="dashboard__print-mode-btns">
@@ -404,11 +401,6 @@ export function DashboardView() {
         <img class="dashboard__print-header-logo" src="public/assets/logo.svg" alt="Whitewater Reinventions" />
         <span class="dashboard__print-header-title">Subscription Cost Tracker</span>
         <span class="dashboard__print-header-date">${new Date().toLocaleDateString('en-AU', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
-      </div>
-
-      <div class="dashboard__controls-row">
-        <${ScenarioSelector} activeScenarioId=${activeScenarioId} onSwitch=${handleScenarioSwitch} />
-        <${ModelSelector} modelId=${modelId} onSwitch=${setModelId} />
       </div>
 
       <${HeroStat}
