@@ -12,29 +12,23 @@ const MODELS = {
   basic: {
     id: 'basic',
     label: 'Basic',
-    description: 'M365 Basic · HubSpot view-only (no cohort seats) · Free Miro · No Copilot',
-    attrOverrides: {
-      'subscription.m365_basic.attribution_rate':       1.0,
-      'subscription.m365_standard_ie.attribution_rate': 0,
-      'subscription.copilot_ie.attribution_rate':       0,
-      'subscription.miro.attribution_rate':             0,
-      'subscription.claude_cohort.attribution_rate':    0,
-    },
-    excludeSubs: ['sub-hubspot-cohort'],
+    description: 'M365 Basic only — no Copilot, no HubSpot cohort seat, no Miro',
+    // Only sub-m365-basic survives; everything else excluded below
+    attrOverrides: {},
+    excludeSubs: ['sub-m365-standard-cohort', 'sub-copilot-cohort', 'sub-miro', 'sub-hubspot-cohort'],
   },
   standard: {
     id: 'standard',
     label: 'Standard',
     description: 'M365 Standard + Copilot · HubSpot core seat (1 per IE) · Miro standard',
+    // Project at 100% attribution so the Standard model shows full cost
     attrOverrides: {
-      'subscription.m365_basic.attribution_rate':        0,
-      'subscription.m365_standard_ie.attribution_rate':  1.0,
-      'subscription.copilot_ie.attribution_rate':        1.0,
-      'subscription.miro.attribution_rate':              1.0,
-      'subscription.hubspot_core.attribution_rate':      1.0,
-      'subscription.claude_cohort.attribution_rate':     0,
+      'subscription.m365_standard_ie.attribution_rate': 1.0,
+      'subscription.copilot_ie.attribution_rate':       1.0,
+      'subscription.miro.attribution_rate':             1.0,
+      'subscription.hubspot_core.attribution_rate':     1.0,
     },
-    excludeSubs: [],
+    excludeSubs: ['sub-m365-basic'],
   },
 };
 
