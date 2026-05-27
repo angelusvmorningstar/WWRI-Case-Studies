@@ -7,6 +7,7 @@ import { fmt } from '../../shared/format.js';
 import { exportPrintView } from '../../state/file-io.js';
 import { getAuthor } from '../../state/identity.js';
 import { SUBSCRIPTION_MODELS, buildModelAssumptions } from '../../state/subscription-models.js';
+import { SCENARIO_DEFS } from '../../state/scenarios.js';
 
 const CATEGORY_ORDER = [
   'Sales & Marketing',
@@ -14,12 +15,6 @@ const CATEGORY_ORDER = [
   'Collaboration & Docs',
   'Training & Development',
   'Infrastructure',
-];
-
-const SCENARIO_DEFS = [
-  { id: 'scenario-minimum-viable',  label: '+5 IEs per cohort',  cls: 'min'     },
-  { id: 'scenario-primary-target',  label: '+10 IEs per cohort', cls: 'primary' },
-  { id: 'scenario-optimal-maximum', label: '+15 IEs per cohort', cls: 'max'     },
 ];
 
 function fmtMonth(yearMonth) {
@@ -269,13 +264,14 @@ function FYCostTable({ subs, monthlyEntries, assumptions, scenario, target, ieRe
 
 // ── Main view ─────────────────────────────────────────────────────────────────
 
-export function DashboardView() {
+export function DashboardView({ modelId = 'basic' }) {
   const { workbook, dispatch } = useWorkbook();
   const assumptions = workbook.assumptions || {};
   const monthlyEntries = workbook.monthlyEntries || {};
   const scenarios = workbook.scenarios || {};
   const activeScenarioId = workbook.activeScenarioId;
   const activeScenario = scenarios[activeScenarioId] ?? null;
+  const activeModel = SUBSCRIPTION_MODELS[modelId] ?? SUBSCRIPTION_MODELS.basic;
 
   const subs = useMemo(
     () => Object.values(workbook.subscriptions || {}).filter(s => s.status !== 'archived'),
@@ -320,9 +316,6 @@ export function DashboardView() {
     [assumptions],
   );
 
-  const [modelId, setModelId] = useState('basic');
-  const activeModel = SUBSCRIPTION_MODELS[modelId];
-
   const [printMode, setPrintMode] = useState('print-with-footnotes');
   const [printMeta, setPrintMeta] = useState(null);
 
@@ -357,23 +350,7 @@ export function DashboardView() {
 
   return html`
     <div class="page-header dashboard__page-header">
-      <div class="dashboard__header-left">
-        <h1 class="page-header__title">Dashboard</h1>
-        <div class="dashboard__header-switchers">
-          <${PillSwitcher}
-            label="Scenario"
-            options=${SCENARIO_DEFS.map(d => ({ id: d.id, label: d.label }))}
-            activeId=${activeScenarioId}
-            onSwitch=${handleScenarioSwitch}
-          />
-          <${PillSwitcher}
-            label="Model"
-            options=${Object.values(SUBSCRIPTION_MODELS).map(m => ({ id: m.id, label: m.label, description: m.description }))}
-            activeId=${modelId}
-            onSwitch=${setModelId}
-          />
-        </div>
-      </div>
+      <h1 class="page-header__title">Dashboard</h1>
       <div class="dashboard__print-controls">
         <span class="dashboard__print-mode-label">Print mode</span>
         <div class="dashboard__print-mode-btns">

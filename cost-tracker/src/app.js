@@ -30,14 +30,14 @@ function PagePlaceholder({ name }) {
   `;
 }
 
-function RouteContent({ path }) {
+function RouteContent({ path, modelId }) {
   switch (path) {
-    case '/dashboard':        return html`<${DashboardView} />`;
+    case '/dashboard':        return html`<${DashboardView} modelId=${modelId} />`;
     case '/ie-intake':        return html`<${IEIntakeView} />`;
     case '/ie-register':      return html`<${IERegisterView} />`;
     case '/subscriptions':    return html`<${SubscriptionsView} />`;
     case '/per-ie-costs':     return html`<${SubscriptionsView} />`; // legacy alias
-    case '/forecast':         return html`<${ForecastView} />`;
+    case '/forecast':         return html`<${ForecastView} modelId=${modelId} />`;
     // Legacy routes — not in nav but accessible via deep link
     case '/decisions':        return html`<${DecisionsView} />`;
     case '/decision-log':     return html`<${DecisionLog} />`;
@@ -79,6 +79,7 @@ function AppShell() {
   const [hash, setHash] = useState(window.location.hash || '#/dashboard');
   const [authorName, setAuthorName] = useState(getAuthor());
   const [showSettings, setShowSettings] = useState(!hasAuthor());
+  const [modelId, setModelId] = useState('basic');
   const [loadedFilename, setLoadedFilename] = useState(null);
   const [loadError, setLoadError] = useState(null);
 
@@ -118,17 +119,16 @@ function AppShell() {
     dispatch({ type: 'SCENARIO_SWITCHED', payload: scenarioId });
   }
 
-  const scenarios = Object.values(workbook.scenarios || {});
-
   return html`
     <div id="app">
       <${NavBar}
         route=${path}
         saveState=${saveState}
         authorName=${authorName}
-        scenarios=${scenarios}
         activeScenarioId=${workbook.activeScenarioId}
         onScenarioChange=${handleScenarioChange}
+        modelId=${modelId}
+        onModelChange=${setModelId}
         onLoad=${handleLoad}
         onSave=${handleSave}
         onSettings=${() => setShowSettings(true)}
@@ -141,7 +141,7 @@ function AppShell() {
           </div>
         `}
         <${NeedsDecisionTray} />
-        <${RouteContent} path=${path} />
+        <${RouteContent} path=${path} modelId=${modelId} />
       </main>
       ${showSettings && html`
         <${SettingsDialog}

@@ -1353,7 +1353,72 @@ html, body {
   justify-content: center;
 }
 
-/* ── Nav bar scenario picker ───────────────────────────────────────────────── */
+/* ── Nav bar controls (pill groups) ───────────────────────────────────────── */
+
+.nav-bar__controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: 0 var(--space-2);
+  border-left: 1px solid var(--color-border);
+  border-right: 1px solid var(--color-border);
+}
+
+.nav-bar__pill-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.nav-bar__pill-label {
+  font-size: 10px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  white-space: nowrap;
+}
+
+.nav-bar__pills {
+  display: flex;
+  gap: 3px;
+}
+
+.nav-bar__pill {
+  padding: 2px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: transparent;
+  font-family: var(--font-ui);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.1s, color 0.1s, border-color 0.1s;
+  line-height: 1.5;
+}
+
+.nav-bar__pill:hover {
+  border-color: var(--color-teal, #0d9488);
+  color: var(--color-teal, #0d9488);
+  background: color-mix(in srgb, var(--color-teal, #0d9488) 8%, transparent);
+}
+
+.nav-bar__pill--active {
+  background: var(--color-teal, #0d9488);
+  border-color: var(--color-teal, #0d9488);
+  color: #fff;
+  font-weight: var(--font-weight-semibold);
+}
+
+.nav-bar__pill--active:hover {
+  background: var(--color-teal-dark, #0f766e);
+  border-color: var(--color-teal-dark, #0f766e);
+  color: #fff;
+}
+
+/* ── Nav bar scenario picker (legacy, no longer used) ─────────────────────── */
 
 .nav-bar__scenario-picker {
   padding: 3px var(--space-2);

@@ -46,9 +46,7 @@ function makeActiveStatusAssumption(subId, subLabel, value, effectiveFrom) {
 
 // ── Section 1: Per-IE model forecast ─────────────────────────────────────────
 
-function PerIEForecast({ cohortSubs, monthlyEntries, assumptions, primaryScenario, ieRegister, intakeSchedule }) {
-  const [modelId, setModelId] = useState('basic');
-  const model = SUBSCRIPTION_MODELS[modelId];
+function PerIEForecast({ cohortSubs, monthlyEntries, assumptions, primaryScenario, ieRegister, intakeSchedule, model }) {
 
   const { rows, annual, subBreakdown } = useMemo(() => {
     const modelAss  = buildModelAssumptions(assumptions, model.attrOverrides);
@@ -102,15 +100,6 @@ function PerIEForecast({ cohortSubs, monthlyEntries, assumptions, primaryScenari
         <div>
           <h2 class="panel__title">Per-IE subscription cost — FY 26/27</h2>
           <p class="text-muted forecast__model-desc">${model.description}</p>
-        </div>
-        <div class="forecast__model-toggle">
-          ${Object.values(SUBSCRIPTION_MODELS).map(m => html`
-            <button
-              key=${m.id}
-              class=${'btn btn--sm ' + (modelId === m.id ? 'btn--primary' : 'btn--ghost')}
-              onClick=${() => setModelId(m.id)}
-            >${m.label}</button>
-          `)}
         </div>
       </div>
 
@@ -304,8 +293,9 @@ function PlatformDecisions({ platformSubs, monthlyEntries, assumptions, dispatch
 
 // ── Main view ─────────────────────────────────────────────────────────────────
 
-export function ForecastView() {
+export function ForecastView({ modelId = 'basic' }) {
   const { workbook, dispatch } = useWorkbook();
+  const activeModel = SUBSCRIPTION_MODELS[modelId] ?? SUBSCRIPTION_MODELS.basic;
   const assumptions    = workbook.assumptions    || {};
   const monthlyEntries = workbook.monthlyEntries || {};
   const ieRegister     = workbook.ieRegister     || {};
@@ -338,6 +328,7 @@ export function ForecastView() {
         primaryScenario=${primaryScenario}
         ieRegister=${ieRegister}
         intakeSchedule=${intakeSchedule}
+        model=${activeModel}
       />
       <${PlatformDecisions}
         platformSubs=${platformSubs}
