@@ -17,10 +17,15 @@ let sortAsc = true;
 
 function render(container) {
   const deals = get('deals') || {};
-  const dealList = Object.values(deals);
+  const allDeals = Object.values(deals);
+  // Active pipeline deals always show; closed (won/lost) deals only if they
+  // closed within the last 30 days, to keep the table from accumulating
+  // historical clutter.
+  const cutoff = new Date(Date.now() - 30 * 86400000).toISOString().slice(0, 10);
+  const dealList = allDeals.filter(d => d.sk || (d.close && d.close >= cutoff));
   const active = dealList.filter(d => d.sk);
 
-  if (dealList.length === 0) {
+  if (allDeals.length === 0) {
     container.innerHTML = '<div class="pipeline-tab"><h2>Pipeline</h2><p class="pipeline-tab__empty">No pipeline data. Go to Controls to import HubSpot data.</p></div>';
     return;
   }
@@ -30,7 +35,7 @@ function render(container) {
       <h2 class="pipeline-tab__heading">Pipeline</h2>
       <div class="pipeline-tab__section">${renderFunnel(active)}</div>
       <div class="pipeline-tab__section">
-        <h3 class="pipeline-tab__subheading">All Deals (${dealList.length})</h3>
+        <h3 class="pipeline-tab__subheading">Deals — active + closed in last 30 days (${dealList.length})</h3>
         <div class="data-table-wrap" id="deal-table-wrap">${renderDealTable(dealList)}</div>
       </div>
     </div>
@@ -216,7 +221,7 @@ function bindStaleActions(container) {
     btn.addEventListener('click', () => {
       const deals = get('deals') || {};
       const id = btn.dataset.markLost;
-      if (deals[id]) { deals[id].sk = null; deals[id].stage = 'Closed Lost'; delete deals[id]._stale; set('deals', deals); render(container); }
+      if (deals[id]) { deals[id].sk = null; deals[id].stage = 'Closed Lost'; deals[id].close = new Date().toISOString().slice(0, 10); delete deals[id]._stale; set('deals', deals); render(container); }
     });
   });
 }
