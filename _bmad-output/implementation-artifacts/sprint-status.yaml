@@ -1,5 +1,5 @@
 # generated: 2026-03-30
-# last_updated: 2026-03-30
+# last_updated: 2026-06-10
 # project: WWRI-Toolkit
 # project_key: NOKEY
 # tracking_system: file-system
@@ -35,7 +35,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 
 generated: 2026-03-30
-last_updated: 2026-03-30T01
+last_updated: 2026-06-10
 project: WWRI-Toolkit
 project_key: NOKEY
 tracking_system: file-system
@@ -85,3 +85,13 @@ development_status:
   5-5-pipeline-history-baselines: review
   5-6-pipeline-print: review
   epic-5-retrospective: optional
+
+  # Epic 6: Cash Model Soundness
+  epic-6: done
+  6-1-shared-calculation-module-correct-fee-maths: done
+  6-2-status-filtered-forecast-real-potential-projection: done
+  6-3-ie-payables-deferred-payments-register: done
+  6-4-cash-events-horizon-americas-entity: done
+  6-5-gst-bas-remittance-modelling: done
+  6-6-expense-seed-refresh: done
+  epic-6-retrospective: optional
