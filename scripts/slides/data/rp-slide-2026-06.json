@@ -1,0 +1,38 @@
+{
+  "title": "Commercial Update",
+  "subtitle": "Increased lead generation, including from incoming IEs. Progress to M2 for key leads.",
+  "report_label": "15 June 2026",
+  "deals": [
+    {"stage": "M3", "deal": "HP Inc - Global AI Marketing Reinvention - P1", "company": "HP", "lead": "Nicolette Grams", "amount": 194700},
+    {"stage": "M3", "deal": "P3 - Restructure to Profitability", "company": "Dominos Japan", "lead": "Luis Maia", "amount": 197000},
+    {"stage": "M3", "deal": "Link Logistics Reinvention - P1", "company": "Link Logistics", "lead": "Nicolette Grams", "amount": 51857},
+
+    {"stage": "M2.5", "deal": "Performance Improvement", "company": "PMSweet", "lead": "Zuzana Bato", "amount": 50000},
+    {"stage": "M2.5", "deal": "ALLSAFE - Repeatable growth Engine development", "company": "ALLSAFE", "lead": "Henri Snijders", "amount": 35000},
+
+    {"stage": "M2", "deal": "HP Inc - Global Marketing Reinvention - P4", "company": "HP", "lead": "Nicolette Grams", "amount": 594000},
+    {"stage": "M2", "deal": "HP Inc - Global AI Marketing Reinvention - P3", "company": "HP", "lead": "Nicolette Grams", "amount": 398000},
+    {"stage": "M2", "deal": "HP Inc - Global AI Marketing Reinvention - P2", "company": "HP", "lead": "Nicolette Grams", "amount": 249857},
+    {"stage": "M2", "deal": "Link Logistics Reinvention - P2", "company": "Link Logistics", "lead": "Nicolette Grams", "amount": 75439},
+    {"stage": "M2", "deal": "ATOS - Leadership Team Transformation Readiness", "company": "Atos", "lead": "Henri Snijders", "amount": 75000},
+    {"stage": "M2", "deal": "Vion - Post-Kinsey Transformation Maintenance", "company": "Vion Food Group", "lead": "Henri Snijders", "amount": 413000},
+
+    {"stage": "M1.5", "deal": "Link Logistics Reinvention - P4", "company": "Link Logistics", "lead": "Nicolette Grams", "amount": 70714},
+    {"stage": "M1.5", "deal": "Link Logistics Reinvention - Phase 3", "company": "Link Logistics", "lead": "Nicolette Grams", "amount": 345714},
+    {"stage": "M1.5", "deal": "Fit for Future Operating Model", "company": "Trask", "lead": "Peter Chrenko", "amount": 50000},
+    {"stage": "M1.5", "deal": "APM Terminals - Innovation & Scale Reinvention", "company": "APM Terminals", "lead": "Mike Swetman", "amount": 50000},
+    {"stage": "M1.5", "deal": "Hire Heroes USA - New Deal", "company": "Hire Heroes USA", "lead": "Nicolette Grams", "amount": 50000},
+    {"stage": "M1.5", "deal": "Complex Merger - India & Korea", "company": "J.C. Flowers & Co.", "lead": "Tom Pederson", "amount": 50000},
+    {"stage": "M1.5", "deal": "Business reinvention acceleration", "company": "Bayer", "lead": "Mark Beliczky", "amount": 50000},
+
+    {"stage": "M1", "deal": "Beavergroup Energy", "company": "Beaverbrook Energy", "lead": "James Vigne", "amount": 50000},
+    {"stage": "M1", "deal": "Potential Partnership - Penta Investments", "company": "Penta Investments", "lead": "Peter Chrenko", "amount": 50000},
+    {"stage": "M1", "deal": "Potential Partnership TARPAN", "company": "TARPAN Partners", "lead": "Peter Chrenko", "amount": 50000},
+    {"stage": "M1", "deal": "synergia PE Operating Partner", "company": "Synergia", "lead": "Henri Snijders", "amount": 50000},
+    {"stage": "M1", "deal": "Zorggroep-Almere SBO / Future of Work Reinvention", "company": "Zorggroep Almere", "lead": "Henri Snijders", "amount": 50000},
+    {"stage": "M1", "deal": "Akkodis Transformation", "company": "Akkodis", "lead": "Eric Van Antwerpen", "amount": 50000},
+    {"stage": "M1", "deal": "Underperforming Portfolio Coys", "company": "USVP", "lead": "Tom Pederson", "amount": 50000},
+    {"stage": "M1", "deal": "Bosal - CEO Transition Support and Strategy Capability Build", "company": "Bosal", "lead": "Henri Snijders", "amount": 50000},
+    {"stage": "M1", "deal": "P1 - Global reinvention of identity & culture", "company": "Renesas Electronics", "lead": "Laurel Marshall", "amount": 50000}
+  ]
+}
