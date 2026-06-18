@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<style>
+  :root {
+    --dark:#1E2228; --green:#1E8C4A; --green-bright:#39D98A;
+    --amber:#C07A00; --txt:#23272E; --mut:#6B7178; --line:#E2E0DB;
+    --font:'Segoe UI','Calibri',system-ui,sans-serif;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  @page { size:A4 portrait; margin:0; }
+  html,body { font-family:var(--font); color:var(--txt); -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  body { background:#fff; }
+  .pg { padding:0 16mm; }
+
+  /* ── Cover header ── */
+  .cover {
+    background:var(--dark);
+    background-image:repeating-linear-gradient(115deg, rgba(255,255,255,.05) 0 1px, transparent 1px 16px);
+    color:#fff; padding:18mm 16mm 14mm;
+  }
+  .cover .eyebrow { font-size:11px; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:var(--green-bright); margin-bottom:10px; }
+  .cover h1 { font-size:30px; line-height:1.18; font-weight:700; max-width:90%; }
+
+  /* ── Hero + fast facts (white card overlaps the hero image) ── */
+  .band { position:relative; background:var(--dark); min-height:84mm; }
+  .hero { position:absolute; inset:0; background-image:url('file:///D:/WWRI%20Development/assets/cs-heroes/plane-hero.png'); background-size:cover; background-position:center; }
+  .ff { position:absolute; top:11mm; right:16mm; width:78mm; background:#fff; box-shadow:0 12px 34px rgba(0,0,0,.30); padding:8mm 8mm 6mm; }
+  .ff h2 { font-size:12px; font-weight:600; color:var(--mut); letter-spacing:.01em; border-bottom:1px solid var(--line); padding-bottom:8px; margin-bottom:10px; }
+  .ff-row { display:grid; grid-template-columns:30mm 1fr; gap:8px; padding:6px 0; border-bottom:1px solid #F1F0EC; }
+  .ff-row:last-child { border-bottom:none; }
+  .ff-key { font-size:10.5px; font-weight:700; color:var(--txt); }
+  .ff-val { font-size:10.5px; line-height:1.4; color:#44484E; }
+
+  /* ── Body ── */
+  .body { padding:11mm 16mm 8mm; column-count:2; column-gap:9mm; }
+  .sec { break-inside:avoid-column; margin-bottom:7mm; }
+  .sec h3 { font-size:15px; color:var(--green); font-weight:700; margin-bottom:5px; }
+  .sec p { font-size:10.5px; line-height:1.55; margin-bottom:7px; }
+  .sec ul { list-style:none; }
+  .sec li { font-size:10.5px; line-height:1.5; padding-left:14px; position:relative; margin-bottom:6px; break-inside:avoid; }
+  .sec li::before { content:""; position:absolute; left:0; top:.5em; width:6px; height:6px; border-radius:50%; background:var(--amber); }
+
+  /* ── Closing page ── */
+  .closing { break-before:page; background:var(--dark); color:#fff; min-height:297mm; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:40mm 24mm; }
+  .closing .tag1 { font-size:28px; font-weight:700; }
+  .closing .tag2 { font-size:28px; font-weight:700; color:var(--green-bright); margin-bottom:14mm; }
+  .closing p { font-size:12px; line-height:1.7; max-width:120mm; color:rgba(255,255,255,.85); margin-bottom:8mm; }
+  .btn { display:inline-block; border:2px solid var(--amber); color:var(--amber); font-weight:700; padding:10px 26px; border-radius:8px; font-size:13px; margin-bottom:24mm; }
+  .closing img { width:54mm; opacity:.95; }
+</style></head>
+<body>
+  <header class="cover">
+    <div class="eyebrow">Case study</div>
+    <h1>Technology &amp; Operating Model Reinvention for Global Air Cargo Carrier</h1>
+  </header>
+
+  <div class="band">
+    <div class="hero"></div>
+    <aside class="ff">
+      <h2>The client fast facts</h2>
+      <div class="ff-row"><div class="ff-key">Company size</div><div class="ff-val">$15B</div></div>
+<div class="ff-row"><div class="ff-key">Industry</div><div class="ff-val">Airline</div></div>
+<div class="ff-row"><div class="ff-key">Geography</div><div class="ff-val">Global, headquartered in Hong Kong</div></div>
+<div class="ff-row"><div class="ff-key">Reinvention type</div><div class="ff-val">Technology implementation, operating model reinvention, and culture change</div></div>
+<div class="ff-row"><div class="ff-key">Duration</div><div class="ff-val">More than 3 years</div></div>
+    </aside>
+  </div>
+
+  <section class="body">
+    <div class="sec"><h3>The Ambition</h3><p>One of the world’s leading air cargo carriers faced one of the most complex transformation challenges an airline can undertake: replacing its entire operating system and related applications with a new, integrated technology platform. The project was expected to span more than three years, touching approximately 4,000 staff across headquarters in Hong Kong and over 100 locations globally. For an organization of this scale and operational precision, a technology change of this magnitude was not simply an IT implementation — it was a fundamental shift in how people worked, communicated, and made decisions every day.</p></div>
+    <div class="sec"><h3>The Challenge</h3><p>The operating system change was unlike anything most affected employees had experienced before. The complexity was not just technical — it was human. Stakeholders across every level of the organization held different views on the challenges with the existing system, different expectations of what the new one would deliver, and different degrees of readiness to change. Without a shared vision and a structured approach to engagement, the risk was not that the technology would fail, but that the organization around it would resist, fragment, or simply not adopt it at the pace the business required.</p></div>
+    <div class="sec"><h3>Solutions Applied</h3><p>We began by working closely with senior leadership to develop a shared change vision and co-created change journey. From there, we conducted a comprehensive stakeholder analysis, mapping the impact of the system change across the organization and assessing change readiness. We co-designed the change management framework and execution approach with the client project team directly — ensuring full internal ownership from the outset. Central to this was the establishment of a Change Management Center embedded within each impacted department and region, creating a permanent forum for stakeholders to raise concerns, surface practical issues, and contribute to solutions. We then worked alongside the client to design and roll out tailored engagement programs across both headquarters and regional outports.</p></div>
+    <div class="sec"><h3>Results</h3><ul><li>Successful adoption of new operating model</li>
+<li>Measurable shift in employee behavior, with client leadership reporting increased self-motivation, self-initiated programs, and a stronger orientation toward practical, outcome-driven problem solving</li></ul></div>
+  </section>
+
+  <section class="closing">
+    <div class="tag1">We don&rsquo;t transform.</div>
+    <div class="tag2">We reinvent.</div>
+    <p>At Whitewater Reinventions, we specialise in helping organisations navigate complex processes. Our expert teams provide the insights, strategies and support every business needs to go further than a transformation &mdash; to reinvent their organisation for good.</p>
+    <div class="btn">Talk to Whitewater</div>
+    <img src="file:///D:/WWRI%20Development/assets/WWRI%20logo%20white%20on%20transparent.png" alt="Whitewater Reinventions">
+  </section>
+</body></html>
