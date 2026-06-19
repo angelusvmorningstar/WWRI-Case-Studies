@@ -4,7 +4,7 @@
 owner: Angelus Morningstar
 tz: Australia/Sydney
 schema: 1.0
-last-triage: 2026-06-18
+last-triage: 2026-06-19
 
 <!-- SCHEMA
 id: OPS-NNN | DEV-NNN
@@ -110,11 +110,11 @@ source: direct | retrospective | transcript | email
 - **counterparty:** Niel (requester), Kane (point on DocuSign relationship)
 - **due:** null
 - **source:** email
-- **notes:** **DELIVERED 17 Jun:** research done (full brief: downloads/E-Signature Platform Comparison for WWRI_ Switch-or-Renegotiate Decision Brief.pdf) and a digestible summary emailed to Niel + Kane. Key findings: price on *senders* not *signers* (cohorts sign for free); ditch capped DocuSign eSignature plans; best fits — DocuSign IAM Standard (unlimited, deepest M365/SharePoint, ~$3,240/yr) / Zoho Sign Pro (cheapest uncapped, ~$1,150/yr) / PandaDoc Business (~$3,528/yr); avoid Dropbox Sign (dropped SharePoint Mar 2026) and signNow (same 100-sig cap). For Kane's DocuSign call Thu 18 Jun: push IAM Standard (not renew current tier + buy seats) + negotiate 3–5% renewal cap. **17 Jun ops mtg:** Niel read it twice; Kane to read after connect session, finds it useful as negotiation leverage for his DocuSign sales call **Thu 10:30 (info back after 11)**. Kane is exploring a bespoke "buy blocks of envelopes only" deal. Niel steer: if WW adopts a tool, **Whitewater pays via Jeremy**, not Kane personally. **Open Angelus sub-action: update the research doc to include sources/citations** so Kane can trace the figures (committed in mtg). Decision (switch vs renegotiate) parked until after Kane's Thursday call. Likely follow-up: short parallel pilot on a real cohort intake before annual commit.
+- **notes:** **OWNERSHIP HANDED TO KANE (19 Jun, Angelus):** the decision (switch vs renegotiate) and the DocuSign relationship now sit with Kane — not Angelus's to drive from here. The citations/sources sub-action is no longer an Angelus action unless Kane specifically asks. Monitor only. **DELIVERED 17 Jun:** research done (full brief: downloads/E-Signature Platform Comparison for WWRI_ Switch-or-Renegotiate Decision Brief.pdf) and a digestible summary emailed to Niel + Kane. Key findings: price on *senders* not *signers* (cohorts sign for free); ditch capped DocuSign eSignature plans; best fits — DocuSign IAM Standard (unlimited, deepest M365/SharePoint, ~$3,240/yr) / Zoho Sign Pro (cheapest uncapped, ~$1,150/yr) / PandaDoc Business (~$3,528/yr); avoid Dropbox Sign (dropped SharePoint Mar 2026) and signNow (same 100-sig cap). For Kane's DocuSign call Thu 18 Jun: push IAM Standard (not renew current tier + buy seats) + negotiate 3–5% renewal cap. **17 Jun ops mtg:** Niel read it twice; Kane to read after connect session, finds it useful as negotiation leverage for his DocuSign sales call **Thu 10:30 (info back after 11)**. Kane is exploring a bespoke "buy blocks of envelopes only" deal. Niel steer: if WW adopts a tool, **Whitewater pays via Jeremy**, not Kane personally. **Open Angelus sub-action: update the research doc to include sources/citations** so Kane can trace the figures (committed in mtg). Decision (switch vs renegotiate) parked until after Kane's Thursday call. Likely follow-up: short parallel pilot on a real cohort intake before annual commit.
 
 ### [OPS-043] Cost Tracker: BAU vs maximalist budget numbers for Niel
 - **type:** ops
-- **status:** in-progress
+- **status:** done
 - **priority:** high
 - **area:** Tools
 - **counterparty:** Niel
@@ -124,6 +124,9 @@ source: direct | retrospective | transcript | email
 - **PARKED (dashboard redesign — incomplete, revisit):** Angelus wants the Cost Tracker **Dashboard** (the $51,265 FY26/27 view) to surface **two headline numbers**. **(1) Business as usual** = current costs + projected costs driven by the **% of RP-linked subscriptions in the Subscription tab** → the baseline/as-is projected cost. **(2) [second number — not yet specified; thought was cut off, likely the maximalist/everyone-gets-everything figure per OPS-043].** Get the rest of this spec from Angelus before building.
 - **PROGRESS 17 Jun (cost-tracker refactor):** (1) **DONE + PUSHED** (commit c6fcf06, main → auto-deploys via Azure SWA): attribution moved off the Subscriptions page (now unit-cost only) and onto the Forecast page as per-model editable rates; "Standard" model renamed "Maximum"; new `workbook.modelAttribution` store. (2) **DONE, NOT YET PUSHED** (uncommitted in working tree): both Basic & Maximum now list *every* per-RP subscription with its own editable attribution (0% = exclude), so each model is tailorable. (3) **Copilot price:** corrected in `seed/workbook.json` to AU$26.91/mo Resolved (was 55/Pending) — but seed is NOT used at runtime; the **live value lives in the Azure blob via /api/workbook and still needs updating** (give Claude the deployed URL to patch, or set Unit cost 26.91 on the Copilot row in the app). KEY: only *Resolved* assumptions compute, so Copilot (Pending) was reading as $0 — fixing it makes Maximum finally include Copilot cost (the gap Niel flagged). Uncommitted files: forecast-view.js, dashboard-view.js, subscription-models.js, app.css, seed/workbook.json.
 - **PROGRESS 18 Jun (reviewed + fixed + pushed, commit fdd7fbd):** Verified the model logic locally via a compute harness and **found a real bug**: `lookupAssumption` only reads *Resolved* assumptions, but model attribution overrides on *Pending* base assumptions (Copilot, M365 Standard) kept Pending status → ignored → `computeForecast` fell back to **full attribution (1)**. So Copilot + M365 Standard were computing at 100% in **every** model: **Basic/BAU was overstated** and the toggle never moved them. **Fix:** `buildModelAssumptions` now stamps each override `Resolved`. Verified totals (per-RP cohort, FY26/27): **Basic = M365 Basic only ≈ AUD 5,454; Maximum = HubSpot+Copilot+Miro+Standard ≈ AUD 65,241** (Copilot now correctly in Maximum, not in Basic). Production build clean; committed + pushed to main (auto-deploys). **REMAINING before sending Niel:** the live app reads the workbook from the Azure blob — Copilot's **unit cost** isn't model-overridden, so it must be set to **AUD 26.91 + status Resolved on the live workbook** (in-app via Cost Register), else deployed Maximum reads Copilot unit cost as $0. Then screenshot the Dashboard hero total for Basic and Maximum.
+- **PROGRESS 18 Jun (dashboard dual-hero, commit 72d0f12, pushed):** Dashboard now shows **both** headline numbers stacked — "Business as usual" + "Maximalist" — so no model switching needed, each with a live **Subscription attribution** strip (every cohort sub + its % of RPs, read from `modelAttribution`). Switched the headline basis to **whole-population** (`computeModelAnnualTotal`): every projected RP on the model's stack + fixed platform/staff, i.e. clean model-floor vs model-ceiling (per Niel's framing), not actual+additions. Verified locally on seed: BAU ≈ $36,060 vs Maximalist ≈ $95,847. **Live caveat still applies:** Copilot *unit cost* must be 26.91/Resolved on the Azure blob or Maximalist understates Copilot. FY recruitment table keeps its operational actual+cohort build-up (so its total differs from the heroes by design).
+- **PROGRESS 18 Jun (headline breakdown, commit fc00c36, pushed):** Per Angelus, each hero (BAU + Maximalist) now itemises its FY total into **Platform/yr (x) + Current RPs/yr (y) + Model forecast/yr (z)** that sum to the top line. Reverted the headline basis from whole-population back to the **operational total (x+y+z)** so the breakdown reconciles. z (projected cohort additions under the model) is the only model-dependent component → it's where BAU vs Maximalist diverge once there's growth. Seed has z=0 (no growth) so both read equal there; live data (47→97) will differ.
+- **18 Jun:** Explainer email **sent to Niel** (BAU vs maximalist now side-by-side with platform / current-RP / model-forecast breakdown; flagged the Copilot/Standard double-count fix). Dollar figures deliberately omitted pending live Copilot price. **18 Jun:** Copilot per-seat price now inbuilt to the cost-tracker (live workbook) — the last data caveat is resolved, so deployed Maximalist now includes Copilot at the correct price. **DONE 18 Jun:** explainer letter **and the BAU + Maximalist screenshots** sent to Niel ("Update to Cost Tracker", 18 Jun 04:43). Primary deliverable complete. **Note — still parked (not part of this task's close):** the "basic + minimal core licences" sustainable-floor view and the broader Scenarios redesign (see [[project_cost_tracker_scenarios_redesign]]) — carve into a new task if/when Niel wants it.
 
 ### [OPS-046] Package Cathay / "Global Air Cargo Carrier" case study for website
 - **type:** ops
@@ -134,6 +137,26 @@ source: direct | retrospective | transcript | email
 - **due:** null
 - **source:** email
 - **notes:** From the "Framing for High Tech Industry on WW Website" thread (Niel chasing progress 17 Jun; Nicolette set Angelus to package the Cathay study). **DONE 18 Jun:** ingested the approved one-pager text into case-studies.json ("Global Air Cargo Carrier"); regenerated the Word doc (Output 1); produced the Output 2 web HTML code block (`assets/Air Cargo Case Study — website block for Kane.md`); built a new PDF brochure generator (`.claude/skills/case-study-ingest/scripts/gen_cs_brochure.py`) and produced the branded 2-page PDF (Output 3) with hero image. Replied to Nicolette/Kane 18 Jun with the draft and **asked Kane for website CMS access in-thread** (supersedes the separately-drafted access email). **Waiting on:** Kane re website access to publish + final lead sign-off.
+
+### [OPS-047] WW AllCompany list + Global Monthly RP Meeting (Nicolette)
+- **type:** ops
+- **status:** waiting
+- **priority:** high
+- **area:** SharePoint
+- **counterparty:** Nicolette (requester), Kane (ch17 mailboxes)
+- **due:** null
+- **source:** email
+- **notes:** Nicolette (18 Jun, HIGH): confirm WW AllCompany list includes all 68, confirm global-meeting invite covers them, rename meeting IE→RP. **DONE 19 Jun:** reconciled `Ww-Ri AllCompany` against the M365 directory; added the 12 people who have WW accounts but were missing → list now **52→64**; cancelled "Global Monthly IE Meeting" and reissued as **"Global Monthly RP Meeting"** (01:52); replied to Nicolette (01:54). **HANDED TO KANE (done):** the 01:54 reply (To: Nicolette, **Cc: Niel + Kane**) hands Kane the 9 cohort-17 people who have **no WW mailbox** yet — Alice Lopin, Bernard Tan, Darryl Wee, Eddie Ahmed, Jan Sorcek, Sietske Rozie, Sim Lim, Takehiko Aoki, Thomas McCabe — to create as part of onboarding. (Personal emails on file for Alice/Darryl/Sietske only.) **Waiting on Kane** to create the mailboxes; once done they auto-inherit the AllCompany list + RP meeting invite. **To fully confirm the "68"** still need Nicolette's master list to diff (or reconcile `_data/rp/IE Intake Master CONTROL SHEET 2025.xlsx`).
+
+### [OPS-048] Register-as-SSOT + HubSpot/Miro seat automation
+- **type:** ops
+- **status:** waiting
+- **priority:** medium
+- **area:** Tools
+- **counterparty:** Niel, Kane
+- **due:** null
+- **source:** email
+- **notes:** **19 Jun:** reconciled the Cost Tracker RP register to the live M365 licence directory (export 19 Jun) — m365 tiers now match actual licences (6 Std / 50 Basic); applied standing rule **unlicensed in M365 ⇒ inactive** (54 active / 71 inactive / 125 total); added 10 missing licensed people; merged Jacqui Lane dupe; fixed Jeremy D'Cruz typo. Emailed Niel+Kane (01:43) proposing the **active-RP register become the single authoritative source**. **Decision flagged for them:** Glen Casey + Winfried Schultz hold Basic licences but are inactive — reactivate or release. **Waiting on:** Niel/Kane buy-in. **Next automation:** HubSpot seats can be auto-reconciled via a Private App token (`settings.users.read`); Miro auto-pull is Enterprise-only (WWRI on Business → manual CSV export). Sync scripts: `cost-tracker/api/_m365_sync.js`, `_register_cleanup.js`. See [[cost-tracker-current-state]].
 
 ---
 
@@ -331,13 +354,14 @@ source: direct | retrospective | transcript | email
 
 ### [OPS-041] Pascal Nyckees access — confirm WWRI mailbox access then reissue invite
 - **type:** ops
-- **status:** waiting
+- **status:** done
 - **priority:** medium
 - **area:** SharePoint
 - **counterparty:** Pascal Nyckees
 - **due:** null
+- **closed:** 2026-06-19
 - **source:** email
-- **notes:** Pascal (16 Jun, "Access", from personal **pascal.nyckees@hotmail.com**) never received the ~1 Jun access invitation. Root cause: the invite went to his **WWRI mailbox** (pascal.nyckees@whitewater-ri.com), which he likely hasn't accessed. **17 Jun:** replied (modified version) asking him to confirm he can log into his WWRI email first — that's where the invite is sitting; will reissue if expired/missing. **Update (17 Jun):** Pascal confirmed he has WW-account access but never found the invite; Angelus replied again to his WW account 17 Jun 23:50. Waiting on Pascal. Still to pin down: which system the invite was for (HubSpot most likely).
+- **notes:** **CLOSED 19 Jun (email audit):** Pascal replied 18 Jun 08:49 "All ok :)" — HubSpot invite link worked, access confirmed. Trail: invite originally went to his WW mailbox (which he hadn't checked); Angelus reissued the direct HubSpot invite link 18 Jun 01:50; Pascal confirmed working same day.
 
 ### [OPS-025] Chase Zuzana Bato re Filip Kegels (potential client)
 - **type:** ops
@@ -442,3 +466,13 @@ source: direct | retrospective | transcript | email
 - **due:** null
 - **source:** retrospective
 - **notes:** Ryan asked about a discussion forum. Blocked on OPS-020 (Nicolette's steer).
+
+### [DEV-001] Azure Blob pipeline update interface
+- **type:** dev
+- **status:** deferred
+- **priority:** low
+- **area:** Tools
+- **counterparty:** self
+- **due:** null
+- **source:** direct
+- **notes:** Lightweight web UI (Azure SWA + Blob + Functions) for RPs to submit pipeline deal updates. HubSpot Service Key would handle reads and optionally write back to HubSpot. Same stack as Cost Tracker. Key design decision when scoping: direct HubSpot write vs. queue-for-review. Park until HubSpot Service Key + user sync is bedded in.
