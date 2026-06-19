@@ -20,3 +20,10 @@ _bmad/
 
 # Claude Code local settings
 .claude/settings.local.json
+
+# Finance/Pipeline Toolkit — desktop app, not version controlled
+toolkit/
+
+# Xero OAuth credentials and tokens
+scripts/xero/xero.config.json
+scripts/xero/.xero-tokens.json
