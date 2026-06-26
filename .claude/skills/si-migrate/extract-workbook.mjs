@@ -47,6 +47,14 @@ const WORKBOOKS = {
     notes: 'Summary sheet is "Interview Summary"; 2 tiers (Senior Executive, Manager); '
          + 'dup subtopic id 05.3 re-slugged on import; Supervisors set is a separate workbook.',
   },
+  'sodiaal-supervisors': {
+    label: 'SODIAAL Supervisors', file: 'SODIAAL Interview Analytics - Supervisors.xlsx',
+    driveId: DRIVE, itemId: '01X4DFEWWQMIILRW5HG5GKV7YDGGDLBDBS',
+    path: '9. Angelus Morningstar & CER/Structured Interview Library Questions/Other/SODIAAL Interview Analytics - Supervisors.xlsx',
+    frameworkVersion: 'sodiaal-supervisors-legacy',
+    notes: 'SODIAAL supervisor cohort — separate workbook from the senior analytics one. '
+         + 'Companion doc: "Questionnaire - Supervisors & Specialists (30 mins).doc".',
+  },
   bwi: {
     label: 'BWI', file: 'BWI Assessment Questionnaire.xlsx',
     driveId: DRIVE, itemId: '01X4DFEWXMUOYELWNFM5E3QKAYDAOFA77Y',
@@ -78,12 +86,14 @@ const WORKBOOKS = {
     notes: 'Single "All" benchmark tier; uniform weights.',
   },
   smec: {
-    label: 'SMEC', file: 'SMEC Assessment Questionnaire Analysis.xlsx',
-    driveId: DRIVE, itemId: '01X4DFEWUBXVLYN6IQJZDYJRKEVTK3NLXA',
-    path: 'WhitewaterUsers/SMEC Assessment Questionnaire Analysis.xlsx',
+    label: 'SMEC (P4 Check-In)', file: 'SMEC Assessment Questionnaire.xlsx',
+    driveId: DRIVE, itemId: '01X4DFEWQT7BKJIKE5XVAIC42BBJ66P67O',
+    joinCol: 'workstream',   // SMEC assessed WORKSTREAMS (group sessions), not individuals — join Summary+Eval on the Workstream column
+    path: 'z Archive/1. Friska Wirya Clients/1. SMEC/5. Phase 4 - Check-In of Masterplan Implementation Progress/SMEC Assessment Questionnaire.xlsx',
     frameworkVersion: 'smec-legacy',
-    notes: 'A .docx sibling exists; the workbook is the "...Analysis.xlsx". '
-         + 'Verify the sheet layout — older/divergent layouts per MIGRATION.md §7.',
+    notes: 'Use the Phase-4 "SMEC Assessment Questionnaire.xlsx" (standard Summary/Evaluation Data/'
+         + 'Topics/Tables structure). The sibling "...Analysis.xlsx" (itemId 01X4DFEWUBXVLYN6IQJZDYJRKEVTK3NLXA) '
+         + 'is a topic-level radar SUMMARY only (no subtopics) — do NOT use it.',
   },
 };
 
@@ -226,7 +236,9 @@ function mapFramework(rows, meta) {
 }
 
 // Evaluation Data → scores per interviewee, joined to criteria by subtopic label.
-function mapScores(rows, subByLabel) {
+// meta.joinCol (optional) names the identity column (e.g. SMEC joins on "Workstream",
+// not a person name) — used as the join key in both this sheet and Summary.
+function mapScores(rows, subByLabel, meta = {}) {
   const warnings = [];
   // Header row = the row with the most cells matching known subtopic labels.
   let hIdx = 0, best = -1;
@@ -235,7 +247,8 @@ function mapScores(rows, subByLabel) {
     if (matches > best) { best = matches; hIdx = r; }
   }
   const header = (rows[hIdx] || []).map(x => (x == null ? '' : String(x)));
-  const cName = col(header, ['name', 'interviewee', 'participant', 'respondent'], ['company']);
+  const cJoin = meta.joinCol ? col(header, [meta.joinCol]) : -1;
+  const cName = cJoin >= 0 ? cJoin : col(header, ['name', 'interviewee', 'participant', 'respondent'], ['company']);
   const nameCol = cName >= 0 ? cName : 0;
 
   // Map each column to a criterion id (topic-average / pillar columns won't match → skipped).
@@ -262,12 +275,17 @@ function mapScores(rows, subByLabel) {
 }
 
 // Summary / "Interview Summary" → interviewees[] + interviewers[].
-function mapIdentity(rows) {
+function mapIdentity(rows, meta = {}) {
   const warnings = [];
-  const hIdx = headerRow(rows, c => c.some(x => x.includes('name')));
+  // Header row carries a person/identity column. Most workbooks use "Name"; SMEC's
+  // group/workstream sessions use "Attendees". Fall back to a company+category row.
+  const hIdx = headerRow(rows, c => c.some(x => x.includes('name') || x.includes('attendee') || (meta.joinCol && x.includes(norm(meta.joinCol))))
+    || (c.some(x => x.includes('company')) && c.some(x => x.includes('category'))));
   const header = (rows[hIdx] || []).map(x => (x == null ? '' : String(x)));
 
-  const cName = col(header, ['name', 'interviewee', 'participant'], ['company', 'interviewer']);
+  // meta.joinCol forces the identity column (so Summary + Evaluation Data join on the same key).
+  const cJoin = meta.joinCol ? col(header, [meta.joinCol]) : -1;
+  const cName = cJoin >= 0 ? cJoin : col(header, ['name', 'interviewee', 'participant', 'attendee'], ['company', 'interviewer']);
   const cTitle = col(header, ['jobtitle', 'title', 'role', 'position']);
   const cCompany = col(header, ['company', 'organisation', 'organization', 'business', 'unit']);
   const cRegion = col(header, ['region', 'geography', 'country', 'location']);
@@ -371,9 +389,9 @@ function buildEngagement(meta) {
   };
 
   const fw    = mapFramework(get('Topics'), meta);
-  const ident = mapIdentity(get('Summary', 'Interview Summary'));
+  const ident = mapIdentity(get('Summary', 'Interview Summary'), meta);
   const bench = mapBenchmarks(get('Tables'));
-  const sess  = mapScores(get('Evaluation Data', 'Evaluation', 'Scores'), fw.subByLabel);
+  const sess  = mapScores(get('Evaluation Data', 'Evaluation', 'Scores'), fw.subByLabel, meta);
 
   const ts = nowISO();
   const doc = {
