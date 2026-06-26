@@ -183,7 +183,7 @@ function mapFramework(rows, meta) {
       if (!curTopic) {
         curTopic = { id: dedupe('topic', seenTopicId), name: 'Topic', subtopics: [] };
         topics.push(curTopic);
-        topicConfig[curTopic.id] = { enabled: true, selected: [] };
+        topicConfig[curTopic.id] = { enabled: true, selected: [], questions: {}, mins: {} };
         warnings.push('Topics: subtopic encountered before any topic header — bucketed under a synthetic topic.');
       }
       if (!label) { warnings.push(`Topics: "${idStr}" has no label — skipped (reserved slot).`); continue; }
@@ -209,7 +209,7 @@ function mapFramework(rows, meta) {
       const id = dedupe(slug(idStr), seenTopicId);
       curTopic = { id, name, subtopics: [] };
       topics.push(curTopic);
-      topicConfig[id] = { enabled: true, selected: [] };
+      topicConfig[id] = { enabled: true, selected: [], questions: {}, mins: {} };
     }
   }
 
