@@ -1,0 +1,26 @@
+{
+  "workbook": "sodiaal",
+  "engagementNameStartsWith": "SODIAAL (",
+  "source": "Structured Interview -SODIAAL - Board & Senior Management_2610.docx",
+  "note": "Curated question->subtopic backfill from the COMEX & Senior Manager questionnaire. question blank where the competency is an interviewer judgement.",
+  "map": {
+    "Subtopic01.1": { "question": "What are your personal Ambitions for your business unit/function over the next 3 to 5 years?", "purpose": "Check: Level of real commitment to take personal action & responsibility. (LINK TO COMMITMENT & CAPABILITY/COMPETENCE IN ROLE)" },
+    "Subtopic01.2": { "question": "And for Groupe Sodiaal?", "purpose": "Check: Genuine to being a leader in commitment/engagement to the Coop. (LINK TO PURPOSE)" },
+    "Subtopic01.3": { "question": "", "purpose": "Interviewer judgement: Does he/she think strategically (high) or tactically (mid) or is a follower (low)?" },
+    "Subtopic02.1": { "question": "What about Competition - what are your competitive advantages (How to win)?", "purpose": "Check: How well do they understand the competitive landscape? And where they can plan/win? (LINK TO CAPABILITY/COMPETENCE IN ROLE)" },
+    "Subtopic02.2": { "question": "", "purpose": "Check: Is their overview realistic and concrete?" },
+    "Subtopic02.3": { "question": "What areas should we focus on to achieve this Ambition?", "purpose": "Check: Do they understand which drivers to leverage? Level of detail of technology, culture & change? (LINK TO COMPETENCE IN ROLE)" },
+    "Subtopic02.4": { "question": "", "purpose": "Interviewer judgement: Overall competence to do the role, and personal commitment to make it happen?" },
+    "Subtopic03.1": { "question": "In your personal view - how ready is the Coop/Group to change? What blockages need to be overcome?", "purpose": "Check: Openness & commitment to change. (LINK TO CULTURE CHANGE)" },
+    "Subtopic03.2": { "question": "", "purpose": "Interviewer judgement: Is he/she committed to change in an informed manner (high) or indifferent (middle) or resisting (low)?" },
+    "Subtopic04.1": { "question": "What needs to happen to improve the day-to-day efficiency of the Coop/Group and its business units?", "purpose": "Check: Their commitment to improve operational efficiency. (LINK TO COMMITMENT & COMPETENCE IN ROLE)" },
+    "Subtopic04.2": { "question": "", "purpose": "Interviewer judgement: How is their understanding of the organization end-to-end? Are they playing only on the balcony or do they have a good understanding of what happens on the dance floor? Do they know which levers to pull to increase efficiency?" },
+    "Subtopic05.1": { "question": "How do you think to be more efficient in the cooperation between HO vs Operating units/Function, and the business units with each other?", "purpose": "Check: How genuine are they about improving teamwork. (LINK TO COMMITMENT)" },
+    "Subtopic05.2": { "question": "", "purpose": "Check: Passive vs active leadership of change. (LINK TO CULTURE CHANGE)" },
+    "Subtopic05.3": { "question": "", "purpose": "Interviewer judgement: Are they a cultural ambassador? Will they role model new ways of working including promoting cross-functional teamwork?" },
+    "Subtopic05.3-2": { "question": "Tell us a bit more about your role and your organizational structure?", "purpose": "Is this person an open and clear communicator? Are they articulate and numerate? Are they able to define their role's scope, size and complexity? Closed, defensive (low), open and cooperative (high). (LINK TO COMPETENCE IN ROLE)" },
+    "Subtopic06.1": { "question": "Could you please think for a moment, then give me 2 to 3 areas that have to be addressed to deliver your new Ambitions for your business unit/function? Or are there any questions you think we have not addressed, or any other areas of concern?", "purpose": "Check: Assess the depth and levels of concern: High concern and frustration (high), Indifferent (middle), no fears (low)." },
+    "Subtopic06.2": { "question": "", "purpose": "Check: Assess the depth and levels of concern (second area raised): High concern and frustration (high), Indifferent (middle), no fears (low)." },
+    "Subtopic06.3": { "question": "", "purpose": "Check: Assess the depth and levels of concern (third area raised): High concern and frustration (high), Indifferent (middle), no fears (low)." }
+  }
+}

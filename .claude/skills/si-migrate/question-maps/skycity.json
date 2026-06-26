@@ -1,0 +1,32 @@
+{
+  "workbook": "skycity",
+  "engagementNameStartsWith": "SkyCity",
+  "source": "Overview of Questionnaire.docx",
+  "note": "Curated question->subtopic backfill from the SkyCity questionnaire overview. Terse source; question blank where only a label exists.",
+  "map": {
+    "Subtopic01.1": { "question": "", "purpose": "Transparency & reporting: is this person a natural and open communicator vs cagey?" },
+    "Subtopic02.1": { "question": "Do they understand the industry?", "purpose": "Comprehension of the physical gaming industry." },
+    "Subtopic02.2": { "question": "Do they understand the industry?", "purpose": "Comprehension of the on-line gaming industry." },
+    "Subtopic02.3": { "question": "", "purpose": "Comprehension of the non-gaming side of the business." },
+    "Subtopic02.4": { "question": "", "purpose": "Whether the person is strategically minded about the transformation/strategic plan." },
+    "Subtopic02.5": { "question": "", "purpose": "Leadership in strategic change and engagement." },
+    "Subtopic03.1": { "question": "", "purpose": "Confidence in, and alignment with, the transformation." },
+    "Subtopic03.2": { "question": "", "purpose": "Depth of understanding of the issues underlying the transformation." },
+    "Subtopic03.3": { "question": "What are the top projects within the transformation plan?", "purpose": "Holistic (non-silo) company view vs focusing only on their own function." },
+    "Subtopic03.4": { "question": "What are the top 3 priorities?", "purpose": "Whether they understand and own the transformation plan." },
+    "Subtopic04.1": { "question": "What are the issues through the regulator's eyes regarding risk management?", "purpose": "Appreciation of regulatory severity, seen through the regulator's eyes." },
+    "Subtopic04.2": { "question": "Does this person take direct responsibility for the attitudes towards the regulator?", "purpose": "Management conduct / leadership shadow: direct responsibility and ownership of the stance toward the regulator." },
+    "Subtopic04.3": { "question": "Do they respect and appreciate the role of the regulator (pain, or our best interests)?", "purpose": "Respect for the regulator." },
+    "Subtopic05.1": { "question": "Does this person have the skills & experience to deliver the required change?", "purpose": "Change capability: necessary skills and experience." },
+    "Subtopic05.2": { "question": "", "purpose": "Understanding of the end-to-end transformation." },
+    "Subtopic06.1": { "question": "", "purpose": "Appreciation for the impact of delivery demands on subordinates." },
+    "Subtopic06.2": { "question": "", "purpose": "Project management: necessary skills and experience to drive delivery." },
+    "Subtopic06.3": { "question": "Will this person keep the strategy while managing difficult BAU issues?", "purpose": "Ability to deliver no matter what / establish red lines for delivery." },
+    "Subtopic07.1": { "question": "", "purpose": "Conduct at all levels: inspirational and able to hold to account." },
+    "Subtopic07.2": { "question": "", "purpose": "Push communication skill in driving culture." },
+    "Subtopic07.3": { "question": "", "purpose": "Able to establish red lines for delivery within the culture." },
+    "Subtopic08.1": { "question": "", "purpose": "Open question capturing concerns and fears (point of concern 1)." },
+    "Subtopic08.2": { "question": "", "purpose": "Open question capturing concerns and fears (point of concern 2)." },
+    "Subtopic08.3": { "question": "", "purpose": "Open question capturing concerns and fears (point of concern 3)." }
+  }
+}

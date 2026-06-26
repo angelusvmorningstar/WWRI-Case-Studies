@@ -1,0 +1,29 @@
+{
+  "workbook": "djp",
+  "engagementNameStartsWith": "DJP",
+  "source": "Structured Interview - Domino's Pizza Japan - Final.docx",
+  "note": "Curated question->subtopic backfill from the DJP questionnaire. question blank where the competency is an interviewer judgement, not a distinct question.",
+  "map": {
+    "Subtopic01.1": { "question": "When you think about your part of the business, what would you most like to see change or improved over the next few years?", "purpose": "Check: Strategic ambition — HIGH articulates a clear, forward-looking vision with specific goals; LOW vague, short-term, or limited to business-as-usual." },
+    "Subtopic01.2": { "question": "", "purpose": "Check: Personal ownership — HIGH takes personal responsibility for delivering outcomes; LOW defers to others or waits for direction." },
+    "Subtopic01.4": { "question": "Thinking about DPJ as a whole, what does success look like in three to five years?", "purpose": "Check: Enterprise thinking — HIGH considers the whole business (stores, franchisees, head office, consumers); LOW narrowly focused on own area or function." },
+    "Subtopic01.5": { "question": "", "purpose": "Check: Commitment to the enterprise — HIGH genuine engagement with DPJ's future beyond own area; LOW limited interest or narrow focus." },
+    "Subtopic01.6": { "question": "", "purpose": "Check: Strategic thinking — HIGH thinks in terms of long-term priorities and connects actions to broader goals; LOW focused on immediate tasks or waits for direction." },
+    "Subtopic02.1": { "question": "What are the main areas DPJ needs to focus on to achieve this vision that is different to other quick service restaurants (QFC)?", "purpose": "Check: Understanding of key drivers — HIGH identifies the right levers to pull (operations, technology, culture, customer experience); LOW superficial or scattered thinking." },
+    "Subtopic02.2": { "question": "", "purpose": "Check: Depth of thinking — HIGH demonstrates detailed understanding of what change requires; LOW high-level only, lacks practical detail." },
+    "Subtopic02.4": { "question": "When you think about your customers… why do they choose pizza? and why do they choose Domino's over the alternatives?", "purpose": "Check: Understanding of the competitive landscape — HIGH clear grasp of who the competitors are; LOW vague or limited awareness of competitive dynamics." },
+    "Subtopic02.5": { "question": "", "purpose": "Check: Realism and concreteness — HIGH grounded, specific view of customer behaviour and market position; LOW generic or abstract statements without evidence." },
+    "Subtopic02.6": { "question": "", "purpose": "Check: Commercial awareness — HIGH connects view to profitability, market position, or competitive advantage; LOW disconnected from business fundamentals." },
+    "Subtopic03.1": { "question": "What needs to happen to improve the day-to-day efficiency of the DPJ's office?", "purpose": "Check: Commitment to operational efficiency — HIGH identifies specific improvements and shows ownership to drive them; LOW vague, passive, or sees it as someone else's problem." },
+    "Subtopic03.2": { "question": "", "purpose": "Check: Clarity on what's not working — HIGH pinpoints specific inefficiencies or bottlenecks; LOW general complaints without concrete examples." },
+    "Subtopic03.4": { "question": "What needs to happen to improve the day-to-day profitability and effectiveness of franchisees?", "purpose": "Check: Commitment to franchisee engagement — HIGH shows genuine focus on helping stores perform better; LOW distant or indifferent to franchisee challenges." },
+    "Subtopic03.5": { "question": "", "purpose": "Check: End-to-end understanding — HIGH understands what happens on the ground, knows which levers drive efficiency; LOW detached from front-line realities, stuck on the balcony." },
+    "Subtopic04.1": { "question": "What are the biggest challenges faced by the store managers in the non-performing stores, and what needs to be done to help them (both in corporate and franchise operations)?", "purpose": "Check: Active leadership of change — HIGH takes ownership, willing to drive change personally; LOW passive, waits for others to act." },
+    "Subtopic04.2": { "question": "", "purpose": "Check: Cultural role modelling — HIGH will champion new ways of working and cross-functional teamwork; LOW unlikely to role model or promote change." },
+    "Subtopic04.4": { "question": "In your view, the Franchisees and ALL the Store Managers — how ready are they to change? What is needed to get them 100% committed to change?", "purpose": "Check: Openness to change — HIGH acknowledges the need for change and engages constructively with what's required; LOW defensive, dismissive, or resistant." },
+    "Subtopic04.5": { "question": "", "purpose": "Check: Commitment to change — HIGH committed in an informed manner, understands what's involved; LOW indifferent or actively resisting." },
+    "Subtopic05.1": { "question": "Before we finish, is there anything you think needs to be addressed to achieve the Vision for DPJ? Please take a moment to think. (You're welcome to share anything confidentially if you wish.)", "purpose": "Point of Concern 1 — Check: Emotional investment & concern. HIGH expresses strong, specific concerns or convictions; LOW limited concerns or indifferent. Captures unstructured concerns, hopes, or red flags." },
+    "Subtopic05.2": { "question": "", "purpose": "Point of Concern 2 — captured topic/comments from the closing concerns question; gauge emotional investment and identify any red flags." },
+    "Subtopic05.3": { "question": "", "purpose": "Point of Concern 3 — captured topic/comments from the closing concerns question; gauge emotional investment and identify any red flags." }
+  }
+}

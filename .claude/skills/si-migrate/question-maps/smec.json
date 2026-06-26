@@ -1,0 +1,28 @@
+{
+  "workbook": "smec",
+  "engagementNameStartsWith": "SMEC",
+  "source": "SMEC26 Questionnaire - 3. Our Clients.docx (representative workstream)",
+  "note": "Curated question->subtopic backfill from a representative SMEC workstream questionnaire; structure shared across workstreams. question blank where the competency is an interviewer judgement.",
+  "map": {
+    "Subtopic01.1": { "question": "How are the new ambitions influencing the way your teams work (not workstreams)? Are you seeing a difference around you day-to-day - e.g. Sustainability as an overarching ambition, and the other ambitions?", "purpose": "How engaged is this team in seeing the fabric of SMEC changing?" },
+    "Subtopic01.2": { "question": "How deeply have the new ambitions influenced the way your teams work (not your workstreams)?", "purpose": "Does this team understand the importance of a corporate culture driving the engagement? High has respect for and understands its importance." },
+    "Subtopic01.3": { "question": "", "purpose": "Is this team all committed to prioritising the strategic goals? Average the team from closed and defensive (low) to open and cooperative (high)." },
+    "Subtopic02.1": { "question": "Can you repeat the SPoT - what is the Single Point of Truth of SMEC26? Do you think it is achievable? What areas of the whole SPoT are you most concerned about?", "purpose": "Check: clear understanding of the interdependency of SMEC26?" },
+    "Subtopic02.2": { "question": "", "purpose": "Do they think strategically (high), tactically (mid), or is a follower (low)?" },
+    "Subtopic03.1": { "question": "Of the three 'Leader' goals - Infrastructure, Urban and Energy - which is the easiest and which is the hardest to achieve, and why?", "purpose": "Check: High is equal level of engagement in all 3?" },
+    "Subtopic03.2": { "question": "", "purpose": "Check: their ability to delegate, provide encouragement and support." },
+    "Subtopic03.3": { "question": "", "purpose": "Does he/she accept responsibility and full accountability across silos (high) or only focus on own silo areas of responsibility with minimal ownership outside (low)?" },
+    "Subtopic04.1": { "question": "Do you remember the Sustainability commitment? How are things being done differently in your teams (not workstreams)?", "purpose": "Check: the extent of their commitment to drive behaviours in their teams?" },
+    "Subtopic04.2": { "question": "At the Gold Coast Senior Leaders Conference you worked on a couple of behavioural commitments to achieve SMEC26. Did you complete these commitments with your team? How successful have they been in changing the way people work?", "purpose": "Check: the extent they are committed to seeing real behavioural change?" },
+    "Subtopic04.3": { "question": "", "purpose": "Is he/she committed to change in an informed manner (high), indifferent (middle), or resisting (low)?" },
+    "Subtopic05.1": { "question": "Comments on the experience so far on implementing your workstream (sub-workstream)? When you look at your workstreams and sub-workstreams - did you deliver 100% of what was expected in Q1/Q2? Which will not be delivered, and will you be able to recover in Q3/Q4?", "purpose": "Check: the extent of support and energy put into delivering the quarterly results?" },
+    "Subtopic05.2": { "question": "", "purpose": "Are they committed to delivering by quarter, or not committing to delivery?" },
+    "Subtopic06.1": { "question": "As leaders of your workstreams, how would you assess your progress (1 to 10)? Why, and what do you need to do to be 2 levels higher?", "purpose": "Check: do they realise the responsibility of their leadership to deliver the strategy SMEC26?" },
+    "Subtopic06.2": { "question": "", "purpose": "Will they prioritise the delivery of SMEC26?" },
+    "Subtopic06.3": { "question": "", "purpose": "Are they committed to delivering their workstreams on-time (high), indifferent (middle), or resisting (low)?" },
+    "Subtopic07.1": { "question": "Which specific areas are you most concerned about delivering? How will you address these areas of concern and when? What additional support do you need to be successful in delivering your workstream?", "purpose": "Check: do they accept the pressure that they must deliver, and do they realise the time pressures associated with their responsibility to deliver SMEC26?" },
+    "Subtopic08.1": { "question": "SMEC26 is an ambitious program, yet SMEC remains under severe day-to-day pressure - are you worried about SMEC's ability to deliver on this ambition to be the leader in Energy, Infrastructure and Urban? What areas have to be addressed to ensure that SMEC26 is fully delivered? (Confidential comments welcome.)", "purpose": "Check: assess the depth and levels of concern - high concern and frustration (high), indifferent (middle), no fears (low)." },
+    "Subtopic08.2": { "question": "", "purpose": "Check: assess the depth and levels of concern - high concern and frustration (high), indifferent (middle), no fears (low)." },
+    "Subtopic08.3": { "question": "", "purpose": "Check: assess the depth and levels of concern - high concern and frustration (high), indifferent (middle), no fears (low)." }
+  }
+}
