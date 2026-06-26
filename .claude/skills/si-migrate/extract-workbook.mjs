@@ -517,20 +517,26 @@ function usage() {
   console.error(`Keys: ${Object.keys(WORKBOOKS).join(', ')}`);
 }
 
-const argv = process.argv.slice(2);
-const key = argv[0];
-const flags = argv.slice(1);
+// Pure helpers + mappers exported for unit testing (no SharePoint side effects).
+export { toScore, excelDateToISO, slug, dedupe, norm, findIdCol, mapFramework, mapScores, mapIdentity, mapBenchmarks };
 
-try {
-  if (flags.includes('--validate')) {
-    const f = flags[flags.indexOf('--validate') + 1];
-    if (!f) { usage(); process.exit(2); }
-    process.exit(validateOrReport(JSON.parse(readFileSync(f, 'utf8'))) ? 0 : 1);
+const isMain = /extract-workbook\.mjs$/.test(process.argv[1] || '');
+if (isMain) {
+  const argv = process.argv.slice(2);
+  const key = argv[0];
+  const flags = argv.slice(1);
+
+  try {
+    if (flags.includes('--validate')) {
+      const f = flags[flags.indexOf('--validate') + 1];
+      if (!f) { usage(); process.exit(2); }
+      process.exit(validateOrReport(JSON.parse(readFileSync(f, 'utf8'))) ? 0 : 1);
+    }
+    if (!key || !WORKBOOKS[key]) { usage(); process.exit(2); }
+    if (flags.includes('--write')) write(key);
+    else propose(key);
+  } catch (e) {
+    console.error('ERROR:', e.message);
+    process.exit(1);
   }
-  if (!key || !WORKBOOKS[key]) { usage(); process.exit(2); }
-  if (flags.includes('--write')) write(key);
-  else propose(key);
-} catch (e) {
-  console.error('ERROR:', e.message);
-  process.exit(1);
 }

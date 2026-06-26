@@ -80,10 +80,13 @@ function report(spec, doc, res, valid, previewPath) {
   if (previewPath) L(`Preview: ${previewPath}`);
 }
 
-const [key, ...flags] = process.argv.slice(2);
-if (!key) { console.error('Usage: node backfill-questions.mjs <key> [--write]'); process.exit(2); }
+export { applyMap, loadMap, findEngagement };
 
-try {
+const isMain = /backfill-questions\.mjs$/.test(process.argv[1] || '');
+const [key, ...flags] = process.argv.slice(2);
+if (isMain && !key) { console.error('Usage: node backfill-questions.mjs <key> [--write]'); process.exit(2); }
+
+if (isMain) try {
   const spec = loadMap(key);
   const { path, doc } = findEngagement(spec);
   const res = applyMap(doc, spec.map);
